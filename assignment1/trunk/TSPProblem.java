@@ -19,7 +19,6 @@ public class TSPProblem {
      * eg TSPGraph[0][1] will return the cost of the edge connecting node 0 to node 1*/
     private static double[][] TSPGraph;
     
-    
     public static void main(String[] args) {
         
         try {
@@ -27,7 +26,6 @@ public class TSPProblem {
             /*******************************************
              * Do options here (if there ever are any) *
              *******************************************/
-            
             
             //Read in and load file
             int fileIdx = Arrays.asList(args).lastIndexOf("-f");
@@ -39,9 +37,7 @@ public class TSPProblem {
             } else {
                 fileToLoad = args[fileIdx+1];
             }
-            
             File xmlFile = new File(fileToLoad);
-            
             
             //generate the DOM with built in Java DOM parser
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -49,37 +45,27 @@ public class TSPProblem {
             Document doc = dBuilder.parse(xmlFile);
             doc.getDocumentElement().normalize();
             
-            
             //setup TSPGraph
-            TSPGraph = new double[getNumNodes(doc)][getNumNodes(doc)];
-            
+            TSPGraph = new double[getNumNodes(doc)][getNumNodes(doc)];     
             //Fill TSPGraph with Data
             NodeList vertices = doc.getElementsByTagName("vertex");
             
             //For each <vertex> tag, get all edge data
             for (int node = 0; node < vertices.getLength(); node++) {
-                
                 Node nNode = vertices.item(node);
                 Element eElement = (Element) nNode;
                 
                 //parse each <edge cost="...">{dest}</edge> tag
                 for(int edge = 0; edge < eElement.getElementsByTagName("edge").getLength(); edge++ ) {
-                    
                     Node thisEdge = eElement.getElementsByTagName("edge").item(edge);
                     int destNode = Integer.parseInt(thisEdge.getTextContent());
                     Element costAttr = (Element)thisEdge;
                     double cost = Double.valueOf(costAttr.getAttribute("cost"));
                     
-                    
                     //add this information to the matrix
-                    TSPGraph[node][destNode] = cost;
-                    
+                    TSPGraph[node][destNode] = cost;  
                 }
             }
-            
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            System.exit(1);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
