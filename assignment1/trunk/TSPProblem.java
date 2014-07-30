@@ -18,6 +18,8 @@ public class TSPProblem {
     /* 2D array of floats where X is source, Y is destination and the value is cost
      * eg TSPGraph[0][1] will return the cost of the edge connecting node 0 to node 1*/
     private static double[][] TSPGraph;
+    /** Alternate method for storing city information */
+    private static City[] cities;
     
     public static void main(String[] args) {
         
@@ -46,7 +48,8 @@ public class TSPProblem {
             doc.getDocumentElement().normalize();
             
             //setup TSPGraph
-            TSPGraph = new double[getNumNodes(doc)][getNumNodes(doc)];     
+            TSPGraph = new double[getNumNodes(doc)][getNumNodes(doc)];
+            cities = new City[getNumNodes(doc)];     
             //Fill TSPGraph with Data
             NodeList vertices = doc.getElementsByTagName("vertex");
             
@@ -54,6 +57,7 @@ public class TSPProblem {
             for (int node = 0; node < vertices.getLength(); node++) {
                 Node nNode = vertices.item(node);
                 Element eElement = (Element) nNode;
+                cities[node] = new City(node, eElement.getElementsByTagName("edge").getLength()+1);
                 
                 //parse each <edge cost="...">{dest}</edge> tag
                 for(int edge = 0; edge < eElement.getElementsByTagName("edge").getLength(); edge++ ) {
@@ -64,6 +68,8 @@ public class TSPProblem {
                     
                     //add this information to the matrix
                     TSPGraph[node][destNode] = cost;  
+                    //add this information to the array of cities
+                    cities[node].add_edge(destNode, cost);
                 }
             }
         } catch (Exception e) {
@@ -76,7 +82,9 @@ public class TSPProblem {
          *********************/
         
         //testing purposes only
-        printGraph();
+        //printGraph();
+        Individual solution = new Individual(TSPGraph, cities);
+        solution.get_solution_set();
     }
     
     
