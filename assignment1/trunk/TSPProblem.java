@@ -83,8 +83,17 @@ public class TSPProblem {
         
         //testing purposes only
         //printGraph();
-        Individual solution = new Individual(TSPGraph, cities);
-        solution.get_solution_set();
+        int num_solutions = 5;
+        Individual individual = new Individual(TSPGraph, cities);
+        Population population = new Population(individual);
+        City[][] solutions = population.get_solution_set(num_solutions);
+
+        for(int j = 0; j < num_solutions; j++){
+            System.out.println("***** Solution " + (j+1) + " *****");
+            printSolution(solutions[j]);
+            System.out.println("Total Cost: " + individual.get_cost(solutions[j]));
+            System.out.println();
+        }
     }
     
     
@@ -113,6 +122,20 @@ public class TSPProblem {
                 }
             }
             System.out.println("]\n");
+        }
+    }
+
+    /**
+    * For Testing only
+    * Given a City solution array, print its info.
+    */
+    private static void printSolution(City[] city){
+        for(int j = 0; j < city.length; j++){
+            if(j != city.length-1){
+                System.out.println(city[j].toString(city[j+1]));
+            }else{ //return to start
+                System.out.println(city[j].toString(city[0]));
+            }
         }
     }
     

@@ -21,30 +21,43 @@ public class Individual{
 
 	/*
 	* Gets the basic solution set
-	* Allows for a variable number solutions and returns in a double array
+	* Returns a single array of cities
 	* Should not generate any errors
 	*/
-	public void get_solution_set(){
+	public City[] get_single_solution(){
 		shuffleArray();
-		double total = 0;
+		return cities.clone();
+	}
 
-		for(int i = 0; i < cities.length; i++){
-			City curr_city = cities[i];
+	/**
+	* Given a city, return its cost
+	* Returns a double, does not generate errors
+	*/
+	public double get_cost(City[] single_city){
+		double total = 0;
+		for(int i = 0; i < single_city.length; i++){
+			City curr_city = single_city[i];
 			City next_city;
 			double cost_to_node = 0;
 
-			if(i != cities.length-1){
-				next_city = cities[i+1];
+			if(i != single_city.length-1){
+				next_city = single_city[i+1];
 				cost_to_node = TSPGraph[curr_city.get_node_num()][next_city.get_node_num()];
 			}else{ //return to start
-				next_city = cities[0];
+				next_city = single_city[0];
 				cost_to_node = TSPGraph[curr_city.get_node_num()][next_city.get_node_num()];
 			}
 			total += cost_to_node;
-
-			System.out.println("CITY: " + curr_city.get_node_num() + ", COST TO CITY " + next_city.get_node_num() + " = " + cost_to_node);
 		}
-		System.out.println("Total cost: " + total);
+
+		return total;
+	}
+
+	/**
+	* Return the number of cities in the solution set
+	*/
+	public int get_num_cities(){
+		return cities.length;
 	}
 
 	/**

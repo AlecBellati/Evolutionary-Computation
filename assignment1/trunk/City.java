@@ -20,4 +20,9 @@ public class City{
 	public double get_edge(int city){
 		return edges[city];
 	}
+
+	public String toString(City to_city){
+		int next_city = to_city.get_node_num();
+		return "CITY: " + node + ",\t COST TO CITY " + next_city + " = " + edges[next_city];
+	}
 }
