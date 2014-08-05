@@ -67,7 +67,8 @@ public class Individual{
   	private void shuffleArray(){
     	Random rnd = new Random();
     	for (int i = cities.length - 1; i > 0; i--){
-      		int index = rnd.nextInt(i + 1);
+      		//int index = rnd.nextInt(i + 1);
+      		int index = rnd.nextInt(cities.length-1);
       		// Simple swap
       		City temp = cities[index];
       		cities[index] = cities[i];
