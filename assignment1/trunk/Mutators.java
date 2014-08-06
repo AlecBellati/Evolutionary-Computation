@@ -47,9 +47,10 @@ public class Mutators{
 	}
 
 	/**
-	*
-	*
-	*/
+	 * Scrambles a random subsection of a given array of cities
+	 *
+	 * @param individual The array of cities to be mutated
+	 */
 	public City[] scramble(City[] individual){
 		// Find the subset of position to mutate
 		int posA = rnd.nextInt(individual.length - 1);
