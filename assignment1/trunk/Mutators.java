@@ -51,7 +51,30 @@ public class Mutators{
 	*
 	*/
 	public City[] scramble(City[] individual){
-
+		// Find the subset of position to mutate
+		int posA = rnd.nextInt(individual.length - 1);
+		int posB = rnd.nextInt(individual.length - 1);
+		
+		// Ensure that posA is less than posB
+		if (posA > posB){
+			int posTemp = posA;
+			posA = posB;
+			posB = posTemp;
+		}
+		else if (posA == posB){
+			return individual;
+		}
+		
+		// Scramble the positions in the array
+		int subsetSize = posB - posA;
+		for (int i = posA; i <= posB; i++){
+			int index = rnd.nextInt(subsetSize);
+			
+			City cityTemp = individual[i];
+			individual[i] = individual[index + posA];
+			individual[index + posA] = cityTemp;
+		}
+		
 		return individual;
 	}
 
