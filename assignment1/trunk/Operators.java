@@ -1,11 +1,16 @@
 
 public class Operators{
 	
+	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
+	private Random rnd;
+
 	/**
 	*
 	*
 	*/
-	public Operators(){}
+	public Operators(){
+		rnd = new Random();
+	}
 
 	/**
 	*
@@ -25,7 +30,7 @@ public class Operators{
 	public City[][] pmx_crossover(City[][] parents){
 		//this assume all solutions are of the same length!
 		City[][] children = new City[parents.length][parents[0].length];
-
+		
 		return children
 	}
 
