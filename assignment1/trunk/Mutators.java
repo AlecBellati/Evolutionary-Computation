@@ -38,11 +38,35 @@ public class Mutators{
 	}
 
 	/**
+	* Inverts a random subsection of a given array of cities.
 	*
-	*
+	* @param individual The array of cities to be mutated
 	*/
 	public City[] inversion(City[] individual){
 
+		// Find the subset of position to mutate
+		int posA = rnd.nextInt(individual.length - 1);
+		int posB = rnd.nextInt(individual.length - 1);
+		
+		// Ensure that posA is less than posB
+		if (posA > posB) {
+			int posTemp = posA;
+			posA = posB;
+			posB = posTemp;
+		} else if (posA == posB) {
+			return individual;
+		}
+		
+		// Invert the values between posA and posB (inclusive)
+		int subsetSize = (int) Math.ceil((posB - posA)/2.0);
+		
+		for (int i = posA; i <= subsetSize; i++) {
+			City cityTemp = individual[i];
+			individual[i] = individual[posB];
+			individual[posB] = cityTemp;
+			posB--;
+		}
+		
 		return individual;
 	}
 
