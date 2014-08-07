@@ -224,8 +224,6 @@ public class TSPProblem {
                 System.out.println();
             }
             
-            
-            
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
