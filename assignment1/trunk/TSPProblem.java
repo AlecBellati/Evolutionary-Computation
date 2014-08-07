@@ -146,12 +146,20 @@ public class TSPProblem {
 		Population population = new Population(individual);
 		City[][] solutions = population.get_solution_set(num_solutions);
         
+        /********************************************
+         ****** MATT TESTING INSERTION MUTATOR ******
+         ********************************************/
+        
+        Mutators mutate = new Mutators();
+        mutate.insert(solutions[0]);
+        
+        /*
 		for(int j = 0; j < num_solutions; j++){
 			System.out.println("***** Solution " + (j+1) + " *****");
 			printSolution(solutions[j]);
 			System.out.println("Total Cost: " + individual.get_cost(solutions[j]));
 			System.out.println();
-		}
+		}*/
 
         
     }

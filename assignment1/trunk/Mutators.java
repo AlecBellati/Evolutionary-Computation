@@ -14,11 +14,45 @@ public class Mutators{
 	}
 
 	/**
-	*
-	*
+	* Take one element and insert it after another, shifting all elements along as required
+	* @param City[] - an individual candidate of the population to mutate
+    * @return City[] - the insertion mutated individual
 	*/
 	public City[] insert(City[] individual){
-
+        
+        //get city move pos and place to put city
+        int move = rnd.nextInt(individual.length);
+        int insert = rnd.nextInt(individual.length);
+        
+        //Temp City Variable
+        City temp;
+        City moveCity = individual[move];
+        
+        //move all other cities down from move
+        while (true) {
+            
+            //shift elements down
+            if(move > insert+1) {
+                temp = individual[move-1];
+                individual[move-1] = moveCity;
+                individual[move] = temp;
+                
+                move --;
+                
+            //shift elements up
+            } else if (move < insert) {
+                temp = individual[move+1];
+                individual[move+1] = moveCity;
+                individual[move] = temp;
+                
+                move++;
+            
+            //otherwise exit loop
+            } else {
+                break;
+            }
+        }
+        
 		return individual;
 	}	
 
@@ -101,12 +135,5 @@ public class Mutators{
 		}
 		
 		return individual;
-	}
-
-	/**
-	* TESTING ONLY
-	*/
-	public static void main(String[] args){
-		Mutators test = new Mutators();
 	}
 }
