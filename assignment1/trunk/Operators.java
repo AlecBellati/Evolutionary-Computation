@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Operators{
 	
@@ -20,7 +21,7 @@ public class Operators{
 		//this assume all solutions are of the same length!
 		City[][] children = new City[parents.length][parents[0].length];
 
-		return children
+		return children;
 	}
 
 	/**
@@ -31,7 +32,7 @@ public class Operators{
 		//this assume all solutions are of the same length!
 		City[][] children = new City[parents.length][parents[0].length];
 		
-		return children
+		return children;
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class Operators{
 		//this assume all solutions are of the same length!
 		City[][] children = new City[parents.length][parents[0].length];
 
-		return children
+		return children;
 	}
 
 	/**
@@ -52,8 +53,8 @@ public class Operators{
 	public City[][] edge_recombination(City[][] parents){
 		//this assume all solutions are of the same length!
 		City[][] children = new City[parents.length][parents[0].length];
-
-		return children
+    
+		return children;
 	}
 
 	/**
