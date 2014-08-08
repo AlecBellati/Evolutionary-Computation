@@ -6,8 +6,8 @@ public class Mutators{
 	private Random rnd;
 
 	/**
-	*
-	*
+	* CONSTRUCTOR
+	* Initialised the number generator for use as a global object
 	*/
 	public Mutators(){
 		rnd = new Random();
@@ -21,8 +21,8 @@ public class Mutators{
 	public City[] insert(City[] individual){
         
         //get city move pos and place to put city
-        int move = rnd.nextInt(individual.length);
-        int insert = rnd.nextInt(individual.length);
+        int move = rnd.nextInt(individual.length-1);
+        int insert = rnd.nextInt(individual.length-1);
         
         //Temp City Variable
         City temp;
@@ -57,8 +57,9 @@ public class Mutators{
 	}	
 
 	/**
-	*
-	*
+	* Swaps two random "City" objects in the solution array
+	* @param City[] - an individual candidate of the population to mutate
+	* @return City[] - a solution after mutation has occured
 	*/
 	public City[] swap(City[] individual){
 		int posA = rnd.nextInt(individual.length-1);
@@ -73,8 +74,8 @@ public class Mutators{
 
 	/**
 	* Inverts a random subsection of a given array of cities.
-	*
 	* @param individual The array of cities to be mutated
+	* @return City[] 
 	*/
 	public City[] inversion(City[] individual){
 
@@ -106,8 +107,8 @@ public class Mutators{
 
 	/**
 	 * Scrambles a random subsection of a given array of cities
-	 *
 	 * @param individual The array of cities to be mutated
+	 * @return City[] 
 	 */
 	public City[] scramble(City[] individual){
 		// Find the subset of position to mutate
