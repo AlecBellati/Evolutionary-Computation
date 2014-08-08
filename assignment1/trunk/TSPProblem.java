@@ -141,7 +141,7 @@ public class TSPProblem {
 		
 		//testing purposes only
 		//printGraph();
-		int num_solutions = 5;
+		int num_solutions = 2;
 		Individual individual = new Individual(TSPGraph, cities);
 		Population population = new Population(individual);
 		City[][] solutions = population.get_solution_set(num_solutions);
@@ -150,8 +150,13 @@ public class TSPProblem {
          ****** MATT TESTING INSERTION MUTATOR ******
          ********************************************/
         
+        //lol
         Mutators mutate = new Mutators();
         mutate.insert(solutions[0]);
+
+        Operators operator = new Operators();
+        testing(operator);
+        //operator.cycle_crossover(solutions);
         
         /*
 		for(int j = 0; j < num_solutions; j++){
@@ -163,6 +168,24 @@ public class TSPProblem {
 
         
     }
+
+    public static void testing(Operators operator){
+        City zero = new City(0, 9);
+        City one = new City(0, 9);
+        City two = new City(1, 9);
+        City three = new City(2, 9);
+        City four = new City(3, 9);
+        City five = new City(4, 9);
+        City six = new City(5, 9);
+        City seven = new City(6, 9);
+        City eight = new City(7, 9);
+        City nine = new City(8, 9);
+
+        City[][] parents = new City[][]{{one, two, three, four, five, six, seven, eight, nine}, {nine, three, seven, eight, two, six, five, one, four}};
+    
+        operator.cycle_crossover(parents);
+    }
+
     
     /**
      * For Testing only
@@ -175,6 +198,16 @@ public class TSPProblem {
             }else{ //return to start
                 System.out.println(city[j].toString(city[0]));
             }
+        }
+    }
+
+    /**
+     * For operator usages only
+     * Given a City solution array, return its "visited" variable to false
+     */
+    private static void set_visited(City[] city){
+        for(int j = 0; j < city.length; j++){
+            city[j].has_been_visited(false);
         }
     }
     
