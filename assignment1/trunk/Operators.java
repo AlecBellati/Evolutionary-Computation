@@ -68,24 +68,24 @@ public class Operators{
 			int node_num;
 			while(!current_node.visited()){
 				node_num = current_node.get_node_num();
-				current_node.has_been_visited(true);
 				if( j%2 == 0){
 					crossA += (node_num+1) + ",";
+					current_node.has_been_visited(true);
 					current_node = parents[1][node_num];
 				}else{
 					crossB += (node_num+1) + ",";
 					current_node = parents[0][node_num];
 				}
-
-				//PROBLEM IS OBJECTS HAVE BEEN LINKED, need to clone!
-				System.out.println(node_num+1);
-				System.out.println(parents[1][7].visited());
-
 				j++;
 			}
+			
+			if(crossA.length() > 0){
+				crossA = crossA.substring(0, crossA.length()-1);
+				crossB += (current_node.get_node_num()+1);
 
-			crossoverA.add(crossA);
-			crossoverB.add(crossB);
+				crossoverA.add(crossA);
+				crossoverB.add(crossB);
+			}
 		}
 
 		for(int x = 0; x < crossoverA.size(); x++){
