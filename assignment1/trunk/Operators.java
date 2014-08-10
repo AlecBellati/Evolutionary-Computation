@@ -51,7 +51,7 @@ public class Operators{
 		//holds the crossover indicies used in the second stage to generate children
 		ArrayList<String> crossover = new ArrayList<String>();
 
-		int i = 0;
+		int i = 0, j = 0;
 		int node_num = 0;
 		boolean running = true;
 		//generates the cycles, adding them to the crossover array list
@@ -64,14 +64,19 @@ public class Operators{
 			}
 
 			int index = i; i++;
-			String crosses = "";
 			//goes to a new node until returns to a visited node
 			//this loop will start at parent A and then go to parent B 
 			//before setting current_node to the next node in the cycle path in parent A
 			while(!current_node.visited()){
-				node_num = current_node.get_node_num();
-				crosses += index + ",";
+				if(j%2 == 0){
+					children[0][index] = parents[0][index];
+					children[1][index] = parents[1][index];
+				}else{
+					children[0][index] = parents[1][index];
+					children[1][index] = parents[0][index];
+				}
 
+				node_num = current_node.get_node_num();
 				current_node.has_been_visited(true);
 				//parent B
 				node_num = parents[1][node_num].get_node_num();
@@ -79,28 +84,7 @@ public class Operators{
 				//parent A
 				current_node = parents[0][node_num];
 				index = node_num;
-			}
-			//end of this while loop means the end of one cycle
-			
-			if(crosses.length() > 0){
-				crossover.add(crosses.substring(0, crosses.length()-1));
-			}
-		}
-
-		int cycle_index = 0;
-		//generates the children objects
-		for(int y = 0; y < crossover.size(); y++){
-			String[] inidices = crossover.get(y).split(",");
-			for(int z = 0; z < inidices.length; z++){
-				cycle_index = Integer.parseInt(inidices[z]);
-				//every alternate cycle, add to the opposite children object
-				if(y%2 == 0){
-					children[0][cycle_index] = parents[0][cycle_index];
-					children[1][cycle_index] = parents[1][cycle_index];
-				}else{
-					children[0][cycle_index] = parents[1][cycle_index];
-					children[1][cycle_index] = parents[0][cycle_index];
-				}
+				j++;
 			}
 		}
 		//reset the "visited" variable in each City object

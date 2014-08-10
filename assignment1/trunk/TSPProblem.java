@@ -24,6 +24,8 @@ public class TSPProblem {
     private Mutators mutators;
     /** Contains the four primary operator functions (returns children) */
     private Operators operators;
+    /**  */
+    private Selection selection;
 	
     /**
     * CONSTRUCTOR
@@ -89,6 +91,7 @@ public class TSPProblem {
             population = new Population(individual);
             mutators = new Mutators();
             operators = new Operators();
+            selection = new Selection(individual);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -121,9 +124,12 @@ public class TSPProblem {
     }
 
     private void testing_will(){
-        City[][] result = population.get_solution_set(2);
-        printSolution(result);
+        int num_solutions = 2;
+        City[][] result = population.get_solution_set(num_solutions);
+        //printSolution(result);
         result = operators.cycle_crossover(result);
+        printSolution(result);
+        result = selection.tournament_selection(result, num_solutions, 1);
         printSolution(result);
     }
 
