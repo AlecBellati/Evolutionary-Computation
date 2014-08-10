@@ -10,13 +10,26 @@ public class TSPProblem {
 	
 	/* 2D array of floats where X is source, Y is destination and the value is cost
 	 * eg TSPGraph[0][1] will return the cost of the edge connecting node 0 to node 1*/
-	private static double[][] TSPGraph;
+	private double[][] TSPGraph;
 	/** Alternate method for storing city information */
-	private static City[] cities;
-    
+	private City[] cities;
     /** Number of nodes in the graph **/
-    private static int numVertex;
+    private int numVertex;
+
+    /** Given a City[], generates a random individual solution */
+    private Individual individual;
+    /** Given an Individual object, returns a number of random solutions as a City[][] */
+    private Population population;
+    /** Contains the four primary mutation operators (returns modified parent object) */
+    private Mutators mutators;
+    /** Contains the four primary operator functions (returns children) */
+    private Operators operators;
 	
+    /**
+    * CONSTRUCTOR
+    * Takes in a file name and reads the supplied file
+    * Places it into City objects and also into a 2D double array
+    */
     public TSPProblem(String fileToLoad) {
         try {
             //open file for reading
@@ -28,7 +41,7 @@ public class TSPProblem {
             int col = 0;
             
             //read the XML file and parse into TSPGraph[][]
-            while( (line = br.readLine()) != null) {
+            while((line = br.readLine()) != null) {
                 
                 //get number of nodes in graph
                 if(line.contains("-city problem")) {
@@ -71,22 +84,72 @@ public class TSPProblem {
             }
             br.close();
             
-            //get a random solution
-            Individual randomIndividual = new Individual(TSPGraph, cities);
-            Population randomPopulation = new Population(randomIndividual);
-            City[][] result = randomPopulation.get_solution_set(1);
-            
-            //print random solution
-            for(int i = 0; i < result.length; i++) {
-                System.out.println("***** Solution " + (i+1) + " *****");
-                printSolution(result[i]);
-                System.out.println("Total Cost = " + randomIndividual.get_cost(result[i]));
-                System.out.println();
-            }
-            
+            //initialise objects for solution generation, mutation and operators
+            individual = new Individual(TSPGraph, cities);
+            population = new Population(individual);
+            mutators = new Mutators();
+            operators = new Operators();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
+        }
+    }
+
+    /**
+    * Basis testing function
+    * Use for regression testing (DO NOT MODIFY)
+    */
+    private void testing(){
+        City[][] result = population.get_solution_set(2);
+        printSolution(result);
+    }
+
+    /*****************************************
+     *****************************************
+     ****** Personal testing functions. ******
+     *****************************************
+     *****************************************/
+
+    private void testing_alec(){
+        City[][] result = population.get_solution_set(2);
+        printSolution(result);
+    }
+
+    private void testing_matt(){
+        City[][] result = population.get_solution_set(2);
+        printSolution(result);
+    }
+
+    private void testing_will(){
+        City[][] result = population.get_solution_set(2);
+        printSolution(result);
+        result = operators.cycle_crossover(result);
+        printSolution(result);
+    }
+
+    private void testing_sami(){
+        City[][] result = population.get_solution_set(2);
+        printSolution(result);
+    }
+
+
+    /**
+     * For Testing only
+     * Given a City solution array, print its info.
+     */
+    private void printSolution(City[][] result){
+        for(int i = 0; i < result.length; i++) {
+            System.out.println("***** Solution " + (i+1) + " *****");
+            City[] city = result[i];
+            for(int j = 0; j < city.length; j++){
+                if(j != city.length-1){
+                    System.out.println(city[j].toString(city[j+1]));
+                }else{ //return to start
+                    System.out.println(city[j].toString(city[0]));
+                }
+            }
+            System.out.println("Total Cost = " + individual.get_cost(result[i]));
+            System.out.println();
         }
     }
     
@@ -117,8 +180,6 @@ public class TSPProblem {
      *Main method for TSPProblem handles CLI and creates a new TSPProblem instance
      */
     public static void main(String[] args) {
-        
-        
         /* Do options here (if there ever are any) */
         
         //Read in and load file
@@ -132,83 +193,15 @@ public class TSPProblem {
             fileToLoad = args[fileIdx+1];
         }
         
-        TSPProblem TSPInstance = new TSPProblem(fileToLoad);
-        
-        
-        /*********************
-		 * DO TSP STUFF HERE *
-		 *********************/
-		
-		//testing purposes only
-		//printGraph();
-		int num_solutions = 2;
-		Individual individual = new Individual(TSPGraph, cities);
-		Population population = new Population(individual);
-		City[][] solutions = population.get_solution_set(num_solutions);
-        
-        /********************************************
-         ****** MATT TESTING INSERTION MUTATOR ******
-         ********************************************/
-        
-        //lol
-        Mutators mutate = new Mutators();
-        mutate.insert(solutions[0]);
+        TSPProblem TSPInstance = new TSPProblem(fileToLoad); 
 
-        Operators operator = new Operators();
-        testing(operator);
-        //operator.cycle_crossover(solutions);
-        
-        /*
-		for(int j = 0; j < num_solutions; j++){
-			System.out.println("***** Solution " + (j+1) + " *****");
-			printSolution(solutions[j]);
-			System.out.println("Total Cost: " + individual.get_cost(solutions[j]));
-			System.out.println();
-		}*/
+        //Uncomment your testing function when needed
 
-        
-    }
-
-    public static void testing(Operators operator){
-        City zero = new City(0, 9);
-        City one = new City(0, 9);
-        City two = new City(1, 9);
-        City three = new City(2, 9);
-        City four = new City(3, 9);
-        City five = new City(4, 9);
-        City six = new City(5, 9);
-        City seven = new City(6, 9);
-        City eight = new City(7, 9);
-        City nine = new City(8, 9);
-
-        City[][] parents = new City[][]{{one, two, three, four, five, six, seven, eight, nine}, {nine, three, seven, eight, two, six, five, one, four}};
-    
-        operator.cycle_crossover(parents);
-    }
-
-    
-    /**
-     * For Testing only
-     * Given a City solution array, print its info.
-     */
-    private static void printSolution(City[] city){
-        for(int j = 0; j < city.length; j++){
-            if(j != city.length-1){
-                System.out.println(city[j].toString(city[j+1]));
-            }else{ //return to start
-                System.out.println(city[j].toString(city[0]));
-            }
-        }
-    }
-
-    /**
-     * For operator usages only
-     * Given a City solution array, return its "visited" variable to false
-     */
-    private static void set_visited(City[] city){
-        for(int j = 0; j < city.length; j++){
-            city[j].has_been_visited(false);
-        }
+        //TSPInstance.testing();   
+        //TSPInstance.testing_alec();
+        //TSPInstance.testing_matt();
+        TSPInstance.testing_will();
+        //TSPInstance.testing_sami();  
     }
     
     /**
