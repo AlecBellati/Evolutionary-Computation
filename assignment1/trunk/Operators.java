@@ -52,7 +52,7 @@ public class Operators{
 			
 			// Put all subset from parent 0 into the child
 			// and find the values exclusive to each subset
-			int subsetLength = posB - posA;
+			int subsetLength = posB - posA + 1;
 			City[] parent0Exclusive = new City[subsetLength];
 			int parent0ExclusiveLength = 0;
 			City[] parent1Exclusive = new City[subsetLength];
@@ -118,7 +118,7 @@ public class Operators{
 	*/
 	private int contains(City[] cities, City searchKey, int first, int last){
 		for (int i = first; i <= last; i++){
-			if (cities[i] == searchKey){
+			if (cities[i].get_node_num() == searchKey.get_node_num()){
 				return i;
 			}
 		}
