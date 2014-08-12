@@ -21,8 +21,8 @@ public class Mutators{
 	public City[] insert(City[] individual){
         
         //get city move pos and place to put city
-        int move = rnd.nextInt(individual.length-1);
-        int insert = rnd.nextInt(individual.length-1);
+        int move = rnd.nextInt(individual.length);
+        int insert = rnd.nextInt(individual.length);
         
         //Temp City Variable
         City temp;
@@ -62,8 +62,8 @@ public class Mutators{
 	* @return City[] - a solution after mutation has occured
 	*/
 	public City[] swap(City[] individual){
-		int posA = rnd.nextInt(individual.length-1);
-		int posB = rnd.nextInt(individual.length-1);
+		int posA = rnd.nextInt(individual.length);
+		int posB = rnd.nextInt(individual.length);
 
 		City temp = individual[posA];
 		individual[posA] = individual[posB];
@@ -80,8 +80,8 @@ public class Mutators{
 	public City[] inversion(City[] individual){
 
 		// Find the subset of position to mutate
-		int posA = rnd.nextInt(individual.length - 1);
-		int posB = rnd.nextInt(individual.length - 1);
+		int posA = rnd.nextInt(individual.length);
+		int posB = rnd.nextInt(individual.length);
 		
 		// Ensure that posA is less than posB
 		if (posA > posB) {
@@ -112,8 +112,8 @@ public class Mutators{
 	 */
 	public City[] scramble(City[] individual){
 		// Find the subset of position to mutate
-		int posA = rnd.nextInt(individual.length - 1);
-		int posB = rnd.nextInt(individual.length - 1);
+		int posA = rnd.nextInt(individual.length);
+		int posB = rnd.nextInt(individual.length);
 		
 		// Ensure that posA is less than posB
 		if (posA > posB){

@@ -40,8 +40,8 @@ public class Operators{
 		
 		for (int child = 0; child < children.length; child++){
 			// Find the subset of position to crossover
-			int posA = rnd.nextInt(length - 1);
-			int posB = rnd.nextInt(length - 1);
+			int posA = rnd.nextInt(length);
+			int posB = rnd.nextInt(length);
 			
 			// Ensure that posA is less than  or equal to posB
 			if (posA > posB){
