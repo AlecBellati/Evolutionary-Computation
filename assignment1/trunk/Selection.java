@@ -20,11 +20,16 @@ public class Selection{
 	}
 
 	/**
-	*
-	* @param City[][]
-    * @return City[][]
-	*/
-	public City[][] fitness_proportional(City[][] solution){
+	 * Given a solution, randomly select num_population solutions.
+	 * Find the total fitness of all solutions and the probability each solution contributes.
+	 * Using this information, "spin a wheel" where each solution has the probability of
+	 * being picked the same as their contribution.
+	 * @param City[][] - solution set
+	 * @param num_population - number of random solutions to be used for selection
+	 * @param solution_size - number of solutions to select based on the highest profits
+     * @return City[][]
+	 */
+	public City[][] fitness_proportional(City[][] solution, int num_population, int solution_size){
 		City[][] modified_solution = null;
 
 		return modified_solution;
