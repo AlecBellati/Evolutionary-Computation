@@ -1,5 +1,8 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 public class Operators{
 	
@@ -193,21 +196,271 @@ public class Operators{
     }
 
 	/**
-	*
-	* @param City[][]
-    * @return City[][]
+	* Performs Edge Recombination Operator (tested and verified to be correct)
+	* @param City[][] - a 2x1 array of city elements
+    * @return City[][] - returns a 1xparents[0].length array
 	*/
 	public City[][] edge_recombination(City[][] parents){
-		//this assume all solutions are of the same length!
-		City[][] children = new City[parents.length][parents[0].length];
-    
-		return children;
-	}
+        
+        //Create solution array
+		City[][] solution = new City[1][parents[0].length];
+        
+        //create edge recombination table
+        Hashtable<City, ArrayList<ElementEdge>> edgeListing = new Hashtable<City, ArrayList<ElementEdge>>();
+        int cityCount = 0;
+        //for both individuals
+        for(int i = 0; i < parents.length; i++) {
+            //go through and add the elements to the edgeListing table
+            for(City c : parents[i]) {
+                //get the left and right indicies
+                int left = cityCount-1;
+                int right = (cityCount+1)%(parents[i].length);
+                
+                //catch edge case for left values
+                if(left < 0) {
+                    left = parents[i].length-1;
+                }
+                
+                
+                //add elements to the Hashtable
+                //if already there, just handle adding edges
+                if(edgeListing.containsKey(c)) {
+                    ArrayList<ElementEdge> arr = edgeListing.get(c);
+                    boolean doneLeft = false, doneRight = false;
+                    
+                    //check to see if Left or Right is in the list of ElementEdges
+                    for(ElementEdge ee : arr) {
+                        
+                        //if left added, increase count
+                        if(ee.get_city() == parents[i][left]) {
+                            ee.count_up();
+                            doneLeft = true;
+                        }
+                    
+                        //if right added, increase count
+                        if (ee.get_city() == parents[i][right]) {
+                            ee.count_up();
+                            doneRight = true;
+                        }
+                    }
+                    
+                    //if left not added, add it now
+                    if(!doneLeft) {
+                        arr.add(this.new ElementEdge(parents[i][left]));
+                    }
+                    
+                    //if right not added, add it now
+                    if(!doneRight) {
+                        arr.add(this.new ElementEdge(parents[i][right]));
+                    }
+                    
+                    //update table entry
+                    edgeListing.put(c, arr);
+                    
+                    
+                //else add new entry and add edges
+                } else {
+                    ArrayList<ElementEdge> e = new ArrayList<ElementEdge>();
+                    e.add(this.new ElementEdge(parents[i][left]));
+                    e.add(this.new ElementEdge(parents[i][right]));
+                    edgeListing.put(c, e);
+                }
+                //increase cityCount
+                cityCount++;
+            }
+            //reset for the second city
+            cityCount = 0;
+        }
+        
+        
+        /*Uncomment to print out the table and the parents*/
+        //print_table(edgeListing, parents);
+        
+        
+        //insert random starting city
+        int indiv = rnd.nextInt(2);
+        int startPT = rnd.nextInt(parents[0].length);
+        solution[0][0] = parents[indiv][startPT];
+        
+        //recombine elements into new solution
+        for(int idx = 0; idx < solution[0].length-1; idx++) {
+            
+            /* Print out for debugging purposes
+            System.out.println("CurrentCity = " + solution[0][idx].get_node_num() + ", IDX = " + idx);
+            //print solution
+            for(int i = 0; i < solution.length; i++) {
+                System.out.print("solutin[" + i + "] = [");
+                for(int j = 0; j < solution[i].length; j++) {
+                    if(solution[i][j] != null) {
+                        System.out.print(" "+solution[i][j].get_node_num()+" ");
+                    }
+                }
+                System.out.println("]");
+            }
+            
+            print_table(edgeListing, parents);
+            */
+            
+            
+            //remove all references to current City from edgeListing
+            Set<City> keySet = edgeListing.keySet();
+            for(City c : keySet) {
+                ArrayList<ElementEdge> edges = edgeListing.get(c);
+                
+                for(int i = edges.size()-1; i >= 0; i--) {
+                    if(edges.get(i).get_city() == solution[0][idx]) {
+                        edges.remove(i);
+                    }
+                }
+            }
+            
+            //select the next element
+            City nextElem = solution[0][idx]; // has to be initialised or compiler will throw hissy fit
+            boolean foundNext = false;
+            ArrayList<ElementEdge> edges = edgeListing.get(solution[0][idx]);
+            
+            //1 common edge
+            for(ElementEdge ee : edges) {
+                if (ee.get_count() > 1) {
+                    nextElem = ee.get_city();
+                    foundNext = true;
+                    break;
+                }
+            }
+            
+            //if common edge found no solutions, look for shortest list
+            if(!foundNext) {
+                
+                //2 entry with shortest list
+                int numEdges = Integer.MAX_VALUE;
+                ArrayList<City> candidate = new ArrayList<City>();
+                
+                //loop through all edges and find the candidate(s) that have the shortest list
+                for(ElementEdge ee : edges) {
+                    
+                    //if new shortest list found, update numEdges and candidate
+                    if(edgeListing.get(ee.get_city()).size() < numEdges) {
+                        numEdges = edgeListing.get(ee.get_city()).size();
+                        candidate.clear();
+                        candidate.add(ee.get_city());
+                    
+                    //if an equal shortest list found, add to the potential candidates
+                    } else if(edgeListing.get(ee.get_city()).size() == numEdges) {
+                        candidate.add(ee.get_city());
+                        
+                    //otherwise, it's the last element and needs to be added
+                    } else if (edgeListing.get(ee.get_city()).size() == 0){
+                        candidate.add(ee.get_city());
+                    }
+                }
+                
+                //check to see if unique next solution has been found
+                if(candidate.size() == 1) {
+                    nextElem = candidate.get(0);
+                    foundNext = true;
 
-	/**
-	* TESTING ONLY
-	*/
-	public static void main(String[] args){
-		Operators test = new Operators();
+                //else if more than one element with the same length use random city from list of possible candidates
+                } else if(candidate.size() > 1){
+                    nextElem = candidate.get(rnd.nextInt(candidate.size()));
+                    foundNext = true;
+                }
+            }
+            
+            //remove old element from hash table
+            edgeListing.remove(solution[0][idx]);
+            
+            //if there is still no solution for the next City, select one randomly from the remaining set
+            if(!foundNext) {
+                Set<City> randSet = edgeListing.keySet();
+                int rand = rnd.nextInt(randSet.size());
+                int count = 0;
+                for(City c : randSet) {
+                    if(count == rand) {
+                        nextElem = c;
+                        break;
+                    }
+                    count++;
+                }
+            }
+            
+            //Update the solution array with the next element to process
+            solution[0][idx+1] = nextElem;
+        }
+        
+        
+        //print parents for debugging (print shows final result)
+        /*
+        for(int i = 0; i < parents.length; i++) {
+            System.out.print("Parents[" + i + "] = [");
+            for(int j = 0; j < parents[i].length; j++) {
+                System.out.print(" "+parents[i][j].get_node_num()+" ");
+            }
+            System.out.println("]");
+        }
+        
+        //print child soluion
+        for(int i = 0; i < solution.length; i++) {
+            System.out.print("Solutin[" + i + "] = [");
+            for(int j = 0; j < solution[i].length; j++) {
+                System.out.print(" "+solution[i][j].get_node_num()+" ");
+            }
+            System.out.println("]");
+        }
+        */
+        
+        //return new solution
+		return solution;
 	}
+    
+    /**
+     * Test printout to show what the Hashtable looks like
+     */
+    private void print_table(Hashtable<City, ArrayList<ElementEdge>> hash, City[][] parents) {
+        for(int i = 0; i < parents.length; i++) {
+            System.out.print("Parents[" + i + "] = [");
+            for(int j = 0; j < parents[i].length; j++) {
+                System.out.print(" "+parents[i][j].get_node_num()+" ");
+            }
+            System.out.println("]");
+        }
+        
+        Set<City> keySet = hash.keySet();
+        
+        for(City c : keySet) {
+            ArrayList<ElementEdge> edges = hash.get(c);
+            System.out.print(String.format("%2d      |", c.get_node_num()));
+            for(ElementEdge ee : edges) {
+                if(ee.get_count() > 1) {
+                    System.out.print(String.format("%2d+ ", ee.element.get_node_num()));
+                } else {
+                    System.out.print(String.format("%2d  ", ee.element.get_node_num()));
+                }
+            }
+            System.out.println();
+        }
+    }
+    
+    /**
+     * Essentially a struct that allows me to create the associative edge recombination table
+     */
+    public class ElementEdge {
+        private City element;
+        private int count = 1;
+        
+        public ElementEdge(City c) {
+            element = c;
+        }
+        public City get_city() {
+            return element;
+        }
+        public int get_count() {
+            return count;
+        }
+        public void count_up() {
+            count++;
+        }
+        public void count_down() {
+            count--;
+        }
+    }
 }

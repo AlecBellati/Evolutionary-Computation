@@ -120,6 +120,10 @@ public class TSPProblem {
 
     private void testing_matt(){
         City[][] result = population.get_solution_set(2);
+        
+        Operators ops = new Operators();
+        City[][] soln = ops.edge_recombination(result);
+        
         printSolution(result);
     }
 
@@ -205,8 +209,8 @@ public class TSPProblem {
 
         //TSPInstance.testing();   
         //TSPInstance.testing_alec();
-        //TSPInstance.testing_matt();
-        TSPInstance.testing_will();
+        TSPInstance.testing_matt();
+        //TSPInstance.testing_will();
         //TSPInstance.testing_sami();  
     }
     
