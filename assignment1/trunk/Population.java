@@ -79,9 +79,9 @@ public class Population{
 	* @param - An array of the cities in the problem
 	*/
 	private void create_solution_set(City[] cities){
-		City[][] solution_set = new City[population_size][cities.get_num_cities()];
+		solution_set = new Individual[population_size];
 		
-		for(int i = 0; i < num_solutions; i++){
+		for(int i = 0; i < population_size; i++){
 			// Create an individual
 			solution_set[i] = new Individual(TSPGraph, cities, false);
 		}

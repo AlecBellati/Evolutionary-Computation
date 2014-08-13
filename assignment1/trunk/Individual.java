@@ -25,7 +25,7 @@ public class Individual{
 		}
 		
 		// Calculate the cost of this solution
-		calculate_cost(TSPGraph);
+		calculate_fitness(TSPGraph);
 	}
 
 	/*
@@ -82,7 +82,7 @@ public class Individual{
     	Random rnd = new Random();
     	for (int i = solution.length - 1; i > 0; i--){
       		//int index = rnd.nextInt(i + 1);
-      		int index = rnd.nextInt(cities.length-1);
+      		int index = rnd.nextInt(solution.length-1);
       		// Simple swap
       		City temp = solution[index];
       		solution[index] = solution[i];
