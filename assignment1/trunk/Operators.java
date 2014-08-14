@@ -35,14 +35,16 @@ public class Operators{
 	* The children to form the children
     * @param Individual parentA
     * @param Individual parentB
-    * @return Individual - the child generate from the amalgamation of the two parents
+    * @return Individual[] - the two children generated from the amalgamation of the two parents
 	*/
-	public Individual pmx_crossover(Individual parentA, Individual parentB){
+	public Individual[] pmx_crossover(Individual parentA, Individual parentB){
 		int length = parentA.getNumCities();
 		//this assume all solutions are of the same length!
-		Individual children = new Individual(parentA.getNumCities());
+		Individual[] children = new Individual[2];
 		
 		for (int child = 0; child < children.length; child++){
+			Individual newSol = new Individual(length);
+			
 			// Find the subset of position to crossover
 			int posA = rnd.nextInt(length);
 			int posB = rnd.nextInt(length);
@@ -57,22 +59,22 @@ public class Operators{
 			// Put all subset from parent 0 into the child
 			// and find the values exclusive to each subset
 			int subsetLength = posB - posA + 1;
-			City[] parent0Exclusive = new City[subsetLength];
-			int parent0ExclusiveLength = 0;
-			City[] parent1Exclusive = new City[subsetLength];
-			int parent1ExclusiveLength = 0;
+			Individual parentAEx = new Individual(subsetLength);
+			int parentAExLength = 0;
+			Individual parentBEx = new Individual(subsetLength);
+			int parentBExLength = 0;
 			for (int i = posA; i <= posB; i++){
 				// Put current value of parent 0 into child
-				children[child][i] = parents[0][i];
+				newSol.setCity(i, parentA.getCityByIndex(i));
 				
 				//check values of parents for exclusivity
-				if (contains(parents[1], parents[0][i], posA, posB) == -1){
-					parent0Exclusive[parent0ExclusiveLength] = parents[0][i];
-					parent0ExclusiveLength++;
+				if (contains(parentB, parentA.getCityByIndex(i), posA, posB) == -1){
+					parentAEx.setCity(parentAExLength, parentA.getCityByIndex(i));
+					parentAExLength++;
 				}
-				if (contains(parents[0], parents[1][i], posA, posB) == -1){
-					parent1Exclusive[parent1ExclusiveLength] = parents[1][i];
-					parent1ExclusiveLength++;
+				if (contains(parentA, parentB.getCityByIndex(i), posA, posB) == -1){
+					parentBEx.setCity(parentBExLength, parentB.getCityByIndex(i));
+					parentBExLength++;
 				}
 				
 			}
@@ -88,14 +90,14 @@ public class Operators{
 			
 			while (childIdx != posA){
 				// Check if this spot was in the subset of parent 0
-				exIdx = contains(parent0Exclusive, parents[1][childIdx], 0, parent0ExclusiveLength - 1);
+				exIdx = contains(parentAEx, parentB.getCityByIndex(childIdx), 0, parentAExLength - 1);
 				if (exIdx != -1){
-					children[child][childIdx] = parent1Exclusive[exIdx];
+					newSol.setCity(childIdx, parentBEx.getCityByIndex(exIdx));
 					childIdx++;
 				}
 				// Add city from parent 1
 				else{
-					children[child][childIdx] = parents[1][childIdx];
+					newSol.setCity(childIdx, parentB.getCityByIndex(childIdx));
 					childIdx++;
 				}
 				
@@ -105,6 +107,7 @@ public class Operators{
 				}
 			}
 			
+			children[child] = newSol;
 		}
 		
 		return children;
@@ -114,7 +117,7 @@ public class Operators{
 	* Checks if a subset of an array of cities contains a particular city
 	* Will only return the first instance of the city
 	* For operators usage only
-	* @param City[] - an array of cities
+	* @param Individual - a solution
     * @param City - the city that is being searched for
 	* @param Integer - the first index to search from
     * @param Integer - the last index to search to
@@ -122,7 +125,7 @@ public class Operators{
 	*/
 	private int contains(Individual cities, City searchKey, int first, int last){
 		for (int i = first; i <= last; i++){
-			if (cities[i].getNodeNum() == searchKey.getNodeNum()){
+			if (cities.getCityByIndex(i).getNodeNum() == searchKey.getNodeNum()){
 				return i;
 			}
 		}
