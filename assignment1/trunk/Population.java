@@ -25,10 +25,10 @@ public class Population{
 	* @param double[][] TSPGraph - lookup table of city edges
 	* @param City[] cities - array of cities, current solution
 	*/
-	public void generateRandomSolutionSet(double[][] TSPGraph, City[] cities){
+	public void generateRandomSolutionSet(City[] cities){
 		solution_set = new Individual[num_solutions];
 		for(int i = 0; i < num_solutions; i++){
-			solution_set[i] = new Individual(TSPGraph, cities, true);
+			solution_set[i] = new Individual(cities, true);
 		}
 	}
 

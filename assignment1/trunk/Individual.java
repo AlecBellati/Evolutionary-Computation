@@ -3,28 +3,30 @@ import java.util.Random;
 
 public class Individual{
 
-	/** TSP graph generated from XML parser */
-	private double[][] TSPGraph;
-
-	/** Contains the cities with their associated weights
-	Should contain same information as above (TSPGraph) */
+	/** Contains the cities with their associated weights */
 	private City[] cities;
 
 	/**
 	* CONSTRUCTOR
 	* Takes given TSP Graph and assigns to local variable
 	* Initialises solution array list and generate a set of random solutions
-	* @param double[][] TSPGraph - lookup table of city edges
 	* @param City[] cities - array of cities, current solution
 	* @param boolean random - if true, will shuffle the supplied City array
 	*/
-	public Individual(double[][] TSPGraph, City[] cities, boolean random){
-		this.TSPGraph = TSPGraph.clone();
+	public Individual(City[] cities, boolean random){
 		this.cities = cities.clone();
 
 		if(random){
 			generateRandomSolution();
 		}
+	}
+
+	/**
+	* ALTERNATE CONSTRUCTOR
+	* Initialises an empty array
+	*/
+	public Individual(int size){
+		cities = new City[size];
 	}
 
 	/*
@@ -56,11 +58,10 @@ public class Individual{
 
 			if(i != cities.length-1){
 				next_city = cities[i+1];
-				cost_to_node = TSPGraph[curr_city.getNodeNum()][next_city.getNodeNum()];
 			}else{ //return to start
 				next_city = cities[0];
-				cost_to_node = TSPGraph[curr_city.getNodeNum()][next_city.getNodeNum()];
 			}
+			cost_to_node = curr_city.getEdge(next_city.getNodeNum());
 			total += cost_to_node;
 		}
 
