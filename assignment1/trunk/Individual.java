@@ -166,7 +166,5 @@ public class Individual{
 			cost_to_node = curr_city.getEdge(next_city.getNodeNum());
 			cost += cost_to_node;
 		}
-
-		return cost;
 	}
 }
