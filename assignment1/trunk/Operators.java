@@ -19,27 +19,28 @@ public class Operators{
 
 	/**
 	*
-	* @param City[][]
-    * @return City[][]
+	* @param Individual parentA
+    * @param Individual parentB
+    * @return Individual - the child generate from the amalgamation of the two parents
 	*/
-	public City[][] order_crossover(City[][] parents){
-		//this assume all solutions are of the same length!
-		City[][] children = new City[parents.length][parents[0].length];
+	public Individual order_crossover(Individual parentA, Individual parentB){
+		Individual child = new Individual(parentA.getNumCities());
 
-		return children;
+		return child;
 	}
 
 	/**
 	* Performs Partially Mapped Crossover (PMX)
 	* Determines the crossover between two parents and then interleaves
 	* The children to form the children
-	* @param City[][] - 2 solutions, considered the parents
-    * @return City[][] - 2 children City[] solutions
+    * @param Individual parentA
+    * @param Individual parentB
+    * @return Individual - the child generate from the amalgamation of the two parents
 	*/
-	public City[][] pmx_crossover(City[][] parents){
-		int length = parents[0].length;
+	public Individual pmx_crossover(Individual parentA, Individual parentB){
+		int length = parentA.getNumCities();
 		//this assume all solutions are of the same length!
-		City[][] children = new City[parents.length][length];
+		Individual children = new Individual(parentA.getNumCities());
 		
 		for (int child = 0; child < children.length; child++){
 			// Find the subset of position to crossover
@@ -119,9 +120,9 @@ public class Operators{
     * @param Integer - the last index to search to
     * @return Integer - the index of the City found, -1 if not found
 	*/
-	private int contains(City[] cities, City searchKey, int first, int last){
+	private int contains(Individual cities, City searchKey, int first, int last){
 		for (int i = first; i <= last; i++){
-			if (cities[i].get_node_num() == searchKey.get_node_num()){
+			if (cities[i].getNodeNum() == searchKey.getNodeNum()){
 				return i;
 			}
 		}
@@ -133,13 +134,14 @@ public class Operators{
 	/**
 	* Performs a cycle crossover
 	* Determines the crossover between two parents and then interleaves
-	* The children to form the children
-	* @param City[][] - 2 solutions, considered the parents
-    * @return City[][] - 2 children City[] solutions
+	* The parents to form the children
+    * @param Individual parentA
+    * @param Individual parentB
+    * @return Individual[] - the children generated from the amalgamation of the two parents
 	*/
-	public City[][] cycle_crossover(City[][] parents){
+	public Individual[] cycle_crossover(Individual parentA, Individual parentB){
 		//this assume all solutions are of the same length!
-		City[][] children = new City[parents.length][parents[0].length];
+		Individual[] children = new Individual[2];
 		//holds the crossover indicies used in the second stage to generate children
 		ArrayList<String> crossover = new ArrayList<String>();
 
@@ -147,31 +149,31 @@ public class Operators{
 		int node_num = 0;
 		boolean running = true;
 		//generates the cycles, adding them to the crossover array list
-		while(i < parents[0].length){
-			City current_node = parents[0][i];
+		while(i < parentA.getNumCities()){
+			City current_node = parentA.getCityByIndex(i);
 			//find and unvisited parent node until the end of the solution set
-			while(current_node.visited() && i < (parents[0].length-1)){
+			while(current_node.visited() && i < (parentA.getNumCities()-1)){
 				i++;
-				current_node = parents[0][i];
+				current_node = parentA.getCityByIndex(i);
 			}
 
 			int index = i; i++;
 			//goes to a new node until returns to a visited node
-			//this loop will start at parent A and then go to parent B 
-			//before setting current_node to the next node in the cycle path in parent A
+			//this loop will start at parentA and then go to parentB 
+			//before setting current_node to the next node in the cycle path in parentA
 			while(!current_node.visited()){
 				if(j%2 == 0){
-					children[0][index] = parents[0][index];
-					children[1][index] = parents[1][index];
+					children[0].setCity(index, parentA.getCityByIndex(index));
+					children[1].setCity(index, parentB.getCityByIndex(index));
 				}else{
-					children[0][index] = parents[1][index];
-					children[1][index] = parents[0][index];
+					children[0].setCity(index, parentB.getCityByIndex(index));
+					children[1].setCity(index, parentA.getCityByIndex(index));
 				}
 
-				node_num = current_node.get_node_num();
-				current_node.has_been_visited(true);
+				node_num = current_node.getNodeNum();
+				current_node.hasBeenVisited(true);
 				//parent B
-				node_num = parents[1][node_num].get_node_num();
+				node_num = parentB.getCityByIndex(node_num).getNodeNum();
 
 				//parent A
 				current_node = parents[0][node_num];
@@ -180,27 +182,29 @@ public class Operators{
 			}
 		}
 		//reset the "visited" variable in each City object
-		set_visited(children[0]);
+		setVisited(children[0]);
 
 		return children;
 	}
 
     /**
-     * For operator usages only
-     * Given a City solution array, return its "visited" variable to false
-     */
-    private void set_visited(City[] city){
+    * For operator usages only
+    * Given a City solution array, return its "visited" variable to false
+    * @param Individual city
+    */
+    private void setVisited(Individual city){
         for(int j = 0; j < city.length; j++){
-            city[j].has_been_visited(false);
+            city.get(j).has_been_visited(false);
         }
     }
 
 	/**
 	* Performs Edge Recombination Operator (tested and verified to be correct)
-	* @param City[][] - a 2x1 array of city elements
-    * @return City[][] - returns a 1xparents[0].length array
+    * @param Individual parentA
+    * @param Individual parentB
+    * @return Individual - the child generate from the amalgamation of the two parents
 	*/
-	public City[][] edge_recombination(City[][] parents){
+	public Individual edge_recombination(Individual parentA, Individual parentB){
         
         //Create solution array
 		City[][] solution = new City[1][parents[0].length];
@@ -286,13 +290,13 @@ public class Operators{
         for(int idx = 0; idx < solution[0].length-1; idx++) {
             
             /* Print out for debugging purposes
-            System.out.println("CurrentCity = " + solution[0][idx].get_node_num() + ", IDX = " + idx);
+            System.out.println("CurrentCity = " + solution[0][idx].getNodeNum() + ", IDX = " + idx);
             //print solution
             for(int i = 0; i < solution.length; i++) {
                 System.out.print("solutin[" + i + "] = [");
                 for(int j = 0; j < solution[i].length; j++) {
                     if(solution[i][j] != null) {
-                        System.out.print(" "+solution[i][j].get_node_num()+" ");
+                        System.out.print(" "+solution[i][j].getNodeNum()+" ");
                     }
                 }
                 System.out.println("]");
@@ -393,7 +397,7 @@ public class Operators{
         for(int i = 0; i < parents.length; i++) {
             System.out.print("Parents[" + i + "] = [");
             for(int j = 0; j < parents[i].length; j++) {
-                System.out.print(" "+parents[i][j].get_node_num()+" ");
+                System.out.print(" "+parents[i][j].getNodeNum()+" ");
             }
             System.out.println("]");
         }
@@ -402,7 +406,7 @@ public class Operators{
         for(int i = 0; i < solution.length; i++) {
             System.out.print("Solutin[" + i + "] = [");
             for(int j = 0; j < solution[i].length; j++) {
-                System.out.print(" "+solution[i][j].get_node_num()+" ");
+                System.out.print(" "+solution[i][j].getNodeNum()+" ");
             }
             System.out.println("]");
         }
@@ -415,11 +419,11 @@ public class Operators{
     /**
      * Test printout to show what the Hashtable looks like
      */
-    private void print_table(Hashtable<City, ArrayList<ElementEdge>> hash, City[][] parents) {
+    private void printTable(Hashtable<City, ArrayList<ElementEdge>> hash, Population parents) {
         for(int i = 0; i < parents.length; i++) {
             System.out.print("Parents[" + i + "] = [");
             for(int j = 0; j < parents[i].length; j++) {
-                System.out.print(" "+parents[i][j].get_node_num()+" ");
+                System.out.print(" "+parents[i][j].getNodeNum()+" ");
             }
             System.out.println("]");
         }
@@ -428,39 +432,15 @@ public class Operators{
         
         for(City c : keySet) {
             ArrayList<ElementEdge> edges = hash.get(c);
-            System.out.print(String.format("%2d      |", c.get_node_num()));
+            System.out.print(String.format("%2d      |", c.getNodeNum()));
             for(ElementEdge ee : edges) {
                 if(ee.get_count() > 1) {
-                    System.out.print(String.format("%2d+ ", ee.element.get_node_num()));
+                    System.out.print(String.format("%2d+ ", ee.element.getNodeNum()));
                 } else {
-                    System.out.print(String.format("%2d  ", ee.element.get_node_num()));
+                    System.out.print(String.format("%2d  ", ee.element.getNodeNum()));
                 }
             }
             System.out.println();
-        }
-    }
-    
-    /**
-     * Essentially a struct that allows me to create the associative edge recombination table
-     */
-    public class ElementEdge {
-        private City element;
-        private int count = 1;
-        
-        public ElementEdge(City c) {
-            element = c;
-        }
-        public City get_city() {
-            return element;
-        }
-        public int get_count() {
-            return count;
-        }
-        public void count_up() {
-            count++;
-        }
-        public void count_down() {
-            count--;
         }
     }
 }

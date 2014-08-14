@@ -14,15 +14,15 @@ public class Selection{
 	}
 
 	/**
-	 * Given a solution, randomly select num_population solutions.
-	 * Find the total fitness of all solutions and the probability each solution contributes.
-	 * Using this information, "spin a wheel" where each solution has the probability of
-	 * being picked the same as their contribution.
-	 * @param City[][] - solution set
-	 * @param num_population - number of random solutions to be used for selection
-	 * @param solution_size - number of solutions to select based on the highest profits
-     * @return City[][]
-	 */
+	* Given a solution, randomly select num_population solutions.
+	* Find the total fitness of all solutions and the probability each solution contributes.
+	* Using this information, "spin a wheel" where each solution has the probability of
+	* being picked the same as their contribution.
+	* @param Population - solution set
+	* @param num_population - number of random solutions to be used for selection
+	* @param solution_size - number of solutions to select based on the highest profits
+    * @return Population
+	*/
 	public Population fitness_proportional(Population solution, int num_population, int solution_size){
 		Population modified_solution = new Population(num_population);
 
@@ -33,10 +33,10 @@ public class Selection{
 	* Given a solution, randomly select num_population solutions
 	* Given this new subset, sort them by total cost and then pick the best based
 	* on the supplied integer - solution_size
-	* @param City[][] - solution set
+	* @param Population - solution set
 	* @param num_population - number of random solutions to be used for selection
 	* @param solution_size - number of solutions to select based on the highest profits
-    * @return City[][]
+    * @return Population
 	*/
 	public Population tournament_selection(Population solution, int num_population, int solution_size){
 		//can't get a larger solution set than what was supplied!!!
@@ -67,8 +67,9 @@ public class Selection{
 
 	/**
 	*
-	* @param City[][]
-    * @return City[][]
+	* @param Population - solution set
+	* @param num_population - number of solutions to be used for selection
+    * @return Population
 	*/
 	public Population elitism(Population solution, int num_population){
 		solution.sort();
@@ -81,6 +82,6 @@ public class Selection{
 	* TESTING ONLY
 	*/
 	public static void main(String[] args){
-		Selection test = new Selection(null);
+		Selection test = new Selection();
 	}
 }

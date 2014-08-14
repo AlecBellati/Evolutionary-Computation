@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
 
-
 public class TSPProblem {
 	
 	/* 2D array of floats where X is source, Y is destination and the value is cost
@@ -24,13 +23,14 @@ public class TSPProblem {
     private Mutators mutators;
     /** Contains the four primary operator functions (returns children) */
     //private Operators operators;
-    /**  */
-    //private Selection selection;
+    /** Three primary selection methods for filtering solutions */
+    private Selection selection;
 	
     /**
     * CONSTRUCTOR
     * Takes in a file name and reads the supplied file
     * Places it into City objects and also into a 2D double array
+    * @param String fileToLoad
     */
     public TSPProblem(String fileToLoad) {
         try {
@@ -88,11 +88,11 @@ public class TSPProblem {
             
             //initialise objects for solution generation, mutation and operators
             //individual = new Individual(TSPGraph, cities);
-            population = new Population();
-            population.generateRandomSolutionSet(TSPGraph, cities, 2);
+            population = new Population(2);
+            population.generateRandomSolutionSet(cities);
             mutators = new Mutators();
             //operators = new Operators();
-            //selection = new Selection(individual);
+            selection = new Selection();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -114,11 +114,11 @@ public class TSPProblem {
      *****************************************/
 
     private void testingAlec(){
-
+        printSolution(population);
     }
 
     private void testingMatt(){
-
+        printSolution(population);
     }
 
     private void testingWill(){
@@ -128,14 +128,15 @@ public class TSPProblem {
     }
 
     private void testingSami(){
-
+        printSolution(population);
     }
 
 
     /**
-     * For Testing only
-     * Given a City solution array, print its info.
-     */
+    * For Testing only
+    * Given a City solution array, print its info.
+    * @param Population results - A solution set to be printed
+    */
     private void printSolution(Population result){
         for(int i = 0; i < result.getSize(); i++) {
             System.out.println("***** Solution " + (i+1) + " *****");
@@ -153,8 +154,8 @@ public class TSPProblem {
     }
     
     /**
-     * TESTING PURPOSES: Print the graph (best to pipe to file)
-     */
+    * TESTING PURPOSES: Print the graph (best to pipe to file)
+    */
     private void printGraph() {
         for(int i = 0; i < TSPGraph.length; i++) {
             System.out.print("[");
@@ -176,8 +177,8 @@ public class TSPProblem {
      *****************************************/
     
     /**
-     *Main method for TSPProblem handles CLI and creates a new TSPProblem instance
-     */
+    * Main method for TSPProblem handles CLI and creates a new TSPProblem instance
+    */
     public static void main(String[] args) {
         /* Do options here (if there ever are any) */
         
@@ -204,8 +205,8 @@ public class TSPProblem {
     }
     
     /**
-     * Incorrect parameter usage found - Print out usage notes for the user
-     */
+    * Incorrect parameter usage found - Print out usage notes for the user
+    */
     private static void usage() {
         System.out.println("Usage notes for TSPProblem.java");
         System.out.println("java TSPProblem <options> -f <filename>");
