@@ -5,6 +5,13 @@ public class Individual{
 
 	/** Contains the cities with their associated weights */
 	private City[] cities;
+	
+	/** Cost of the current solution represented by this individual */
+	private double cost;
+	
+	/** Flag as to whether the cost needs to be calculated */
+	private boolean costFound;
+	
 
 	/**
 	* CONSTRUCTOR
@@ -19,6 +26,8 @@ public class Individual{
 		if(random){
 			generateRandomSolution();
 		}
+		
+		costFound = false;
 	}
 
 	/**
@@ -27,6 +36,8 @@ public class Individual{
 	*/
 	public Individual(int size){
 		cities = new City[size];
+		
+		costFound = false;
 	}
 
 	/*
@@ -43,29 +54,23 @@ public class Individual{
       		cities[index] = cities[i];
       		cities[i] = temp;
     	}
+		
+		costFound = false;
   	}
 
 	/**
-	* Given a city, return its cost
+	* Get the cost of the current solution
 	* @return double - cost of current solution
 	*/
 	public double getCost(){
-		double total = 0;
-		for(int i = 0; i < cities.length; i++){
-			City curr_city = cities[i];
-			City next_city;
-			double cost_to_node = 0;
-
-			if(i != cities.length-1){
-				next_city = cities[i+1];
-			}else{ //return to start
-				next_city = cities[0];
-			}
-			cost_to_node = curr_city.getEdge(next_city.getNodeNum());
-			total += cost_to_node;
+		// If the cost has not been found, calculate it
+		if(!costFound){
+			calculateCost();
+			
+			costFound = true;
 		}
-
-		return total;
+		
+		return cost;
 	}
 
 	/**
@@ -90,6 +95,8 @@ public class Individual{
 	*/
 	public void setCities(City[] new_cities){
 		cities = new_cities;
+		
+		costFound = false;
 	}
 
 	/**
@@ -99,6 +106,8 @@ public class Individual{
 	*/
 	public void setCity(int index, City city){
 		cities[index] = city;
+		
+		costFound = false;
 	}
 
 	/**
@@ -137,5 +146,27 @@ public class Individual{
 	*/
 	public City getCityByIndex(int index){
 		return cities[index];
-	}    	
+	}
+	
+	/**
+	 * Calculate the cost of the current solution
+	 */
+	private void calculateCost(){
+		cost = 0;
+		for(int i = 0; i < cities.length; i++){
+			City curr_city = cities[i];
+			City next_city;
+			double cost_to_node = 0;
+
+			if(i != cities.length-1){
+				next_city = cities[i+1];
+			}else{ //return to start
+				next_city = cities[0];
+			}
+			cost_to_node = curr_city.getEdge(next_city.getNodeNum());
+			cost += cost_to_node;
+		}
+
+		return cost;
+	}
 }
