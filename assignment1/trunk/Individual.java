@@ -7,12 +7,16 @@ public class Individual{
 	private double[][] TSPGraph;
 
 	/** Contains the cities with their associated weights
-	Should contain ame information as above (TSPGraph) */
+	Should contain same information as above (TSPGraph) */
 	private City[] cities;
 
-	/*
+	/**
+	* CONSTRUCTOR
 	* Takes given TSP Graph and assigns to local variable
-	* Initialises solution array list
+	* Initialises solution array list and generate a set of random solutions
+	* @param double[][] TSPGraph - lookup table of city edges
+	* @param City[] cities - array of cities, current solution
+	* @param boolean random - if true, will shuffle the supplied City array
 	*/
 	public Individual(double[][] TSPGraph, City[] cities, boolean random){
 		this.TSPGraph = TSPGraph.clone();
@@ -24,8 +28,7 @@ public class Individual{
 	}
 
 	/*
-	* Gets the basic solution set
-	* Returns a single array of cities
+	* Gets the basic solution set and puts it into the City[]
 	* Should not generate any errors
 	*/
 	public void generateRandomSolution(){
@@ -42,7 +45,7 @@ public class Individual{
 
 	/**
 	* Given a city, return its cost
-	* Returns a double, does not generate errors
+	* @return double - cost of current solution
 	*/
 	public double getCost(){
 		double total = 0;
@@ -66,34 +69,43 @@ public class Individual{
 
 	/**
 	* Return the number of cities in the solution set
+	* @return int - number of cities in this solution
 	*/
 	public int getNumCities(){
 		return cities.length;
 	}
 
 	/**
-	*
+	* Return the City array
+	* @return City[] - solution set in the form of a City[]
 	*/
 	public City[] getCities(){
 		return cities;
 	}
 
 	/**
-	*
+	* Set a new City array
+	* @param City[] new_cities - the new array of cities
 	*/
 	public void setCities(City[] new_cities){
 		cities = new_cities;
 	}
 
 	/**
-	*
+	* Set a particular city in the City array
+	* @param int index - array index position
+	* @param City city - City to be set at the index position
 	*/
 	public void setCity(int index, City city){
 		cities[index] = city;
 	}
 
 	/**
-	*
+	* Get the edge cost of a City from the array
+	* Queries the City object
+	* @param int city_from - start city
+	* @param int city_to - end city
+	* @return double - cost to travel between cities
 	*/
 	public double getEdgeCost(int city_from, int city_to){
 		City from = getCityByNumber(city_from);
@@ -105,6 +117,8 @@ public class Individual{
 
 	/**
 	* Return the number of cities in the solution set
+	* @param int node_num - City node number to be found
+	* @return City - City with supplied node number, null if not found
 	*/
 	public City getCityByNumber(int node_num){
 		for(int i = 0; i < cities.length; i++){
@@ -115,8 +129,12 @@ public class Individual{
 		return null;
 	}
 
+	/**
+	* Return the City based on its index position in the City array
+	* @param int index - index position of array
+	* @return City - City at position index in the array
+	*/
 	public City getCityByIndex(int index){
 		return cities[index];
-	}
-    	
+	}    	
 }
