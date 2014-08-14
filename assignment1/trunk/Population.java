@@ -79,14 +79,25 @@ public class Population{
 	}
 
 	/**
-	* Return the average cost of this solution
-	* @return double - average cost of this solution
+	* Return the total cost of all solutions
+	* @return double - total cost of all solutions
 	*/
-	public double getAverageCost(){
+	public double getTotalCost(){
 		double cost = 0;
 		for(int i = 0; i < solution_set.length; i++){
 			cost += solution_set[i].getCost();
 		}
+		return cost;
+	}
+	
+	/**
+	* Return the average cost of this solution
+	* @return double - average cost of this solution
+	*/
+	public double getAverageCost(){
+		double cost = getTotalCost();
+		
 		return (cost/solution_set.length);
 	}
+	
 }

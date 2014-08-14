@@ -19,13 +19,45 @@ public class Selection{
 	* Using this information, "spin a wheel" where each solution has the probability of
 	* being picked the same as their contribution.
 	* @param Population - solution set
-	* @param num_population - number of random solutions to be used for selection
 	* @param solution_size - number of solutions to select based on the highest profits
     * @return Population
 	*/
-	public Population fitness_proportional(Population solution, int num_population, int solution_size){
-		Population modified_solution = new Population(num_population);
-
+	public Population fitness_proportional(Population solution, int solution_size){
+		int length = solution.getSize();
+		
+		// Make sure the given population is not already less than or equal
+		// to the given solution size
+		if (length <= solution_size){
+			return solution;
+		}
+		
+		// Create new population
+		Population modified_solution = new Population(solution_size);
+		
+		// Get the total fitness
+		double totalFitness = solution.getTotalCost();
+		
+		// Find the solutions for the population
+		double next, total, current;
+		int i, j;
+		for (i = 0; i < solution_size; i++){
+			// Get a number between 0 and 1
+			next = rnd.nextDouble();
+			
+			// Cycle through until the probability is found
+			total = 0;
+			j = -1;
+			while (j < length & total <= next){
+				j++;
+				
+				current = solution.getSolution(j).getCost() / totalFitness;
+				total += current;
+			}
+			
+			// Save the solution found
+			modified_solution.setSolution(i, solution.getSolution(j));
+		}
+		
 		return modified_solution;
 	}
 
