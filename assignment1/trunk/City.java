@@ -11,19 +11,19 @@ public class City{
 		visited = false;
 	}
 
-	public void add_edge(int to_city, double edge_cost){
+	public void addEdge(int to_city, double edge_cost){
 		edges[to_city] = edge_cost;
 	}
 
-	public int get_node_num(){
+	public int getNodeNum(){
 		return node;
 	}
 
-	public double get_edge(int city){
+	public double getEdge(int city){
 		return edges[city];
 	}
 
-	public void has_been_visited(boolean b){
+	public void hasBeenVisited(boolean b){
 		visited = b;
 	}
 
@@ -32,7 +32,7 @@ public class City{
 	}
 
 	public String toString(City to_city){
-		int next_city = to_city.get_node_num();
+		int next_city = to_city.getNodeNum();
 		return "CITY: " + node + ",\t COST TO CITY " + next_city + " = " + edges[next_city];
 	}
 }

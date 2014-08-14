@@ -1,22 +1,16 @@
 import java.util.Random;
-import java.util.Arrays;
-import java.util.Comparator;
 
 public class Selection{
 	
 	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
 	private Random rnd;
-	/** For this purpose used to compute a total cost for each solution */
-    private Individual individual;
 
 	/**
 	* CONSTRUCTOR
 	* Initialise the random number generator
-	* @param City[][]
 	*/
-	public Selection(Individual individual){
+	public Selection(){
 		rnd = new Random();
-		this.individual = individual;
 	}
 
 	/**
@@ -29,8 +23,8 @@ public class Selection{
 	 * @param solution_size - number of solutions to select based on the highest profits
      * @return City[][]
 	 */
-	public City[][] fitness_proportional(City[][] solution, int num_population, int solution_size){
-		City[][] modified_solution = null;
+	public Population fitness_proportional(Population solution, int num_population, int solution_size){
+		Population modified_solution = new Population(num_population);
 
 		return modified_solution;
 	}
@@ -44,32 +38,25 @@ public class Selection{
 	* @param solution_size - number of solutions to select based on the highest profits
     * @return City[][]
 	*/
-	public City[][] tournament_selection(City[][] solution, int num_population, int solution_size){
+	public Population tournament_selection(Population solution, int num_population, int solution_size){
 		//can't get a larger solution set than what was supplied!!!
-		if(num_population > solution.length || num_population < solution_size){
+		if(num_population > solution.getSize() || num_population < solution_size){
 			System.out.println("ERROR: requested solution size is outside the bounds of the supplied data set - tournament_selection()");
 			System.out.println("RETURNED: original supplied data");
 		}else{
-			int size = solution[0].length;
-			City[][] reduced_solution = new City[num_population][size];
+			int size = solution.getSolution(0).getNumCities();
+			Population reduced_solution = new Population(num_population);
 
 			//randomly select "num_population" solutions
 			for(int i = 0; i < num_population; i++){
-				reduced_solution[i] = solution[rnd.nextInt(solution.length)];
+				reduced_solution.setSolution(i, solution.getSolution(rnd.nextInt(solution.getSize())));
 			}
-
-			//sorts the reduced_solution array based on their total cost
-			Arrays.sort(reduced_solution, new Comparator<City[]>() {
-	            @Override
-	            public int compare(City[] c1, City[] c2) {
-	                return (int)(individual.get_cost(c2) - individual.get_cost(c1));
-	            }
-	        });
+			reduced_solution.sort();
 
 			//as the array is now sorted, select "solution_size" number of solutions, starting from 0
-			City[][] profit_solution = new City[solution_size][size];
+			Population profit_solution = new Population(solution_size);
 	        for(int j = 0; j < solution_size; j++){
-	        	profit_solution[j] = reduced_solution[j];
+	        	profit_solution.setSolution(j, reduced_solution.getSolution(j));
 	        }
 
 			return profit_solution;
@@ -83,8 +70,9 @@ public class Selection{
 	* @param City[][]
     * @return City[][]
 	*/
-	public City[][] elitism(City[][] solution){
-		City[][] modified_solution = null;
+	public Population elitism(Population solution, int num_population){
+		solution.sort();
+		Population modified_solution = new Population(num_population);
 
 		return modified_solution;
 	}

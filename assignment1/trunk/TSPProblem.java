@@ -23,9 +23,9 @@ public class TSPProblem {
     /** Contains the four primary mutation operators (returns modified parent object) */
     private Mutators mutators;
     /** Contains the four primary operator functions (returns children) */
-    private Operators operators;
+    //private Operators operators;
     /**  */
-    private Selection selection;
+    //private Selection selection;
 	
     /**
     * CONSTRUCTOR
@@ -78,7 +78,7 @@ public class TSPProblem {
                     TSPGraph[row][node] = cost;
                     
                     //update cities
-                    cities[row].add_edge(node, cost);
+                    cities[row].addEdge(node, cost);
                     
                     //go to next city location
                     col++;
@@ -87,11 +87,12 @@ public class TSPProblem {
             br.close();
             
             //initialise objects for solution generation, mutation and operators
-            individual = new Individual(TSPGraph, cities);
-            population = new Population(individual);
+            //individual = new Individual(TSPGraph, cities);
+            population = new Population();
+            population.generateRandomSolutionSet(TSPGraph, cities, 2);
             mutators = new Mutators();
-            operators = new Operators();
-            selection = new Selection(individual);
+            //operators = new Operators();
+            //selection = new Selection(individual);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -103,8 +104,7 @@ public class TSPProblem {
     * Use for regression testing (DO NOT MODIFY)
     */
     private void testing(){
-        City[][] result = population.get_solution_set(2);
-        printSolution(result);
+        printSolution(population);
     }
 
     /*****************************************
@@ -113,33 +113,22 @@ public class TSPProblem {
      *****************************************
      *****************************************/
 
-    private void testing_alec(){
-        City[][] result = population.get_solution_set(2);
-        printSolution(result);
+    private void testingAlec(){
+
     }
 
-    private void testing_matt(){
-        City[][] result = population.get_solution_set(2);
-        
-        Operators ops = new Operators();
-        City[][] soln = ops.edge_recombination(result);
-        
-        printSolution(result);
+    private void testingMatt(){
+
     }
 
-    private void testing_will(){
-        int num_solutions = 2;
-        City[][] result = population.get_solution_set(num_solutions);
-        //printSolution(result);
-        result = operators.cycle_crossover(result);
-        printSolution(result);
-        result = selection.tournament_selection(result, num_solutions, 1);
-        printSolution(result);
+    private void testingWill(){
+        printSolution(population);
+        mutators.swap(population.getSolution(0));
+        printSolution(population);
     }
 
-    private void testing_sami(){
-        City[][] result = population.get_solution_set(2);
-        printSolution(result);
+    private void testingSami(){
+
     }
 
 
@@ -147,18 +136,18 @@ public class TSPProblem {
      * For Testing only
      * Given a City solution array, print its info.
      */
-    private void printSolution(City[][] result){
-        for(int i = 0; i < result.length; i++) {
+    private void printSolution(Population result){
+        for(int i = 0; i < result.getSize(); i++) {
             System.out.println("***** Solution " + (i+1) + " *****");
-            City[] city = result[i];
-            for(int j = 0; j < city.length; j++){
-                if(j != city.length-1){
-                    System.out.println(city[j].toString(city[j+1]));
+            Individual solution = result.getSolution(i);
+            for(int j = 0; j < solution.getNumCities(); j++){
+                if(j != solution.getNumCities()-1){
+                    System.out.println(solution.getCityByIndex(j).toString(solution.getCityByIndex(j+1)));
                 }else{ //return to start
-                    System.out.println(city[j].toString(city[0]));
+                    System.out.println(solution.getCityByIndex(j).toString(solution.getCityByIndex(0)));
                 }
             }
-            System.out.println("Total Cost = " + individual.get_cost(result[i]));
+            System.out.println("Total Cost = " + solution.getCost());
             System.out.println();
         }
     }
@@ -208,10 +197,10 @@ public class TSPProblem {
         //Uncomment your testing function when needed
 
         //TSPInstance.testing();   
-        //TSPInstance.testing_alec();
-        TSPInstance.testing_matt();
-        //TSPInstance.testing_will();
-        //TSPInstance.testing_sami();  
+        //TSPInstance.testingAlec();
+        //TSPInstance.testingMatt();
+        TSPInstance.testingWill();
+        //TSPInstance.testingSami();  
     }
     
     /**

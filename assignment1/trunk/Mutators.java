@@ -18,32 +18,32 @@ public class Mutators{
 	* @param City[] - an individual candidate of the population to mutate
     * @return City[] - the insertion mutated individual
 	*/
-	public City[] insert(City[] individual){
+	public void insert(Individual individual){
         
         //get city move pos and place to put city
-        int move = rnd.nextInt(individual.length);
-        int insert = rnd.nextInt(individual.length);
+        int move = rnd.nextInt(individual.getNumCities());
+        int insert = rnd.nextInt(individual.getNumCities());
         
         //Temp City Variable
         City temp;
-        City moveCity = individual[move];
+        City moveCity = individual.getCityByIndex(move);
         
         //move all other cities down from move
         while (true) {
             
             //shift elements down
             if(move > insert+1) {
-                temp = individual[move-1];
-                individual[move-1] = moveCity;
-                individual[move] = temp;
+                temp = individual.getCityByIndex(move-1);
+                individual.setCity(move-1, moveCity);
+                individual.setCity(move, temp);
                 
                 move --;
                 
             //shift elements up
             } else if (move < insert) {
-                temp = individual[move+1];
-                individual[move+1] = moveCity;
-                individual[move] = temp;
+                temp = individual.getCityByIndex(move+1);
+                individual.setCity(move+1, moveCity);
+                individual.setCity(move, temp);
                 
                 move++;
             
@@ -52,8 +52,6 @@ public class Mutators{
                 break;
             }
         }
-        
-		return individual;
 	}	
 
 	/**
@@ -61,15 +59,15 @@ public class Mutators{
 	* @param City[] - an individual candidate of the population to mutate
 	* @return City[] - a solution after mutation has occured
 	*/
-	public City[] swap(City[] individual){
-		int posA = rnd.nextInt(individual.length);
-		int posB = rnd.nextInt(individual.length);
+	public void swap(Individual individual){
+		int posA = rnd.nextInt(individual.getNumCities());
+		int posB = rnd.nextInt(individual.getNumCities());
 
-		City temp = individual[posA];
-		individual[posA] = individual[posB];
-		individual[posB] = temp;
+		System.out.println(posA + " " + posB);
 
-		return individual;
+		City temp = individual.getCityByIndex(posA);
+		individual.setCity(posA, individual.getCityByIndex(posB));
+		individual.setCity(posB, temp);
 	}
 
 	/**
@@ -77,32 +75,30 @@ public class Mutators{
 	* @param individual The array of cities to be mutated
 	* @return City[] 
 	*/
-	public City[] inversion(City[] individual){
+	public void inversion(Individual individual){
 
 		// Find the subset of position to mutate
-		int posA = rnd.nextInt(individual.length);
-		int posB = rnd.nextInt(individual.length);
+		int posA = rnd.nextInt(individual.getNumCities());
+		int posB = rnd.nextInt(individual.getNumCities());
 		
 		// Ensure that posA is less than posB
 		if (posA > posB) {
 			int posTemp = posA;
 			posA = posB;
 			posB = posTemp;
-		} else if (posA == posB) {
-			return individual;
 		}
-		
-		// Invert the values between posA and posB (inclusive)
-		int subsetSize = (int) Math.ceil((posB - posA)/2.0);
-		
-		for (int i = posA; i <= subsetSize; i++) {
-			City cityTemp = individual[i];
-			individual[i] = individual[posB];
-			individual[posB] = cityTemp;
-			posB--;
+
+		if (posA != posB) {
+			// Invert the values between posA and posB (inclusive)
+			int subsetSize = (int) Math.ceil((posB - posA)/2.0);
+			
+			for (int i = posA; i <= subsetSize; i++) {
+				City cityTemp = individual.getCityByIndex(i);
+				individual.setCity(i, individual.getCityByIndex(posB));
+				individual.setCity(posB, cityTemp);
+				posB--;
+			}
 		}
-		
-		return individual;
 	}
 
 	/**
@@ -110,10 +106,10 @@ public class Mutators{
 	 * @param individual The array of cities to be mutated
 	 * @return City[] 
 	 */
-	public City[] scramble(City[] individual){
+	public void scramble(Individual individual){
 		// Find the subset of position to mutate
-		int posA = rnd.nextInt(individual.length);
-		int posB = rnd.nextInt(individual.length);
+		int posA = rnd.nextInt(individual.getNumCities());
+		int posB = rnd.nextInt(individual.getNumCities());
 		
 		// Ensure that posA is less than posB
 		if (posA > posB){
@@ -121,20 +117,17 @@ public class Mutators{
 			posA = posB;
 			posB = posTemp;
 		}
-		else if (posA == posB){
-			return individual;
-		}
 		
-		// Scramble the positions in the array
-		int subsetSize = posB - posA;
-		for (int i = posA; i <= posB; i++){
-			int index = rnd.nextInt(subsetSize);
-			
-			City cityTemp = individual[i];
-			individual[i] = individual[index + posA];
-			individual[index + posA] = cityTemp;
+		if (posA != posB){
+			// Scramble the positions in the array
+			int subsetSize = posB - posA;
+			for (int i = posA; i <= posB; i++){
+				int index = rnd.nextInt(subsetSize);
+
+				City cityTemp = individual.getCityByIndex(i);
+				individual.setCity(i, individual.getCityByIndex(index + posA));
+				individual.setCity(index + posA, cityTemp);
+			}
 		}
-		
-		return individual;
 	}
 }
