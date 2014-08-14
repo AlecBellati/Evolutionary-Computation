@@ -126,7 +126,7 @@ public class Individual{
 	}
 
 	/**
-	* Return the number of cities in the solution set
+	* Get the city in the set with the City node number that is given
 	* @param int node_num - City node number to be found
 	* @return City - City with supplied node number, null if not found
 	*/
