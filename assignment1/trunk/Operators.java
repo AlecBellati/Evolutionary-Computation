@@ -23,7 +23,7 @@ public class Operators{
     * @param Individual parentB
     * @return Individual - the child generate from the amalgamation of the two parents
 	*/
-	public Individual order_crossover(Individual parentA, Individual parentB){
+	public Individual orderCrossover(Individual parentA, Individual parentB){
 		Individual child = new Individual(parentA.getNumCities());
 
 		return child;
@@ -37,7 +37,7 @@ public class Operators{
     * @param Individual parentB
     * @return Individual[] - the two children generated from the amalgamation of the two parents
 	*/
-	public Individual[] pmx_crossover(Individual parentA, Individual parentB){
+	public Individual[] pmxCrossover(Individual parentA, Individual parentB){
 		int length = parentA.getNumCities();
 		//this assume all solutions are of the same length!
 		Individual[] children = new Individual[2];
@@ -142,7 +142,7 @@ public class Operators{
     * @param Individual parentB
     * @return Individual[] - the children generated from the amalgamation of the two parents
 	*/
-	public Individual[] cycle_crossover(Individual parentA, Individual parentB){
+	public Individual[] cycleCrossover(Individual parentA, Individual parentB){
 		//this assume all solutions are of the same length!
 		Individual[] children = new Individual[2];
 		//holds the crossover indicies used in the second stage to generate children
@@ -179,7 +179,7 @@ public class Operators{
 				node_num = parentB.getCityByIndex(node_num).getNodeNum();
 
 				//parent A
-				current_node = parents[0][node_num];
+				current_node = parentA.getCityByIndex(node_num);
 				index = node_num;
 				j++;
 			}
@@ -196,8 +196,8 @@ public class Operators{
     * @param Individual city
     */
     private void setVisited(Individual city){
-        for(int j = 0; j < city.length; j++){
-            city.get(j).has_been_visited(false);
+        for(int j = 0; j < city.getNumCities(); j++){
+            city.getCityByIndex(j).hasBeenVisited(false);
         }
     }
 
@@ -207,7 +207,12 @@ public class Operators{
     * @param Individual parentB
     * @return Individual - the child generate from the amalgamation of the two parents
 	*/
-	public Individual edge_recombination(Individual parentA, Individual parentB){
+	public Individual edgeRecombination(Individual parentA, Individual parentB){
+        
+        //create parents array of cities like it was originally - thanks Alec <_<
+        City[][] parents = new City[2][parentA.getNumCities()];
+        parents[0] = parentA.getCities();
+        parents[1] = parentB.getCities();
         
         //Create solution array
 		City[][] solution = new City[1][parents[0].length];
@@ -253,12 +258,12 @@ public class Operators{
                     
                     //if left not added, add it now
                     if(!doneLeft) {
-                        arr.add(this.new ElementEdge(parents[i][left]));
+                        arr.add(new ElementEdge(parents[i][left]));
                     }
                     
                     //if right not added, add it now
                     if(!doneRight) {
-                        arr.add(this.new ElementEdge(parents[i][right]));
+                        arr.add(new ElementEdge(parents[i][right]));
                     }
                     
                     //update table entry
@@ -268,8 +273,8 @@ public class Operators{
                 //else add new entry and add edges
                 } else {
                     ArrayList<ElementEdge> e = new ArrayList<ElementEdge>();
-                    e.add(this.new ElementEdge(parents[i][left]));
-                    e.add(this.new ElementEdge(parents[i][right]));
+                    e.add(new ElementEdge(parents[i][left]));
+                    e.add(new ElementEdge(parents[i][right]));
                     edgeListing.put(c, e);
                 }
                 //increase cityCount
@@ -281,7 +286,7 @@ public class Operators{
         
         
         /*Uncomment to print out the table and the parents*/
-        //print_table(edgeListing, parents);
+        //printTable(edgeListing, parents);
         
         
         //insert random starting city
@@ -305,7 +310,7 @@ public class Operators{
                 System.out.println("]");
             }
             
-            print_table(edgeListing, parents);
+            printTable(edgeListing, parents);
             */
             
             
@@ -416,13 +421,14 @@ public class Operators{
         */
         
         //return new solution
-		return solution;
+		return new Individual(solution[0] , false);
 	}
     
     /**
      * Test printout to show what the Hashtable looks like
+     * DON'T CHANGE THE SIGNATURE - IT'S A SPECIFIC TESTING FUNCTION FOR EDGE RECOMBINATION
      */
-    private void printTable(Hashtable<City, ArrayList<ElementEdge>> hash, Population parents) {
+    private void printTable(Hashtable<City, ArrayList<ElementEdge>> hash, City[][] parents) {
         for(int i = 0; i < parents.length; i++) {
             System.out.print("Parents[" + i + "] = [");
             for(int j = 0; j < parents[i].length; j++) {
@@ -438,9 +444,9 @@ public class Operators{
             System.out.print(String.format("%2d      |", c.getNodeNum()));
             for(ElementEdge ee : edges) {
                 if(ee.get_count() > 1) {
-                    System.out.print(String.format("%2d+ ", ee.element.getNodeNum()));
+                    System.out.print(String.format("%2d+ ", ee.get_city().getNodeNum()));
                 } else {
-                    System.out.print(String.format("%2d  ", ee.element.getNodeNum()));
+                    System.out.print(String.format("%2d  ", ee.get_city().getNodeNum()));
                 }
             }
             System.out.println();

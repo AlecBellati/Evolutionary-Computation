@@ -22,7 +22,7 @@ public class TSPProblem {
     /** Contains the four primary mutation operators (returns modified parent object) */
     private Mutators mutators;
     /** Contains the four primary operator functions (returns children) */
-    //private Operators operators;
+    private Operators operators;
     /** Three primary selection methods for filtering solutions */
     private Selection selection;
 	
@@ -91,7 +91,7 @@ public class TSPProblem {
             population = new Population(2);
             population.generateRandomSolutionSet(cities);
             mutators = new Mutators();
-            //operators = new Operators();
+            operators = new Operators();
             selection = new Selection();
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,6 +119,7 @@ public class TSPProblem {
 
     private void testingMatt(){
         printSolution(population);
+        Individual recombine = operators.edgeRecombination(population.getSolution(0), population.getSolution(1));
     }
 
     private void testingWill(){
@@ -199,8 +200,8 @@ public class TSPProblem {
 
         //TSPInstance.testing();   
         //TSPInstance.testingAlec();
-        //TSPInstance.testingMatt();
-        TSPInstance.testingWill();
+        TSPInstance.testingMatt();
+        //TSPInstance.testingWill();
         //TSPInstance.testingSami();  
     }
     
