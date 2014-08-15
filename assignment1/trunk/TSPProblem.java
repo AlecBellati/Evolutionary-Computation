@@ -88,7 +88,7 @@ public class TSPProblem {
             
             //initialise objects for solution generation, mutation and operators
             //individual = new Individual(TSPGraph, cities);
-            population = new Population(2);
+            population = new Population(20);
             population.generateRandomSolutionSet(cities);
             mutators = new Mutators();
             operators = new Operators();
@@ -118,8 +118,12 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        printSolution(population);
-        Individual recombine = operators.edgeRecombination(population.getSolution(0), population.getSolution(1));
+        //printSolution(population);
+        
+        for(int i = 0; i<20; i+=2) {
+            Individual recombine = operators.edgeRecombination(population.getSolution(i), population.getSolution(i+1));
+        }
+        
     }
 
     private void testingWill(){
