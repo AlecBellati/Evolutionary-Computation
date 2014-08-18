@@ -20,6 +20,26 @@ public class Population{
 	}
 
 	/**
+	* CONSTRUCTOR
+	* Combines two populations
+	* @param Population A
+	* @param Population B
+	*/
+	public Population(Population A, Population B){
+		solution_set = new Individual[A.getSize() + B.getSize()];
+
+		Individual[] solutions = A.getSolutionSet();
+		for(int i = 0; i < A.getSize(); i++){
+			solution_set[i] = solutions[i];
+		}
+
+		solutions = B.getSolutionSet();
+		for(int j = A.getSize(); j < (A.getSize() + B.getSize()); j++){
+			solution_set[j] = solutions[j-A.getSize()];
+		}
+	}
+
+	/**
 	* Gets a basic set of solutions - specified by the user
 	* Should not generate any errors
 	* @param double[][] TSPGraph - lookup table of city edges
@@ -73,7 +93,7 @@ public class Population{
 		Arrays.sort(solution_set, new Comparator<Individual>() {
 	        @Override
 	        public int compare(Individual c1, Individual c2) {
-	        	return (int)(c1.getCost() - c2.getCost());
+	        	return (int)(c2.getCost() - c1.getCost());
 	        }
 	    });
 	}
@@ -98,6 +118,15 @@ public class Population{
 		double cost = getTotalCost();
 		
 		return (cost/solution_set.length);
+	}
+
+	/**
+	* Return the best tour from this population
+	* @return Individual - best solution from this population
+	*/
+	public Individual getBestSolution(){
+		sort();
+		return solution_set[0];
 	}
 	
 }
