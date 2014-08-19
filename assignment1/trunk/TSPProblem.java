@@ -90,7 +90,7 @@ public class TSPProblem {
             
             //initialise objects for solution generation, mutation and operators
             //individual = new Individual(TSPGraph, cities);
-            population = new Population(20);
+            population = new Population(2);
             population.generateRandomSolutionSet(cities);
             mutators = new Mutators();
             operators = new Operators();
@@ -127,7 +127,7 @@ public class TSPProblem {
 
     private void testingWill(){
         printSolution(population);
-        mutators.swap(population.getSolution(0));
+        mutators.insert(population.getSolution(0));
         printSolution(population);
     }
 

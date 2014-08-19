@@ -25,6 +25,8 @@ public class Operators{
 	*/
 	public Individual[] orderCrossover(Individual parentA, Individual parentB){
 		Individual[] child = new Individual[2];
+        child[0] = parentA;
+        child[1] = parentB;
 
 		return child;
 	}

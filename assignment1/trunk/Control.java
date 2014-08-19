@@ -59,7 +59,7 @@ public class Control{
             System.out.println("\n\n*************NEW GENERATION*************");
 			while(count < population_size){
                 System.out.print("[");
-                System.out.println(
+                System.out.println();
                 System.out.println("count = " + count);
 				individualA = population.getSolution(rnd.nextInt(population.getSize()));
 				individualB = population.getSolution(rnd.nextInt(population.getSize()));
@@ -122,8 +122,6 @@ public class Control{
 				}
 			}
             
-            //only select the next generation iff we're going to compute another generation
-            if(i+1 < generations) {
                 System.out.println("selection now");
                 rand = rnd.nextInt(3);
                 switch(rand){
@@ -140,7 +138,6 @@ public class Control{
                         population = selection.elitism(population, count/modular_size);
                         break;
                 }
-            }
             
             //reset count for the next generation
             count = population.getSize();

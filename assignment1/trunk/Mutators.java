@@ -36,10 +36,10 @@ public class Mutators{
         while (move > insert+1) {
             //shift elements down
             temp = individual.getCityByIndex(move-1);
-            individual.setCity(move-1, moveCity);
             individual.setCity(move, temp);
-            move --;
+            move--;
         }
+        individual.setCity(move, moveCity);
 	}	
 
 	/**

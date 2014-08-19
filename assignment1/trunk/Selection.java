@@ -107,7 +107,9 @@ public class Selection{
 		solution.sort();
 		Population modified_solution = new Population(num_population);
 
-		return modified_solution;
+
+		return solution;
+		//return modified_solution;
 	}
 
 	/**
