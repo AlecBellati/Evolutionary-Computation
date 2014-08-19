@@ -167,4 +167,12 @@ public class Individual{
 			cost += cost_to_node;
 		}
 	}
+    
+    public void print() {
+        System.out.print("[ ");
+        for(int j = 0; j < cities.length; j++){
+            System.out.print(cities[j].getNodeNum() + " ");
+        }
+        System.out.println("]");
+    }
 }

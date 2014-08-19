@@ -143,8 +143,11 @@ public class Operators{
     * @return Individual[] - the children generated from the amalgamation of the two parents
 	*/
 	public Individual[] cycleCrossover(Individual parentA, Individual parentB){
+        
 		//this assume all solutions are of the same length!
 		Individual[] children = new Individual[2];
+        children[0] = new Individual(parentA.getNumCities());
+        children[1] = new Individual(parentA.getNumCities());
 		//holds the crossover indicies used in the second stage to generate children
 		ArrayList<String> crossover = new ArrayList<String>();
 
@@ -184,8 +187,10 @@ public class Operators{
 				j++;
 			}
 		}
+        
 		//reset the "visited" variable in each City object
 		setVisited(children[0]);
+        setVisited(children[1]);
 
 		return children;
 	}

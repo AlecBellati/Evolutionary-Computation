@@ -25,6 +25,8 @@ public class TSPProblem {
     private Operators operators;
     /** Three primary selection methods for filtering solutions */
     private Selection selection;
+    /** Control class to handle the GA/GP */
+    private Control control;
 	
     /**
     * CONSTRUCTOR
@@ -93,6 +95,8 @@ public class TSPProblem {
             mutators = new Mutators();
             operators = new Operators();
             selection = new Selection();
+            control = new Control();
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -118,12 +122,7 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        //printSolution(population);
-        
-        for(int i = 0; i<20; i+=2) {
-            Individual recombine = operators.edgeRecombination(population.getSolution(i), population.getSolution(i+1));
-        }
-        
+        printSolution(control.runSequence(cities, cities.length, 2, 1));
     }
 
     private void testingWill(){
@@ -200,8 +199,8 @@ public class TSPProblem {
         
         TSPProblem TSPInstance = new TSPProblem(fileToLoad); 
 
+        
         //Uncomment your testing function when needed
-
         //TSPInstance.testing();   
         //TSPInstance.testingAlec();
         TSPInstance.testingMatt();

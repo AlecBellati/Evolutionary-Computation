@@ -50,7 +50,7 @@ public class Mutators{
 		int posA = rnd.nextInt(individual.getNumCities());
 		int posB = rnd.nextInt(individual.getNumCities());
 
-		System.out.println(posA + " " + posB);
+		//System.out.println(posA + " " + posB);
 
 		City temp = individual.getCityByIndex(posA);
 		individual.setCity(posA, individual.getCityByIndex(posB));

@@ -27,6 +27,7 @@ public class Population{
 	*/
 	public Population(Population A, Individual[] B){
 		solution_set = new Individual[A.getSize() + B.length];
+        num_solutions = A.getSize() + B.length;
 
 		Individual[] solutions = A.getSolutionSet();
 		for(int i = 0; i < A.getSize(); i++){
