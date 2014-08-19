@@ -122,7 +122,9 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        population = control.runSequence(cities, 50, 100, 10000, 1);
+        int solution_size = 5, population_size = 10000, generations = 20;
+        double mutation_percentage = 0.03;
+        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, 1);
         printSolution(population);
 
         System.out.println();
