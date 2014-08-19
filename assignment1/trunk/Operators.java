@@ -149,7 +149,7 @@ public class Operators{
 		//this assume all solutions are of the same length!
 		Individual[] children = new Individual[2];
         children[0] = new Individual(parentA.getNumCities());
-        children[1] = new Individual(parentA.getNumCities());
+        children[1] = new Individual(parentB.getNumCities());
 		//holds the crossover indicies used in the second stage to generate children
 		ArrayList<String> crossover = new ArrayList<String>();
 
@@ -169,6 +169,7 @@ public class Operators{
 			//goes to a new node until returns to a visited node
 			//this loop will start at parentA and then go to parentB 
 			//before setting current_node to the next node in the cycle path in parentA
+            j = 0;
 			while(!current_node.visited()){
 				if(j%2 == 0){
 					children[0].setCity(index, parentA.getCityByIndex(index));
@@ -180,14 +181,16 @@ public class Operators{
 
 				node_num = current_node.getNodeNum();
 				current_node.hasBeenVisited(true);
+
 				//parent B
 				node_num = parentB.getCityByIndex(node_num).getNodeNum();
 
 				//parent A
 				current_node = parentA.getCityByIndex(node_num);
 				index = node_num;
-				j++;
+
 			}
+            j++;
 		}
         
 		//reset the "visited" variable in each City object

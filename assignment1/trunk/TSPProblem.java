@@ -126,9 +126,47 @@ public class TSPProblem {
     }
 
     private void testingWill(){
-        printSolution(population);
-        mutators.insert(population.getSolution(0));
-        printSolution(population);
+        /*population = new Population(2);
+        Individual testI = new Individual(9);
+        testI.setCity(0, new City(0, 9));
+        testI.setCity(1, new City(1, 9));
+        testI.setCity(2, new City(2, 9));
+        testI.setCity(3, new City(3, 9));
+        testI.setCity(4, new City(4, 9));
+        testI.setCity(5, new City(5, 9));
+        testI.setCity(6, new City(6, 9));
+        testI.setCity(7, new City(7, 9));
+        testI.setCity(8, new City(8, 9));
+
+        Individual testJ = new Individual(9);
+        testJ.setCity(0, new City(8, 9));
+        testJ.setCity(1, new City(2, 9));
+        testJ.setCity(2, new City(6, 9));
+        testJ.setCity(3, new City(7, 9));
+        testJ.setCity(4, new City(1, 9));
+        testJ.setCity(5, new City(5, 9));
+        testJ.setCity(6, new City(4, 9));
+        testJ.setCity(7, new City(0, 9));
+        testJ.setCity(8, new City(3, 9));
+
+        population.setSolution(0, testI);
+        population.setSolution(1, testJ);*/
+
+        //printSolution(population);
+        printInline(population.getSolution(0));
+        printInline(population.getSolution(1));
+        System.out.println("");
+
+        //mutators.scramble(population.getSolution(0));
+        //printSolution(control.runSequence(cities, cities.length, 2, 1));
+        Individual[] test = operators.cycleCrossover(population.getSolution(0), population.getSolution(1));
+        printInline(test[0]);
+        printInline(test[1]);
+
+        System.out.println(test[0].getNumCities());
+        System.out.println(test[1].getNumCities());
+
+        //printInline(population.getSolution(0));
     }
 
     private void testingSami(){
@@ -172,6 +210,17 @@ public class TSPProblem {
             }
             System.out.println("]\n");
         }
+    }
+
+    /**
+    *
+    */
+    private void printInline(Individual individual){
+        System.out.print("[ ");
+        for(int i = 0; i < individual.getNumCities(); i++){
+            System.out.print(individual.getCityByIndex(i).getNodeNum()+1 + " ");
+        }
+        System.out.println("]");
     }
     
     /*****************************************

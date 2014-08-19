@@ -76,7 +76,7 @@ public class Control{
 						case 0:
                             System.out.println("orderCrossover");
                             offspring = operator.orderCrossover(individualA, individualB);
-                            count+=1;
+                            count+=2;
                             break;
 						case 1:
                             System.out.println("edgeRecombination");
