@@ -23,8 +23,8 @@ public class Operators{
     * @param Individual parentB
     * @return Individual - the child generate from the amalgamation of the two parents
 	*/
-	public Individual orderCrossover(Individual parentA, Individual parentB){
-		Individual child = new Individual(parentA.getNumCities());
+	public Individual[] orderCrossover(Individual parentA, Individual parentB){
+		Individual[] child = new Individual[2];
 
 		return child;
 	}

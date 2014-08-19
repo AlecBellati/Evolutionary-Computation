@@ -25,17 +25,16 @@ public class Population{
 	* @param Population A
 	* @param Population B
 	*/
-	public Population(Population A, Population B){
-		solution_set = new Individual[A.getSize() + B.getSize()];
+	public Population(Population A, Individual[] B){
+		solution_set = new Individual[A.getSize() + B.length];
 
 		Individual[] solutions = A.getSolutionSet();
 		for(int i = 0; i < A.getSize(); i++){
 			solution_set[i] = solutions[i];
 		}
 
-		solutions = B.getSolutionSet();
-		for(int j = A.getSize(); j < (A.getSize() + B.getSize()); j++){
-			solution_set[j] = solutions[j-A.getSize()];
+		for(int j = A.getSize(); j < (A.getSize() + B.length); j++){
+			solution_set[j] = B[j-A.getSize()];
 		}
 	}
 
