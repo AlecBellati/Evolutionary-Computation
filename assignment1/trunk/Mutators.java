@@ -90,7 +90,7 @@ public class Mutators{
 			posA = posB;
 			posB = posTemp;
 		}
-		
+
 		if (posA != posB){
 			if(inversion){
 				//invert positions in the array

@@ -93,7 +93,7 @@ public class Population{
 		Arrays.sort(solution_set, new Comparator<Individual>() {
 	        @Override
 	        public int compare(Individual c1, Individual c2) {
-	        	return (int)(c2.getCost() - c1.getCost());
+	        	return (int)(c1.getCost() - c2.getCost());
 	        }
 	    });
 	}

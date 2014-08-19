@@ -107,9 +107,11 @@ public class Selection{
 		solution.sort();
 		Population modified_solution = new Population(num_population);
 
+		for(int i = 0; i < num_population; i++){
+			modified_solution.setSolution(i, solution.getSolution(i));
+		}
 
-		return solution;
-		//return modified_solution;
+		return modified_solution;
 	}
 
 	/**

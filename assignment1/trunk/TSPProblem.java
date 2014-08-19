@@ -122,7 +122,12 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        printSolution(control.runSequence(cities, cities.length, 2, 1));
+        population = control.runSequence(cities, 50, 100, 10000, 1);
+        printSolution(population);
+
+        System.out.println();
+        System.out.println("******************** BEST SOLUTION ********************\n");
+        printSolution(population.getBestSolution());
     }
 
     private void testingWill(){
@@ -154,19 +159,19 @@ public class TSPProblem {
 
         //printSolution(population);
         printInline(population.getSolution(0));
-        printInline(population.getSolution(1));
+        //printInline(population.getSolution(1));
         System.out.println("");
 
-        //mutators.scramble(population.getSolution(0));
+        mutators.inversion(population.getSolution(0));
         //printSolution(control.runSequence(cities, cities.length, 2, 1));
-        Individual[] test = operators.cycleCrossover(population.getSolution(0), population.getSolution(1));
-        printInline(test[0]);
-        printInline(test[1]);
+        //Individual[] test = operators.cycleCrossover(population.getSolution(0), population.getSolution(1));
+        //printInline(test[0]);
+        //printInline(test[1]);
 
-        System.out.println(test[0].getNumCities());
-        System.out.println(test[1].getNumCities());
+        //System.out.println(test[0].getNumCities());
+        //System.out.println(test[1].getNumCities());
 
-        //printInline(population.getSolution(0));
+        printInline(population.getSolution(0));
     }
 
     private void testingSami(){
@@ -193,6 +198,23 @@ public class TSPProblem {
             System.out.println("Total Cost = " + solution.getCost());
             System.out.println();
         }
+    }
+
+    /**
+    * For Testing only
+    * Given a City solution array (Individual), print its info.
+    * @param Individual solution - A solution set to be printed
+    */
+    private void printSolution(Individual solution){
+        for(int j = 0; j < solution.getNumCities(); j++){
+            if(j != solution.getNumCities()-1){
+                System.out.println(solution.getCityByIndex(j).toString(solution.getCityByIndex(j+1)));
+            }else{ //return to start
+                System.out.println(solution.getCityByIndex(j).toString(solution.getCityByIndex(0)));
+            }
+        }
+        System.out.println("Total Cost = " + solution.getCost());
+        System.out.println();
     }
     
     /**
