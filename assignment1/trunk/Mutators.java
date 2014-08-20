@@ -4,7 +4,7 @@ public class Mutators{
 	
 	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
 	private Random rnd;
-
+	
 	/**
 	* CONSTRUCTOR
 	* Initialise the number generator for use as a global object
@@ -95,7 +95,6 @@ public class Mutators{
 			if(inversion){
 				//invert positions in the array
 				inverseSubset(individual, posA, posB);
-				}
 			}else{
 				//scramble the positions in the array
 				int subsetSize = posB - posA;
