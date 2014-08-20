@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 public class Population{
 
@@ -9,6 +10,9 @@ public class Population{
 	/** Number of solutions this population will hold */
 	private int num_solutions;
 	
+	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
+	private Random rnd;
+
 	/**
 	* CONSTRUCTOR
 	* Used to extract multiple single solutions to form a population
@@ -17,6 +21,30 @@ public class Population{
 	public Population(int size){
 		num_solutions = size;
 		solution_set = new Individual[size];
+		
+		rnd = new Random();
+	}
+
+	/**
+	* CONSTRUCTOR
+	* Combines two populations
+	* @param Population A
+	* @param Population B
+	*/
+	public Population(Population A, Individual[] B){
+		solution_set = new Individual[A.getSize() + B.length];
+        num_solutions = A.getSize() + B.length;
+
+		Individual[] solutions = A.getSolutionSet();
+		for(int i = 0; i < A.getSize(); i++){
+			solution_set[i] = solutions[i];
+		}
+
+		for(int j = A.getSize(); j < (A.getSize() + B.length); j++){
+			solution_set[j] = B[j-A.getSize()];
+		}
+		
+		rnd = new Random();
 	}
 
 	/**
@@ -50,6 +78,15 @@ public class Population{
 	}
 
 	/**
+	* Get a random solution
+	* @return Individual - a random solution contained in solution_set
+	*/
+	public Individual getRandomSolution(){
+		int index = rnd.nextInt(num_solutions);
+		return solution_set[index];
+	}
+
+	/**
 	* Set the solution at the specific index position
 	* @param int index - index position to place solution
 	* @param Individual - solution to be inserted into the array at position index
@@ -70,6 +107,7 @@ public class Population{
 	* Sort the current solution set based on its each of their total costs
 	*/
 	public void sort(){
+		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Arrays.sort(solution_set, new Comparator<Individual>() {
 	        @Override
 	        public int compare(Individual c1, Individual c2) {
@@ -98,6 +136,15 @@ public class Population{
 		double cost = getTotalCost();
 		
 		return (cost/solution_set.length);
+	}
+
+	/**
+	* Return the best tour from this population
+	* @return Individual - best solution from this population
+	*/
+	public Individual getBestSolution(){
+		sort();
+		return solution_set[0];
 	}
 	
 }

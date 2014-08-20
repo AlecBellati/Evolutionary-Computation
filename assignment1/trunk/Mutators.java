@@ -4,7 +4,7 @@ public class Mutators{
 	
 	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
 	private Random rnd;
-
+	
 	/**
 	* CONSTRUCTOR
 	* Initialise the number generator for use as a global object
@@ -36,10 +36,10 @@ public class Mutators{
         while (move > insert+1) {
             //shift elements down
             temp = individual.getCityByIndex(move-1);
-            individual.setCity(move-1, moveCity);
             individual.setCity(move, temp);
-            move --;
+            move--;
         }
+        individual.setCity(move, moveCity);
 	}	
 
 	/**
@@ -50,7 +50,7 @@ public class Mutators{
 		int posA = rnd.nextInt(individual.getNumCities());
 		int posB = rnd.nextInt(individual.getNumCities());
 
-		System.out.println(posA + " " + posB);
+		//System.out.println(posA + " " + posB);
 
 		City temp = individual.getCityByIndex(posA);
 		individual.setCity(posA, individual.getCityByIndex(posB));
@@ -90,17 +90,11 @@ public class Mutators{
 			posA = posB;
 			posB = posTemp;
 		}
-		
+
 		if (posA != posB){
 			if(inversion){
 				//invert positions in the array
-				int subsetSize = (int) Math.ceil((posB - posA)/2.0);
-				for (int i = posA; i <= subsetSize; i++) {
-					City cityTemp = individual.getCityByIndex(i);
-					individual.setCity(i, individual.getCityByIndex(posB));
-					individual.setCity(posB, cityTemp);
-					posB--;
-				}
+				inverseSubset(individual, posA, posB);
 			}else{
 				//scramble the positions in the array
 				int subsetSize = posB - posA;
@@ -111,6 +105,24 @@ public class Mutators{
 					individual.setCity(index + posA, cityTemp);
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Inverses a subset specified
+	 * Used by inversionOrScramble and inverOver
+	 * @param Individual - The solution of cities to be mutated
+	 * @param int posA - first index of subset
+	 * @param int posB - last index of subset
+	 */
+	public void inverseSubset(Individual individual, int posA, int posB){
+		//invert positions in the array
+		int subsetSize = (int) Math.ceil((posB - posA)/2.0);
+		for (int i = posA; i <= (posA + subsetSize); i++) {
+			City cityTemp = individual.getCityByIndex(i);
+			individual.setCity(i, individual.getCityByIndex(posB));
+			individual.setCity(posB, cityTemp);
+			posB--;
 		}
 	}
 }

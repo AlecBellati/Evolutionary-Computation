@@ -10,9 +10,15 @@ public class Operators {
 	private Random rnd;
 	
 	/**
-	 * CONSTRUCTOR
-	 * Initialise the random number generator (may not be needed)
+	 * Probability of a city being selected within the same individual
+	 * in the inverOver operator 
 	 */
+	private final double INVER_OVER_PROBABILITY = 0.02;
+	
+	/**
+	* CONSTRUCTOR
+	* Initialise the random number generator (may not be needed)
+	*/
 	public Operators(){
 		rnd = new Random();
 	}
@@ -207,8 +213,11 @@ public class Operators {
 	 * @return Individual[] - the children generated from the amalgamation of the two parents
 	 */
 	public Individual[] cycleCrossover(Individual parentA, Individual parentB){
+        
 		//this assume all solutions are of the same length!
 		Individual[] children = new Individual[2];
+        children[0] = new Individual(parentA.getNumCities());
+        children[1] = new Individual(parentB.getNumCities());
 		//holds the crossover indicies used in the second stage to generate children
 		ArrayList<String> crossover = new ArrayList<String>();
 		
@@ -228,6 +237,7 @@ public class Operators {
 			//goes to a new node until returns to a visited node
 			//this loop will start at parentA and then go to parentB
 			//before setting current_node to the next node in the cycle path in parentA
+            j = 0;
 			while(!current_node.visited()){
 				if(j%2 == 0){
 					children[0].setCity(index, parentA.getCityByIndex(index));
@@ -239,18 +249,22 @@ public class Operators {
 				
 				node_num = current_node.getNodeNum();
 				current_node.hasBeenVisited(true);
+
 				//parent B
 				node_num = parentB.getCityByIndex(node_num).getNodeNum();
 				
 				//parent A
 				current_node = parentA.getCityByIndex(node_num);
 				index = node_num;
-				j++;
+
 			}
+            j++;
 		}
+        
 		//reset the "visited" variable in each City object
 		setVisited(children[0]);
-		
+		setVisited(children[1]);
+
 		return children;
 	}
 	
@@ -516,4 +530,83 @@ public class Operators {
 			System.out.println();
 		}
 	}
+  
+    /**
+	 * Performs inver-over on a given solution
+	 * @param Individual - The solution of cities to be mutated
+	 * @param Population - The Population that Individual is from
+	 */
+	public void inverOver(Individual individual, Population population){
+		// Create a copy of the individual
+		Individual newInd = new Individual(individual);
+		int size = individual.getNumCities();
+		
+		// Get the index of the starting city
+		int index = rnd.nextInt(size); 
+		
+		boolean running = true;
+		int nextIndex;
+		Individual otherInd;
+		City currCity, nextCity;
+		Mutators mutator = new Mutators();
+		while (running) {
+			// Get the next city
+			if (rnd.nextDouble() <= INVER_OVER_PROBABILITY) {
+				nextIndex = rnd.nextInt(size);
+			} else {
+				otherInd = population.getRandomSolution();
+				currCity = newInd.getCityByIndex(index);
+				nextCity = otherInd.getNextCityByNumber(currCity.getNodeNum());
+				nextIndex = newInd.getCityIndex(nextCity.getNodeNum());
+			}
+			
+			// Check whether to inverse the subset
+			if ((index + 1) == nextIndex || (index - 1) == nextIndex || index == nextIndex) {
+				running = false;
+			} else {
+				if (index < nextIndex) {
+					index++;
+					mutator.inverseSubset(newInd, index, nextIndex);
+				} else {
+					index--;
+					mutator.inverseSubset(newInd, nextIndex, index);
+				}
+			}
+			
+		}
+		
+		// Check whether to keep the new Individual
+		if (newInd.getCost() < individual.getCost()) {
+			individual = newInd;
+		}
+	}	
+	
+	/**
+     * Test printout to show what the Hashtable looks like
+     * DON'T CHANGE THE SIGNATURE - IT'S A SPECIFIC TESTING FUNCTION FOR EDGE RECOMBINATION
+     */
+    private void printTable(Hashtable<City, ArrayList<ElementEdge>> hash, City[][] parents) {
+        for(int i = 0; i < parents.length; i++) {
+            System.out.print("Parents[" + i + "] = [");
+            for(int j = 0; j < parents[i].length; j++) {
+                System.out.print(" "+parents[i][j].getNodeNum()+" ");
+            }
+            System.out.println("]");
+        }
+        
+        Set<City> keySet = hash.keySet();
+        
+        for(City c : keySet) {
+            ArrayList<ElementEdge> edges = hash.get(c);
+            System.out.print(String.format("%2d      |", c.getNodeNum()));
+            for(ElementEdge ee : edges) {
+                if(ee.get_count() > 1) {
+                    System.out.print(String.format("%2d+ ", ee.get_city().getNodeNum()));
+                } else {
+                    System.out.print(String.format("%2d  ", ee.get_city().getNodeNum()));
+                }
+            }
+            System.out.println();
+        }
+    }
 }

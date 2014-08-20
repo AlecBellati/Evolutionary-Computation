@@ -40,6 +40,17 @@ public class Individual{
 		costFound = false;
 	}
 
+	/**
+	 * ALTERNATE CONSTRUCTOR
+	 * Copies an Individual
+	 * @param Individual - the Individual being copied
+	 */
+	public Individual(Individual individual){
+		this.cities = individual.cities;
+		this.cost = individual.cost;
+		this.costFound = individual.costFound;
+	}
+
 	/*
 	* Gets the basic solution set and puts it into the City[]
 	* Should not generate any errors
@@ -131,11 +142,12 @@ public class Individual{
 	* @return City - City with supplied node number, null if not found
 	*/
 	public City getCityByNumber(int node_num){
-		for(int i = 0; i < cities.length; i++){
-			if(node_num == cities[i].getNodeNum()){
-				return cities[i];
-			}
+		int i = getCityIndex(node_num);
+		
+		if(i != -1) {
+			return cities[i];
 		}
+		
 		return null;
 	}
 
@@ -148,6 +160,39 @@ public class Individual{
 		return cities[index];
 	}
 	
+	/**
+	* Get the index of city in the set with the City node number that is given
+	* @param int node_num - City node number to be found
+	* @return City - Index of the City with supplied node number, -1 if not found
+	*/
+	public int getCityIndex(int node_num){
+		for(int i = 0; i < cities.length; i++){
+			if(node_num == cities[i].getNodeNum()){
+				return i;
+			}
+		}
+		return -1;
+	}
+/**
+	* Get the next city in the set to the City node number that is given
+	* @param int node_num - City node number of the previous City to be found
+	* @return City - City following the City with supplied node number, null if not found
+	*/
+	public City getNextCityByNumber(int node_num){
+		int i = getCityIndex(node_num);
+		
+		// Get the next city
+		if (i != -1) {
+			if ((i + 1) >= cities.length) {
+				return cities[0];
+			} else {
+				return cities[i + 1];
+			}
+		}
+		
+		return null;
+	}
+
 	/**
 	 * Calculate the cost of the current solution
 	 */
@@ -167,4 +212,12 @@ public class Individual{
 			cost += cost_to_node;
 		}
 	}
+    
+    public void print() {
+        System.out.print("[ ");
+        for(int j = 0; j < cities.length; j++){
+            System.out.print(cities[j].getNodeNum() + " ");
+        }
+        System.out.println("]");
+    }
 }

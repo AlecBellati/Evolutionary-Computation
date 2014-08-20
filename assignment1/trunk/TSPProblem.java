@@ -25,6 +25,8 @@ public class TSPProblem {
     private Operators operators;
     /** Three primary selection methods for filtering solutions */
     private Selection selection;
+    /** Control class to handle the GA/GP */
+    private Control control;
 	
     /**
     * CONSTRUCTOR
@@ -88,11 +90,13 @@ public class TSPProblem {
             
             //initialise objects for solution generation, mutation and operators
             //individual = new Individual(TSPGraph, cities);
-            population = new Population(20);
+            population = new Population(2);
             population.generateRandomSolutionSet(cities);
             mutators = new Mutators();
             operators = new Operators();
             selection = new Selection();
+            control = new Control();
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -118,18 +122,58 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        //printSolution(population);
-        
-        for(int i = 0; i<20; i+=2) {
-            Individual recombine = operators.edgeRecombination(population.getSolution(i), population.getSolution(i+1));
-        }
-        
+        int solution_size = 5, population_size = 10000, generations = 20;
+        double mutation_percentage = 0.03;
+        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, 1);
+        printSolution(population);
+
+        System.out.println();
+        System.out.println("******************** BEST SOLUTION ********************\n");
+        printSolution(population.getBestSolution());
     }
 
     private void testingWill(){
-        printSolution(population);
-        mutators.swap(population.getSolution(0));
-        printSolution(population);
+        /*population = new Population(2);
+        Individual testI = new Individual(9);
+        testI.setCity(0, new City(0, 9));
+        testI.setCity(1, new City(1, 9));
+        testI.setCity(2, new City(2, 9));
+        testI.setCity(3, new City(3, 9));
+        testI.setCity(4, new City(4, 9));
+        testI.setCity(5, new City(5, 9));
+        testI.setCity(6, new City(6, 9));
+        testI.setCity(7, new City(7, 9));
+        testI.setCity(8, new City(8, 9));
+
+        Individual testJ = new Individual(9);
+        testJ.setCity(0, new City(8, 9));
+        testJ.setCity(1, new City(2, 9));
+        testJ.setCity(2, new City(6, 9));
+        testJ.setCity(3, new City(7, 9));
+        testJ.setCity(4, new City(1, 9));
+        testJ.setCity(5, new City(5, 9));
+        testJ.setCity(6, new City(4, 9));
+        testJ.setCity(7, new City(0, 9));
+        testJ.setCity(8, new City(3, 9));
+
+        population.setSolution(0, testI);
+        population.setSolution(1, testJ);*/
+
+        //printSolution(population);
+        printInline(population.getSolution(0));
+        //printInline(population.getSolution(1));
+        System.out.println("");
+
+        mutators.inversion(population.getSolution(0));
+        //printSolution(control.runSequence(cities, cities.length, 2, 1));
+        //Individual[] test = operators.cycleCrossover(population.getSolution(0), population.getSolution(1));
+        //printInline(test[0]);
+        //printInline(test[1]);
+
+        //System.out.println(test[0].getNumCities());
+        //System.out.println(test[1].getNumCities());
+
+        printInline(population.getSolution(0));
     }
 
     private void testingSami(){
@@ -157,6 +201,23 @@ public class TSPProblem {
             System.out.println();
         }
     }
+
+    /**
+    * For Testing only
+    * Given a City solution array (Individual), print its info.
+    * @param Individual solution - A solution set to be printed
+    */
+    private void printSolution(Individual solution){
+        for(int j = 0; j < solution.getNumCities(); j++){
+            if(j != solution.getNumCities()-1){
+                System.out.println(solution.getCityByIndex(j).toString(solution.getCityByIndex(j+1)));
+            }else{ //return to start
+                System.out.println(solution.getCityByIndex(j).toString(solution.getCityByIndex(0)));
+            }
+        }
+        System.out.println("Total Cost = " + solution.getCost());
+        System.out.println();
+    }
     
     /**
     * TESTING PURPOSES: Print the graph (best to pipe to file)
@@ -173,6 +234,17 @@ public class TSPProblem {
             }
             System.out.println("]\n");
         }
+    }
+
+    /**
+    *
+    */
+    private void printInline(Individual individual){
+        System.out.print("[ ");
+        for(int i = 0; i < individual.getNumCities(); i++){
+            System.out.print(individual.getCityByIndex(i).getNodeNum()+1 + " ");
+        }
+        System.out.println("]");
     }
     
     /*****************************************
@@ -200,8 +272,8 @@ public class TSPProblem {
         
         TSPProblem TSPInstance = new TSPProblem(fileToLoad); 
 
+        
         //Uncomment your testing function when needed
-
         //TSPInstance.testing();   
         //TSPInstance.testingAlec();
         //TSPInstance.testingMatt();

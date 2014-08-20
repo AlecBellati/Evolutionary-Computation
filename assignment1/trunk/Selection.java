@@ -39,7 +39,7 @@ public class Selection{
 	* @param solution_size - number of solutions to select based on the highest profits
     * @return Population
 	*/
-	public Population fitness_proportional(Population solution, int solution_size){
+	public Population fitnessProportional(Population solution, int solution_size){
 		int length = solution.getSize();
 		
 		// Make sure the given population is not already less than or equal
@@ -87,7 +87,7 @@ public class Selection{
 	* @param solution_size - number of solutions to select based on the highest profits
     * @return Population
 	*/
-	public Population tournament_selection(Population solution, int num_population, int solution_size){
+	public Population tournamentSelection(Population solution, int num_population, int solution_size){
 		//can't get a larger solution set than what was supplied!!!
 		if(num_population > solution.getSize() || num_population < solution_size){
 			System.out.println("ERROR: requested solution size is outside the bounds of the supplied data set - tournament_selection()");
@@ -147,6 +147,10 @@ public class Selection{
 		// Select random solutions from the remainder
 		for(int i = noEliteSolns+1; i < num_population; i++){
 			modified_solution.setSolution(i, solution.getSolution(rnd.nextInt(range) + noEliteSolns));
+		}
+
+		for(int i = 0; i < num_population; i++){
+			modified_solution.setSolution(i, solution.getSolution(i));
 		}
 
 		return modified_solution;
