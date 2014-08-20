@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 public class Population{
 
@@ -9,6 +10,9 @@ public class Population{
 	/** Number of solutions this population will hold */
 	private int num_solutions;
 	
+	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
+	private Random rnd;
+
 	/**
 	* CONSTRUCTOR
 	* Used to extract multiple single solutions to form a population
@@ -17,6 +21,8 @@ public class Population{
 	public Population(int size){
 		num_solutions = size;
 		solution_set = new Individual[size];
+		
+		rnd = new Random();
 	}
 
 	/**
@@ -37,6 +43,8 @@ public class Population{
 		for(int j = A.getSize(); j < (A.getSize() + B.length); j++){
 			solution_set[j] = B[j-A.getSize()];
 		}
+		
+		rnd = new Random();
 	}
 
 	/**
@@ -66,6 +74,15 @@ public class Population{
 	* @return Individual - a specific solution, provided by the index number
 	*/
 	public Individual getSolution(int index){
+		return solution_set[index];
+	}
+
+	/**
+	* Get a random solution
+	* @return Individual - a random solution contained in solution_set
+	*/
+	public Individual getRandomSolution(){
+		int index = rnd.nextInt(num_solutions);
 		return solution_set[index];
 	}
 
