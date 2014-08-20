@@ -10,6 +10,11 @@ public class Operators{
 	private Random rnd;
 
 	/**
+	 * Probability of a city being selected within the same individual
+	 * in the inverOver operator */
+	private final double INVER_OVER_PROBABILITY = 0.02;
+	
+	/**
 	* CONSTRUCTOR
 	* Initialise the random number generator (may not be needed)
 	*/
@@ -435,6 +440,56 @@ public class Operators{
 	}
     
     /**
+	 * Performs inver-over on a given solution
+	 * @param Individual - The solution of cities to be mutated
+	 * @param Population - The Population that Individual is from
+	 */
+	public void inverOver(Individual individual, Population population){
+		// Create a copy of the individual
+		Individual newInd = new Individual(individual);
+		int size = individual.getNumCities();
+		
+		// Get the index of the starting city
+		int index = rnd.nextInt(size); 
+		
+		boolean running = true;
+		int nextIndex;
+		Individual otherInd;
+		City currCity, nextCity;
+		Mutators mutator = new Mutators();
+		while (running) {
+			// Get the next city
+			if (rnd.nextDouble() <= INVER_OVER_PROBABILITY) {
+				nextIndex = rnd.nextInt(size);
+			} else {
+				otherInd = population.getRandomSolution();
+				currCity = newInd.getCityByIndex(index);
+				nextCity = otherInd.getNextCityByNumber(currCity.getNodeNum());
+				nextIndex = newInd.getCityIndex(nextCity.getNodeNum());
+			}
+			
+			// Check whether to inverse the subset
+			if ((index + 1) == nextIndex || (index - 1) == nextIndex || index == nextIndex) {
+				running = false;
+			} else {
+				if (index < nextIndex) {
+					index++;
+					mutator.inverseSubset(newInd, index, nextIndex);
+				} else {
+					index--;
+					mutator.inverseSubset(newInd, nextIndex, index);
+				}
+			}
+			
+		}
+		
+		// Check whether to keep the new Individual
+		if (newInd.getCost() < individual.getCost()) {
+			individual = newInd;
+		}
+	}	
+	
+	/**
      * Test printout to show what the Hashtable looks like
      * DON'T CHANGE THE SIGNATURE - IT'S A SPECIFIC TESTING FUNCTION FOR EDGE RECOMBINATION
      */
