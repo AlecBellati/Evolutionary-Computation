@@ -4,7 +4,7 @@ public class Selection{
 	
 	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
 	private Random rnd;
-	private double elitismPercentage = 0.1;
+	private double ELITISM_PERCENTAGE = 0.1;
 
 	/**
 	* CONSTRUCTOR
@@ -19,15 +19,15 @@ public class Selection{
 	 * @param percent - the new elitism percentage
 	 */
 	public void setElitismPercentage(double percent) {
-		this.elitismPercentage = percent;
+		ELITISM_PERCENTAGE = percent;
 	}
 	
 	/**
 	 * Get the current elitism percentage value.
-	 * @return elitismPercentage - the current elitism selection percentage
+	 * @return ELITISM_PERCENTAGE - the current elitism selection percentage
 	 */
 	public double getElitismPercentage() {
-		return elitismPercentage;
+		return ELITISM_PERCENTAGE;
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class Selection{
 		solution.sort();
 		
 		// Select elite solutions
-		int noEliteSolns = (int) (num_population * elitismPercentage);
+		int noEliteSolns = (int) (num_population * ELITISM_PERCENTAGE);
 		for (int i = 0; i < noEliteSolns; i++) {
 			modified_solution.setSolution(i, solution.getSolution(i));
 		}
