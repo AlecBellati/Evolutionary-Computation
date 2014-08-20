@@ -90,6 +90,7 @@ public class Population{
 	* Sort the current solution set based on its each of their total costs
 	*/
 	public void sort(){
+		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		Arrays.sort(solution_set, new Comparator<Individual>() {
 	        @Override
 	        public int compare(Individual c1, Individual c2) {
