@@ -4,6 +4,7 @@ public class Selection{
 	
 	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
 	private Random rnd;
+	private double elitismPercentage = 0.1;
 
 	/**
 	* CONSTRUCTOR
@@ -11,6 +12,22 @@ public class Selection{
 	*/
 	public Selection(){
 		rnd = new Random();
+	}
+	
+	/**
+	 * Change the elitism percentage to adjust elitism selection.
+	 * @param percent - the new elitism percentage
+	 */
+	public void setElitismPercentage(double percent) {
+		this.elitismPercentage = percent;
+	}
+	
+	/**
+	 * Get the current elitism percentage value.
+	 * @return elitismPercentage - the current elitism selection percentage
+	 */
+	public double getElitismPercentage() {
+		return elitismPercentage;
 	}
 
 	/**
@@ -98,14 +115,39 @@ public class Selection{
 
 
 	/**
-	*
+	* Given a soluton, generate relative fitnesses for solutions
+	* And rank the population according to relative fitness
 	* @param Population - solution set
 	* @param num_population - number of solutions to be used for selection
     * @return Population
 	*/
-	public Population elitism(Population solution, int num_population){
-		solution.sort();
+	public Population elitism(Population solution, int num_population) {
+		
+		int length = solution.getSize();
+		
+		// Make sure the given population is not already less than or equal
+		// to the given solution size
+		if (length <= num_population){
+			return solution;
+		}
+		
+		// Create new population
 		Population modified_solution = new Population(num_population);
+		
+		// Sort current population
+		solution.sort();
+		
+		// Select elite solutions
+		int noEliteSolns = (int) (num_population * elitismPercentage);
+		for (int i = 0; i < noEliteSolns; i++) {
+			modified_solution.setSolution(i, solution.getSolution(i));
+		}
+				
+		int range = length - noEliteSolns;
+		// Select random solutions from the remainder
+		for(int i = noEliteSolns+1; i < num_population; i++){
+			modified_solution.setSolution(i, solution.getSolution(rnd.nextInt(range) + noEliteSolns));
+		}
 
 		return modified_solution;
 	}

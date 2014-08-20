@@ -133,7 +133,7 @@ public class TSPProblem {
     }
 
     private void testingSami(){
-        printSolution(population);
+			printSolution(population);
     }
 
 
@@ -204,9 +204,10 @@ public class TSPProblem {
 
         //TSPInstance.testing();   
         //TSPInstance.testingAlec();
-        TSPInstance.testingMatt();
+        //TSPInstance.testingMatt();
         //TSPInstance.testingWill();
-        //TSPInstance.testingSami();  
+        //TSPInstance.testingSami();
+			
     }
     
     /**
