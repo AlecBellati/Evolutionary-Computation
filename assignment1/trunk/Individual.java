@@ -40,6 +40,17 @@ public class Individual{
 		costFound = false;
 	}
 
+	/**
+	 * ALTERNATE CONSTRUCTOR
+	 * Copies an Individual
+	 * @param Individual - the Individual being copied
+	 */
+	public Individual(Individual individual){
+		this.cities = individual.cities;
+		this.cost = individual.cost;
+		this.costFound = individual.costFound;
+	}
+
 	/*
 	* Gets the basic solution set and puts it into the City[]
 	* Should not generate any errors
