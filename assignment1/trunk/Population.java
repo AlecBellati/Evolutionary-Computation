@@ -1,11 +1,12 @@
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Population{
 
 	/** Holds a set of solutions, characterised as a City[] */
-	private Individual[] solution_set;
+	private ArrayList<Individual> solution_set;
 
 	/** Number of solutions this population will hold */
 	private int num_solutions;
@@ -20,29 +21,7 @@ public class Population{
 	*/
 	public Population(int size){
 		num_solutions = size;
-		solution_set = new Individual[size];
-		
-		rnd = new Random();
-	}
-
-	/**
-	* CONSTRUCTOR
-	* Combines two populations
-	* @param Population A
-	* @param Population B
-	*/
-	public Population(Population A, Individual[] B){
-		solution_set = new Individual[A.getSize() + B.length];
-        num_solutions = A.getSize() + B.length;
-
-		Individual[] solutions = A.getSolutionSet();
-		for(int i = 0; i < A.getSize(); i++){
-			solution_set[i] = solutions[i];
-		}
-
-		for(int j = A.getSize(); j < (A.getSize() + B.length); j++){
-			solution_set[j] = B[j-A.getSize()];
-		}
+		solution_set = new ArrayList<Individual>(size);
 		
 		rnd = new Random();
 	}
@@ -54,9 +33,38 @@ public class Population{
 	public Population clone(){
 		Population clone = new Population(getSize());
 		for(int i = 0; i < getSize(); i++){
-			clone.setSolution(i, solution_set[i].clone());
+			clone.setSolution(i, solution_set.get(i).clone());
 		}
 		return clone;
+	}
+
+	/**
+	*
+	*
+	*/
+	public void add(Individual individual){
+		solution_set.add(individual);
+	}
+
+	/**
+	*
+	*
+	*/
+	public void addSet(Individual[] individual){
+		for(int i = 0; i < individual.length; i++){
+			solution_set.add(individual[i]);
+		}
+	}
+
+	/**
+	*
+	*
+	*/
+	public void addPopulation(Population population){
+		ArrayList<Individual> temp_list = population.getSolutionSet();
+		for(int i = 0; i < temp_list.size(); i++){
+			solution_set.add(temp_list.get(i));
+		}
 	}
 
 	/**
@@ -66,9 +74,9 @@ public class Population{
 	* @param City[] cities - array of cities, current solution
 	*/
 	public void generateRandomSolutionSet(City[] cities){
-		solution_set = new Individual[num_solutions];
+		solution_set = new ArrayList<Individual>();
 		for(int i = 0; i < num_solutions; i++){
-			solution_set[i] = new Individual(cities, true);
+			solution_set.add(new Individual(cities, true));
 		}
 	}
 
@@ -76,7 +84,7 @@ public class Population{
 	* Return the solution set
 	* @return Individual[] - solutions of length 'num_solutions'
 	*/
-	public Individual[] getSolutionSet(){
+	public ArrayList<Individual> getSolutionSet(){
 		return solution_set;
 	}
 
@@ -86,7 +94,7 @@ public class Population{
 	* @return Individual - a specific solution, provided by the index number
 	*/
 	public Individual getSolution(int index){
-		return solution_set[index];
+		return solution_set.get(index);
 	}
 
 	/**
@@ -95,7 +103,7 @@ public class Population{
 	*/
 	public Individual getRandomSolution(){
 		int index = rnd.nextInt(num_solutions);
-		return solution_set[index];
+		return solution_set.get(index);
 	}
 
 	/**
@@ -104,7 +112,7 @@ public class Population{
 	* @param Individual - solution to be inserted into the array at position index
 	*/
 	public void setSolution(int index, Individual individual){
-		solution_set[index] = individual;
+		solution_set.add(index, individual);
 	}
 
 	/**
@@ -112,7 +120,7 @@ public class Population{
 	* @return int - size of this solution set
 	*/
 	public int getSize(){
-		return solution_set.length;
+		return solution_set.size();
 	}
 
 	/**
@@ -120,7 +128,7 @@ public class Population{
 	*/
 	public void sort(){
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		Arrays.sort(solution_set, new Comparator<Individual>() {
+		Collections.sort(solution_set, new Comparator<Individual>() {
 	        @Override
 	        public int compare(Individual c1, Individual c2) {
 	        	return (int)(c1.getCost() - c2.getCost());
@@ -134,8 +142,8 @@ public class Population{
 	*/
 	public double getTotalCost(){
 		double cost = 0;
-		for(int i = 0; i < solution_set.length; i++){
-			cost += solution_set[i].getCost();
+		for(int i = 0; i < getSize(); i++){
+			cost += solution_set.get(i).getCost();
 		}
 		return cost;
 	}
@@ -147,7 +155,7 @@ public class Population{
 	public double getAverageCost(){
 		double cost = getTotalCost();
 		
-		return (cost/solution_set.length);
+		return (cost/getSize());
 	}
 
 	/**
@@ -156,7 +164,7 @@ public class Population{
 	*/
 	public Individual getBestSolution(){
 		sort();
-		return solution_set[0];
+		return solution_set.get(0);
 	}
 	
 }

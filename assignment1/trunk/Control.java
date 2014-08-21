@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Control{
 
@@ -54,42 +55,43 @@ public class Control{
 		
 		int rand = 0;
 		for(int i = 0; i < generations; i++){
-			Population offspring = population.clone();
-			Population small_offspring = selection.elitism(population, 5);
-			while(offspring.getSize() < population_size){
-				individualA = offspring.getSolution(rnd.nextInt(offspring.getSize()));
-				individualB = offspring.getSolution(rnd.nextInt(offspring.getSize()));
+			Population best = selection.elitism(population.clone(), 5);
+			for(int j = 0; j < population.getSize()/2; j++){
+				individualA = population.getSolution(rnd.nextInt(population.getSize()));
+				individualB = population.getSolution(rnd.nextInt(population.getSize()));
 
 				if(individualA != individualB){
 					//if only one more individual required, choose form the first two cases
-					if(offspring.getSize()%2 != 0) {
-						rand = rnd.nextInt(1);
+					if(population.getSize()%2 != 0) {
+						rand = 1;
 					//otherwise, select any of them at random
 					} else {
-						rand = rnd.nextInt(3);
+						rand = rnd.nextInt(4);
 					}
 					switch(rand){
-						/*case 0:
-							operated = operator.orderCrossover(individualA, individualB);
-							break;*/
 						case 0:
-							//System.out.println("edgeRecombination");
-							operated = new Individual[]{operator.edgeRecombination(individualA, individualB)};
+							//population.addSet(operator.orderCrossover(individualA, individualB));
 							break;
 						case 1:
-							//System.out.println("cycleCrossover");
-							operated = operator.cycleCrossover(individualA, individualB);
+							//System.out.println("edgeRecombination");
+							population.add(operator.edgeRecombination(individualA, individualB));
 							break;
 						case 2:
+							//System.out.println("cycleCrossover");
+							population.addSet(operator.cycleCrossover(individualA, individualB));
+							break;
+						case 3:
 							//System.out.println("pmxCrossover");
-							operated = operator.pmxCrossover(individualA, individualB);
+							population.addSet(operator.pmxCrossover(individualA, individualB));
 							break;
 					}
-					offspring = new Population(offspring, operated);
 					
 					double doMutation = rnd.nextDouble();
 					if(doMutation < mutation_percentage) {
 						rand = rnd.nextInt(4);
+						if(rnd.nextInt(100) < 60){
+							rand = 2;
+						}
 						switch(rand){
 							case 0:
 								//System.out.println("Insert");
@@ -115,9 +117,11 @@ public class Control{
 					}
 				}
 			}
-			population = new Population(population, offspring.getSolutionSet());
 			
 			rand = rnd.nextInt(2);
+			if(rnd.nextInt(100) < 60){
+				rand = 2;
+			}
 			switch(rand){
 				case 0:
 					//System.out.println("fitness");
@@ -132,7 +136,7 @@ public class Control{
 					population = selection.elitism(population, solution_size);
 					break;
 			}
-			population = new Population(population, small_offspring.getSolutionSet());
+			population.addPopulation(best);
 
 			System.out.println("***** Best Solution ***** = " + population.getBestSolution().getCost());
 		}
@@ -144,17 +148,17 @@ public class Control{
 	*
 	*/
 	public Population algorithm2(Population population, int solution_size, int population_size, int generations){
-		Individual[] offspring = null;
+		Population offspring = null;
 		Individual individual;
 		
 		for(int i = 0; i < generations; i++){
-			offspring = population.clone().getSolutionSet();
+			offspring = population.clone();
 			for(int j = 0; j < population.getSize(); j++){
-				individual = offspring[j];
+				individual = offspring.getSolution(j);
 				mutator.inversion(individual);
 			}
 			
-			population = new Population(population, offspring);
+			population.addPopulation(offspring);
 			population = selection.elitism(population, solution_size);
 
 			System.out.println("***** Best Solution ***** = " + population.getBestSolution().getCost());

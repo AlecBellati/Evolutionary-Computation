@@ -145,7 +145,7 @@ public class Selection{
 				
 		int range = length - noEliteSolns;
 		// Select random solutions from the remainder
-		for(int i = noEliteSolns+1; i < num_population; i++){
+		for(int i = noEliteSolns; i < num_population; i++){
 			modified_solution.setSolution(i, solution.getSolution(rnd.nextInt(range) + noEliteSolns));
 		}
 
