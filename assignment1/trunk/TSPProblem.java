@@ -122,14 +122,14 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        int solution_size = 5, population_size = 10000, generations = 20;
-        double mutation_percentage = 0.03;
+        int solution_size = 50, population_size = 1000, generations = 10000;
+        double mutation_percentage = 0.4;
         population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, 1);
-        printSolution(population);
+        //printSolution(population);
 
-        System.out.println();
-        System.out.println("******************** BEST SOLUTION ********************\n");
-        printSolution(population.getBestSolution());
+        //System.out.println();
+        //System.out.println("******************** BEST SOLUTION ********************\n");
+        //printSolution(population.getBestSolution());
     }
 
     private void testingWill(){
@@ -276,7 +276,7 @@ public class TSPProblem {
         //Uncomment your testing function when needed
         //TSPInstance.testing();   
         //TSPInstance.testingAlec();
-        //TSPInstance.testingMatt();
+        TSPInstance.testingMatt();
         //TSPInstance.testingWill();
         //TSPInstance.testingSami();
 			

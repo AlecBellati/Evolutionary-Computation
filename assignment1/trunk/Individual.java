@@ -41,6 +41,15 @@ public class Individual{
 	}
 
 	/**
+	* Create a deep copy of the cities array
+	* @return Individual - a deep copy of this object;
+	*/
+	public Individual clone(){
+		return new Individual(cities.clone(), false);
+
+	}
+
+	/**
 	 * ALTERNATE CONSTRUCTOR
 	 * Copies an Individual
 	 * @param Individual - the Individual being copied

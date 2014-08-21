@@ -580,33 +580,4 @@ public class Operators {
 			individual = newInd;
 		}
 	}	
-	
-	/**
-     * Test printout to show what the Hashtable looks like
-     * DON'T CHANGE THE SIGNATURE - IT'S A SPECIFIC TESTING FUNCTION FOR EDGE RECOMBINATION
-     */
-    private void printTable(Hashtable<City, ArrayList<ElementEdge>> hash, City[][] parents) {
-        for(int i = 0; i < parents.length; i++) {
-            System.out.print("Parents[" + i + "] = [");
-            for(int j = 0; j < parents[i].length; j++) {
-                System.out.print(" "+parents[i][j].getNodeNum()+" ");
-            }
-            System.out.println("]");
-        }
-        
-        Set<City> keySet = hash.keySet();
-        
-        for(City c : keySet) {
-            ArrayList<ElementEdge> edges = hash.get(c);
-            System.out.print(String.format("%2d      |", c.getNodeNum()));
-            for(ElementEdge ee : edges) {
-                if(ee.get_count() > 1) {
-                    System.out.print(String.format("%2d+ ", ee.get_city().getNodeNum()));
-                } else {
-                    System.out.print(String.format("%2d  ", ee.get_city().getNodeNum()));
-                }
-            }
-            System.out.println();
-        }
-    }
 }

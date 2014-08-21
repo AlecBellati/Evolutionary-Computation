@@ -48,6 +48,18 @@ public class Population{
 	}
 
 	/**
+	* Create a deep copy of this population array
+	* @return Population - a deep copy of this object;
+	*/
+	public Population clone(){
+		Population clone = new Population(getSize());
+		for(int i = 0; i < getSize(); i++){
+			clone.setSolution(i, solution_set[i].clone());
+		}
+		return clone;
+	}
+
+	/**
 	* Gets a basic set of solutions - specified by the user
 	* Should not generate any errors
 	* @param double[][] TSPGraph - lookup table of city edges
