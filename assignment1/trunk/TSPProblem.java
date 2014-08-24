@@ -53,6 +53,7 @@ public class TSPProblem {
                     String[] getNum = firstCut[0].split(">");
                     numVertex = Integer.parseInt(getNum[1]);
                     
+                    
                     TSPGraph = new double[numVertex][numVertex];
                     cities = new City[numVertex];
                 }
@@ -122,9 +123,9 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        int solution_size = 50, population_size = 100, generations = 20000;
+        int solution_size = 40, population_size = 100, generations = 20000;
         double mutation_percentage = 0.15, operation_percentage = 0.85;
-        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, 1);
+        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, 3);
         //printSolution(population);
 
         //System.out.println();

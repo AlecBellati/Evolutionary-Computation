@@ -88,6 +88,7 @@ public class Selection{
     * @return Population
 	*/
 	public Population tournamentSelection(Population solution, int num_population, int solution_size){
+        
 		//can't get a larger solution set than what was supplied!!!
 		if(num_population > solution.getSize() || num_population < solution_size){
 			System.out.println("ERROR: requested solution size is outside the bounds of the supplied data set - tournament_selection()");
