@@ -215,7 +215,7 @@ public class TestFramework {
     private void writeOperatorsOnly(String outputFile) {
         
         int solution_size = 100, generations = 10000;
-        double operation_percentage = 1;
+        double operation_percentage = 0;
         
         int mutator = 0, selector = 0, num_runs = 10;
         
@@ -372,7 +372,6 @@ public class TestFramework {
         
         
         for(int gen = 0; gen < generations; gen++) {
-            System.out.println("New Generation");
             Population children = new Population(solution_size);
             
             for(int i = 0; i < solution_size/2; i++) {
@@ -397,7 +396,7 @@ public class TestFramework {
                         case 0:
                             //System.out.println("orderCrossover");
                             //currently has issues
-                            //child = operators.orderCrossover(individualA, individualB);
+                            children.addSet(operators.orderCrossover(individualA, individualB));
                             break;
                         case 1:
                             //System.out.println("pmxCrossover");
