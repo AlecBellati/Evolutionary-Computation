@@ -15,7 +15,6 @@ public class TSPProblem {
 	/** Number of nodes in the graph **/
 	private int numVertex;
 	
-<<<<<<< HEAD
 	/** Given a City[], generates a random individual solution */
 	private Individual individual;
 	/** Given an Individual object, returns a number of random solutions as a City[][] */
@@ -88,7 +87,7 @@ public class TSPProblem {
 				}
 			}
 			br.close();
-=======
+			
     /**
     * CONSTRUCTOR
     * Takes in a file name and reads the supplied file
@@ -340,7 +339,6 @@ public class TSPProblem {
         TSPInstance.testingMatt();
         //TSPInstance.testingWill();
         //TSPInstance.testingSami();
->>>>>>> FETCH_HEAD
 			
 			//initialise objects for solution generation, mutation and operators
 			//individual = new Individual(TSPGraph, cities);
