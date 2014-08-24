@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class Control{
-
+    
 	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
 	private Random rnd;
 	/** Object holds the four mutator functions */
@@ -13,27 +13,27 @@ public class Control{
 	private Selection selection;
 	
 	/**
-	* CONSTRUCTOR
-	* Initialises the mutator, operator and selection objects
-	*/
+     * CONSTRUCTOR
+     * Initialises the mutator, operator and selection objects
+     */
 	public Control(){
 		rnd = new Random();
 		mutator = new Mutators();
 		operator = new Operators();
 		selection = new Selection();
 	}
-
+    
 	/**
-	*
-	*
-	*/
-	public Population runSequence(City[] cities, int solution_size, int population_size, int generations, double mutation_percentage, int algorithm){
+     *
+     *
+     */
+	public Population runSequence(City[] cities, int solution_size, int population_size, int generations, double mutation_percentage, double operation_percentage, int algorithm){
 		Population population = new Population(solution_size);
 		population.generateRandomSolutionSet(cities);
-
+        
 		switch(algorithm){
 			case 1:
-				return algorithm1(population, solution_size, population_size, mutation_percentage, generations);
+				return algorithm1(population, solution_size, population_size, mutation_percentage, operation_percentage, generations);
 			case 2:
 				return algorithm2(population, solution_size, population_size, generations);
 			case 3:
@@ -42,12 +42,12 @@ public class Control{
 		}
 		return null;
 	}
-
+    
 	/**
-	*
-	*
-	*/
-	public Population algorithm1(Population population, int solution_size, int population_size, double mutation_percentage, int generations){
+     *
+     *
+     */
+	public Population algorithm1(Population population, int solution_size, int population_size, double mutation_percentage, double operation_percentage, int generations){
 		int modular_size = 2;
 		Individual individualA;
 		Individual individualB;
@@ -59,32 +59,35 @@ public class Control{
 			for(int j = 0; j < population.getSize()/2; j++){
 				individualA = population.getSolution(rnd.nextInt(population.getSize()));
 				individualB = population.getSolution(rnd.nextInt(population.getSize()));
-
+                
 				if(individualA != individualB){
 					//if only one more individual required, choose form the first two cases
-					if(population.getSize()%2 != 0) {
-						rand = 1;
-					//otherwise, select any of them at random
-					} else {
-						rand = rnd.nextInt(4);
-					}
-					switch(rand){
-						case 0:
-							//population.addSet(operator.orderCrossover(individualA, individualB));
-							break;
-						case 1:
-							//System.out.println("edgeRecombination");
-							population.add(operator.edgeRecombination(individualA, individualB));
-							break;
-						case 2:
-							//System.out.println("cycleCrossover");
-							population.addSet(operator.cycleCrossover(individualA, individualB));
-							break;
-						case 3:
-							//System.out.println("pmxCrossover");
-							population.addSet(operator.pmxCrossover(individualA, individualB));
-							break;
-					}
+                    double doOperation = rnd.nextDouble();
+                    if(doOperation < operation_percentage) {
+                        if(population.getSize()%2 != 0) {
+                            rand = 1;
+                            //otherwise, select any of them at random
+                        } else {
+                            rand = rnd.nextInt(4);
+                        }
+                        switch(rand){
+                            case 0:
+                                //population.addSet(operator.orderCrossover(individualA, individualB));
+                                break;
+                            case 1:
+                                //System.out.println("edgeRecombination");
+                                population.add(operator.edgeRecombination(individualA, individualB));
+                                break;
+                            case 2:
+                                //System.out.println("cycleCrossover");
+                                population.addSet(operator.cycleCrossover(individualA, individualB));
+                                break;
+                            case 3:
+                                //System.out.println("pmxCrossover");
+                                population.addSet(operator.pmxCrossover(individualA, individualB));
+                                break;
+                        }
+                    }
 					
 					double doMutation = rnd.nextDouble();
 					if(doMutation < mutation_percentage) {
@@ -137,16 +140,16 @@ public class Control{
 					break;
 			}
 			population.addPopulation(best);
-
+            
 			System.out.println("***** Best Solution ***** = " + population.getBestSolution().getCost());
 		}
 		return population;
 	}
-
+    
 	/**
-	*
-	*
-	*/
+     *
+     *
+     */
 	public Population algorithm2(Population population, int solution_size, int population_size, int generations){
 		Population offspring = null;
 		Individual individual;
@@ -160,17 +163,17 @@ public class Control{
 			
 			population.addPopulation(offspring);
 			population = selection.elitism(population, solution_size);
-
+            
 			System.out.println("***** Best Solution ***** = " + population.getBestSolution().getCost());
 		}
 		return population;
 	}
-
+    
 	/**
-	*
-	*
-	*/
+     *
+     *
+     */
 	public void algorithm3(Population population, int solution_size, int population_size, int generations){
-
+        
 	}
 }

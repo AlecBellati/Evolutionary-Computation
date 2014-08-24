@@ -122,14 +122,14 @@ public class TSPProblem {
     }
 
     private void testingMatt(){
-        int solution_size = 50, population_size = 100, generations = 10000;
-        double mutation_percentage = 0.75;
-        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, 1);
+        int solution_size = 5, population_size = 100, generations = 10000;
+        double mutation_percentage = 0.75, operation_percentage = 1;
+        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, 1);
         //printSolution(population);
 
         //System.out.println();
-        //System.out.println("******************** BEST SOLUTION ********************\n");
-        //printSolution(population.getBestSolution());
+        System.out.println("******************** BEST SOLUTION ********************\n");
+        printSolution(population.getBestSolution());
     }
 
     private void testingWill(){

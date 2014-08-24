@@ -52,7 +52,9 @@ public class Population{
 	*/
 	public void addSet(Individual[] individual){
 		for(int i = 0; i < individual.length; i++){
-			solution_set.add(individual[i]);
+            if(individual[i] != null) {
+                solution_set.add(individual[i]);
+            }
 		}
 	}
 
@@ -63,7 +65,9 @@ public class Population{
 	public void addPopulation(Population population){
 		ArrayList<Individual> temp_list = population.getSolutionSet();
 		for(int i = 0; i < temp_list.size(); i++){
-			solution_set.add(temp_list.get(i));
+            if(temp_list.get(i) != null) {
+                solution_set.add(temp_list.get(i));
+            }
 		}
 	}
 
@@ -167,4 +171,21 @@ public class Population{
 		return solution_set.get(0);
 	}
 	
+    /**
+     * Return the size of the population
+     * @return int - size of current population
+     */
+    public int size() {
+        return solution_set.size();
+    }
+    
+    /**
+     * Prints out each individual in the population
+     */
+    public void print() {
+        for(int i = 0; i < solution_set.size(); i++) {
+            System.out.print(i + " = ");
+            solution_set.get(i).print();
+        }
+    }
 }
