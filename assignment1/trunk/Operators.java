@@ -36,60 +36,98 @@ public class Operators {
 		int length = parentA.getNumCities();
 		int posA = rnd.nextInt(length);
 		int posB = rnd.nextInt(length);
-		int subsetLength = posA - posB + 1;
-		
+				
 		// Ensure that posA is less than  or equal to posB
 		if (posA > posB){
 			int posTemp = posA;
 			posA = posB;
 			posB = posTemp;
 		}
-		
+		int subsetLength = posB - posA + 1;
+				
 		// Copy subset from parentA to childA and parentB to childB
-		// Store values copied in hashmap to check if already copied
 		Individual childA = new Individual(length);
 		Individual childB = new Individual(length);
 		ArrayList<Integer> valuesCopiedA = new ArrayList<Integer>();
 		ArrayList<Integer> valuesCopiedB = new ArrayList<Integer>();
-
+				
 		for (int i = posA; i <= posB; i++) {
 			childA.setCity(i, parentA.getCityByIndex(i));
 			childB.setCity(i, parentB.getCityByIndex(i));
 			valuesCopiedA.add(parentA.getCityByIndex(i).getNodeNum());
 			valuesCopiedB.add(parentB.getCityByIndex(i).getNodeNum());
 		}
-				
-		// Fill in remaining spots in Child A
-		int i = posB + 1;
-		while (i < length-subsetLength) {
-			Integer valueA = parentA.getCityByIndex(i).getNodeNum();
 
-			if (valuesCopiedA.contains(valueA)) {
-				i++;
-			} else {
-				childA.setCity(i, parentA.getCityByIndex(i));
-				i++;
-			}
-			// Allow for wrapping around to the front
-			if (i == length) {
-				i = 0;
-			}
+		// Fill in remaining spots in Child A
+		int spotsToFill = length-subsetLength;
+		int spotsFilled = 0;
+		
+		int childIndex;
+		int parentIndex;
+		
+		// Ensure counters stay in range
+		if (posB + 1 == length) {
+			childIndex = 0;
+			parentIndex = 0;
+		} else {
+			childIndex = posB + 1;
+			parentIndex = posB + 1;
 		}
 		
-		// Fill in remaining spots in Child B
-		i = posB + 1;
-		while (i < length-subsetLength) {
-			Integer valueB = parentB.getCityByIndex(i).getNodeNum();
-						
-			if (valuesCopiedB.contains(valueB)) {
-				i++;
-			} else {
-				childB.setCity(i, parentB.getCityByIndex(i));
-				i++;
+		while (spotsFilled < spotsToFill) {
+			// If current value wasn't copied before, include it in the child
+			Integer value = parentB.getCityByIndex(parentIndex).getNodeNum();
+			
+			if (!valuesCopiedA.contains(value)) {
+				childA.setCity(childIndex, parentB.getCityByIndex(parentIndex));
+				
+				// Increment counters
+				spotsFilled++;
+				if (childIndex == length - 1) {
+					childIndex = 0;
+				} else {
+					childIndex++;
+				}
 			}
-			// Allow for wrapping around to the front
-			if (i == length) {
-				i = 0;
+		
+			if (parentIndex == length - 1) {
+				parentIndex = 0;
+			} else {
+				parentIndex++;
+			}
+		}
+
+		// Fill in remaining spots in Child B
+		spotsFilled = 0;
+		
+		// Ensure counters stay in range
+		if (posB + 1 == length) {
+			childIndex = 0;
+			parentIndex = 0;
+		} else {
+			childIndex = posB + 1;
+			parentIndex = posB + 1;
+		}
+		
+		while (spotsFilled < spotsToFill) {
+			// If current value wasn't copied before, include it in the child
+			Integer value = parentA.getCityByIndex(parentIndex).getNodeNum();
+			
+			if (!valuesCopiedB.contains(value)) {
+				childB.setCity(childIndex, parentA.getCityByIndex(parentIndex));
+				// Increment counters
+				spotsFilled++;
+				if (childIndex == length - 1) {
+					childIndex = 0;
+				} else {
+					childIndex++;
+				}
+			}
+			
+			if (parentIndex == length - 1) {
+				parentIndex = 0;
+			} else {
+				parentIndex++;
 			}
 		}
 		
