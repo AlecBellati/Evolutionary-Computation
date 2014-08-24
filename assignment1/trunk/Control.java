@@ -48,71 +48,59 @@ public class Control{
      *
      */
 	public Population algorithm1(Population population, int solution_size, int population_size, double mutation_percentage, double operation_percentage, int generations){
-		int modular_size = 2;
 		Individual individualA;
 		Individual individualB;
-		Individual[] operated = null;
 		
 		int rand = 0;
 		for(int i = 0; i < generations; i++){
-			Population best = selection.elitism(population.clone(), 5);
-			for(int j = 0; j < population.getSize()/2; j++){
+			Individual best = population.getBestSolution();
+
+			while(population.getSize() < (population_size-1)){
 				individualA = population.getSolution(rnd.nextInt(population.getSize()));
 				individualB = population.getSolution(rnd.nextInt(population.getSize()));
                 
 				if(individualA != individualB){
-					//if only one more individual required, choose form the first two cases
-                    double doOperation = rnd.nextDouble();
-                    if(doOperation < operation_percentage) {
-                        if(population.getSize()%2 != 0) {
-                            rand = 1;
-                            //otherwise, select any of them at random
-                        } else {
-                            rand = rnd.nextInt(4);
-                        }
-                        switch(rand){
-                            case 0:
-                                //population.addSet(operator.orderCrossover(individualA, individualB));
-                                break;
-                            case 1:
-                                //System.out.println("edgeRecombination");
-                                population.add(operator.edgeRecombination(individualA, individualB));
-                                break;
-                            case 2:
-                                //System.out.println("cycleCrossover");
-                                population.addSet(operator.cycleCrossover(individualA, individualB));
-                                break;
-                            case 3:
-                                //System.out.println("pmxCrossover");
-                                population.addSet(operator.pmxCrossover(individualA, individualB));
-                                break;
-                        }
+                    if(population.getSize() == (population_size-1)) {
+                        rand = 1;
+                    } else {
+                   		rand = rnd.nextInt(4);
                     }
-					
-					double doMutation = rnd.nextDouble();
-					if(doMutation < mutation_percentage) {
-						rand = rnd.nextInt(4);
-						if(rnd.nextInt(100) < 60){
-							rand = 2;
-						}
+
+                    double operate = rnd.nextDouble();
+                    if(operate < operation_percentage){
+	                    switch(rand){
+	                    	case 0:
+	                        	population.addSet(operator.orderCrossover(individualA, individualB));
+	                        	break;
+	                    	case 1:
+	                       		population.add(operator.edgeRecombination(individualA, individualB));
+	                        	break;
+	                    	case 2:
+	                            population.addSet(operator.cycleCrossover(individualA, individualB));
+	                            break;
+	                        case 3:
+	                            population.addSet(operator.pmxCrossover(individualA, individualB));
+	                            break;
+	                    }
+	                }
+
+                    rand = rnd.nextInt(4);
+                    double mutate = rnd.nextDouble();
+                    if(mutate < mutation_percentage){
 						switch(rand){
 							case 0:
-								//System.out.println("Insert");
 								mutator.insert(individualA);
 								mutator.insert(individualB);
 								break;
 							case 1:
-								//System.out.println("swap");
 								mutator.swap(individualA);
 								mutator.swap(individualB);
 								break;
 							case 2:
-								//System.out.println("inversion");
 								mutator.inversion(individualA);
 								mutator.inversion(individualB);
 								break;
 							case 3:
-								//System.out.println("scramble");
 								mutator.scramble(individualA);
 								mutator.scramble(individualB);
 								break;
@@ -120,28 +108,29 @@ public class Control{
 					}
 				}
 			}
-			
-			rand = rnd.nextInt(2);
-			if(rnd.nextInt(100) < 60){
+
+			population.add(best);
+			rand = 2;
+			double select = rnd.nextDouble();
+			if(select < 0.6){
 				rand = 2;
+			}else if(select < 0.9){
+				rand = 1;
 			}
+
 			switch(rand){
 				case 0:
-					//System.out.println("fitness");
 					population = selection.fitnessProportional(population, solution_size);
 					break;
 				case 1:
-					//System.out.println("tournament");
 					population = selection.tournamentSelection(population, population_size, solution_size);
 					break;
 				case 2:
-					//System.out.println("elitism");
 					population = selection.elitism(population, solution_size);
 					break;
 			}
-			population.addPopulation(best);
             
-			System.out.println("***** Best Solution ***** = " + population.getBestSolution().getCost());
+			System.out.println(i + ": ***** Best Solution ***** = " + population.getBestSolution().getCost());
 		}
 		return population;
 	}

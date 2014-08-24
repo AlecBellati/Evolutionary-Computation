@@ -4,7 +4,7 @@ public class Selection{
 	
 	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
 	private Random rnd;
-	private double ELITISM_PERCENTAGE = 0.1;
+	private double ELITISM_PERCENTAGE = 0.75;
 
 	/**
 	* CONSTRUCTOR
@@ -149,9 +149,9 @@ public class Selection{
 			modified_solution.setSolution(i, solution.getSolution(rnd.nextInt(range) + noEliteSolns));
 		}
 
-		for(int i = 0; i < num_population; i++){
+		/*for(int i = 0; i < num_population; i++){
 			modified_solution.setSolution(i, solution.getSolution(i));
-		}
+		}*/
 
 		return modified_solution;
 	}
