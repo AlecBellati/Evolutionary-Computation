@@ -573,26 +573,29 @@ public class Operators {
 	 * Performs inver-over on a given solution
 	 * @param Individual - The solution of cities to be mutated
 	 * @param Population - The Population that Individual is from
+	 * @return Individual - The new solution to replace the old one
 	 */
-	public void inverOver(Individual individual, Population population){
+	public Individual inverOver(Individual individual, Population population){
 		// Create a copy of the individual
-		Individual newInd = new Individual(individual);
+		Individual newInd = individual.clone();
 		int size = individual.getNumCities();
 		
 		// Get the index of the starting city
 		int index = rnd.nextInt(size); 
 		
 		boolean running = true;
-		int nextIndex;
+		int nextIndex, popIndex;
 		Individual otherInd;
 		City currCity, nextCity;
 		Mutators mutator = new Mutators();
+		
 		while (running) {
 			// Get the next city
 			if (rnd.nextDouble() <= INVER_OVER_PROBABILITY) {
 				nextIndex = rnd.nextInt(size);
 			} else {
-				otherInd = population.getRandomSolution();
+				popIndex = rnd.nextInt(population.getSize());
+				otherInd = population.getSolution(popIndex);
 				currCity = newInd.getCityByIndex(index);
 				nextCity = otherInd.getNextCityByNumber(currCity.getNodeNum());
 				nextIndex = newInd.getCityIndex(nextCity.getNodeNum());
@@ -617,5 +620,7 @@ public class Operators {
 		if (newInd.getCost() < individual.getCost()) {
 			individual = newInd;
 		}
+		
+		return individual;
 	}	
 }

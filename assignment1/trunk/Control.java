@@ -38,6 +38,8 @@ public class Control{
 				return algorithm2(population, solution_size, population_size, generations);
 			case 3:
 				return algorithm3(population, solution_size, population_size, mutation_percentage, operation_percentage, generations);
+			case 4:
+				return inver_over(cities, population, population_size, generations);
 		}
 		return null;
 	}
@@ -395,6 +397,42 @@ public class Control{
             }
 		}
         
+		return population;
+	}
+	
+	/**
+     * The inver-over algorithm that was specified in the paper given
+     * @param City[] - the cities in the TSP tour
+	 * @param Population - the population of individuals
+	 * @param int - the size of the population
+     * @param int - the number of generations
+     */
+	public Population inver_over(City[] cities, Population population, int population_size, int generations) {
+        // Set up the population
+		Population new_pop = new Population(population_size);
+		new_pop.generateRandomSolutionSet(cities);        
+		
+		// Operate on the population
+		Individual curr, curr_best;
+		double curr_cost;
+		double record = -1.0;
+		for (int i = 0; i < generations; i++){
+			for (int j = 0; j < population_size; j++){
+				curr = new_pop.getSolution(j);
+				curr = operator.inverOver(curr, new_pop);
+				new_pop.setSolution(j, curr);
+			}
+			
+			// Only print the solution if it is an improvement
+			curr_best = new_pop.getBestSolution();
+			curr_cost = curr_best.getCost();
+			if (record > curr_best.getCost() || record == -1.0){
+				record = curr_cost;
+				
+				System.out.println(i + ": ***** Best Solution ***** = " + curr_cost);
+			}
+		}
+		
 		return population;
 	}
 }

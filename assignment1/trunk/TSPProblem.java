@@ -119,6 +119,11 @@ public class TSPProblem {
      *****************************************/
 
     private void testingAlec(){
+		int population_size = 50;
+		int generations = 10000;
+		
+		population = control.runSequence(cities, 0, population_size, generations, 0, 0, 4);
+
         printSolution(population);
     }
 
@@ -276,8 +281,8 @@ public class TSPProblem {
         
         //Uncomment your testing function when needed
         //TSPInstance.testing();   
-        //TSPInstance.testingAlec();
-        TSPInstance.testingMatt();
+        TSPInstance.testingAlec();
+        //TSPInstance.testingMatt();
         //TSPInstance.testingWill();
         //TSPInstance.testingSami();
 	}
