@@ -1,0 +1,141 @@
+********** ALGORITHM 1 **********
+
+Generations: 5000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 29540.319310142215
+
+Generations: 10000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 29960.137560306663
+
+Generations: 20000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 28447.019679472345
+
+Generations: 5000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 23455.39088815569
+
+Generations: 10000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 22795.318676396986
+
+Generations: 20000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 25159.64502008007
+
+Generations: 5000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 23066.926747218822
+
+Generations: 10000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 22565.514067974942
+
+Generations: 20000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 21946.07904919237
+
+********** ALGORITHM 2 **********
+
+Generations: 5000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 27379.185214574816
+
+Generations: 10000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 29029.64453744475
+
+Generations: 20000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 28727.94297424205
+
+Generations: 5000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 24604.51802006196
+
+Generations: 10000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 22874.587394495178
+
+Generations: 20000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 23766.555762156775
+
+Generations: 5000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 21165.643118532516
+
+Generations: 10000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 23362.83107268038
+
+Generations: 20000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 22641.264960547822
+
+********** ALGORITHM 3 **********
+
+Generations: 5000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 23036.366278384776
+
+Generations: 10000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 24236.216601431377
+
+Generations: 20000
+Population Size: 20
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 24260.43036825515
+
+Generations: 5000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 21371.27703369022
+
+Generations: 10000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 22394.74310125231
+
+Generations: 20000
+Population Size: 50
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 23324.041817983634
+
+Generations: 5000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 21873.749173895154
+
+Generations: 10000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 21937.745768389846
+
+Generations: 20000
+Population Size: 100
+Mutation Percentage: 0.15, Operation Percentage: 0.85
+BEST RESULT = 21414.41898368088
+

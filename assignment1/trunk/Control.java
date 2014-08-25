@@ -59,7 +59,7 @@ public class Control{
             individualB = population.getSolution(rnd.nextInt(population.getSize()));
             
 			while(population.getSize() < (population_size-1)){
-                
+
 				if(individualA != individualB){
                     if(population.getSize() == (population_size-1)) {
                         rand = 1;
@@ -371,7 +371,7 @@ public class Control{
                 population = selection.fitnessProportional(population, solution_size);
             }
             
-			System.out.println("***** Best Solution ***** = " + population.getBestSolution().getCost());
+			//System.out.println("***** Best Solution ***** = " + population.getBestSolution().getCost());
             
             //keep the very best individual and always have them in the population
             Individual challenger = population.getBestSolution();
