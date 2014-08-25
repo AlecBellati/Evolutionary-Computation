@@ -139,47 +139,54 @@ public class TSPProblem {
     }
 
     private void testingWill(){
-        /*population = new Population(2);
-        Individual testI = new Individual(9);
-        testI.setCity(0, new City(0, 9));
-        testI.setCity(1, new City(1, 9));
-        testI.setCity(2, new City(2, 9));
-        testI.setCity(3, new City(3, 9));
-        testI.setCity(4, new City(4, 9));
-        testI.setCity(5, new City(5, 9));
-        testI.setCity(6, new City(6, 9));
-        testI.setCity(7, new City(7, 9));
-        testI.setCity(8, new City(8, 9));
+        for(int j = 1; j < 4; j++){
+            int generations = 5000;
 
-        Individual testJ = new Individual(9);
-        testJ.setCity(0, new City(8, 9));
-        testJ.setCity(1, new City(2, 9));
-        testJ.setCity(2, new City(6, 9));
-        testJ.setCity(3, new City(7, 9));
-        testJ.setCity(4, new City(1, 9));
-        testJ.setCity(5, new City(5, 9));
-        testJ.setCity(6, new City(4, 9));
-        testJ.setCity(7, new City(0, 9));
-        testJ.setCity(8, new City(3, 9));
+            for(int i = 1; i <= 4; i=i*2){
+                int solution_size = 5, population_size = 10
+                double mutation_percentage = 0.15, operation_percentage = 0.85;
+                population = control.runSequence(cities, solution_size, population_size, generations*i, mutation_percentage, operation_percentage, j);
+                System.out.println("Generations: " + generations * i);
+                System.out.println("Population Size: " + population_size);
+                System.out.println("Mutation Percentage: " + mutation_percentage + ", Operation Percentage: " + operation_percentage);
+                System.out.println("BEST RESULT = " + population.getBestSolution().getCost());
+                System.out.println();
+            }
 
-        population.setSolution(0, testI);
-        population.setSolution(1, testJ);*/
+            for(int i = 1; i <= 4; i=i*2){
+                int solution_size = 10, population_size = 20
+                double mutation_percentage = 0.15, operation_percentage = 0.85;
+                population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, j);
+                System.out.println("Generations: " + generations * i);
+                System.out.println("Population Size: " + population_size);
+                System.out.println("Mutation Percentage: " + mutation_percentage + ", Operation Percentage: " + operation_percentage);
+                System.out.println("BEST RESULT = " + population.getBestSolution().getCost());
+                System.out.println();
+            }
 
-        //printSolution(population);
-        printInline(population.getSolution(0));
-        //printInline(population.getSolution(1));
-        System.out.println("");
+            for(int i = 1; i <= 4; i=i*2){
+                int solution_size = 25, population_size = 50
+                double mutation_percentage = 0.15, operation_percentage = 0.85;
+                population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, j);
+                System.out.println("Generations: " + generations * i);
+                System.out.println("Population Size: " + population_size);
+                System.out.println("Mutation Percentage: " + mutation_percentage + ", Operation Percentage: " + operation_percentage);
+                System.out.println("BEST RESULT = " + population.getBestSolution().getCost());
+                System.out.println();
+            }
 
-        mutators.inversion(population.getSolution(0));
-        //printSolution(control.runSequence(cities, cities.length, 2, 1));
-        //Individual[] test = operators.cycleCrossover(population.getSolution(0), population.getSolution(1));
-        //printInline(test[0]);
-        //printInline(test[1]);
-
-        //System.out.println(test[0].getNumCities());
-        //System.out.println(test[1].getNumCities());
-
-        printInline(population.getSolution(0));
+            for(int i = 1; i <= 4; i=i*2){
+                int solution_size = 50, population_size = 100
+                double mutation_percentage = 0.15, operation_percentage = 0.85;
+                population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, j);
+                System.out.println("Generations: " + generations * i);
+                System.out.println("Population Size: " + population_size);
+                System.out.println("Mutation Percentage: " + mutation_percentage + ", Operation Percentage: " + operation_percentage);
+                System.out.println("BEST RESULT = " + population.getBestSolution().getCost());
+                System.out.println();
+            }
+        }
+        
     }
 
     private void testingSami(){

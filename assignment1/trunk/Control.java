@@ -133,7 +133,7 @@ public class Control{
 					break;
 			}
             
-			System.out.println(i + ": ***** Best Solution ***** = " + population.getBestSolution().getCost());
+			//System.out.println(i + ": ***** Best Solution ***** = " + population.getBestSolution().getCost());
 		}
 		return population;
 	}
@@ -199,24 +199,19 @@ public class Control{
                         switch(rand){
                             case 0:
                                 mutator.insert(individualA);
-                                mutator.insert(individualB);
                                 break;
                             case 1:
                                 mutator.swap(individualA);
-                                mutator.swap(individualB);
                                 break;
                             case 2:
                                 mutator.inversion(individualA);
-                                mutator.inversion(individualB);
                                 break;
                             case 3:
                                 mutator.scramble(individualA);
-                                mutator.scramble(individualB);
                                 break;
                         }
                         
                         population.add(individualA);
-                        population.add(individualB);
                     }
                 }
                 individualA = population.getSolution(rnd.nextInt(population.getSize())).clone();
@@ -245,7 +240,7 @@ public class Control{
                     break;
             }
             
-            System.out.println(i + ": ***** Best Solution ***** = " + population.getBestSolution().getCost());
+            //System.out.println(i + ": ***** Best Solution ***** = " + population.getBestSolution().getCost());
         }
         return population;
     }
@@ -429,7 +424,7 @@ public class Control{
 			if (record > curr_best.getCost() || record == -1.0){
 				record = curr_cost;
 				
-				System.out.println(i + ": ***** Best Solution ***** = " + curr_cost);
+				//System.out.println(i + ": ***** Best Solution ***** = " + curr_cost);
 			}
 		}
 		
