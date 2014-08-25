@@ -584,7 +584,7 @@ public class Operators {
 		int index = rnd.nextInt(size); 
 		
 		boolean running = true;
-		int nextIndex, popIndex;
+		int nextIndex;
 		Individual otherInd;
 		City currCity, nextCity;
 		Mutators mutator = new Mutators();
@@ -594,8 +594,7 @@ public class Operators {
 			if (rnd.nextDouble() <= INVER_OVER_PROBABILITY) {
 				nextIndex = rnd.nextInt(size);
 			} else {
-				popIndex = rnd.nextInt(population.getSize());
-				otherInd = population.getSolution(popIndex);
+				otherInd = population.getRandomSolution();
 				currCity = newInd.getCityByIndex(index);
 				nextCity = otherInd.getNextCityByNumber(currCity.getNodeNum());
 				nextIndex = newInd.getCityIndex(nextCity.getNodeNum());
