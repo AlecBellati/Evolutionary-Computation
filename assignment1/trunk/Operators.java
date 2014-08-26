@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.List;
 
 public class Operators {
 	
@@ -240,8 +242,8 @@ public class Operators {
 		
 		return -1;
 	}
-	
-	
+
+
 	/**
 	 * Performs a cycle crossover
 	 * Determines the crossover between two parents and then interleaves
@@ -249,68 +251,61 @@ public class Operators {
 	 * @param Individual parentA
 	 * @param Individual parentB
 	 * @return Individual[] - the children generated from the amalgamation of the two parents
-	 */
+	*/
 	public Individual[] cycleCrossover(Individual parentA, Individual parentB){
-        
-		//this assume all solutions are of the same length!
-		Individual[] children = new Individual[2];
-        children[0] = new Individual(parentA.getNumCities());
-        children[1] = new Individual(parentB.getNumCities());
-		//holds the crossover indicies used in the second stage to generate children
-		ArrayList<String> crossover = new ArrayList<String>();
-		
-		int i = 0, j = 0;
-		int node_num = 0;
-		boolean running = true;
-		//generates the cycles, adding them to the crossover array list
+        int size = parentA.getNumCities();
+        //random start position;
+        int index = rnd.nextInt(size);
 
-		while(i < parentA.getNumCities()){
-			City current_node = parentA.getCityByIndex(i);
-			//find and unvisited parent node until the end of the solution set
-			while(current_node.visited() && i < (parentA.getNumCities()-1)){
-				i++;
-				current_node = parentA.getCityByIndex(i);
-			}
-			
-			int index = i;
-			i++;
-			//goes to a new node until returns to a visited node
-			//this loop will start at parentA and then go to parentB
-			//before setting current_node to the next node in the cycle path in parentA
+        Individual childA = parentA.clone();
+        Individual childB = parentB.clone();
 
-			//something with the j++ is fucked, if uncomment this it has the correct size but no cycles...
-			//if it is commented out, there are cycles but not the right size...
-            //j = 0;
-			while(!current_node.visited()){
-				if(j%2 == 0){
-					children[0].setCity(index, parentA.getCityByIndex(index));
-					children[1].setCity(index, parentB.getCityByIndex(index));
-				}else{
-					children[0].setCity(index, parentB.getCityByIndex(index));
-					children[1].setCity(index, parentA.getCityByIndex(index));
-				}
-				
-				node_num = current_node.getNodeNum();
-				current_node.hasBeenVisited(true);
+        //holds the stored indicies
+        ArrayList<Integer> visited = new ArrayList<Integer>(size);
+        ArrayList<Integer> indices = new ArrayList<Integer>(size);
 
-				//parent B
-				node_num = parentB.getCityByIndex(node_num).getNodeNum();
-				//parent A
+        int j = 1;
+        while(visited.size() < size){
+            indices.add(index);
 
-				current_node = parentA.getCityByIndex(node_num);
-				index = node_num;
-			}
-			printInline(children[0]);
-			printInline(children[1]);
-			j++;
-		}
-        
-		//reset the "visited" variable in each City object
-		setVisited(children[0]);
-		setVisited(children[1]);
+            City current_node = parentB.getCityByIndex(index);
+            index = parentA.getCityIndex(current_node.getNodeNum());
 
-		return children;
-	}
+            //get the indicies of the cities contained within a cycle
+            while(index != indices.get(0)){
+                indices.add(index);
+                //parent B city
+                current_node = parentB.getCityByIndex(index);
+                //parent A city index
+                index = parentA.getCityIndex(current_node.getNodeNum());
+            }
+
+            j++;
+            //every alternate iteration, place the cycle cities into the opposite child
+            if(j%2 != 0){
+                for(int i = 0; i < indices.size(); i++){
+                	int pos = indices.get(i);
+                    City temp = childA.getCityByIndex(pos);
+                    childA.setCity(pos, childB.getCityByIndex(pos));
+                    childB.setCity(pos, temp);
+                }
+            }
+
+            //add all the indicies copied over to the visited array
+            visited.addAll(indices);
+            index = (indices.get(0) + 1) % size;
+            while(visited.contains(index) && visited.size() < size){
+                index++;
+                //we are at the end, go back to the start
+                if(index >= size){
+                    index = 0;
+                }
+            }
+            indices.clear();
+        }
+
+        return new Individual[]{childA, childB};
+    }
 	
 	/**
 	 * For operator usages only
