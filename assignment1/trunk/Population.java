@@ -43,7 +43,9 @@ public class Population{
 	*
 	*/
 	public void add(Individual individual){
-		solution_set.add(individual);
+		if(check_in_solution(individual) == false){
+			solution_set.add(individual);
+		}
 	}
 
 	/**
@@ -53,7 +55,9 @@ public class Population{
 	public void addSet(Individual[] individual){
 		for(int i = 0; i < individual.length; i++){
             if(individual[i] != null) {
-                solution_set.add(individual[i]);
+            	if(check_in_solution(individual[i]) == false){
+                	solution_set.add(individual[i]);
+            	}
             }
 		}
 	}
@@ -66,13 +70,32 @@ public class Population{
 		ArrayList<Individual> temp_list = population.getSolutionSet();
 		for(int i = 0; i < temp_list.size(); i++){
             if(temp_list.get(i) != null) {
-                solution_set.add(temp_list.get(i));
+            	if(check_in_solution(temp_list.get(i)) == false){
+                	solution_set.add(temp_list.get(i));
+            	}
             }
 		}
 	}
 
+	/**
+	*
+	*
+	*/
 	public void remove(Individual individual){
 		solution_set.remove(individual);
+	}
+
+	/**
+	*
+	* THIS MAY NEED TO BE REMOVED IF RUNS TAKE TOO LONG!
+	*/
+	public boolean check_in_solution(Individual individual){
+		for(int i = 0; i < solution_set.size(); i++){
+			if(Math.abs(solution_set.get(i).getCost()-individual.getCost()) < 0.0000000005){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

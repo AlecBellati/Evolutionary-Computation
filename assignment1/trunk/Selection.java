@@ -91,7 +91,9 @@ public class Selection{
         int choose_from = 5;
 
 		//can't get a larger solution set than what was supplied!!!
-		if(num_population > solution.getSize() || num_population < solution_size){
+		if(num_population < solution_size){
+			System.out.println("Supplied population size: " + solution.getSize());
+			System.out.println("Requested population size: " + num_population + ", Requested solution size: " + solution_size);
 			System.out.println("ERROR: requested solution size is outside the bounds of the supplied data set - tournament_selection()");
 			System.out.println("RETURNED: original supplied data");
 		}else{
