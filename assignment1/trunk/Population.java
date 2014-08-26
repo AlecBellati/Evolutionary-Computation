@@ -71,6 +71,10 @@ public class Population{
 		}
 	}
 
+	public void remove(Individual individual){
+		solution_set.remove(individual);
+	}
+
 	/**
 	* Gets a basic set of solutions - specified by the user
 	* Should not generate any errors

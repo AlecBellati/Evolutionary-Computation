@@ -263,6 +263,7 @@ public class Operators {
 		int node_num = 0;
 		boolean running = true;
 		//generates the cycles, adding them to the crossover array list
+
 		while(i < parentA.getNumCities()){
 			City current_node = parentA.getCityByIndex(i);
 			//find and unvisited parent node until the end of the solution set
@@ -271,11 +272,15 @@ public class Operators {
 				current_node = parentA.getCityByIndex(i);
 			}
 			
-			int index = i; i++;
+			int index = i;
+			i++;
 			//goes to a new node until returns to a visited node
 			//this loop will start at parentA and then go to parentB
 			//before setting current_node to the next node in the cycle path in parentA
-            j = 0;
+
+			//something with the j++ is fucked, if uncomment this it has the correct size but no cycles...
+			//if it is commented out, there are cycles but not the right size...
+            //j = 0;
 			while(!current_node.visited()){
 				if(j%2 == 0){
 					children[0].setCity(index, parentA.getCityByIndex(index));
@@ -290,13 +295,14 @@ public class Operators {
 
 				//parent B
 				node_num = parentB.getCityByIndex(node_num).getNodeNum();
-				
 				//parent A
+
 				current_node = parentA.getCityByIndex(node_num);
 				index = node_num;
-
 			}
-            j++;
+			printInline(children[0]);
+			printInline(children[1]);
+			j++;
 		}
         
 		//reset the "visited" variable in each City object
@@ -622,4 +628,23 @@ public class Operators {
 		
 		return individual;
 	}	
+
+	/**
+    *
+    */
+    private void printInline(Individual individual){
+        System.out.print("[ ");
+        for(int i = 0; i < individual.getNumCities(); i++){
+        	if(individual.getCityByIndex(i) != null){
+        		if(individual.getCityByIndex(i).getNodeNum() < 10){
+            		System.out.print(" " + individual.getCityByIndex(i).getNodeNum() + " ");
+        		}else{
+            		System.out.print(individual.getCityByIndex(i).getNodeNum() + " ");
+            	}
+        	}else{
+        		System.out.print("-1 ");
+        	}
+        }
+        System.out.println("]");
+    }
 }

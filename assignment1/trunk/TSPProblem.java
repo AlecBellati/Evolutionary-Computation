@@ -109,7 +109,19 @@ public class TSPProblem {
     * Use for regression testing (DO NOT MODIFY)
     */
     private void testing(){
-        printSolution(population);
+        population = new Population(2);
+        population.generateRandomSolutionSet(cities);
+
+            for(int i = 0; i < 2; i++){
+                printInline(population.getSolution(i));
+            }
+            Individual[] test = operators.cycleCrossover(population.getSolution(0), population.getSolution(1));
+            System.out.println();
+
+            for(int i = 0; i < 2; i++){
+                printInline(test[i]);
+            }
+
     }
 
     /*****************************************
@@ -283,7 +295,7 @@ public class TSPProblem {
     private void printInline(Individual individual){
         System.out.print("[ ");
         for(int i = 0; i < individual.getNumCities(); i++){
-            System.out.print(individual.getCityByIndex(i).getNodeNum()+1 + " ");
+            System.out.print(individual.getCityByIndex(i).getNodeNum() + " ");
         }
         System.out.println("]");
     }
@@ -315,10 +327,10 @@ public class TSPProblem {
 
         
         //Uncomment your testing function when needed
-        //TSPInstance.testing();   
+        TSPInstance.testing();   
         //TSPInstance.testingAlec();
         //TSPInstance.testingMatt();
-        TSPInstance.testingWill();
+        //TSPInstance.testingWill();
         //TSPInstance.testingSami();
 	}
 	
