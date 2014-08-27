@@ -89,7 +89,7 @@ public class TSPProblem {
             }
             br.close();
             
-            //initialise objects for solution generation, mutation and operators
+			//initialise objects for solution generation, mutation and operators
             //individual = new Individual(TSPGraph, cities);
             population = new Population(2);
             population.generateRandomSolutionSet(cities);
@@ -316,9 +316,9 @@ public class TSPProblem {
         
         //Uncomment your testing function when needed
         //TSPInstance.testing();   
-        //TSPInstance.testingAlec();
+        TSPInstance.testingAlec();
         //TSPInstance.testingMatt();
-        TSPInstance.testingWill();
+        //TSPInstance.testingWill();
         //TSPInstance.testingSami();
 	}
 	

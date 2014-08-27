@@ -424,7 +424,7 @@ public class Control{
 			if (record > curr_best.getCost() || record == -1.0){
 				record = curr_cost;
 				
-				//System.out.println(i + ": ***** Best Solution ***** = " + curr_cost);
+				System.out.println(i + ": ***** Best Solution ***** = " + curr_cost);
 			}
 		}
 		

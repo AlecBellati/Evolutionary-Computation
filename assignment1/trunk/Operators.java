@@ -585,25 +585,36 @@ public class Operators {
 		
 		boolean running = true;
 		int nextIndex;
+		double prob;
 		Individual otherInd;
 		City currCity, nextCity;
 		Mutators mutator = new Mutators();
 		
 		while (running) {
 			// Get the next city
-			if (rnd.nextDouble() <= INVER_OVER_PROBABILITY) {
-				nextIndex = rnd.nextInt(size);
-			} else {
-				otherInd = population.getRandomSolution();
-				currCity = newInd.getCityByIndex(index);
-				nextCity = otherInd.getNextCityByNumber(currCity.getNodeNum());
-				nextIndex = newInd.getCityIndex(nextCity.getNodeNum());
+			nextIndex = index;
+			prob = rnd.nextDouble();
+			while (nextIndex == index) {
+				if (prob <= INVER_OVER_PROBABILITY) {
+					nextIndex = rnd.nextInt(size);
+				} else {
+					otherInd = population.getRandomSolution();
+					currCity = newInd.getCityByIndex(index);
+					nextCity = otherInd.getNextCityByNumber(currCity.getNodeNum());
+					nextIndex = newInd.getCityIndex(nextCity.getNodeNum());
+				}
 			}
 			
-			// Check whether to inverse the subset
-			if ((index + 1) == nextIndex || (index - 1) == nextIndex || index == nextIndex) {
+			// Check whether the next city is connected to the current city
+			if ((index + 1) == nextIndex || (index - 1) == nextIndex) {
 				running = false;
-			} else {
+			} else if (index == 0 && nextIndex == (newInd.getNumCities() - 1)) {
+				running = false;
+			} else if (index == (newInd.getNumCities() - 1) && nextIndex == 0) {
+				running = false;
+			}
+			// Otherwise inverse the subset 
+			else {
 				if (index < nextIndex) {
 					index++;
 					mutator.inverseSubset(newInd, index, nextIndex);
