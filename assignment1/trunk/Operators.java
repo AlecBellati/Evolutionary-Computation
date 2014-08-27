@@ -594,12 +594,18 @@ public class Operators {
 		while (running) {
 			// Get the next city
 			nextIndex = index;
+			otherInd = newInd;
 			prob = rnd.nextDouble();
 			while (nextIndex == index) {
+				// Get the next city from within the same individual
 				if (prob <= INVER_OVER_PROBABILITY) {
 					nextIndex = rnd.nextInt(size);
-				} else {
-					otherInd = population.getRandomSolution();
+				}
+				// Get the next city from within a different individual
+				else {
+					while (otherInd == newInd) {
+						otherInd = population.getRandomSolution();
+					}
 					currCity = newInd.getCityByIndex(index);
 					nextCity = otherInd.getNextCityByNumber(currCity.getNodeNum());
 					nextIndex = newInd.getCityIndex(nextCity.getNodeNum());
