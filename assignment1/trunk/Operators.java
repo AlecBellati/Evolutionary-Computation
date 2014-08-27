@@ -603,7 +603,7 @@ public class Operators {
 				}
 				// Get the next city from within a different individual
 				else {
-					while (otherInd == newInd) {
+					while (otherInd == individual) {
 						otherInd = population.getRandomSolution();
 					}
 					currCity = newInd.getCityByIndex(index);
@@ -613,22 +613,19 @@ public class Operators {
 			}
 			
 			// Check whether the next city is connected to the current city
-			if ((index + 1) == nextIndex || (index - 1) == nextIndex) {
-				running = false;
-			} else if (index == 0 && nextIndex == (newInd.getNumCities() - 1)) {
+			if ((index + 1) == nextIndex) {
 				running = false;
 			} else if (index == (newInd.getNumCities() - 1) && nextIndex == 0) {
 				running = false;
 			}
 			// Otherwise inverse the subset 
 			else {
-				if (index < nextIndex) {
-					index++;
-					mutator.inverseSubset(newInd, index, nextIndex);
+				if (index == (size - 1)){
+					index = 0;
 				} else {
-					index--;
-					mutator.inverseSubset(newInd, nextIndex, index);
+					index++;
 				}
+				mutator.inverseSubset(newInd, index, nextIndex);
 			}
 			
 		}

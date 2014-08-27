@@ -52,9 +52,7 @@ public class Mutators{
 
 		//System.out.println(posA + " " + posB);
 
-		City temp = individual.getCityByIndex(posA);
-		individual.setCity(posA, individual.getCityByIndex(posB));
-		individual.setCity(posB, temp);
+		swapCities(individual, posA, posB);
 	}
 
 	/**
@@ -100,9 +98,7 @@ public class Mutators{
 				int subsetSize = posB - posA;
 				for (int i = posA; i <= posB; i++){
 					int index = rnd.nextInt(subsetSize);
-					City cityTemp = individual.getCityByIndex(i);
-					individual.setCity(i, individual.getCityByIndex(index + posA));
-					individual.setCity(index + posA, cityTemp);
+					swapCities(individual, i, posA);
 				}
 			}
 		}
@@ -116,13 +112,38 @@ public class Mutators{
 	 * @param int posB - last index of subset
 	 */
 	public void inverseSubset(Individual individual, int posA, int posB){
-		//invert positions in the array
-		int subsetSize = (int) Math.floor((posB - posA)/2.0);
-		for (int i = posA; i <= (posA + subsetSize); i++) {
-			City cityTemp = individual.getCityByIndex(i);
-			individual.setCity(i, individual.getCityByIndex(posB));
-			individual.setCity(posB, cityTemp);
-			posB--;
+		int a = posA;
+		int b = posB;
+		
+		// Handle the area to be inversed if it is circular (wraps around end of solution)
+		while(a < individual.getNumCities() && b >= 0){
+			swapCities(individual, a, b);
+			a++;
+			b--;
 		}
+		if (a == individual.getNumCities()){
+			a = 0;
+		} else {
+			b = individual.getNumCities() - 1;
+		}
+		
+		// Inverse the other parts of the solution
+		while(a < b){
+			swapCities(individual, a, b);
+			a++;
+			b--;
+		}
+	}
+	
+	/**
+	 * Swaps two 'City' objects in the supplied solution in the supplied spots
+	 * @param Individual - an individual candidate of the population to mutate
+	 * @param int - index of the first city
+	 * @param int - index of the second city
+	 */
+	public void swapCities(Individual individual, int posA, int posB){
+		City temp = individual.getCityByIndex(posA);
+		individual.setCity(posA, individual.getCityByIndex(posB));
+		individual.setCity(posB, temp);
 	}
 }
