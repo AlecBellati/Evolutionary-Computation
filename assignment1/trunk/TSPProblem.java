@@ -109,7 +109,19 @@ public class TSPProblem {
     * Use for regression testing (DO NOT MODIFY)
     */
     private void testing(){
-        printSolution(population);
+        population = new Population(2);
+        population.generateRandomSolutionSet(cities);
+
+            for(int i = 0; i < 2; i++){
+                printInline(population.getSolution(i));
+            }
+            Individual[] test = operators.cycleCrossover(population.getSolution(0), population.getSolution(1));
+            System.out.println();
+
+            for(int i = 0; i < 2; i++){
+                printInline(test[i]);
+            }
+
     }
 
     /*****************************************
@@ -143,23 +155,18 @@ public class TSPProblem {
         System.out.println("********** ALGORITHM " + j + " **********\n");
             int generations = 5000;
 
-           double avg = 0;
-            /*for(int i = 1; i <= 4; i=i*2){
-                avg = 0;
-                for(int x = 0; x < 10; x++){
-                    int solution_size = 8, population_size = 10;
-                    double mutation_percentage = 0.15, operation_percentage = 0.85;
-                    population = control.runSequence(cities, solution_size, population_size, generations*i, mutation_percentage, operation_percentage, j);
-                    System.out.println("Generations: " + generations * i);
-                    System.out.println("Population Size: " + population_size);
-                    System.out.println("Mutation Percentage: " + mutation_percentage + ", Operation Percentage: " + operation_percentage);
-                    System.out.println("BEST RESULT = " + population.getBestSolution().getCost());
-                    System.out.println();
-                    avg += population.getBestSolution().getCost();
-                }
-                System.out.println("AVERAGE = " + avg/10);
-            }*/
+            for(int i = 1; i <= 4; i=i*2){
+                int solution_size = 5, population_size = 10;
+                double mutation_percentage = 0.15, operation_percentage = 0.85;
+                population = control.runSequence(cities, solution_size, population_size, generations*i, mutation_percentage, operation_percentage, j);
+                System.out.println("Generations: " + generations * i);
+                System.out.println("Population Size: " + population_size);
+                System.out.println("Mutation Percentage: " + mutation_percentage + ", Operation Percentage: " + operation_percentage);
+                System.out.println("BEST RESULT = " + population.getBestSolution().getCost());
+                System.out.println();
+            }
 
+            /*
             for(int i = 1; i <= 4; i=i*2){
                 avg = 0;
                 int solution_size = 10, population_size = 20;
@@ -212,7 +219,7 @@ public class TSPProblem {
                 }
                 System.out.println("AVERAGE = " + avg/10);
                 System.out.println();
-            }
+            }*/
         }
         
     }
@@ -283,7 +290,7 @@ public class TSPProblem {
     private void printInline(Individual individual){
         System.out.print("[ ");
         for(int i = 0; i < individual.getNumCities(); i++){
-            System.out.print(individual.getCityByIndex(i).getNodeNum()+1 + " ");
+            System.out.print(individual.getCityByIndex(i).getNodeNum() + " ");
         }
         System.out.println("]");
     }

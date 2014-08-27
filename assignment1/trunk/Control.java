@@ -58,8 +58,7 @@ public class Control{
             individualA = population.getBestSolution();
             individualB = population.getSolution(rnd.nextInt(population.getSize()));
             
-			while(population.getSize() < (population_size-1)){
-
+			while(population.getSize() < population_size){
 				if(individualA != individualB){
                     if(population.getSize() == (population_size-1)) {
                         rand = 1;
@@ -153,9 +152,8 @@ public class Control{
             individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
             
             double operate_mutate = rnd.nextDouble();
-            while(population.getSize() < (population_size-1)){
+            while(population.getSize() < population_size){
                 if(individualA != individualB){
-                    
                     if(operate_mutate < 0.5){
                         rand = 2;
                         double operation_percentage = rnd.nextDouble();
@@ -217,7 +215,6 @@ public class Control{
                 individualA = population.getSolution(rnd.nextInt(population.getSize())).clone();
                 individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
             }
-            
             population.add(best);
             
             rand = 2;

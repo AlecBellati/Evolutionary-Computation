@@ -59,9 +59,11 @@ public class Individual{
       		//int index = rnd.nextInt(i + 1);
       		int index = rnd.nextInt(cities.length-1);
       		// Simple swap
-      		City temp = cities[index];
-      		cities[index] = cities[i];
-      		cities[i] = temp;
+      		if(index != i){
+      			City temp = cities[index];
+      			cities[index] = cities[i];
+      			cities[i] = temp;
+      		}
     	}
 		
 		costFound = false;
