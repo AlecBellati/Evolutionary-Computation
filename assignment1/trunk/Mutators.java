@@ -117,7 +117,7 @@ public class Mutators{
 	 */
 	public void inverseSubset(Individual individual, int posA, int posB){
 		//invert positions in the array
-		int subsetSize = (int) Math.ceil((posB - posA)/2.0);
+		int subsetSize = (int) Math.floor((posB - posA)/2.0);
 		for (int i = posA; i <= (posA + subsetSize); i++) {
 			City cityTemp = individual.getCityByIndex(i);
 			individual.setCity(i, individual.getCityByIndex(posB));

@@ -137,6 +137,7 @@ public class TSPProblem {
 		population = control.runSequence(cities, 0, population_size, generations, 0, 0, 4);
 
         printSolution(population);
+		
     }
 
     private void testingMatt(){
