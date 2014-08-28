@@ -57,6 +57,7 @@ public class Selection{
 		// Find the solutions for the population
 		double next, total, current;
 		int i, j;
+		Individual newInd;
 		for (i = 0; i < solutionSize; i++){
 			// Get a number between 0 and 1
 			next = rnd.nextDouble();
@@ -72,7 +73,8 @@ public class Selection{
 			}
 			
 			// Save the solution found
-			modifiedSolution.setSolution(i, solution.getSolution(j));
+			newInd = solution.getSolution(j).clone();
+			modifiedSolution.setSolution(i, newInd);
 		}
 		
 		return modifiedSolution;
