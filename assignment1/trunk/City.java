@@ -1,9 +1,9 @@
 public class City {
 	
 	/* Class variables */
-	private double[] edges;		// Edge weights - edges[1] indicates cost to travel to City 1
-	private int node;					// City number, considered its name
-	private boolean visited;	// Determines if node has been visited in a solution
+	private double[] edges;			// Edge weights - edges[1] indicates cost to travel to City 1
+	private int node;				// City number, considered its name
+	private boolean visited;		// Determines if node has been visited in a solution
 	
 	/**
 	 * Constructor of a City.

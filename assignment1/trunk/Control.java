@@ -11,6 +11,8 @@ public class Control{
 	private Operators operator;
 	/** Contains the three selection functions, returns a new population */
 	private Selection selection;
+    /** Holds the best solution for the current algorithm */
+    private Individual best_solution;
 	
 	/**
      * CONSTRUCTOR
@@ -51,6 +53,7 @@ public class Control{
 	public Population algorithm1(Population population, int solution_size, int population_size, double mutation_percentage, double operation_percentage, int generations){
 		Individual individualA;
 		Individual individualB;
+        best_solution = population.getBestSolution().clone();
 		
 		int rand = 0;
 		for(int i = 0; i < generations; i++){
@@ -58,8 +61,10 @@ public class Control{
             individualA = population.getBestSolution();
             individualB = population.getSolution(rnd.nextInt(population.getSize()));
             
+            checkBest(i, population.getBestSolution());
+            mutator.inversion(individualA);
 			while(population.getSize() < population_size){
-				if(individualA != individualB){
+
                     if(population.getSize() == (population_size-1)) {
                         rand = 1;
                     } else {
@@ -106,20 +111,20 @@ public class Control{
 								break;
 						}
 					}
-				}
                 individualA = population.getSolution(rnd.nextInt(population.getSize()));
 				individualB = population.getSolution(rnd.nextInt(population.getSize()));
 			}
             
 			population.add(best);
-			rand = 2;
+			rand = 0;
 			double select = rnd.nextDouble();
-			if(select < 0.6){
+			if(select < 0.55){
 				rand = 2;
-			}else if(select < 0.9){
+			}else if(select < 0.99){
 				rand = 1;
 			}
             
+            population = checkDuplicates(population, 5);
 			switch(rand){
 				case 0:
 					population = selection.fitnessProportional(population, solution_size);
@@ -131,8 +136,6 @@ public class Control{
 					population = selection.elitism(population, solution_size);
 					break;
 			}
-            
-			//System.out.println(i + ": ***** Best Solution ***** = " + population.getBestSolution().getCost());
 		}
 		return population;
 	}
@@ -144,6 +147,7 @@ public class Control{
     public Population algorithm2(Population population, int solution_size, int population_size, int generations){
         Individual individualA;
         Individual individualB;
+        best_solution = population.getBestSolution().clone();
         
         int rand = 0;
         for(int i = 0; i < generations; i++){
@@ -151,10 +155,11 @@ public class Control{
             individualA = population.getBestSolution();
             individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
             
+            checkBest(i, population.getBestSolution());
+            mutator.inversion(individualA);
             double operate_mutate = rnd.nextDouble();
             while(population.getSize() < population_size){
-                if(individualA != individualB){
-                    if(operate_mutate < 0.5){
+                    if(operate_mutate < 0.6){
                         rand = 2;
                         double operation_percentage = rnd.nextDouble();
                         if(operation_percentage < 0.4){
@@ -211,20 +216,20 @@ public class Control{
                         
                         population.add(individualA);
                     }
-                }
                 individualA = population.getSolution(rnd.nextInt(population.getSize())).clone();
                 individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
             }
             population.add(best);
             
-            rand = 2;
+            rand = 0;
             double select = rnd.nextDouble();
-            if(select < 0.6){
+            if(select < 0.55){
                 rand = 2;
-            }else if(select < 0.9){
+            }else if(select < 0.99){
                 rand = 1;
             }
             
+            population = checkDuplicates(population, 5);
             switch(rand){
                 case 0:
                     population = selection.fitnessProportional(population, solution_size);
@@ -236,10 +241,29 @@ public class Control{
                     population = selection.elitism(population, solution_size);
                     break;
             }
-            
-            //System.out.println(i + ": ***** Best Solution ***** = " + population.getBestSolution().getCost());
         }
         return population;
+    }
+
+    private Population checkDuplicates(Population solution, int remove_rate){
+        solution.sort();
+        int count = 0;
+        ArrayList<Individual> cities = solution.getSolutionSet();
+        for(int i = cities.size()-1; i > 0; i--){
+            if(cities.get(i).getCost() == cities.get(i-1).getCost()){
+                count++;
+                if(count == remove_rate){
+                    cities.remove(i);
+                    count = 0;
+                }
+            }else{
+                count = 0;
+            }
+        }
+
+        Population modified = new Population(cities.size());
+        modified.setSolutionSet(cities);
+        return modified;
     }
     
     
@@ -427,4 +451,11 @@ public class Control{
 		
 		return population;
 	}
+
+    public void checkBest(int generation, Individual compare){
+        if(compare.getCost() < best_solution.getCost()){
+            best_solution = compare.clone();
+            System.out.println(generation + ": ***** Best Solution ***** = " + best_solution.getCost());
+        }
+    }
 }

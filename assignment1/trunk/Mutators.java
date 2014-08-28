@@ -1,6 +1,7 @@
 import java.util.Random;
 
 public class Mutators{
+	
 	/* Class variables */
 	private Random rnd;		// Random number generator
 	

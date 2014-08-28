@@ -4,9 +4,9 @@ import java.util.Random;
 public class Individual {
 	
 	/* Class variables */
-	private City[] cities;			// Contains cities and their weights
+	private City[] cities;				// Contains cities and their weights
 	private double cost;				// Cost of current individual's current solution
-	private boolean costFound;	// Indicates whether the cost needs to be calculated
+	private boolean costFound;			// Indicates whether the cost needs to be calculated
 	
 	
 	/**
@@ -197,6 +197,10 @@ public class Individual {
 		}
 	}
 	
+	/**
+	* Print an Individual solution in-line
+	* This format is easier to read when comparing solutions (for debugging)
+	*/
 	public void print() {
 		System.out.print("[ ");
 		for (int j = 0; j < cities.length; j++) {

@@ -1,9 +1,10 @@
 import java.util.Random;
+import java.util.ArrayList;
 
 public class Selection{
 	
 	/* Class variables */
-	private Random rnd;													// Random number generation
+	private Random rnd;								// Random number generation
 	private double elitismPercentage = 0.75;		// Used for elite population selection
 
 	/**
@@ -127,7 +128,6 @@ public class Selection{
 	 * @return Population
 	 */
 	public Population elitism(Population solution, int numPopulation) {
-		
 		int length = solution.getSize();
 		
 		// Make sure the given population is not already less than or equal

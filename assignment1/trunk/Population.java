@@ -6,9 +6,9 @@ import java.util.ArrayList;
 public class Population {
 	
 	/* Class variables */
-	private ArrayList<Individual> solutionSet;	// Holds a set of City[] solutions
-	private int numSolutions;										// Number of solutions this population holds
-	private Random rnd;													// Random number generation
+	private ArrayList<Individual> solutionSet;		// Holds a set of City[] solutions
+	private int numSolutions;						// Number of solutions this population holds
+	private Random rnd;								// Random number generation
 	private final double COST = 0.0000000005;		// For comparison of city costs
 	
 	/**
@@ -114,6 +114,14 @@ public class Population {
 	 */
 	public ArrayList<Individual> getSolutionSet() {
 		return solutionSet;
+	}
+
+	/**
+	 * Set the city ArrayList from the supplied data
+	 * @param ArrayList<Individual> - the solution array to assign to this population
+	 */
+	public void setSolutionSet(ArrayList<Individual> cities) {
+		solutionSet = cities;
 	}
 	
 	/**

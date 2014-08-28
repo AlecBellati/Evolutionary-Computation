@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Operators {
 	/* Class variables */
-	private Random rnd;																	// Random number generator
-	private final double INVER_OVER_PROBABILITY = 0.02; // InverOver city selection probability
+	private Random rnd;										// Random number generator
+	private final double INVER_OVER_PROBABILITY = 0.02; 	// InverOver city selection probability
 	
 	/**
 	 * Constructor of the Operators
@@ -239,8 +239,7 @@ public class Operators {
 		}
 		return -1;
 	}
-	
-	
+		
 	/**
 	 * Performs a cycle crossover
 	 * Determines the crossover between two parents and then interleaves
