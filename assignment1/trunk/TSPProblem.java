@@ -90,9 +90,6 @@ public class TSPProblem {
             br.close();
             
 			//initialise objects for solution generation, mutation and operators
-            //individual = new Individual(TSPGraph, cities);
-            population = new Population(2);
-            population.generateRandomSolutionSet(cities);
             mutators = new Mutators();
             operators = new Operators();
             selection = new Selection();
@@ -111,9 +108,10 @@ public class TSPProblem {
     private void testing(){
 		int solution_size = 25, population_size = 50, generations = 20000;
         double mutation_percentage = 0.10, operation_percentage = 0.90;
-        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, 2);
+        int removal_rate = 5;
+        individual = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, removal_rate, 2);
 
-        printSolution(population);
+        printSolution(individual);
     }
 
     /**
