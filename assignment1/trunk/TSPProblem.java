@@ -106,10 +106,11 @@ public class TSPProblem {
     * Use for regression testing (DO NOT MODIFY)
     */
     private void testing(){
-		int solution_size = 25, population_size = 50, generations = 20000;
+        int population_size = 50, generations = 20000;
+        int solution_size = population_size/2;
         double mutation_percentage = 0.10, operation_percentage = 0.90;
-        int removal_rate = 5;
-        individual = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, removal_rate, 2);
+        int removal_rate = (int)Math.ceil(population_size/10);
+        individual = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, removal_rate, 1);
 
         printSolution(individual);
     }
