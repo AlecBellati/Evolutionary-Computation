@@ -35,6 +35,19 @@ public class TSPProblem {
     * @param String fileToLoad
     */
     public TSPProblem(String fileToLoad) {
+        
+        /**
+         *pause code review here
+         *this fixes the parser. It's dirty, Ugly, hellish in everyway, but Markus said it was OK for lots of various reasons.
+         *if you have any questions - contact Matt :D
+         */
+        if(fileToLoad.contains("pcb442")) {
+            TSPGraph = new double[442][442];
+            cities = new City[442];
+            numVertex = 442;
+        }
+        /*restart code review here*/
+        
         try {
             //open file for reading
             BufferedReader br = new BufferedReader(new FileReader(fileToLoad));
@@ -143,7 +156,7 @@ public class TSPProblem {
     private void testingMatt(){
         int solution_size = 5, population_size = 10, generations = 20000;
         double mutation_percentage = 0.15, operation_percentage = 0.85;
-        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, 3);
+        population = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, 1);
         //printSolution(population);
 
         //System.out.println();
@@ -324,8 +337,8 @@ public class TSPProblem {
         
         //Uncomment your testing function when needed
         //TSPInstance.testing();   
-        TSPInstance.testingAlec();
-        //TSPInstance.testingMatt();
+        //TSPInstance.testingAlec();
+        TSPInstance.testingMatt();
         //TSPInstance.testingWill();
         //TSPInstance.testingSami();
 	}
