@@ -1,51 +1,69 @@
-public class City{
-
-	/** Contains the edge weights, edges[1] indicates cost to travel to City 1 */
-	private double[] edges; 
-	/** This nodes city number, considered its name */
-	private int node;
-	/** Used to determine if this node has been visited in a solution */
-	private boolean visited;
+public class City {
+	
+	/* Class variables */
+	private double[] edges;		// Edge weights - edges[1] indicates cost to travel to City 1
+	private int node;					// City number, considered its name
+	private boolean visited;	// Determines if node has been visited in a solution
 	
 	/**
-	* CONSTRUCTOR
-	* Initialise variables
-	* @param int city_node - number to characterize this city (considered its name)
-	* @param int num_edges - number of cities it connects to
-	*/
-	public City(int city_node, int num_edges){
+	 * Constructor of a City.
+	 * @param int city_node - number to characterize this city (considered its name)
+	 * @param int num_edges - number of cities it connects to
+	 */
+	public City(int city_node, int num_edges) {
 		node = city_node;
 		edges = new double[num_edges];
 		visited = false;
 	}
-
-
-	/***********************************
-	******* GETTERS AND SETTERS ********
-	***********************************/
-
-	public void addEdge(int to_city, double edge_cost){
-		edges[to_city] = edge_cost;
+	
+	/**
+	 * Adds the edge and its cost to the edges array.
+	 * @param int toCity - the city's name to add
+	 * @param double edgeCost - the cost of the city to add
+	 */
+	public void addEdge(int toCity, double edgeCost) {
+		edges[toCity] = edgeCost;
 	}
-
-	public int getNodeNum(){
+	
+	/**
+	 * Gets the "name" of the node
+	 * @return int node - the name of the node
+	 */
+	public int getNodeNum() {
 		return node;
 	}
-
-	public double getEdge(int city){
+	
+	/**
+	 * Gets the edge of the node
+	 * @return double edges[city] - the cost of the edge
+	 */
+	public double getEdge(int city) {
 		return edges[city];
 	}
-
-	public void hasBeenVisited(boolean b){
+	
+	/**
+	 * Sets whether a node has been visited.
+	 * @param boolean b - whether the node has been visited
+	 */
+	public void hasBeenVisited(boolean b) {
 		visited = b;
 	}
-
-	public boolean visited(){
+	
+	/**
+	 * Indicates whether the node has been visited
+	 * @return boolean visited - whether the node has been visited
+	 */
+	public boolean visited() {
 		return visited;
 	}
-
-	public String toString(City to_city){
-		int next_city = to_city.getNodeNum();
-		return "CITY: " + node + ",\t COST TO CITY " + next_city + " = " + edges[next_city];
+	
+	/**
+	 * Combine the properties of a city
+	 * @param City toCity - the city to get the properties for
+	 * @return String - the city's properties
+	 */
+	public String toString(City toCity) {
+		int nextCity = toCity.getNodeNum();
+		return "CITY: " + node + ",\t COST TO CITY " + nextCity + " = " + edges[nextCity];
 	}
 }

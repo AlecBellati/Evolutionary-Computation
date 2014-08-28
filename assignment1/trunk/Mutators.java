@@ -5,7 +5,7 @@ public class Mutators{
 	private Random rnd;		// Random number generator
 	
 	/**
-	 * CONSTRUCTOR
+	 * Constructor of the Mutators.
 	 * Initialise the number generator for use as a global object
 	 */
 	public Mutators(){

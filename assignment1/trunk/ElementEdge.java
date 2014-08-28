@@ -1,37 +1,44 @@
-
-public class ElementEdge{
-
-    /**  */
-    private City element;
-    /**  */
-    private int count = 1;
-        
-    /**
-    * CONSTRUCTOR
-    *
-    */
-    public ElementEdge(City c) {
-        element = c;
-    }
-
-
-    /***********************************
-    ******* GETTERS AND SETTERS ********
-    ***********************************/
-
-    public City get_city() {
-        return element;
-    }
-
-    public int get_count() {
-        return count;
-    }
-
-    public void count_up() {
-        count++;
-    }
-
-    public void count_down() {
-        count--;
-    }
+public class ElementEdge {
+	
+	/* Class variables */
+	private City element;
+	private int count = 1;
+	
+	/**
+	 * Constructor of an ElementEdge
+	 * @param City c - the element
+	 */
+	public ElementEdge(City c) {
+		element = c;
+	}
+	
+	/**
+	 * Gets the appropriate city.
+	 * @return City element - the city in question
+	 */
+	public City getCity() {
+		return element;
+	}
+	
+	/**
+	 * Gets the count.
+	 * @return int count - the count
+	 */
+	public int getCount() {
+		return count;
+	}
+	
+	/**
+	 * Increments the counter.
+	 */
+	public void countUp() {
+		count++;
+	}
+	
+	/**
+	 * Decrements the counter.
+	 */
+	public void countDown() {
+		count--;
+	}
 }

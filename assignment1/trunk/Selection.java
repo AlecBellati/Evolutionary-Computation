@@ -7,7 +7,7 @@ public class Selection{
 	private double elitismPercentage = 0.75;		// Used for elite population selection
 
 	/**
-	 * CONSTRUCTOR
+	 * Constructor of a Selection.
 	 * Initialise the random number generator
 	 */
 	public Selection() {

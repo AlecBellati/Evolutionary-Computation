@@ -10,7 +10,7 @@ public class Individual {
 	
 	
 	/**
-	 * CONSTRUCTOR
+	 * Constructor of an Individual.
 	 * Takes given TSP Graph and assigns to local variable
 	 * Initialises solution array list and generate a set of random solutions
 	 * @param City[] cities - array of cities, current solution
@@ -25,7 +25,7 @@ public class Individual {
 	}
 	
 	/**
-	 * ALTERNATE CONSTRUCTOR
+	 * Constructor of an Individual. 
 	 * Initialises an empty array
 	 */
 	public Individual(int size) {

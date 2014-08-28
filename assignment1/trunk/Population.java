@@ -12,7 +12,7 @@ public class Population {
 	private final double COST = 0.0000000005;		// For comparison of city costs
 	
 	/**
-	 * CONSTRUCTOR
+	 * Constructor of a population
 	 * Used to extract multiple single solutions to form a population
 	 * @param int size - number of solutions this population will hold
 	 */

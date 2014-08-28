@@ -12,7 +12,7 @@ public class Operators {
 	private final double INVER_OVER_PROBABILITY = 0.02; // InverOver city selection probability
 	
 	/**
-	 * CONSTRUCTOR
+	 * Constructor of the Operators
 	 * Initialise the random number generator (may not be needed)
 	 */
 	public Operators() {
@@ -356,14 +356,14 @@ public class Operators {
 					for (ElementEdge ee : arr) {
 						
 						// If left added, increase count
-						if (ee.get_city() == parents[i][left]) {
-							ee.count_up();
+						if (ee.getCity() == parents[i][left]) {
+							ee.countUp();
 							doneLeft = true;
 						}
 						
 						// If right added, increase count
-						if (ee.get_city() == parents[i][right]) {
-							ee.count_up();
+						if (ee.getCity() == parents[i][right]) {
+							ee.countUp();
 							doneRight = true;
 						}
 					}
@@ -409,7 +409,7 @@ public class Operators {
 				ArrayList<ElementEdge> edges = edgeListing.get(c);
 				
 				for (int i = edges.size()-1; i >= 0; i--) {
-					if (edges.get(i).get_city() == solution[0][idx]) {
+					if (edges.get(i).getCity() == solution[0][idx]) {
 						edges.remove(i);
 					}
 				}
@@ -422,8 +422,8 @@ public class Operators {
 			
 			// One common edge
 			for(ElementEdge ee : edges) {
-				if (ee.get_count() > 1) {
-					nextElem = ee.get_city();
+				if (ee.getCount() > 1) {
+					nextElem = ee.getCity();
 					foundNext = true;
 					break;
 				}
@@ -440,18 +440,18 @@ public class Operators {
 				for (ElementEdge ee : edges) {
 					
 					// If new shortest list found, update numEdges and candidate
-					if (edgeListing.get(ee.get_city()).size() < numEdges) {
-						numEdges = edgeListing.get(ee.get_city()).size();
+					if (edgeListing.get(ee.getCity()).size() < numEdges) {
+						numEdges = edgeListing.get(ee.getCity()).size();
 						candidate.clear();
-						candidate.add(ee.get_city());
+						candidate.add(ee.getCity());
 						
 						// If an equal shortest list found, add to the potential candidates
-					} else if(edgeListing.get(ee.get_city()).size() == numEdges) {
-						candidate.add(ee.get_city());
+					} else if(edgeListing.get(ee.getCity()).size() == numEdges) {
+						candidate.add(ee.getCity());
 						
 						// Otherwise, it's the last element and needs to be added
-					} else if (edgeListing.get(ee.get_city()).size() == 0) {
-						candidate.add(ee.get_city());
+					} else if (edgeListing.get(ee.getCity()).size() == 0) {
+						candidate.add(ee.getCity());
 					}
 				}
 				
@@ -512,10 +512,10 @@ public class Operators {
 			ArrayList<ElementEdge> edges = hash.get(c);
 			System.out.print(String.format("%2d      |", c.getNodeNum()));
 			for (ElementEdge ee : edges) {
-				if (ee.get_count() > 1) {
-					System.out.print(String.format("%2d+ ", ee.get_city().getNodeNum()));
+				if (ee.getCount() > 1) {
+					System.out.print(String.format("%2d+ ", ee.getCity().getNodeNum()));
 				} else {
-					System.out.print(String.format("%2d  ", ee.get_city().getNodeNum()));
+					System.out.print(String.format("%2d  ", ee.getCity().getNodeNum()));
 				}
 			}
 			System.out.println();
