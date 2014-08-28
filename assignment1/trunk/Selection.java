@@ -2,15 +2,15 @@ import java.util.Random;
 
 public class Selection{
 	
-	/** Used to generate random numbers - use rnd.nextInt(MAX_VALUE) */
-	private Random rnd;
-	private double ELITISM_PERCENTAGE = 0.75;
+	/* Class variables */
+	private Random rnd;													// Random number generation
+	private double elitismPercentage = 0.75;		// Used for elite population selection
 
 	/**
-	* CONSTRUCTOR
-	* Initialise the random number generator
-	*/
-	public Selection(){
+	 * CONSTRUCTOR
+	 * Initialise the random number generator
+	 */
+	public Selection() {
 		rnd = new Random();
 	}
 	
@@ -19,37 +19,37 @@ public class Selection{
 	 * @param percent - the new elitism percentage
 	 */
 	public void setElitismPercentage(double percent) {
-		ELITISM_PERCENTAGE = percent;
+		elitismPercentage = percent;
 	}
 	
 	/**
 	 * Get the current elitism percentage value.
-	 * @return ELITISM_PERCENTAGE - the current elitism selection percentage
+	 * @return elitismPercentage - the current elitism selection percentage
 	 */
 	public double getElitismPercentage() {
-		return ELITISM_PERCENTAGE;
+		return elitismPercentage;
 	}
 
 	/**
-	* Given a solution, randomly select num_population solutions.
-	* Find the total fitness of all solutions and the probability each solution contributes.
-	* Using this information, "spin a wheel" where each solution has the probability of
-	* being picked the same as their contribution.
-	* @param Population - solution set
-	* @param solution_size - number of solutions to select based on the highest profits
-    * @return Population
-	*/
-	public Population fitnessProportional(Population solution, int solution_size){
+	 * Given a solution, randomly select numPopulation solutions.
+	 * Find the total fitness of all solutions and the probability each solution contributes.
+	 * Using this information, "spin a wheel" where each solution has the probability of
+	 * being picked the same as their contribution.
+	 * @param Population - solution set
+	 * @param solutionSize - number of solutions to select based on the highest profits
+	 * @return Population
+	 */
+	public Population fitnessProportional(Population solution, int solutionSize) {
 		int length = solution.getSize();
 		
 		// Make sure the given population is not already less than or equal
 		// to the given solution size
-		if (length <= solution_size){
+		if (length <= solutionSize){
 			return solution;
 		}
 		
 		// Create new population
-		Population modified_solution = new Population(solution_size);
+		Population modifiedSolution = new Population(solutionSize);
 		
 		// Get the total fitness
 		double totalFitness = solution.getTotalCost();
@@ -57,14 +57,14 @@ public class Selection{
 		// Find the solutions for the population
 		double next, total, current;
 		int i, j;
-		for (i = 0; i < solution_size; i++){
+		for (i = 0; i < solutionSize; i++){
 			// Get a number between 0 and 1
 			next = rnd.nextDouble();
 			
 			// Cycle through until the probability is found
 			total = 0;
 			j = -1;
-			while (j < length & total <= next){
+			while (j < length && total <= next){
 				j++;
 				
 				current = solution.getSolution(j).getCost() / totalFitness;
@@ -72,91 +72,87 @@ public class Selection{
 			}
 			
 			// Save the solution found
-			modified_solution.setSolution(i, solution.getSolution(j));
+			modifiedSolution.setSolution(i, solution.getSolution(j));
 		}
 		
-		return modified_solution;
+		return modifiedSolution;
 	}
 
 	/**
-	* Given a solution, randomly select num_population solutions
-	* Given this new subset, sort them by total cost and then pick the best based
-	* on the supplied integer - solution_size
-	* @param Population - solution set
-	* @param num_population - number of random solutions to be used for selection
-	* @param solution_size - number of solutions to select based on the highest profits
-    * @return Population
-	*/
-	public Population tournamentSelection(Population solution, int num_population, int solution_size){
-        int choose_from = 5;
+	 * Given a solution, randomly select numPopulation solutions
+	 * Given this new subset, sort them by total cost and then pick the best based
+	 * on the supplied integer - solutionSize
+	 * @param Population - solution set
+	 * @param numPopulation - number of random solutions to be used for selection
+	 * @param solutionSize - number of solutions to select based on the highest profits
+	 * @return Population
+	 */
+	public Population tournamentSelection(Population solution, int numPopulation, int solutionSize){
+        int chooseFrom = 5;
 
 		//can't get a larger solution set than what was supplied!!!
-		if(num_population < solution_size){
+		if (numPopulation < solutionSize) {
 			System.out.println("Supplied population size: " + solution.getSize());
-			System.out.println("Requested population size: " + num_population + ", Requested solution size: " + solution_size);
+			System.out.println("Requested population size: " + numPopulation + ", Requested solution size: " + solutionSize);
 			System.out.println("ERROR: requested solution size is outside the bounds of the supplied data set - tournament_selection()");
 			System.out.println("RETURNED: original supplied data");
-		}else{
+		} else {
 			Population reduced_solution = solution.clone();
-			Population profit_solution = new Population(solution_size);
+			Population profitSolution = new Population(solutionSize);
 
-			for(int x = 0; x < solution_size; x++){
-				Population selected = new Population(choose_from);
-				//randomly select solutions, specified by "choose_from" variable above
-				for(int i = 0; i < choose_from; i++){
-					selected.setSolution(i, solution.getSolution(rnd.nextInt(solution.getSize())));
+			for (int i = 0; i < solutionSize; i++) {
+				Population selected = new Population(chooseFrom);
+				//randomly select solutions, specified by "chooseFrom" variable above
+				for (int j = 0; j < chooseFrom; j++) {
+					selected.setSolution(j, solution.getSolution(rnd.nextInt(solution.getSize())));
 				}
 				//from those solutions, pick the best one and add it to the new population
-				profit_solution.setSolution(x, selected.getBestSolution().clone());
+				profitSolution.setSolution(i, selected.getBestSolution().clone());
 				reduced_solution.remove(selected.getBestSolution());
 			}
 
-			return profit_solution;
+			return profitSolution;
 		}
 		return solution;
 	}
 
 
 	/**
-	* Given a soluton, generate relative fitnesses for solutions
-	* And rank the population according to relative fitness
-	* @param Population - solution set
-	* @param num_population - number of solutions to be used for selection
-    * @return Population
-	*/
-	public Population elitism(Population solution, int num_population) {
+	 * Given a soluton, generate relative fitnesses for solutions
+	 * And rank the population according to relative fitness
+	 * @param Population - solution set
+	 * @param numPopulation - number of solutions to be used for selection
+	 * @return Population
+	 */
+	public Population elitism(Population solution, int numPopulation) {
 		
 		int length = solution.getSize();
 		
 		// Make sure the given population is not already less than or equal
 		// to the given solution size
-		if (length <= num_population){
+		if (length <= numPopulation){
 			return solution;
 		}
 		
 		// Create new population
-		Population modified_solution = new Population(num_population);
+		Population modifiedSolution = new Population(numPopulation);
 		
 		// Sort current population
 		solution.sort();
 		
 		// Select elite solutions
-		int noEliteSolns = (int) (num_population * ELITISM_PERCENTAGE);
+		int noEliteSolns = (int) (numPopulation * elitismPercentage);
 		for (int i = 0; i < noEliteSolns; i++) {
-			modified_solution.setSolution(i, solution.getSolution(i));
+			modifiedSolution.setSolution(i, solution.getSolution(i));
 		}
 				
-		int range = length - noEliteSolns;
 		// Select random solutions from the remainder
-		for(int i = noEliteSolns; i < num_population; i++){
-			modified_solution.setSolution(i, solution.getSolution(rnd.nextInt(range) + noEliteSolns));
+		int range = length - noEliteSolns;
+		for(int i = noEliteSolns; i < numPopulation; i++){
+			modifiedSolution.setSolution(i, solution.getSolution(rnd.nextInt(range) + noEliteSolns));
 		}
 
-		/*for(int i = 0; i < num_population; i++){
-			modified_solution.setSolution(i, solution.getSolution(i));
-		}*/
-
-		return modified_solution;
+		return modifiedSolution;
 	}
 
 	/**
