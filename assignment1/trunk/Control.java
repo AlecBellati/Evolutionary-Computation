@@ -80,7 +80,7 @@ public class Control{
             checkBest(i, population.getBestSolution());
             mutator.inversion(individualA);
 			while(population.getSize() < population_size){
-
+                
                     if(population.getSize() == (population_size-1)) {
                         rand = 1;
                     } else {
@@ -493,7 +493,7 @@ public class Control{
     public void checkBest(int generation, Individual compare){
         if(compare.getCost() < best_solution.getCost()){
             best_solution = compare.clone();
-            System.out.println((generation+1) + ": ***** Best Solution ***** = " + best_solution.getCost());
+            //System.out.println((generation+1) + ": ***** Best Solution ***** = " + best_solution.getCost());
         }
     }
 }

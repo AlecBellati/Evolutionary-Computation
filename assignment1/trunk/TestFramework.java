@@ -215,7 +215,7 @@ public class TestFramework {
     private void writeOperatorsOnly(String outputFile) {
         
         int solution_size = 100, generations = 10000;
-        double operation_percentage = 0.9;
+        double operation_percentage = 0;
         
         int mutator = 0, selector = 0, num_runs = 10;
         
