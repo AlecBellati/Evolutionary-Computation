@@ -142,32 +142,24 @@ public class TSPProblem {
     private void runResults(){
         int[] popSizes = {10, 20, 50, 100};
         int[] gens = {5000, 10000, 20000};
-        
+                
         //algorithm 1
         for(int i = 0; i < popSizes.length; i++) {
             for(int j = 0; j < gens.length; j++) {
-                System.out.println("popSize = " + popSizes[i] + ", gens = " + gens[j]);
+                for(int k = 0; k < 10; k++) {
+                    long startTime = System.currentTimeMillis();
                 
-                long startTime = System.currentTimeMillis();
+                    int population_size = popSizes[i], generations = gens[j];
+                    int solution_size = population_size/2;
+                    double mutation_percentage = 0.10, operation_percentage = 0.90;
+                    int removal_rate = (int)Math.ceil(population_size/10);
+                    individual = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, removal_rate, 1);
                 
-                int population_size = popSizes[i], generations = gens[j];
-                int solution_size = population_size/2;
-                double mutation_percentage = 0.10, operation_percentage = 0.90;
-                int removal_rate = (int)Math.ceil(population_size/10);
-                individual = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, removal_rate, 1);
+                    long endTime = System.currentTimeMillis();
                 
-                long endTime = System.currentTimeMillis();
-                                
-                //write out the best result
-                try {
-                    File file = new File("results.csv");
-                    BufferedWriter output = new BufferedWriter(new FileWriter(file, true));
+                    //output the
                     String strOut = "Algorithm: 1; PopSize: " + popSizes[i] + "; numGens: " + gens[j] + "," + individual.getCost() + ","+ (endTime-startTime) + "\n";
-                    output.write(strOut);
-                    output.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.exit(1);
+                    System.out.println(strOut);
                 }
             }
         }

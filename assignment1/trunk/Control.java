@@ -78,55 +78,55 @@ public class Control{
             individualB = population.getSolution(rnd.nextInt(population.getSize()));
             
             checkBest(i, population.getBestSolution());
-            mutator.inversion(individualA);
+            
 			while(population.getSize() < population_size){
-                
-                    if(population.getSize() == (population_size-1)) {
-                        rand = 1;
-                    } else {
-                   		rand = rnd.nextInt(4);
-                    }
-                    
-                    double operate = rnd.nextDouble();
-                    if(operate < operation_percentage){
-	                    switch(rand){
-	                    	case 0:
-	                        	population.addSet(operator.orderCrossover(individualA, individualB));
-	                        	break;
-	                    	case 1:
-	                       		population.add(operator.edgeRecombination(individualA, individualB));
-	                        	break;
-	                    	case 2:
-	                            population.addSet(operator.cycleCrossover(individualA, individualB));
-	                            break;
-	                        case 3:
-	                            population.addSet(operator.pmxCrossover(individualA, individualB));
-	                            break;
-	                    }
-	                }
-                    
+                mutator.inversion(individualA);
+                if(population.getSize() == (population_size-1)) {
+                    rand = 1;
+                } else {
                     rand = rnd.nextInt(4);
-                    double mutate = rnd.nextDouble();
-                    if(mutate < mutation_percentage){
-						switch(rand){
-							case 0:
-								mutator.insert(individualA);
-								mutator.insert(individualB);
-								break;
-							case 1:
-								mutator.swap(individualA);
-								mutator.swap(individualB);
-								break;
-							case 2:
-								mutator.inversion(individualA);
-								mutator.inversion(individualB);
-								break;
-							case 3:
-								mutator.scramble(individualA);
-								mutator.scramble(individualB);
-								break;
-						}
-					}
+                }
+                
+                double operate = rnd.nextDouble();
+                if(operate < operation_percentage){
+                    switch(rand){
+                        case 0:
+                            population.addSet(operator.orderCrossover(individualA, individualB));
+                            break;
+                        case 1:
+                            population.add(operator.edgeRecombination(individualA, individualB));
+                            break;
+                        case 2:
+                            population.addSet(operator.cycleCrossover(individualA, individualB));
+                            break;
+                        case 3:
+                            population.addSet(operator.pmxCrossover(individualA, individualB));
+                            break;
+                    }
+                }
+                
+                rand = rnd.nextInt(4);
+                double mutate = rnd.nextDouble();
+                if(mutate < mutation_percentage){
+                    switch(rand){
+                        case 0:
+                            mutator.insert(individualA);
+                            mutator.insert(individualB);
+                            break;
+                        case 1:
+                            mutator.swap(individualA);
+                            mutator.swap(individualB);
+                            break;
+                        case 2:
+                            mutator.inversion(individualA);
+                            mutator.inversion(individualB);
+                            break;
+                        case 3:
+                            mutator.scramble(individualA);
+                            mutator.scramble(individualB);
+                            break;
+                    }
+                }
                 individualA = population.getSolution(rnd.nextInt(population.getSize()));
 				individualB = population.getSolution(rnd.nextInt(population.getSize()));
 			}
@@ -177,66 +177,66 @@ public class Control{
             individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
             
             checkBest(i, population.getBestSolution());
-            mutator.inversion(individualA);
             double operate_mutate = rnd.nextDouble();
             while(population.getSize() < population_size){
-                    if(operate_mutate < 0.6){
-                        rand = 2;
-                        double operation_percentage = rnd.nextDouble();
-                        if(operation_percentage < 0.4){
-                            rand = 0;
-                        }else if(operation_percentage < 0.70){
-                            rand = 3;
-                        }else if(operation_percentage < 0.95){
-                            rand = 1;
-                        }
-                        
-                        if(population.getSize() == (population_size-1)) {
-                            rand = 1;
-                        }
-                        
-                        switch(rand){
-                            case 0:
-                                population.addSet(operator.orderCrossover(individualA, individualB));
-                                break;
-                            case 1:
-                                population.add(operator.edgeRecombination(individualA, individualB));
-                                break;
-                            case 2:
-                                population.addSet(operator.cycleCrossover(individualA, individualB));
-                                break;
-                            case 3:
-                                population.addSet(operator.pmxCrossover(individualA, individualB));
-                                break;
-                        }
-                    }else{
+                mutator.inversion(individualA);
+                if(operate_mutate < 0.6){
+                    rand = 2;
+                    double operation_percentage = rnd.nextDouble();
+                    if(operation_percentage < 0.4){
+                        rand = 0;
+                    }else if(operation_percentage < 0.70){
                         rand = 3;
-                        double mutation_percentage = rnd.nextDouble();
-                        if(mutation_percentage < 0.5){
-                            rand = 2;
-                        }else if(mutation_percentage < 0.75){
-                            rand = 0;
-                        }else if(mutation_percentage < 0.95){
-                            rand = 1;
-                        }
-                        
-                        switch(rand){
-                            case 0:
-                                mutator.insert(individualA);
-                                break;
-                            case 1:
-                                mutator.swap(individualA);
-                                break;
-                            case 2:
-                                mutator.inversion(individualA);
-                                break;
-                            case 3:
-                                mutator.scramble(individualA);
-                                break;
-                        }
-                        
-                        population.add(individualA);
+                    }else if(operation_percentage < 0.95){
+                        rand = 1;
                     }
+                    
+                    if(population.getSize() == (population_size-1)) {
+                        rand = 1;
+                    }
+                    
+                    switch(rand){
+                        case 0:
+                            population.addSet(operator.orderCrossover(individualA, individualB));
+                            break;
+                        case 1:
+                            population.add(operator.edgeRecombination(individualA, individualB));
+                            break;
+                        case 2:
+                            population.addSet(operator.cycleCrossover(individualA, individualB));
+                            break;
+                        case 3:
+                            population.addSet(operator.pmxCrossover(individualA, individualB));
+                            break;
+                    }
+                }else{
+                    rand = 3;
+                    double mutation_percentage = rnd.nextDouble();
+                    if(mutation_percentage < 0.5){
+                        rand = 2;
+                    }else if(mutation_percentage < 0.75){
+                        rand = 0;
+                    }else if(mutation_percentage < 0.95){
+                        rand = 1;
+                    }
+                    
+                    switch(rand){
+                        case 0:
+                            mutator.insert(individualA);
+                            break;
+                        case 1:
+                            mutator.swap(individualA);
+                            break;
+                        case 2:
+                            mutator.inversion(individualA);
+                            break;
+                        case 3:
+                            mutator.scramble(individualA);
+                            break;
+                    }
+                    
+                    population.add(individualA);
+                }
                 individualA = population.getSolution(rnd.nextInt(population.getSize())).clone();
                 individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
             }
@@ -265,13 +265,13 @@ public class Control{
         }
         return best_solution;
     }
-
+    
     /**
-    * Removes duplicates based on the "remove_rate"
-    * @param Population - the solution set from which to remove some or all duplicates
-    * @param int remove_rate - the number of duplicates detected before one is removed
-    * @return Population - the modified population with some duplicates removed
-    */
+     * Removes duplicates based on the "remove_rate"
+     * @param Population - the solution set from which to remove some or all duplicates
+     * @param int remove_rate - the number of duplicates detected before one is removed
+     * @return Population - the modified population with some duplicates removed
+     */
     private Population checkDuplicates(Population solution, int remove_rate){
         solution.sort();
         int count = 0;
@@ -287,7 +287,7 @@ public class Control{
                 count = 0;
             }
         }
-
+        
         Population modified = new Population(cities.size());
         modified.setSolutionSet(cities);
         return modified;
@@ -415,8 +415,8 @@ public class Control{
                 int popnSize = population.getSize()/2;
                 
                 //check to see if there are enough in the population to pick a solution
-                if(popnSize < 5) {
-                    popnSize = 5;
+                if(popnSize < solution_size) {
+                    popnSize = solution_size;
                 }
                 population = selection.tournamentSelection(population, popnSize, solution_size);
             } else {
@@ -457,7 +457,7 @@ public class Control{
 	public Individual inver_over(City[] cities, Population population, int population_size, int generations) {
         // Set up the population
 		Population new_pop = new Population(population_size);
-		new_pop.generateRandomSolutionSet(cities);        
+		new_pop.generateRandomSolutionSet(cities);
 		
 		// Operate on the population
 		Individual curr, best_solution = new_pop.getBestSolution();
@@ -482,14 +482,14 @@ public class Control{
 		
 		return best_solution;
 	}
-
+    
     /**
-    * Checks if one solution is better than another
-    * If it is it assigns the new solution to the global "best_solution" variable
-    * And then prints it out to the user
-    * @param int generation - the current generation where the solution was found
-    * @param Individual compare - the solution to be compare against the current best solution
-    */
+     * Checks if one solution is better than another
+     * If it is it assigns the new solution to the global "best_solution" variable
+     * And then prints it out to the user
+     * @param int generation - the current generation where the solution was found
+     * @param Individual compare - the solution to be compare against the current best solution
+     */
     public void checkBest(int generation, Individual compare){
         if(compare.getCost() < best_solution.getCost()){
             best_solution = compare.clone();
