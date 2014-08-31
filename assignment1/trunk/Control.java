@@ -301,7 +301,7 @@ public class Control {
 	
 	
 	/**
-	 * EXPLANATION!
+	 * Algorithm based on Operator/Mutator and Selection efficiacy.
 	 * @param Population - the TSPGraph to perform the algorithm on
 	 * @param int solutionSize - population to begin each generation (cut down at selection)
 	 * @param int poplation_size - population size at the end of a generation (before selection)
