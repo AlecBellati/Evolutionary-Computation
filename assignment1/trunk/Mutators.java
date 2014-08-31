@@ -1,6 +1,16 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment One
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 import java.util.Random;
 
-public class Mutators{
+public class Mutators {
 	
 	/* Class variables */
 	private Random rnd;		// Random number generator

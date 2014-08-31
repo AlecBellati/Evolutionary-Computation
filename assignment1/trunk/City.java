@@ -1,8 +1,18 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment One
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 public class City {
 	
 	/* Class variables */
 	private double[] edges;			// Edge weights - edges[1] indicates cost to travel to City 1
-	private int node;				// City number, considered its name
+	private int node;						// City number, considered its name
 	private boolean visited;		// Determines if node has been visited in a solution
 	
 	/**

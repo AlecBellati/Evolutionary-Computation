@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment One
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
@@ -7,9 +17,9 @@ public class Population {
 	
 	/* Class variables */
 	private ArrayList<Individual> solutionSet;		// Holds a set of City[] solutions
-	private int numSolutions;						// Number of solutions this population holds
-	private Random rnd;								// Random number generation
-	private final double COST = 0.0000000005;		// For comparison of city costs
+	private int numSolutions;											// Number of solutions this population holds
+	private Random rnd;														// Random number generation
+	private final double COST = 0.0000000005;			// For comparison of city costs
 	
 	/**
 	 * Constructor of a population
@@ -115,7 +125,7 @@ public class Population {
 	public ArrayList<Individual> getSolutionSet() {
 		return solutionSet;
 	}
-
+	
 	/**
 	 * Set the city ArrayList from the supplied data
 	 * @param ArrayList<Individual> - the solution array to assign to this population

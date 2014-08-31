@@ -1,12 +1,22 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment One
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 import java.util.Random;
 import java.util.ArrayList;
 
-public class Selection{
+public class Selection {
 	
 	/* Class variables */
-	private Random rnd;								// Random number generation
+	private Random rnd;													// Random number generation
 	private double elitismPercentage = 0.75;		// Used for elite population selection
-
+	
 	/**
 	 * Constructor of a Selection.
 	 * Initialise the random number generator
@@ -30,7 +40,7 @@ public class Selection{
 	public double getElitismPercentage() {
 		return elitismPercentage;
 	}
-
+	
 	/**
 	 * Given a solution, randomly select numPopulation solutions.
 	 * Find the total fitness of all solutions and the probability each solution contributes.
@@ -83,7 +93,7 @@ public class Selection{
 		
 		return modifiedSolution;
 	}
-
+	
 	/**
 	 * Given a solution, randomly select numPopulation solutions
 	 * Given this new subset, sort them by total cost and then pick the best based
@@ -94,8 +104,8 @@ public class Selection{
 	 * @return Population
 	 */
 	public Population tournamentSelection(Population solution, int numPopulation, int solutionSize){
-        int chooseFrom = 5;
-
+		int chooseFrom = 5;
+		
 		//can't get a larger solution set than what was supplied!!!
 		if (numPopulation < solutionSize) {
 			System.out.println("Supplied population size: " + solution.getSize());
@@ -105,7 +115,7 @@ public class Selection{
 		} else {
 			Population reduced_solution = solution.clone();
 			Population profitSolution = new Population(solutionSize);
-
+			
 			for (int i = 0; i < solutionSize; i++) {
 				Population selected = new Population(chooseFrom);
 				//randomly select solutions, specified by "chooseFrom" variable above
@@ -116,13 +126,13 @@ public class Selection{
 				profitSolution.setSolution(i, selected.getBestSolution().clone());
 				reduced_solution.remove(selected.getBestSolution());
 			}
-
+			
 			return profitSolution;
 		}
 		return solution;
 	}
-
-
+	
+	
 	/**
 	 * Given a soluton, generate relative fitnesses for solutions
 	 * And rank the population according to relative fitness
@@ -150,19 +160,19 @@ public class Selection{
 		for (int i = 0; i < noEliteSolns; i++) {
 			modifiedSolution.setSolution(i, solution.getSolution(i));
 		}
-				
+		
 		// Select random solutions from the remainder
 		int range = length - noEliteSolns;
 		for(int i = noEliteSolns; i < numPopulation; i++){
 			modifiedSolution.setSolution(i, solution.getSolution(rnd.nextInt(range) + noEliteSolns));
 		}
-
+		
 		return modifiedSolution;
 	}
-
+	
 	/**
-	* TESTING ONLY
-	*/
+	 * TESTING ONLY
+	 */
 	public static void main(String[] args){
 		Selection test = new Selection();
 	}

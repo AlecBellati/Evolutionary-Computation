@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment One
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -7,8 +17,9 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Operators {
+	
 	/* Class variables */
-	private Random rnd;										// Random number generator
+	private Random rnd;																		// Random number generator
 	private final double INVER_OVER_PROBABILITY = 0.02; 	// InverOver city selection probability
 	
 	/**
@@ -170,7 +181,7 @@ public class Operators {
 			Individual parentBEx = new Individual(subsetLength);
 			int parentAExLength = 0;
 			int parentBExLength = 0;
-
+			
 			for (int i = posA; i <= posB; i++) {
 				// Put current value of parent 0 into child
 				newSol.setCity(i, parentA.getCityByIndex(i));
@@ -239,7 +250,7 @@ public class Operators {
 		}
 		return -1;
 	}
-		
+	
 	/**
 	 * Performs a cycle crossover
 	 * Determines the crossover between two parents and then interleaves
@@ -393,7 +404,7 @@ public class Operators {
 			// Reset for the second city
 			cityCount = 0;
 		}
-	
+		
 		// Insert random starting city
 		int indiv = rnd.nextInt(2);
 		int startPT = rnd.nextInt(parents[0].length);
@@ -401,7 +412,7 @@ public class Operators {
 		
 		// Recombine elements into new solution
 		for (int idx = 0; idx < solution[0].length-1; idx++) {
-						
+			
 			// Remove all references to current City from edgeListing
 			Set<City> keySet = edgeListing.keySet();
 			for (City c : keySet) {
