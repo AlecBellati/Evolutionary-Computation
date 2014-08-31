@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment One
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -5,8 +15,8 @@ public class Individual {
 	
 	/* Class variables */
 	private City[] cities;				// Contains cities and their weights
-	private double cost;				// Cost of current individual's current solution
-	private boolean costFound;			// Indicates whether the cost needs to be calculated
+	private double cost;					// Cost of current individual's current solution
+	private boolean costFound;		// Indicates whether the cost needs to be calculated
 	
 	
 	/**
