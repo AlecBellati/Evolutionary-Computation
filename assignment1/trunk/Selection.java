@@ -81,12 +81,8 @@ public class Selection {
 			while (j < length && total <= next){
 				j++;
 				
-<<<<<<< HEAD
-				current = 1-(solution.getSolution(j).getCost() / totalFitness);
-=======
 				current = solution.getSolution(j).getCost() / totalFitness;
 				current = 1 - current;
->>>>>>> FETCH_HEAD
 				total += current;
 			}
 			
