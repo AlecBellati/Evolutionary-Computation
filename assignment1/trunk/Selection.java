@@ -54,6 +54,7 @@ public class Selection{
 		
 		// Get the total fitness
 		double totalFitness = solution.getTotalCost();
+		double multiplier = length - 1;
 		
 		// Find the solutions for the population
 		double next, total, current;
@@ -62,6 +63,7 @@ public class Selection{
 		for (i = 0; i < solutionSize; i++){
 			// Get a number between 0 and 1
 			next = rnd.nextDouble();
+			next *= multiplier;
 			
 			// Cycle through until the probability is found
 			total = 0;
@@ -70,6 +72,7 @@ public class Selection{
 				j++;
 				
 				current = solution.getSolution(j).getCost() / totalFitness;
+				current = 1 - current;
 				total += current;
 			}
 			
