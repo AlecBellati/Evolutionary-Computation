@@ -153,7 +153,7 @@ public class TSPProblem {
                     int solution_size = population_size/2;
                     double mutation_percentage = 0.10, operation_percentage = 0.90;
                     int removal_rate = (int)Math.ceil(population_size/10);
-                    individual = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, removal_rate, 1);
+                    individual = control.runSequence(cities, solution_size, population_size, generations, mutation_percentage, operation_percentage, removal_rate, 4);
                 
                     long endTime = System.currentTimeMillis();
                 

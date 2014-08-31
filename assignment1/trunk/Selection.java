@@ -69,7 +69,7 @@ public class Selection{
 			while (j < length && total <= next){
 				j++;
 				
-				current = solution.getSolution(j).getCost() / totalFitness;
+				current = 1-(solution.getSolution(j).getCost() / totalFitness);
 				total += current;
 			}
 			

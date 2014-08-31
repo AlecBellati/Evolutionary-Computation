@@ -1,9 +1,5 @@
 #!/bin/bash
 
-java TSPProblem -f ../Data/eil51.xml >> results/eil51.csv
-java TSPProblem -f ../Data/eil76.xml >> results/eil76.csv
-java TSPProblem -f ../Data/st70.xml >> results/st70.csv
-java TSPProblem -f ../Data/eil101.xml >> results/eil101.csv
 java TSPProblem -f ../Data/kroA100.xml >> results/kroA100.csv
 java TSPProblem -f ../Data/kroC100.xml >> results/kroC100.csv
 java TSPProblem -f ../Data/kroD100.xml >> results/kroD100.csv
