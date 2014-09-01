@@ -3,3 +3,6 @@
 assignment1/temp.txt
 
 *.csv
+*.log
+*.gz
+*.aux

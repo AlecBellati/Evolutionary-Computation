@@ -14,10 +14,10 @@ import java.util.ArrayList;
 public class Control {
 	
 	/** Class variables */
-	private Random rnd;								// Random number generator
-	private Mutators mutator;					// Contains 4 mutation operators
-	private Operators operator;				// Contains 4 operator functions
-	private Selection selection;			// Contains 3 selection functions
+	private Random rnd;					// Random number generator
+	private Mutators mutator;			// Contains 4 mutation operators
+	private Operators operator;			// Contains 4 operator functions
+	private Selection selection;		// Contains 3 selection functions
 	private Individual bestSolution;	// Holds the best solution for current algorithm
 	
 	/**
@@ -79,20 +79,25 @@ public class Control {
 		
 		int rand = 0;
 		for (int i = 0; i < generations; i++) {
+            //get the best solution and set it aside
 			Individual best = population.getBestSolution().clone();
+            //choose two individuals at random
 			individualA = population.getBestSolution();
 			individualB = population.getSolution(rnd.nextInt(population.getSize()));
 			
+            //check the best solution
 			checkBest(i, population.getBestSolution());
-			
 			while (population.getSize() < populationSize) {
 				mutator.inversion(individualA);
+                //if the population size is one off the maximum do edge recombination (produces 1 child)
 				if (population.getSize() == (populationSize-1)) {
 					rand = 1;
 				} else {
+                    //else do crossovers at random
 					rand = rnd.nextInt(4);
 				}
 				
+                //do cross-overs based on the operation percentage and add the children to the population
 				double operate = rnd.nextDouble();
 				if (operate < operationPercentage) {
 					switch (rand) {
@@ -111,8 +116,10 @@ public class Control {
 					}
 				}
 				
+                //choose mutators at random
 				rand = rnd.nextInt(4);
 				double mutate = rnd.nextDouble();
+                //do cross-overs based on the mutation percentage on the selected individuals (may have been operated on already)
 				if (mutate < mutationPercentage) {
 					switch (rand) {
 						case 0:
@@ -133,12 +140,15 @@ public class Control {
 							break;
 					}
 				}
+                //choose two new individuals
 				individualA = population.getSolution(rnd.nextInt(population.getSize()));
 				individualB = population.getSolution(rnd.nextInt(population.getSize()));
 			}
 			
+            //add the best one back in (has not been modified)
 			population.add(best);
 			rand = 0;
+            //choose the selection method based on percentage
 			double select = rnd.nextDouble();
 			if (select < 0.55) {
 				rand = 2;
@@ -146,6 +156,7 @@ public class Control {
 				rand = 1;
 			}
 			
+            //remove only a few duplicates from each set
 			population = checkDuplicates(population, removalRate);
 			switch (rand) {
 				case 0:
@@ -178,14 +189,21 @@ public class Control {
 		
 		int rand = 0;
 		for (int i = 0; i < generations; i++) {
-			Individual best = population.getBestSolution().clone();
-			individualA = population.getBestSolution();
-			individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
-			
+			//get the best solution and set it aside
+            Individual best = population.getBestSolution().clone();
+            //choose two individuals at random
+            individualA = population.getBestSolution();
+            individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
+            
+            //check the best solution
 			checkBest(i, population.getBestSolution());
+
+            //based on the supplied percentage, either do mutation OR cross-over
 			double operate_mutate = rnd.nextDouble();
 			while (population.getSize() < populationSize) {
 				mutator.inversion(individualA);
+
+                //select a cross-over based on these percentages
 				if (operate_mutate < 0.6) {
 					rand = 2;
 					double operationPercentage = rnd.nextDouble();
@@ -197,6 +215,7 @@ public class Control {
 						rand = 1;
 					}
 					
+                    //if the population size is one off the maximum do edge recombination (produces 1 child)
 					if (population.getSize() == (populationSize-1)) {
 						rand = 1;
 					}
@@ -218,6 +237,7 @@ public class Control {
 				} else {
 					rand = 3;
 					double mutationPercentage = rnd.nextDouble();
+                    //select a mutator based on these percentages
 					if (mutationPercentage < 0.5) {
 						rand = 2;
 					} else if(mutationPercentage < 0.75) {
@@ -226,6 +246,7 @@ public class Control {
 						rand = 1;
 					}
 					
+                    //this time only mutate individual A, not individual B
 					switch (rand) {
 						case 0:
 							mutator.insert(individualA);
@@ -243,19 +264,23 @@ public class Control {
 					
 					population.add(individualA);
 				}
+                //choose new individuals to operate on
 				individualA = population.getSolution(rnd.nextInt(population.getSize())).clone();
 				individualB = population.getSolution(rnd.nextInt(population.getSize())).clone();
 			}
+            //add back in the best selection method
 			population.add(best);
 			
 			rand = 0;
 			double select = rnd.nextDouble();
+            //choose the selection method based on percentage
 			if (select < 0.55) {
 				rand = 2;
 			} else if (select < 0.99) {
 				rand = 1;
 			}
-			
+			         
+            //remove only a few duplicates from each set
 			population = checkDuplicates(population, removalRate);
 			switch (rand) {
 				case 0:
@@ -434,6 +459,7 @@ public class Control {
 				bestSolution = challenger;
 			} else if(challenger.getCost() < bestSolution.getCost()) {
 				bestSolution = challenger;
+				System.out.println((i+1) + ": ***** Best Solution ***** = " + bestSolution.getCost());
 			}
 			
 			// Every n generations, add some new individuals
@@ -479,6 +505,7 @@ public class Control {
 			curr_cost = bestSolution.getCost();
 			if (record > bestSolution.getCost() || record == -1.0) {
 				record = curr_cost;
+				System.out.println((i+1) + ": ***** Best Solution ***** = " + record);
             }
 		}
 		
@@ -495,6 +522,7 @@ public class Control {
 	public void checkBest(int generation, Individual compare){
 		if (compare.getCost() < bestSolution.getCost()) {
 			bestSolution = compare.clone();
+			System.out.println((generation+1) + ": ***** Best Solution ***** = " + compare.getCost());
 		}
 	}
 }
