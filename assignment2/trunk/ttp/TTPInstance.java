@@ -64,7 +64,7 @@ public class TTPInstance {
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec();
-        matt = new Matt(cities, TTPGraph);
+        matt = new Matt(cities, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio);
         //sami = new Sami();
         //will = new Will();
         

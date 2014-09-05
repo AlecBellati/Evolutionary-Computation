@@ -12,14 +12,21 @@ public class Matt {
     private Control control;
     private City[] cities;
     private double[][] TTPGraph;
+    private double minSpeed, maxSpeed;
+    private long capacityOfKnapsack;
+    private double rentingRatio;
     
     /**
      *
      */
-    public Matt(City[] _cities, double[][] _TTPGraph) {
+    public Matt(City[] _cities, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
         cities = _cities;
         TTPGraph = _TTPGraph;
+        minSpeed = _minSpeed;
+        maxSpeed = _maxSpeed;
+        capacityOfKnapsack = _capacityOfKnapsack;
+        rentingRatio = _rentingRatio;
         
         //create Controller
         control = new Control();
