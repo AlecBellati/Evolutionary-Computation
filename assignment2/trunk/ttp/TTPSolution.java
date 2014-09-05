@@ -1,4 +1,5 @@
-package ttp;
+package TTP;
+
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

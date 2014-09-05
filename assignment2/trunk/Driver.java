@@ -1,25 +1,66 @@
 import java.io.File;
 
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import ttp.TTPInstance;
+import TTP.TTPInstance;
 
 public class Driver {
     
     //TTPInstance instance that creates a parsed *.ttp file
     private TTPInstance ttp;
     
+    //counter for the timer
+    private int counter = 0;
+    
+    //constant variables
+    //ten minutes is slightly shortened to account for setup and output to file
+    private static final long TENMINUTES = 596000;
+    
     /**
      * CONSTRUCTOR
      * @params: String: path/to/file.ttp to load and solve
      */
     public Driver(String fileToLoad) {
+        //start new timer
+        createTimer();
+        
         //create new TTPInstance
         File f = new File(fileToLoad);
         ttp = new TTPInstance(f);
         
-        //print the instance to ensure it's parsed correctly
-        ttp.printInstance();
+        System.out.println("Driver: Program Finished Early, Exiting Program...");
+        System.exit(1);
+    }
+    
+    /**
+     * Timer thread for program.
+     * Markus OK'd the use of a second thread - ONLY FOR TIMING!
+     * Timer waits
+     */
+    void createTimer() {
+        //create new timer
+        TimerTask timerTask = new TimerTask() {
+            
+            @Override
+            public void run() {
+                //The thread gets called once at the start
+                if(counter == 0) {
+                    System.out.println("Starting Timer");
+                    
+                //after the initial call, output results and kill the program
+                } else {
+                    System.out.println("Time's Up - output and exit");
+                    ttp.printInstance(false);
+                    System.exit(1);
+                }
+                counter++;
+            }
+        };
+        
+        Timer timer = new Timer("MyTimer");
+        timer.scheduleAtFixedRate(timerTask, 0, TENMINUTES);
     }
     
     
@@ -44,6 +85,8 @@ public class Driver {
         
         //create a new instance of the problem
         Driver driver = new Driver(fileToLoad);
+        
+        
     }
     
     /**

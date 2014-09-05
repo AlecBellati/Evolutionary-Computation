@@ -25,10 +25,6 @@ public class TSPProblem {
 	private City[] cities;				// Stores city information
 	private int numVertex;				// Number of nodes in the graph
 	private Individual individual;		// Generates random individual solution
-	private Population population;		// Returns random solutions as a City[][]
-	private Mutators mutators;			// Contains 4 mutation operators
-	private Operators operators;		// Contains 4 operator functions
-	private Selection selection;		// Contains 3 selection methods
 	private Control control;			// Control class to handle the GA/GP
 	
 	/**
@@ -111,14 +107,21 @@ public class TSPProblem {
             br.close();
             
 			//initialise objects for solution generation, mutation and operators
-            mutators = new Mutators();
-            operators = new Operators();
-            selection = new Selection();
             control = new Control();
             
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
+        }
+        
+    }
+    
+    void printTSPGraph() {
+        for(int i = 0; i < numVertex; i++) {
+            for(int j = 0; j < numVertex; j++) {
+                System.out.print(String.format("%3.2f ", TSPGraph[i][j]));
+            }
+            System.out.println();
         }
     }
 	
