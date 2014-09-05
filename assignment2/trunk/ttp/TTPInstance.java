@@ -110,7 +110,7 @@ public class TTPInstance {
     }
     
     /**
-     *
+     * Add the corresponding items to their corresponding cities
      */
     public void setupItems() {
         for(int i = 0; i < numberOfItems; i++) {
@@ -130,6 +130,18 @@ public class TTPInstance {
             System.out.println();
         }
     }
+    
+    /**
+     * Timer has expired, get the best solution from the thief and exit the program
+     */
+    public void getBestSolution() {
+        //alec.getBestSolution();
+        matt.getBestSolution();
+        //sami.getBestSolution();
+        //will.getBestSolution();
+        System.out.println("TTPInstance: Timer expired, returning best solution");
+    }
+    
     
     
     

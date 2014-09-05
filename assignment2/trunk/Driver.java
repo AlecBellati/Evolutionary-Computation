@@ -52,7 +52,7 @@ public class Driver {
                 //after the initial call, output results and kill the program
                 } else {
                     System.out.println("Time's Up - output and exit");
-                    ttp.printInstance(false);
+                    ttp.getBestSolution();
                     System.exit(1);
                 }
                 counter++;

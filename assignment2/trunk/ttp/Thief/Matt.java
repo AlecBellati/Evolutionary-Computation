@@ -35,7 +35,12 @@ public class Matt {
         System.out.println("TSP Solution Costs is: " + TSPSolution.getCost());
     }
     
-    
+    /**
+     * Function that gets called when time is up
+     */
+    public void getBestSolution() {
+        System.out.println("Matt: Timer expired function, return the best solution");
+    }
     
     
     
