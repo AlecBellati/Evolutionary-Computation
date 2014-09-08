@@ -15,8 +15,8 @@ public class Driver {
     private int counter = 0;
     
     //constant variables
-    //ten minutes is slightly shortened to account for setup and output to file
-    private static final long TENMINUTES = 596000;
+    //ten minutes is slightly shortened to account for setup and output to file - use 596000 to account for file read and write times
+    private static final long TENMINUTES = 6000;
     
     /**
      * CONSTRUCTOR
@@ -29,6 +29,9 @@ public class Driver {
         //create new TTPInstance
         File f = new File(fileToLoad);
         ttp = new TTPInstance(f);
+        
+        //get the solution
+        ttp.run();
         
         System.out.println("Driver: Program Finished Early, Exiting Program...");
         System.exit(1);
@@ -51,8 +54,9 @@ public class Driver {
                     
                 //after the initial call, output results and kill the program
                 } else {
-                    System.out.println("Time's Up - output and exit");
+                    System.out.println("Driver: Timer Has Expired");
                     ttp.getBestSolution();
+                    System.out.println("Driver: Exiting Program");
                     System.exit(1);
                 }
                 counter++;

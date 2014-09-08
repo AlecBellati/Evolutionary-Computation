@@ -13,17 +13,28 @@ package TTP.Thief.Travel;
 public class Item {
 
     //Item Attributes
+    private int itemNum;
     private int profit;
     private int weight;
     
     /**
      * Item Constructor
+     * @param: int: Item node number
      * @param: int: Profit value of item
      * @param: int: Weight of the item
      */
-    public Item(int itemProfit, int itemWeight) {
+    public Item(int itemNumber, int itemProfit, int itemWeight) {
+        itemNum = itemNumber;
         profit = itemProfit;
         weight = itemWeight;
+    }
+    
+    /**
+     * Return Item number
+     * @return: int: item number
+     */
+    public int getItemNum() {
+        return itemNum;
     }
     
     /**

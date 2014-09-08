@@ -98,6 +98,22 @@ public class Individual {
 	public City[] getCities() {
 		return cities;
 	}
+    
+    /**
+     * Return a representation of this individual by node number
+     * Assignment requires start node to be at the end too
+     * @return: int[]: array of cities by node number
+     */
+    public int[] getCitiesByID() {
+        //create an int[] of city IDs
+        int[] nodes = new int[cities.length+1];
+        for(int i = 0; i < cities.length; i++) {
+            nodes[i] = cities[i].getNodeNum();
+        }
+        nodes[cities.length-1] = cities[0].getNodeNum();
+        
+        return nodes;
+    }
 	
 	/**
 	 * Set a new City array

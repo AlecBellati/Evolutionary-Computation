@@ -17,17 +17,25 @@ public class City {
 	private double[] edges;			// Edge weights - edges[1] indicates cost to travel to City 1
 	private int node;				// City number, considered its name
 	private boolean visited;		// Determines if node has been visited in a solution
+    private int itemCount;
+    private int numItems;
     private Item[] items;           // List of items that could be stolen from this city
 	
 	/**
 	 * Constructor of a City.
-	 * @param int city_node - number to characterize this city (considered its name)
-	 * @param int num_edges - number of cities it connects to
+	 * @param int cityNode - number to characterize this city (considered its name)
+	 * @param int numEdges - number of cities it connects to
+     * @param int numItems - number of items in the city
 	 */
-	public City(int cityNode, int numEdges, int numItems) {
+	public City(int cityNode, int numEdges, int _numItems) {
 		node = cityNode;
 		edges = new double[numEdges];
-		visited = false;
+        visited = false;
+        
+        //handle Items
+        itemCount = 0;
+        numItems = _numItems;
+        items = new Item[numItems];
 	}
 	
 	/**
@@ -40,11 +48,12 @@ public class City {
 	}
     
     /**
-     *
-     *
+     * Add an item to the city
+     * @param: Item: item to add to the city
      */
     public void addItem(Item item) {
-        
+        items[itemCount] = item;
+        itemCount++;
     }
 	
 	/**

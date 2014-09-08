@@ -1,4 +1,4 @@
-package TTP;
+package TTP.Thief;
 
 
 import java.io.BufferedWriter;
