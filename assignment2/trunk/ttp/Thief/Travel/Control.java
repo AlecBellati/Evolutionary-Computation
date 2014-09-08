@@ -14,7 +14,7 @@ import java.util.Random;
 import java.util.ArrayList;
 
 public class Control {
-	
+
 	/** Class variables */
 	private Random rnd;					// Random number generator
 	private Mutators mutator;			// Contains 4 mutation operators
@@ -63,7 +63,7 @@ public class Control {
 		return null;
 	}
 	
-	/**
+		/**
 	 * Simulates an algorithm something similar to that of the GA in the book/lecture
 	 * @param Population - the TSPGraph to perform the algorithm on
 	 * @param int solutionSize - population to begin each generation (cut down at selection)
@@ -78,28 +78,26 @@ public class Control {
 		Individual individualA;
 		Individual individualB;
 		bestSolution = population.getBestSolution().clone();
-		
+
+		int runs = populationSize/5;
 		int rand = 0;
 		for (int i = 0; i < generations; i++) {
-            //get the best solution and set it aside
 			Individual best = population.getBestSolution().clone();
-            //choose two individuals at random
+
 			individualA = population.getBestSolution();
 			individualB = population.getSolution(rnd.nextInt(population.getSize()));
-			
-            //check the best solution
-			checkBest(i, population.getBestSolution());
-			while (population.getSize() < populationSize) {
-				mutator.inversion(individualA);
-                //if the population size is one off the maximum do edge recombination (produces 1 child)
+            for(int j = 0; j < runs; j++){				
+	            //check the best solution
+				checkBest(i, population.getBestSolution());
+	            //if the population size is one off the maximum do edge recombination (produces 1 child)
 				if (population.getSize() == (populationSize-1)) {
 					rand = 1;
 				} else {
-                    //else do crossovers at random
+	                //else do crossovers at random
 					rand = rnd.nextInt(4);
 				}
-				
-                //do cross-overs based on the operation percentage and add the children to the population
+					
+	            //do cross-overs based on the operation percentage and add the children to the population
 				double operate = rnd.nextDouble();
 				if (operate < operationPercentage) {
 					switch (rand) {
@@ -107,22 +105,20 @@ public class Control {
 							population.addSet(operator.orderCrossover(individualA, individualB));
 							break;
 						case 1:
-							population.add(operator.edgeRecombination(individualA, individualB));
+								population.add(operator.edgeRecombination(individualA, individualB));
 							break;
 						case 2:
 							population.addSet(operator.cycleCrossover(individualA, individualB));
-							break;
+								break;
 						case 3:
 							population.addSet(operator.pmxCrossover(individualA, individualB));
 							break;
 					}
-				}
-				
-                //choose mutators at random
+				}else{
+					
+	            //choose mutators at random
 				rand = rnd.nextInt(4);
-				double mutate = rnd.nextDouble();
-                //do cross-overs based on the mutation percentage on the selected individuals (may have been operated on already)
-				if (mutate < mutationPercentage) {
+	            //do cross-overs based on the mutation percentage on the selected individuals (may have been operated on already)
 					switch (rand) {
 						case 0:
 							mutator.insert(individualA);
@@ -142,23 +138,21 @@ public class Control {
 							break;
 					}
 				}
-                //choose two new individuals
 				individualA = population.getSolution(rnd.nextInt(population.getSize()));
 				individualB = population.getSolution(rnd.nextInt(population.getSize()));
 			}
 			
-            //add the best one back in (has not been modified)
 			population.add(best);
 			rand = 0;
-            //choose the selection method based on percentage
+	        //choose the selection method based on percentage
 			double select = rnd.nextDouble();
 			if (select < 0.55) {
 				rand = 2;
 			} else if(select < 0.99) {
 				rand = 1;
 			}
-			
-            //remove only a few duplicates from each set
+				
+	        //remove only a few duplicates from each set
 			population = checkDuplicates(population, removalRate);
 			switch (rand) {
 				case 0:
@@ -189,6 +183,7 @@ public class Control {
 		Individual individualB;
 		bestSolution = population.getBestSolution().clone();
 		
+		int runs = populationSize/5;
 		int rand = 0;
 		for (int i = 0; i < generations; i++) {
 			//get the best solution and set it aside
@@ -202,8 +197,7 @@ public class Control {
 
             //based on the supplied percentage, either do mutation OR cross-over
 			double operate_mutate = rnd.nextDouble();
-			while (population.getSize() < populationSize) {
-				mutator.inversion(individualA);
+			for(int j = 0; j < runs; j++){
 
                 //select a cross-over based on these percentages
 				if (operate_mutate < 0.6) {
