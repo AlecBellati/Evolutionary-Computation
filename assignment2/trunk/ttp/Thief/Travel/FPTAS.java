@@ -8,6 +8,10 @@
  * Matthew Hart (a1193380)
  */
  
+package TTP.Thief.Travel;
+
+import TTP.Utils.generator;
+
 public class FPTAS{
 
     public FPTAS(){}

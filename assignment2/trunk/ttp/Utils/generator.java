@@ -8,6 +8,10 @@
  * Matthew Hart (a1193380)
  */
  
+package TTP.Utils;
+
+import TTP.Thief.Travel.Item;
+
 import java.util.Random;
 
 public class generator{
@@ -29,7 +33,7 @@ public class generator{
 			profit = profitGenerator.nextInt(99999) +1;
 			weight = weightGenerator.nextInt(99999) +1;
 			
-			items[i] = new Item(n, profit, weight);
+			items[i] = new Item(i, profit, weight);
 		}
 
 		return items;

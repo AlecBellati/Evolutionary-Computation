@@ -8,6 +8,10 @@
  * Matthew Hart (a1193380)
  */
  
+package TTP.Thief.Travel;
+
+import TTP.Utils.generator;
+
 import java.util.Arrays;
 
 public class Dynamic {
@@ -162,12 +166,19 @@ public class Dynamic {
 		
 		generator gen = new generator();
 		Item[] items = gen.generate(size);
-		long startTime = System.currentTimeMillis();
 		Item[] results = dynamic.getSolution(items, size*10000,0);
 		
-		long stopTime = System.currentTimeMillis();
-		long elapsedTime = stopTime - startTime;
-		System.out.println(elapsedTime);
-
+		int totalProfit = 0;
+		int totalWeight = 0;
+		for (int i = 0; i < results.length; i++){
+			totalProfit += results[i].getProfit();
+			totalWeight += results[i].getWeight();
+			System.out.println("Item: " + results[i].getItemNum()
+				+ ", profit: " + results[i].getProfit()
+				+ ", weight: " + results[i].getWeight());
+		}
+		System.out.println("----TOTAL PROFIT: " + totalProfit + "----");
+		System.out.println("----TOTAL WEIGHT: " + totalWeight + "----");
+		
     }						
 }
