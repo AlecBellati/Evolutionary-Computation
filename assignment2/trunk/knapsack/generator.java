@@ -1,34 +1,38 @@
-/* 
- * Written by William Reid, Alec Bellati
- * Advanced Algorithms, s1, 2013
- * Assignment 1, updated 27/03/2013
- */	
-
+/*
+ * Evolutionary Computation
+ * COMP SCI 4095
+ * Assignment One
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+ 
 import java.util.Random;
 
 public class generator{
 
-    private int[] profits;
-    private int[] weights;
-
     public generator(){}
+	
+	/*
+	 * Randomly generates n number of profits and weights
+	 */
+	public Item[] generate(int n){
+		Item[] items = new Item[n];
+		
+		int profit;
+		int weight;
 
-    /*
-     * Randomly generates n number of profits and weights
-     */
-    public int[][] generate(int n){
-	profits = new int[n];
-	weights = new int[n];
+		Random profitGenerator = new Random();
+		Random weightGenerator = new Random();
+		for (int i = 0; i < n; i++){
+			profit = profitGenerator.nextInt(99999) +1;
+			weight = weightGenerator.nextInt(99999) +1;
+			
+			items[i] = new Item(n, profit, weight);
+		}
 
-	Random profitGenerator = new Random();
-	Random weightGenerator = new Random();
-	for (int i = 0; i < n; i++){
-	    profits[i] = profitGenerator.nextInt(99999) +1;
-	    weights[i] = weightGenerator.nextInt(99999) +1;
-	}
-
-	//returns an array of integer arrays
-	return new int[][]{profits, weights};
+		return items;
     }
 
 }
