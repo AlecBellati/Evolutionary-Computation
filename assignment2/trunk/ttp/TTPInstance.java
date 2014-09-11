@@ -41,6 +41,7 @@ public class TTPInstance {
     public String edgeWeightType;
     public double[][] nodes;
     public int[][] items;
+    private Item[] itemsArray;
     
     //TTPGraph of edges
     public double[][] TTPGraph;         //2D array of node edges
@@ -72,6 +73,8 @@ public class TTPInstance {
      */
     public void createTTPGraph() {
         for(int i = 0; i < numberOfNodes; i++) {
+            //this doesnt seem right...numberOfItems is the total number of items
+            //not the number of items this City has?
             cities[i] = new City(i, numberOfNodes, numberOfItems);
             
             for(int j = 0; j < numberOfNodes; j++) {
@@ -87,6 +90,7 @@ public class TTPInstance {
         }
         
         //now add items to the cities
+        itemsArray = new Item[numberOfItems];
         setupItems();
     }
     
@@ -111,6 +115,7 @@ public class TTPInstance {
      */
     public void setupItems() {
         for(int i = 0; i < numberOfItems; i++) {
+            itemsArray[i] = new Item(items[i][0], items[i][1], items[i][2], cities[items[i][3]].getNodeNum());
             cities[items[i][3]].addItem(new Item(items[i][0], items[i][1], items[i][2]));
         }
     }
@@ -136,11 +141,11 @@ public class TTPInstance {
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec(); alec.getSolution();
-        matt = new Matt(cities, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
+        //matt = new Matt(cities, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        //will = new Will(); will.getSolution();
+        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution();
         
-        getBestSolution();
+        //getBestSolution();
     }
     
     /**

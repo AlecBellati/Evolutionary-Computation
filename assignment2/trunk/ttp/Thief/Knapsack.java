@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Knapsack {
     
     private long capacity;
+    private long currentWeight;
     private ArrayList<Item> items;
     
     /**
@@ -15,6 +16,7 @@ public class Knapsack {
      */
     public Knapsack(long _capacity) {
         capacity = _capacity;
+        currentWeight = 0;
         items = new ArrayList<Item>();
     }
     
@@ -24,6 +26,7 @@ public class Knapsack {
      */
     public void addItem(Item item) {
         items.add(item);
+        currentWeight += item.getWeight();
     }
     
     /**
@@ -32,12 +35,24 @@ public class Knapsack {
      * @return: Boolean: True if item was successfully removed, else false
      */
     public boolean removeItem(Item item) {
-        return items.remove(item);
+        if(items.remove(item)){
+            currentWeight -= item.getWeight();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+    * Returns the current weight of the knapsack
+    * @return: long: currentWeight of the knapsack
+    */
+    public long getCurrentWeight(){
+        return currentWeight;
     }
     
     /**
      * Returns an int array of items in the knapsack
-     * @return int[]: list of all items in the knapsack (by ID number)
+     * @return: int[]: list of all items in the knapsack (by ID number)
      */
     public int[] getItemsByID() {
         int[] packingPlan = new int[items.size()];

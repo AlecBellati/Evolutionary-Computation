@@ -55,10 +55,18 @@ public class City {
         items[itemCount] = item;
         itemCount++;
     }
+
+     /**
+     * Get the Items from this City
+     * @return: the Items from this City
+     */
+    public Item[] getItems() {
+        return items;
+    }
 	
 	/**
 	 * Gets the "name" of the node
-	 * @return int node - the name of the node
+	 * @return: int node: the name of the node
 	 */
 	public int getNodeNum() {
 		return node;
@@ -66,7 +74,7 @@ public class City {
 	
 	/**
 	 * Gets the edge of the node
-	 * @return double edges[city] - the cost of the edge
+	 * @return: double edges[city]: the cost of the edge
 	 */
 	public double getEdge(int city) {
 		return edges[city];

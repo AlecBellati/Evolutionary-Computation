@@ -46,7 +46,7 @@ public class FPTAS{
 			itemProfit = (int)Math.floor((items[i].getProfit()/K));
 			itemWeight = items[i].getWeight();
 			
-			newItems[i] = new Item(itemNum, itemProfit, itemWeight);
+			newItems[i] = new Item(itemNum, itemProfit, itemWeight, items[i].getCityNum());
 		}
 
 		return newItems;

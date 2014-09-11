@@ -16,6 +16,7 @@ public class Item {
     private int itemNum;
     private int profit;
     private int weight;
+    private int cityNum;
     
     /**
      * Item Constructor
@@ -27,6 +28,21 @@ public class Item {
         itemNum = itemNumber;
         profit = itemProfit;
         weight = itemWeight;
+        this.cityNum = -1;
+    }
+
+    /**
+     * Secondary Item Constructor
+     * @param: int: Item node number
+     * @param: int: Profit value of item
+     * @param: int: Weight of the item
+     * @param: int: City number this item belongs too
+     */
+    public Item(int itemNumber, int itemProfit, int itemWeight, int cityNum) {
+        itemNum = itemNumber;
+        profit = itemProfit;
+        weight = itemWeight;
+        this.cityNum = cityNum;
     }
     
     /**
@@ -51,6 +67,14 @@ public class Item {
      */
     public int getWeight() {
         return weight;
+    }
+
+    /**
+    * Return the City that this item belongs too
+    * @return: int: city number that this item belongs to
+    */
+    public int getCityNum(){
+        return cityNum;
     }
     
     /**
