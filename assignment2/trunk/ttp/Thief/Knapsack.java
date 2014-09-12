@@ -7,14 +7,14 @@ import java.util.ArrayList;
 
 public class Knapsack {
     
-    private long capacity;
-    private long currentWeight;
+    private double capacity;
+    private double currentWeight;
     private ArrayList<Item> items;
     
     /**
      * Construct an empty knapsack with a known weight limit
      */
-    public Knapsack(long _capacity) {
+    public Knapsack(double _capacity) {
         capacity = _capacity;
         currentWeight = 0;
         items = new ArrayList<Item>();
@@ -46,7 +46,7 @@ public class Knapsack {
     * Returns the current weight of the knapsack
     * @return: long: currentWeight of the knapsack
     */
-    public long getCurrentWeight(){
+    public double getCurrentWeight(){
         return currentWeight;
     }
     

@@ -25,7 +25,7 @@ public class Dynamic {
 	/*
 	 * Gets a solution for the knapsack problem
      */	
-    public Item[] getSolution(Item[] items, long maxWeight, double epsilon){
+    public Item[] getSolution(Item[] items, double maxWeight, double epsilon){
 		int[][] table;
 		int maxProfit;
 		int[] indices;
@@ -120,7 +120,7 @@ public class Dynamic {
 	 * @param: int[][]: Table used for calculations
 	 * @return: int[]: The index of the items taken (items may not be the originals so it needs to be done this way)
      */
-    public int[] optimal(long maxWeight, Item[] items, int[][] table){
+    public int[] optimal(double maxWeight, Item[] items, int[][] table){
 		int rowSize = table[0].length;	
 		
 		int optimalProfit = 0;
