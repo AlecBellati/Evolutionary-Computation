@@ -34,7 +34,7 @@ public class TTPInstance {
     public String knapsackDataType;
     public int numberOfNodes;
     public int numberOfItems;
-    public long capacityOfKnapsack;
+    public double capacityOfKnapsack;
     public double minSpeed;
     public double maxSpeed;
     public double rentingRatio;
@@ -143,9 +143,9 @@ public class TTPInstance {
         //alec = new Alec(); alec.getSolution();
         //matt = new Matt(cities, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution();
+        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this);
         
-        getBestSolution();
+        //getBestSolution();
     }
     
     /**
@@ -174,7 +174,10 @@ public class TTPInstance {
             solution.writeResult(filename);
         }
         
+        System.out.println("Total profit = " + solution.getObjective());
         System.out.println("TTPInstance: exiting program");
+
+
     }
     
     
@@ -227,7 +230,7 @@ public class TTPInstance {
                 if (line.startsWith("CAPACITY OF KNAPSACK")) {
                     line = line.substring(line.indexOf(":")+1);
                     line = line.replaceAll("\\s+","");
-                    this.capacityOfKnapsack=Long.parseLong(line);
+                    this.capacityOfKnapsack=Double.parseDouble(line);
                 }
                 if (line.startsWith("MIN SPEED")) {
                     line = line.substring(line.indexOf(":")+1);
@@ -319,7 +322,7 @@ public class TTPInstance {
         int[] tour = solution.tspTour;
         int[] z = solution.packingPlan;
 
-        long weightofKnapsack = this.capacityOfKnapsack;
+        double weightofKnapsack = this.capacityOfKnapsack;
         double rentRate = this.rentingRatio;
         double vmin = this.minSpeed;
         double vmax = this.maxSpeed;
@@ -355,7 +358,6 @@ public class TTPInstance {
         
         //        for (int i=0; i<tour.length; i++) {
         for (int i=0; i<tour.length-1; i++) {
-            
             //            // determine all the items that are picked up in the current city
             //            ArrayList selectedItem = new ArrayList();
             //            for (int j=0; j<z.length; j++) {
@@ -398,10 +400,11 @@ public class TTPInstance {
             int currentCityTEMP = tour[i]; // what's the current city? --> but the items start at city 2 in the TTP file, so I have to take another 1 off!
             
             int currentCity = currentCityTEMP-1;
+            System.out.println("CURRENT CITY: " + currentCity);
             
             if (i>0) if (debugPrint) System.out.print("city "+currentCityTEMP+" cityIndexForItem[][] "+currentCity+" (this.numberOfNodes="+this.numberOfNodes+"): ");
             
-            if (i>0)
+            if (i>0){
                 for (int itemNumber=0; itemNumber<itemsPerCity; itemNumber++) {
                     int indexOfPackingPlan = (i-1)*itemsPerCity+itemNumber;
                     if (debugPrint) System.out.print("indexOfPackingPlan="+indexOfPackingPlan+" ");
@@ -426,6 +429,7 @@ public class TTPInstance {
                         if (debugPrint) System.out.print("[fp="+currentFP+",wc="+currentWC+"] ");
                     }
                 }
+            }
             if (debugPrint) System.out.println();
             
             int h= (i+1)%(tour.length-1); //h: next tour city index

@@ -1,4 +1,4 @@
-package ttp.Optimisation;
+package TTP.Optimisation;
 
 
 import java.io.*;
@@ -10,9 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import ttp.TTPInstance;
-import ttp.TTPSolution;
-import ttp.Utils.DeepCopy;
+import TTP.TTPInstance;
+import TTP.Thief.TTPSolution;
+import TTP.Utils.DeepCopy;
 
 /*
  * To change this template, choose Tools | Templates
@@ -30,7 +30,7 @@ public class Optimisation {
             int mode, 
             int durationWithoutImprovement, int maxRuntime) {
         
-        ttp.Utils.Utils.startTiming();
+        TTP.Utils.Utils.startTiming();
         
         TTPSolution s = null;
         boolean debugPrint = !true;
@@ -120,7 +120,7 @@ public class Optimisation {
             
         }
         
-        long duration = ttp.Utils.Utils.stopTiming();
+        long duration = TTP.Utils.Utils.stopTiming();
         s.computationTime = duration;
         return s;
     }
@@ -257,7 +257,7 @@ public class Optimisation {
                     ProcessBuilder builder = new ProcessBuilder(command);
                     builder.redirectErrorStream(true);
                     
-                    ttp.Utils.Utils.startTiming();
+                    TTP.Utils.Utils.startTiming();
                     
                     final Process process = builder.start();
                     InputStream is = process.getInputStream();
@@ -270,7 +270,7 @@ public class Optimisation {
                     if (debugPrint) System.out.println("Program terminated?");    
                     int rc = process.waitFor();
                     
-                    long duration = ttp.Utils.Utils.stopTiming();
+                    long duration = TTP.Utils.Utils.stopTiming();
                     
                     System.out.println( new File(tspresultfilename).getName() +" "+duration);
                     

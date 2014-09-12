@@ -1,10 +1,12 @@
 package TTP.Thief;
 
 import TTP.Thief.Travel.City;
+import TTP.TTPInstance;
 import TTP.Thief.Travel.Item;
 import TTP.Thief.Travel.Control;
 import TTP.Thief.Travel.Individual;
 import TTP.Thief.Travel.Dynamic;
+import TTP.Optimisation.Optimisation;
 import TTP.Thief.Knapsack;
 
 import java.util.ArrayList;
@@ -20,16 +22,18 @@ public class Will {
     //Knapsack problem variables
     private Knapsack knapsack;
     private Dynamic knapsackSolver;
+    private Optimisation optimiser;
     
     //Solution variable
     private TTPSolution solution;
+    private TTPInstance ttp;
     
     //TTP Variables
     private Item[] itemsArray;
     private Item[] optimal;
     private double minSpeed, maxSpeed;
-    private long capacityOfKnapsack;
-    private long currentWeight;
+    private double capacityOfKnapsack;
+    private double currentWeight;
     private double rentingRatio;
     
     /**
@@ -37,7 +41,7 @@ public class Will {
      * Assign local variables
      * Initialise control algorithm and create a new knapsack and knapsack solver
      */
-    public Will(City[] _cities, Item[] _itemsArray, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
+    public Will(City[] _cities, Item[] _itemsArray, double _minSpeed, double _maxSpeed, double _capacityOfKnapsack, double _rentingRatio) {
          //Setup variables
         cities = _cities;
         itemsArray = _itemsArray;
@@ -52,7 +56,28 @@ public class Will {
         //create new knapsack and a solver
         knapsack = new Knapsack(capacityOfKnapsack);
         knapsackSolver = new Dynamic();
+        optimiser = new Optimisation();
     }
+
+    /**
+    *
+    *
+    */
+    public void generateTSP(int[] tour){
+        TSPSolution = new Individual(tour.length);
+        for(int i = 0; i < tour.length; i++){
+            int currentCity = tour[i];
+            City current;
+            for(int j = 0; j < cities.length; j++){
+                current = cities[j];
+
+                if(current.getNodeNum() == currentCity){
+                    TSPSolution.setCity(i, current);
+                    break;
+                }
+            }
+        }
+    }   
     
     /**
      * Entry point for the thief (your program) - thanks bro!
@@ -61,7 +86,7 @@ public class Will {
      * Then find the best TSP solution in the supplied time frame
      * Then adjusts the current optimal knapsack by injecting more items to see if it increases the profit
      */
-    public void getSolution() {
+    public void getSolution(TTPInstance ttp) {
         System.out.println("Will: Running Program");
 
         currentWeight = 0;
@@ -77,31 +102,31 @@ public class Will {
         Item[] itemsMinusOptimal = removeOptimal(optimal);
 
         //get a good TSP tour
-        TSPSolution = control.runSequence(cities, 25, 50, 10, 15, 85, 5, 3);
-        long bestCost = calculateCost(optimal);
+        //TSPSolution = control.runSequence(cities, 2
+        this.ttp = ttp;
+        int[] tour = Optimisation.linkernTour(ttp);
+        generateTSP(tour);
+        double bestCost = calculateCost();
 
         System.out.println("Starting Cost: " + bestCost);
 
         //check if there is a more optimal solution using the items not already in the solution
-        bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost);
+        //bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost);
         //some of the items original in the optimal solution may have been removed
         //check they can't still find a good home
-        bestCost = checkBetterSolution(originalOptimal, false, bestCost);
+        //bestCost = checkBetterSolution(originalOptimal, false, bestCost);
 
         //this is just to get it in the format your are looking for
         //this will be removed once I start using the knapsack class
-        int[] optimalItems = new int[itemsArray.length];
-        Arrays.fill(optimalItems, 0);
-        for(int i = 0; i < optimal.length; i++){
-            optimalItems[optimal[i].getItemNum()] = 1;
-        }
+        //int[] optimalItems = new int[itemsArray.length+1];
+        //Arrays.fill(optimalItems, 0);
+        //optimalItems[0] = 0;
+        //for(int i = 1; i < optimal.length; i++){
+            //optimalItems[optimal[i].getItemNum()] = 1;
+        //}
 
-        for(int i = 0; i < optimalItems.length; i++){
-            System.out.println(i + ": " + optimalItems[i]);
-        }
-
-        System.out.println("End Cost: " + bestCost);
-        solution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItems);
+        //System.out.println("End Cost: " + bestCost);
+        //solution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItems);
     }
 
     /**
@@ -112,9 +137,9 @@ public class Will {
     * @param:_bestCost: what is the current best cost
     * @return: long: current best cost
     */
-    public long checkBetterSolution(Item[] currentItems, boolean optimalRemoved, long _bestCost){
-        long remainder = capacityOfKnapsack - currentWeight;
-        long bestCost = _bestCost;
+    public double checkBetterSolution(Item[] currentItems, boolean optimalRemoved, double _bestCost){
+        double remainder = capacityOfKnapsack - currentWeight;
+        double bestCost = _bestCost;
         boolean compare = false;
 
         //check every item we are sent
@@ -135,7 +160,7 @@ public class Will {
                 if(currentItem.getWeight() <= (temp.getWeight() + remainder) && !compare){
                     //replace the item and position j and calculate its cost
                     optimal[j] = currentItem;
-                    long newCost = calculateCost(optimal);
+                    double newCost = calculateCost();
 
                     //if its better, remember the index number and keep going
                     if(newCost > bestCost){
@@ -200,11 +225,22 @@ public class Will {
     * @param: sack: the items contained in the current knapsack
     * @return: long: the cost of this solution
     */
-    public long calculateCost(Item[] sack){
+    public double calculateCost(){
         //what if instead you just call TTPSolution.evaluate.
+        int[] optimalItems = new int[itemsArray.length];
+        Arrays.fill(optimalItems, 0);
+
+        for(int i = 1; i < optimal.length; i++){
+            optimalItems[optimal[i].getItemNum()] = 1;
+        }
+        TTPSolution tempSolution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItems);
+        ttp.evaluate(tempSolution);
+        tempSolution.println();
+        double cost = tempSolution.getObjective();
+        //System.out.println(cost);
 
         //profit will determine where the item is on the path
-        City[] bestCities = TSPSolution.getCities();
+        /*City[] bestCities = TSPSolution.getCities();
         //using a list such that items can be removed (reduces search space)
         ArrayList<Item> sackItems = new ArrayList<Item>(Arrays.asList(sack));
 
@@ -225,15 +261,15 @@ public class Will {
 
                     //NEW_COST = profit_of_item((edgecost/currentSpeed)*rent)
                     if(i != bestCities.length-1){
-                        cost += sackItems.get(j).getProfit()/((TSPSolution.getEdgeCost(bestCities[i].getNodeNum(), bestCities[i+1].getNodeNum())/currentSpeed) * rentingRatio);
+                        cost += sackItems.get(j).getProfit()/TSPSolution.getEdgeCost(bestCities[i].getNodeNum(), bestCities[i+1].getNodeNum());
                     }else{ //if it is the last city, loop back to the start
-                        cost += sackItems.get(j).getProfit()/((TSPSolution.getEdgeCost(bestCities[i].getNodeNum(), bestCities[0].getNodeNum())/currentSpeed) * rentingRatio);
+                        cost += sackItems.get(j).getProfit()/TSPSolution.getEdgeCost(bestCities[i].getNodeNum(), bestCities[0].getNodeNum());
                     }
                     //remove from the sack as it is no longer needed
                     sackItems.remove(j);
                 }
             }
-        }
+        }*/
         return cost;
     }
     
