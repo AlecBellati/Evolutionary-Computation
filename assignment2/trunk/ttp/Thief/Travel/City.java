@@ -21,7 +21,14 @@ public class City {
     private int numItems;
     private Item[] items;           // List of items that could be stolen from this city
 	
-	/**
+	//Attribute for 'Alec' algorithm
+	private double[] = edgePheromone;
+	private double[] increaseRate;
+	private final double PHEROMONE_MIN = 0.1;
+	private final double PHEROMONE_MAX = 5.0;
+	private final double PHEROMONE_DECAY = 0.1;
+    
+    /**
 	 * Constructor of a City.
 	 * @param int cityNode - number to characterize this city (considered its name)
 	 * @param int numEdges - number of cities it connects to
@@ -105,4 +112,54 @@ public class City {
 		int nextCity = toCity.getNodeNum();
 		return "CITY: " + node + ",\t COST TO CITY " + nextCity + " = " + edges[nextCity];
 	}
+	
+	/* Methods for the 'Alec' algorithm */
+	
+    /**
+	 * Gets the pheromone of the edge to 'city'
+	 * @param: int: the city num of the end of the edge
+	 * @return: double edgePheromone[city]: the pheromone value of the edge
+	 */
+	public double getEdgePheromone(int city) {
+		return edgePheromone[city];
+	}
+	
+	/**
+	 * Set up the pheromone values for the city
+	 */
+	public double setupEdgePheromones() {
+		edgePheromone = new double[numEdges];
+		for (int i = 0; i < numEdges; i++){
+			edgePheromone[i] = PHEROMONE_MIN;
+			increaseRate[i] = 1 / edges[i];
+		}
+	}
+	
+	/**
+     * Increase the pheromone value of this edge to 'city'
+	 * @param: int: The city num of the city at the end of the edge
+     */
+    public void increasePheromone(int city){
+        edgePheromone[city] = edgePheromone[city] + increaseRate;
+    }
+    
+    /**
+     * Decrease the pheromone value of this edge to 'city'
+	 * @param: int: The city num of the city at the end of the edge
+     */
+    public void decreasePheromone(){
+        edgePheromone[city] = edgePheromone[city] - PHEROMONE_DECAY;
+    }
+    
+    /**
+     * Fix the pheromone value of the edge to 'city' so that it is within the bounds
+     */
+    public void fixPheromone(int city){
+        if (pheromone[city] > PHEROMONE_MAX){
+			pheromone[city] = PHEROMONE_MAX;
+		}
+		else if (pheromone[city] < PHEROMONE_MIN){
+			pheromone[city] = PHEROMONE_MIN;
+		}
+    }
 }
