@@ -17,6 +17,13 @@ public class Item {
     private int profit;
     private int weight;
     private int cityNum;
+	
+	/** Attributes for 'Alec' algorithm */
+	private double pheromone;
+	private double increaseRate;
+	private final double PHEROMONE_MIN = 0.1;
+	private final double PHEROMONE_MAX = 0.9;
+	private final double PHEROMONE_DECAY = 0.01;
     
     /**
      * Item Constructor
@@ -70,9 +77,9 @@ public class Item {
     }
 
     /**
-    * Return the City that this item belongs too
-    * @return: int: city number that this item belongs to
-    */
+     * Return the City that this item belongs too
+     * @return: int: city number that this item belongs to
+     */
     public int getCityNum(){
         return cityNum;
     }
@@ -83,5 +90,49 @@ public class Item {
      */
     public double profitToWeightRatio() {
         return ( (double)profit/weight );
+    }
+    
+	/* Methods for the 'Alec' algorithm */
+	
+    /**
+     * Get the pheromone value of this item
+     * @return: double: the pheromone value of the item
+     */
+    public double getPheromone(){
+        return pheromone;
+    }
+    
+    /**
+	 * Set up the pheromone value for the item
+	 */
+	public double setupEdgePheromone(){
+		pheromone = PHEROMONE_MIN;
+		increaseRate = 1 / weight;
+	}
+	
+	/**
+     * Increase the pheromone value of this item
+     */
+    public void increasePheromone(){
+        pheromone += increaseRate;
+    }
+    
+    /**
+     * Decrease the pheromone value of this item
+     */
+    public void decreasePheromone(){
+        pheromone -= PHEROMONE_DECAY;
+    }
+    
+    /**
+     * Fix the pheromone value so that it is within the bounds
+     */
+    public void fixPheromone(){
+        if (pheromone > PHEROMONE_MAX){
+			pheromone = PHEROMONE_MAX;
+		}
+		else if (pheromone < PHEROMONE_MIN){
+			pheromone = PHEROMONE_MIN;
+		}
     }
 }
