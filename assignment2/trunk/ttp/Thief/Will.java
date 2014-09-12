@@ -90,9 +90,14 @@ public class Will {
 
         //this is just to get it in the format your are looking for
         //this will be removed once I start using the knapsack class
-        int[] optimalItems = new int[optimal.length];
+        int[] optimalItems = new int[itemsArray.length];
+        Arrays.fill(optimalItems, 0);
         for(int i = 0; i < optimal.length; i++){
-            optimalItems[i] = optimal[i].getItemNum();
+            optimalItems[optimal[i].getItemNum()] = 1;
+        }
+
+        for(int i = 0; i < optimalItems.length; i++){
+            System.out.println(i + ": " + optimalItems[i]);
         }
 
         System.out.println("End Cost: " + bestCost);
@@ -196,6 +201,8 @@ public class Will {
     * @return: long: the cost of this solution
     */
     public long calculateCost(Item[] sack){
+        //what if instead you just call TTPSolution.evaluate.
+
         //profit will determine where the item is on the path
         City[] bestCities = TSPSolution.getCities();
         //using a list such that items can be removed (reduces search space)

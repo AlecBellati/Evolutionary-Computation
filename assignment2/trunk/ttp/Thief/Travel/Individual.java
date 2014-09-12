@@ -110,7 +110,7 @@ public class Individual {
         for(int i = 0; i < cities.length; i++) {
             nodes[i] = cities[i].getNodeNum();
         }
-        nodes[cities.length-1] = cities[0].getNodeNum();
+        nodes[nodes.length-1] = cities[0].getNodeNum();
         
         return nodes;
     }

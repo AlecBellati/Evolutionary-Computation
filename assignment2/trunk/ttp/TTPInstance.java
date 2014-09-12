@@ -145,7 +145,7 @@ public class TTPInstance {
         //sami = new Sami(); sami.getSolution();
         will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution();
         
-        //getBestSolution();
+        getBestSolution();
     }
     
     /**
@@ -155,10 +155,11 @@ public class TTPInstance {
         System.out.println("TTPInstance: Getting TTPSolution");
         String name = "";
         //solution = alec.getBestSolution(); name = "Alec";
-        solution = matt.getBestSolution(); name = "Matt";
+        //solution = matt.getBestSolution(); name = "Matt";
         //solution = sami.getBestSolution(); name = "Sami";
-        //solution = will.getBestSolution(); name = "Will";
-        
+        solution = will.getBestSolution(); name = "Will";
+        evaluate(solution);
+
         //Replace with your name here
         //create file name (calling convention is: <ttpfile>.<algorithmname>.<systemtime>)
         String filename = problemName + "." + name + "."+ System.currentTimeMillis();
@@ -317,6 +318,7 @@ public class TTPInstance {
         
         int[] tour = solution.tspTour;
         int[] z = solution.packingPlan;
+
         long weightofKnapsack = this.capacityOfKnapsack;
         double rentRate = this.rentingRatio;
         double vmin = this.minSpeed;
@@ -431,14 +433,11 @@ public class TTPInstance {
             
             long distance = (long)Math.ceil(distances(tour[i],tour[h]));
             
-            
-            
             // compute the raw distance
             solution.ftraw += distance;
             
             // compute the adjusted (effective) distance
-            solution.ft=solution.ft+
-            (distance / (1-wc*(vmax-vmin)/weightofKnapsack));
+            solution.ft=solution.ft+ (distance / (1-wc*(vmax-vmin)/weightofKnapsack));
             //              (distances[tour[i]][tour[h]] / (1-wc*(vmax-vmin)/weightofKnapsack));
             
             if (debugPrint) System.out.println("i="+i+" tour[i]="+tour[i]+" tour[h]="+tour[h]+" distance="+distance+" fp="+solution.fp + " ft=" + solution.ft);
