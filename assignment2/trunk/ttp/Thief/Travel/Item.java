@@ -18,7 +18,7 @@ public class Item {
     private int weight;
     private int cityNum;
 	
-	//Attribute for 'Alec' algorithm
+	/** Attributes for 'Alec' algorithm */
 	private double pheromone;
 	private double increaseRate;
 	private final double PHEROMONE_MIN = 0.1;

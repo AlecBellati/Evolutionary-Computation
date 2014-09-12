@@ -21,7 +21,7 @@ public class City {
     private int numItems;
     private Item[] items;           // List of items that could be stolen from this city
 	
-	//Attribute for 'Alec' algorithm
+	/** Attributes for 'Alec' algorithm */
 	private double[] = edgePheromone;
 	private double[] increaseRate;
 	private final double PHEROMONE_MIN = 0.1;
