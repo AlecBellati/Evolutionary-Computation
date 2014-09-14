@@ -39,7 +39,7 @@ public class Alec {
     /**
      * CONSTRUCTOR
      */
-    public Alec(cities, capacityOfKnapsack) {
+    public Alec(City[] cities, int capacityOfKnapsack) {
         this.cities = cities;
 		this.capacityOfKnapsack = capacityOfKnapsack;
 		
@@ -106,12 +106,12 @@ public class Alec {
 		
 		// Get the path
 		Boolean[] taken = new Boolean[cities.length];
-		Arrays.fill(taken, Boolean.false);
+		Arrays.fill(taken, false);
 		taken[0] = true;
 		
 		City currentCity = cities[0];
-		int totalProb;
-		int next, current, total, i, j;
+		int totalProb, i, j;
+		double next, current, total;
 		
 		for (i = 1; i < cities.length; i++){
 			// Get the total pheromone values for each valid edge
@@ -136,12 +136,16 @@ public class Alec {
 				}
 			}
 			
-			currentCity = cities(j);
-			tspSol.setCity(i) = currentCity;
+			currentCity = cities[j];
+			tspSol.setCity(i, currentCity);
 		}
 		
 		// Set the last city
 		tspSol.setCity(cities.length, cities[0]);
+		
+		
+		
+		return tspSol;
 	}
 	
 }

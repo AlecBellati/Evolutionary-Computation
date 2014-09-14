@@ -105,7 +105,7 @@ public class Item {
     /**
 	 * Set up the pheromone value for the item
 	 */
-	public double setupEdgePheromone(){
+	public void setupEdgePheromone(){
 		pheromone = PHEROMONE_MIN;
 		increaseRate = 1 / weight;
 	}

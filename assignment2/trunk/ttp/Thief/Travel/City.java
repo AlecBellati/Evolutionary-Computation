@@ -22,7 +22,7 @@ public class City {
     private Item[] items;           // List of items that could be stolen from this city
 	
 	/** Attributes for 'Alec' algorithm */
-	private double[] = edgePheromone;
+	private double[] edgePheromone;
 	private double[] increaseRate;
 	private final double PHEROMONE_MIN = 0.1;
 	private final double PHEROMONE_MAX = 5.0;
@@ -127,9 +127,9 @@ public class City {
 	/**
 	 * Set up the pheromone values for the city
 	 */
-	public double setupEdgePheromones() {
-		edgePheromone = new double[numEdges];
-		for (int i = 0; i < numEdges; i++){
+	public void setupEdgePheromones() {
+		edgePheromone = new double[edges.length];
+		for (int i = 0; i < edges.length; i++){
 			edgePheromone[i] = PHEROMONE_MIN;
 			increaseRate[i] = 1 / edges[i];
 		}
@@ -140,14 +140,14 @@ public class City {
 	 * @param: int: The city num of the city at the end of the edge
      */
     public void increasePheromone(int city){
-        edgePheromone[city] = edgePheromone[city] + increaseRate;
+        edgePheromone[city] = edgePheromone[city] + increaseRate[city];
     }
     
     /**
      * Decrease the pheromone value of this edge to 'city'
 	 * @param: int: The city num of the city at the end of the edge
      */
-    public void decreasePheromone(){
+    public void decreasePheromone(int city){
         edgePheromone[city] = edgePheromone[city] - PHEROMONE_DECAY;
     }
     
@@ -155,11 +155,11 @@ public class City {
      * Fix the pheromone value of the edge to 'city' so that it is within the bounds
      */
     public void fixPheromone(int city){
-        if (pheromone[city] > PHEROMONE_MAX){
-			pheromone[city] = PHEROMONE_MAX;
+        if (edgePheromone[city] > PHEROMONE_MAX){
+			edgePheromone[city] = PHEROMONE_MAX;
 		}
-		else if (pheromone[city] < PHEROMONE_MIN){
-			pheromone[city] = PHEROMONE_MIN;
+		else if (edgePheromone[city] < PHEROMONE_MIN){
+			edgePheromone[city] = PHEROMONE_MIN;
 		}
     }
 }
