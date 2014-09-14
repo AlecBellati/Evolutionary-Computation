@@ -64,8 +64,8 @@ public class Will {
     *
     */
     public void generateTSP(int[] tour){
-        TSPSolution = new Individual(tour.length);
-        for(int i = 0; i < tour.length; i++){
+        TSPSolution = new Individual(tour.length-1);
+        for(int i = 0; i < tour.length-1; i++){
             int currentCity = tour[i];
             City current;
             for(int j = 0; j < cities.length; j++){
@@ -111,10 +111,10 @@ public class Will {
         System.out.println("Starting Cost: " + bestCost);
 
         //check if there is a more optimal solution using the items not already in the solution
-        //bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost);
+        bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost);
         //some of the items original in the optimal solution may have been removed
         //check they can't still find a good home
-        //bestCost = checkBetterSolution(originalOptimal, false, bestCost);
+        bestCost = checkBetterSolution(originalOptimal, false, bestCost);
 
         //this is just to get it in the format your are looking for
         //this will be removed once I start using the knapsack class
@@ -125,7 +125,7 @@ public class Will {
             //optimalItems[optimal[i].getItemNum()] = 1;
         //}
 
-        //System.out.println("End Cost: " + bestCost);
+        System.out.println("End Cost: " + bestCost);
         //solution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItems);
     }
 
@@ -230,12 +230,26 @@ public class Will {
         int[] optimalItems = new int[itemsArray.length];
         Arrays.fill(optimalItems, 0);
 
-        for(int i = 1; i < optimal.length; i++){
+        for(int i = 0; i < optimal.length; i++){
+            //System.out.println(optimal[i].getItemNum());
             optimalItems[optimal[i].getItemNum()] = 1;
         }
-        TTPSolution tempSolution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItems);
+
+        //optimalItems now goes from 0 to 280
+        //but we want it to be in the same order as the tour
+
+        int[] tours = TSPSolution.getCitiesByID();
+        int[] optimalItemsOrdered = new int[optimalItems.length];
+        for(int i = 1; i < tours.length-1; i++){
+            optimalItemsOrdered[i-1] = optimalItems[tours[i]-1];
+        }
+
+
+        TTPSolution tempSolution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItemsOrdered);
         ttp.evaluate(tempSolution);
-        tempSolution.println();
+        //tempSolution.println();
+
+
         double cost = tempSolution.getObjective();
         //System.out.println(cost);
 
