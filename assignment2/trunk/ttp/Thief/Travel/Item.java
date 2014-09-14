@@ -99,7 +99,7 @@ public class Item {
      * @return: double: the pheromone value of the item
      */
     public double getPheromone(){
-        return pheromone;
+        return 0.5;//pheromone;
     }
     
     /**
