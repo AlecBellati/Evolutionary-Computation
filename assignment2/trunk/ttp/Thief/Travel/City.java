@@ -129,9 +129,12 @@ public class City {
 	 */
 	public void setupEdgePheromones() {
 		edgePheromone = new double[edges.length];
+		increaseRate = new double[edges.length];
 		for (int i = 0; i < edges.length; i++){
-			edgePheromone[i] = PHEROMONE_MIN;
-			increaseRate[i] = 1 / edges[i];
+			if (i != (node)){
+				edgePheromone[i] = PHEROMONE_MIN;
+				increaseRate[i] = 1.0 / edges[i];
+			}
 		}
 	}
 	
@@ -153,6 +156,7 @@ public class City {
     
     /**
      * Fix the pheromone value of the edge to 'city' so that it is within the bounds
+	 * This must be explicitly called so that it can be ensured that the city can reach the max/min
      */
     public void fixPheromone(int city){
         if (edgePheromone[city] > PHEROMONE_MAX){

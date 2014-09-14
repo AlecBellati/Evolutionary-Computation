@@ -105,8 +105,8 @@ public class Item {
     /**
 	 * Set up the pheromone value for the item
 	 */
-	public void setupEdgePheromone(){
-		pheromone = PHEROMONE_MIN;
+	public void setupPheromone(){
+		pheromone = 0.5;//PHEROMONE_MIN;
 		increaseRate = 1 / weight;
 	}
 	
@@ -126,6 +126,7 @@ public class Item {
     
     /**
      * Fix the pheromone value so that it is within the bounds
+     * This must be explicitly called so that it can be ensured that the item can reach the max/min
      */
     public void fixPheromone(){
         if (pheromone > PHEROMONE_MAX){

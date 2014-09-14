@@ -108,7 +108,7 @@ public class Individual {
         //create an int[] of city IDs
         int[] nodes = new int[cities.length+1];
         for(int i = 0; i < cities.length; i++) {
-            nodes[i] = cities[i].getNodeNum();
+			nodes[i] = cities[i].getNodeNum();
         }
         nodes[nodes.length-1] = cities[0].getNodeNum();
         

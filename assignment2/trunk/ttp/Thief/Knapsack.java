@@ -43,11 +43,19 @@ public class Knapsack {
     }
 
     /**
-    * Returns the current weight of the knapsack
-    * @return: long: currentWeight of the knapsack
-    */
+     * Returns the current weight of the knapsack
+     * @return: double: currentWeight of the knapsack
+     */
     public double getCurrentWeight(){
         return currentWeight;
+    }
+    
+    /**
+     * Returns the current capacity of the knapsack
+     * @return: double: The amount of more weight the knapsack can hold
+     */
+    public double getCurrentCapacity(){
+        return (capacity - currentWeight);
     }
     
     /**
@@ -62,5 +70,22 @@ public class Knapsack {
         }
         
         return packingPlan;
+    }
+    
+    /**
+     * Returns an the item specified by the given index
+     * @param: int: The index of the item
+     * @return: Item: The item at 'index'
+     */
+    public Item getItem(int index) {
+       return items.get(index);
+    }
+    
+    /**
+     * Returns the number of items in the knapsack
+     * @return: int: The length of items
+     */
+    public int getNumItems() {
+       return items.size();
     }
 }

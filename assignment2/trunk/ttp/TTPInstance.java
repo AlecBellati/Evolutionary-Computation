@@ -140,10 +140,10 @@ public class TTPInstance {
         /********************
          * CREATE YOUR THIEF*
          ********************/
-        //alec = new Alec(cities, capacityOfKnapsack); alec.getSolution();
+        alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
         //matt = new Matt(cities, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this);
+        //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this);
         
         //getBestSolution();
     }
