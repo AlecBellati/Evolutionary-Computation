@@ -1,7 +1,7 @@
 package TTP.Thief;
 
 import TTP.Thief.Travel.Item;
-import TTP.Thief.Travel.City;
+import TTP.Thief.Travel.Individual;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,38 +76,33 @@ public class Knapsack {
     
 	/**
      * Returns the packing plan
-     * @param: City[]: The cities of the problem
+     * @param: Individual: The tsp solution this knapsack is for
      * @param: int: The total amount of items
      * @return: int[]: A binary int array of the packing plan
      */
-    public int[] getPackingPlan(City[] cities, int totalItems) {
+    public int[] getPackingPlan(Individual TSPSolution, int totalItems) {
         // Setup a binary array
 		int[] packingPlan = new int[totalItems];
         Arrays.fill(packingPlan, 0);
 		
-		// Fill in the taken items
-		int i = 0;
-		for (int c = 0; c < cities.length; c++){
-			City currCity = cities[c];
-			Item[] currItems = currCity.getItems();
-			
-			for (int j = 0; j < currCity.getItemCount(); j++){
-				if (items.contains(currItems[j])){
-					packingPlan[i] = 1;
-				}
-				i++;
+		for (int i = 0; i < items.size(); i++){
+			packingPlan[items.get(i).getItemNum()] = 1;
+		}
+		
+		// Order the plan
+		int[] tours = TSPSolution.getCitiesByID();
+		int[] packingPlanOrdered = new int[packingPlan.length];
+		int pos = 0;
+		for (int tourNum = 1; tourNum < tours.length - 1; tourNum++){
+			int tourId = tours[tourNum];
+			int itemCount = TSPSolution.getCityByIndex(tourId).getItemCount();
+			for (int i = 0; i < itemCount; i++){
+				packingPlanOrdered[pos] = packingPlan[tourId + i - 1];
+				pos++;
 			}
 		}
-		/*
-		System.out.println("********");
 		
-		for (i = 0; i < packingPlan.length; i++){
-			System.out.println(packingPlan[i]);
-		}
-		
-		System.out.println("********");
-		*/
-        return packingPlan;
+		return packingPlanOrdered;
     }
 	
     /**

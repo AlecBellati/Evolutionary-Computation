@@ -400,7 +400,7 @@ public class TTPInstance {
             int currentCityTEMP = tour[i]; // what's the current city? --> but the items start at city 2 in the TTP file, so I have to take another 1 off!
             
             int currentCity = currentCityTEMP-1;
-            System.out.println("CURRENT CITY: " + currentCity);
+            //System.out.println("CURRENT CITY: " + currentCity);
             
             if (i>0) if (debugPrint) System.out.print("city "+currentCityTEMP+" cityIndexForItem[][] "+currentCity+" (this.numberOfNodes="+this.numberOfNodes+"): ");
             

@@ -69,7 +69,7 @@ public class Alec {
 			for (int i = 0; i < POPULATION_SIZE; i++){
 				popTSP[i] = getTSPSolution();
 				popKnap[i] = getKnapsackSolution(popTSP[i]);
-				packingPlan = popKnap[i].getPackingPlan(cities, items.length);
+				packingPlan = popKnap[i].getPackingPlan(popTSP[i], items.length);
 				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), packingPlan);
 			}
 			
@@ -115,11 +115,6 @@ public class Alec {
 			TTPSolution bestSol = null;
 			
 			
-			/*int[] packingTemp = new int[items.length];
-			Arrays.fill(packingTemp, 1);
-			bestSol = new TTPSolution(popTSP[0].getCitiesByID(), packingTemp);
-			instance.evaluate(bestSol);
-			*/
 			double bestCost = Double.NEGATIVE_INFINITY;
 			double currCost;
 			for (int i = 0; i < popTTP.length; i++){
@@ -134,6 +129,8 @@ public class Alec {
 			
 			// Print the cost of the best solution found
 			System.out.println("****" + g + ": " + bestCost + "****");
+			//bestSol.println();
+			
 			
 			// Check if a overall better solution has been found
 			if (bestCost > solutionCost){
@@ -184,8 +181,8 @@ public class Alec {
 		taken[0] = true;
 		
 		City currentCity = cities[0];
-		int totalProb, i, j;
-		double next, current, total;
+		int i, j;
+		double totalProb, next, current, total;
 		
 		for (i = 1; i < cities.length; i++){
 			// Get the total pheromone values for each valid edge
@@ -231,18 +228,15 @@ public class Alec {
 		double itemProb, takeProb;
 		int nodeNum;
 		for (int i = tspSol.getNumCities() - 1; i > 0; i--){
-			// Decide whether to take each item in the current city
-			if (i == cities.length){
-				cityItems = cities[0].getItems();
-			}
-			else{
-				nodeNum = tspSol.getCityByIndex(i).getNodeNum();
-				cityItems = cities[(nodeNum - 1)].getItems();
-			}
+			nodeNum = tspSol.getCityByIndex(i).getNodeNum();
+			cityItems = cities[(nodeNum - 1)].getItems();
 			
+			// Decide whether to take each item in the current city
 			for (int j = 0; j < cityItems.length; j++){
 				if (cityItems[j] != null){
 					if (knapSol.getCurrentCapacity() >= cityItems[j].getWeight()){
+						//System.out.println(knapSol.getCurrentCapacity());
+						
 						itemProb = cityItems[j].getPheromone();
 						takeProb = rnd.nextDouble();
 						if (itemProb > takeProb){
