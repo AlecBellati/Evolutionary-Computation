@@ -24,9 +24,9 @@ public class City {
 	/** Attributes for 'Alec' algorithm */
 	private double[] edgePheromone;
 	private double[] increaseRate;
+	private double[] decreaseRate;
 	private final double PHEROMONE_MIN = 0.1;
 	private final double PHEROMONE_MAX = 5.0;
-	private final double PHEROMONE_DECAY = 0.1;
     
     /**
 	 * Constructor of a City.
@@ -138,10 +138,12 @@ public class City {
 	public void setupEdgePheromones() {
 		edgePheromone = new double[edges.length];
 		increaseRate = new double[edges.length];
+		decreaseRate = new double[edges.length];
 		for (int i = 0; i < edges.length; i++){
 			if (i != (node)){
 				edgePheromone[i] = PHEROMONE_MIN;
 				increaseRate[i] = 1.0 / edges[i];
+				decreaseRate[i] = increaseRate[i] / 2.0;
 			}
 		}
 	}
@@ -152,6 +154,10 @@ public class City {
      */
     public void increasePheromone(int city){
         edgePheromone[city] = edgePheromone[city] + increaseRate[city];
+		
+		if (edgePheromone[city] > PHEROMONE_MAX){
+			edgePheromone[city] = PHEROMONE_MAX;
+		}
     }
     
     /**
@@ -159,19 +165,11 @@ public class City {
 	 * @param: int: The city num of the city at the end of the edge
      */
     public void decreasePheromone(int city){
-        edgePheromone[city] = edgePheromone[city] - PHEROMONE_DECAY;
-    }
-    
-    /**
-     * Fix the pheromone value of the edge to 'city' so that it is within the bounds
-	 * This must be explicitly called so that it can be ensured that the city can reach the max/min
-     */
-    public void fixPheromone(int city){
-        if (edgePheromone[city] > PHEROMONE_MAX){
-			edgePheromone[city] = PHEROMONE_MAX;
-		}
-		else if (edgePheromone[city] < PHEROMONE_MIN){
+        edgePheromone[city] = edgePheromone[city] - decreaseRate[city];
+		
+		if (edgePheromone[city] < PHEROMONE_MIN){
 			edgePheromone[city] = PHEROMONE_MIN;
 		}
     }
+    
 }

@@ -73,41 +73,51 @@ public class Alec {
 				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), packingPlan);
 			}
 			
-			
-			
 			// Increase the edge pheromone values
+			Boolean[][] edgeTaken = new Boolean[cities.length][];
+			for (int i = 0; i < cities.length; i++){
+				edgeTaken[i] = new Boolean[cities.length];
+				Arrays.fill(edgeTaken[i], false);
+			}
 			City currCity, nextCity;
-			for (int i = 0; i < popTSP.length; i++){
-				nextCity = popTSP[i].getCityByIndex(0);
-				for (int j = 1; j < popTSP[i].getNumCities(); j++){
+			Item[] cityItems;
+			for (int t = 0; t < popTSP.length; t++){
+				currCity = popTSP[t].getCityByIndex(0);
+				for (int i = 1; i < popTSP[t].getNumCities(); i++){
+					nextCity = popTSP[t].getCityByIndex(i);
+					currCity.increasePheromone(nextCity.getNodeNum());
+					edgeTaken[currCity.getNodeNum()][nextCity.getNodeNum()] = true;
 					currCity = nextCity;
-					nextCity = popTSP[i].getCityByIndex(j);
-					
-					currCity.increasePheromone(nextCity.getNodeNum());
-					currCity.increasePheromone(nextCity.getNodeNum());
-					nextCity.increasePheromone(nextCity.getNodeNum());
-					nextCity.increasePheromone(currCity.getNodeNum());
 				}
 			}
-			// Decrease and fix the edge pheromone values
+			// Decrease the edge pheromone values
 			for (int i = 0; i < cities.length; i++){
 				for (int j = 0; j < cities.length; j++){
-					cities[i].decreasePheromone(j);
-					cities[i].fixPheromone(j);
+					if (!edgeTaken[i][j]){
+						cities[i].increasePheromone(j);
+					}
 				}
 			}
 			
 			// Increase the item pheromone values
+			Boolean[] itemTaken = new Boolean[items.length];
+			Arrays.fill(itemTaken, false);
+			Item currItem;
 			for (int i = 0; i < popKnap.length; i++){
 				for (int j = 0; j < popKnap[i].getNumItems(); j++){
-					popKnap[i].getItem(j).increasePheromone();
+					currItem = popKnap[i].getItem(j);
+					currItem.increasePheromone();
+					
+					itemTaken[currItem.getItemNum()] = true;
 				}
 			}
 			// Decrease and fix the item pheromone values
 			for (int i = 0; i < popKnap.length; i++){
 				for (int j = 0; j < items.length; j++){
-					items[j].decreasePheromone();
-					items[j].fixPheromone();
+					currItem = items[j];
+					if(!itemTaken[currItem.getItemNum()]){
+						currItem.decreasePheromone();
+					}
 				}
 			}
 			
@@ -249,5 +259,19 @@ public class Alec {
 		
 		return knapSol;
 	}
+	
+	/**
+	 * Get the best amount of TTP solutions and set the best
+	 * @param: TTPSolution[]: The TTP solutions
+	 * @param: int: The number of solutions to save
+	 * @param: TTPInstance: The TTP instance this is a part of
+	 * @return: TTPSolution[]: The TTP solutions that are being saved
+	 *//*
+	private TTPSolution[] getBestSolutions(TTPSolution[] population, TTPInstance instance){
+		// Evaluate the cost of the solutions
+		for (int i = 0; i < population.length; i++){
+			instance.evaluate(population[i])
+		}
+	}*/
 	
 }

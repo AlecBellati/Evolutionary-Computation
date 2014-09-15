@@ -21,10 +21,10 @@ public class Item {
 	/** Attributes for 'Alec' algorithm */
 	private double pheromone;
 	private double increaseRate;
+	private double decreaseRate;
 	private final double PHEROMONE_MIN = 0.1;
 	private final double PHEROMONE_MAX = 0.9;
-	private final double PHEROMONE_DECAY = 0.01;
-    
+	
     /**
      * Item Constructor
      * @param: int: Item node number
@@ -99,7 +99,7 @@ public class Item {
      * @return: double: the pheromone value of the item
      */
     public double getPheromone(){
-        return 0.5;//pheromone;
+		return pheromone;
     }
     
     /**
@@ -107,7 +107,8 @@ public class Item {
 	 */
 	public void setupPheromone(){
 		pheromone = 0.5;//PHEROMONE_MIN;
-		increaseRate = 1 / weight;
+		increaseRate = 1.0 / weight;
+		decreaseRate = increaseRate / 2.0;
 	}
 	
 	/**
@@ -115,25 +116,21 @@ public class Item {
      */
     public void increasePheromone(){
         pheromone += increaseRate;
+		
+		if (pheromone > PHEROMONE_MAX){
+			pheromone = PHEROMONE_MAX;
+		}
     }
     
     /**
      * Decrease the pheromone value of this item
      */
     public void decreasePheromone(){
-        pheromone -= PHEROMONE_DECAY;
-    }
-    
-    /**
-     * Fix the pheromone value so that it is within the bounds
-     * This must be explicitly called so that it can be ensured that the item can reach the max/min
-     */
-    public void fixPheromone(){
-        if (pheromone > PHEROMONE_MAX){
-			pheromone = PHEROMONE_MAX;
-		}
-		else if (pheromone < PHEROMONE_MIN){
+        pheromone -= decreaseRate;
+		
+		if (pheromone < PHEROMONE_MIN){
 			pheromone = PHEROMONE_MIN;
 		}
     }
+    
 }
