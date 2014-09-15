@@ -245,9 +245,8 @@ public class Alec {
 			for (int j = 0; j < cityItems.length; j++){
 				if (cityItems[j] != null){
 					if (knapSol.getCurrentCapacity() >= cityItems[j].getWeight()){
-						//System.out.println(knapSol.getCurrentCapacity());
+						itemProb = items[cityItems[j].getItemNum()].getPheromone();
 						
-						itemProb = cityItems[j].getPheromone();
 						takeProb = rnd.nextDouble();
 						if (itemProb > takeProb){
 							knapSol.addItem(cityItems[j]);
