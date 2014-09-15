@@ -158,26 +158,22 @@ public class TTPInstance {
         solution = matt.getBestSolution(); name = "Matt";
         //solution = sami.getBestSolution(); name = "Sami";
         //solution = will.getBestSolution(); name = "Will";
-        evaluate(solution);
-
-        //Replace with your name here
+        
+        
         //create file name (calling convention is: <ttpfile>.<algorithmname>.<systemtime>)
         String filename = problemName + "." + name + "."+ System.currentTimeMillis();
         
-        
-        //write solution to a file
-        System.out.println("TTPInstance: Writing solution to file");
-        
+        //Check if solution exists
         if(solution == null) {
-            System.out.println("TTPInstance: No Solution Available");
+            System.out.println("TTPInstance: No Solution Available!");
         } else {
+            System.out.println("TTPInstance: Solution Exists! Evalutating and Writing Solution to File");
+            evaluate(solution);
             solution.writeResult(filename);
+            System.out.println("Total profit = " + solution.getObjective());
         }
         
-        System.out.println("Total profit = " + solution.getObjective());
         System.out.println("TTPInstance: exiting program");
-
-
     }
     
     
