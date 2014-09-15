@@ -92,6 +92,20 @@ public class Item {
         return ( (double)profit/weight );
     }
     
+    /**
+     * Compares the ratio of two Items (high to low)
+     * @return int: -1 if this is less than the passed item, 0 if they're the same, else 1
+     */
+    public int compareRatio(Item item) {
+        if(item.profitToWeightRatio() < this.profitToWeightRatio()) {
+            return -1;
+        } else if(item.profitToWeightRatio() == this.profitToWeightRatio()) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    
 	/* Methods for the 'Alec' algorithm */
 	
     /**

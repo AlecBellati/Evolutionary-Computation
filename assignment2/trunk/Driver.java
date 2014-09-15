@@ -16,7 +16,7 @@ public class Driver {
     
     //constant variables
     //ten minutes is slightly shortened to account for setup and output to file - use 596000 to account for file read and write times
-    private static final long TENMINUTES = 6000;
+    private static final long TENMINUTES = 596000;
     
     /**
      * CONSTRUCTOR
