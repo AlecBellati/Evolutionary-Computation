@@ -63,14 +63,17 @@ public class Alec {
 			Individual[] popTSP = new Individual[POPULATION_SIZE];
 			Knapsack[] popKnap = new Knapsack[POPULATION_SIZE];
 			TTPSolution[] popTTP = new TTPSolution[POPULATION_SIZE];
+			int[] packingPlan;
 			
 			// Get the solutions
 			for (int i = 0; i < POPULATION_SIZE; i++){
 				popTSP[i] = getTSPSolution();
 				popKnap[i] = getKnapsackSolution(popTSP[i]);
-				popKnap[i] = reverseKnapsack(popKnap[i]);
-				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), popKnap[i].getItemsByID());
+				packingPlan = popKnap[i].getPackingPlan(cities, items.length);
+				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), packingPlan);
 			}
+			
+			
 			
 			// Increase the edge pheromone values
 			City currCity, nextCity;
@@ -110,6 +113,13 @@ public class Alec {
 			
 			// Evaluate the solutions to get the best
 			TTPSolution bestSol = null;
+			
+			
+			/*int[] packingTemp = new int[items.length];
+			Arrays.fill(packingTemp, 1);
+			bestSol = new TTPSolution(popTSP[0].getCitiesByID(), packingTemp);
+			instance.evaluate(bestSol);
+			*/
 			double bestCost = Double.NEGATIVE_INFINITY;
 			double currCost;
 			for (int i = 0; i < popTTP.length; i++){
@@ -125,7 +135,7 @@ public class Alec {
 			// Print the cost of the best solution found
 			System.out.println("****" + g + ": " + bestCost + "****");
 			
-			// Check if a overall better solution has been found;
+			// Check if a overall better solution has been found
 			if (bestCost > solutionCost){
 				solution = bestSol;
 				solutionCost = bestCost;
@@ -163,7 +173,7 @@ public class Alec {
 	 * @return: Individual: The tsp solution
 	 */
 	private Individual getTSPSolution(){
-		Individual tspSol = new Individual(cities.length + 1);
+		Individual tspSol = new Individual(cities.length);
 		
 		// Set the first city
 		tspSol.setCity(0, cities[0]);
@@ -205,9 +215,6 @@ public class Alec {
 			taken[j] = true;
 		}
 		
-		// Set the last city
-		tspSol.setCity(cities.length, cities[0]);
-		
 		return tspSol;
 	}
 	
@@ -247,21 +254,6 @@ public class Alec {
 		}
 		
 		return knapSol;
-	}
-	
-	/**
-	 * Reverse the knapsack ordering Get an pack plan for a tsp solution
-	 * @param: Individual: The tsp solution
-	 * @return: Knapsack: The packing plan for the tsp solution
-	 */
-	private Knapsack reverseKnapsack(Knapsack knap){
-		Knapsack knapNew = new Knapsack(capacityOfKnapsack);
-		
-		for (int i = knap.getNumItems() - 1; i >= 0; i--) {
-			knapNew.addItem(knap.getItem(i));
-		}
-		
-		return knapNew;
 	}
 	
 }

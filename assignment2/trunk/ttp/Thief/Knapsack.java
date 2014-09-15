@@ -1,8 +1,10 @@
 package TTP.Thief;
 
 import TTP.Thief.Travel.Item;
+import TTP.Thief.Travel.City;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Knapsack {
@@ -72,6 +74,42 @@ public class Knapsack {
         return packingPlan;
     }
     
+	/**
+     * Returns the packing plan
+     * @param: City[]: The cities of the problem
+     * @param: int: The total amount of items
+     * @return: int[]: A binary int array of the packing plan
+     */
+    public int[] getPackingPlan(City[] cities, int totalItems) {
+        // Setup a binary array
+		int[] packingPlan = new int[totalItems];
+        Arrays.fill(packingPlan, 0);
+		
+		// Fill in the taken items
+		int i = 0;
+		for (int c = 0; c < cities.length; c++){
+			City currCity = cities[c];
+			Item[] currItems = currCity.getItems();
+			
+			for (int j = 0; j < currCity.getItemCount(); j++){
+				if (items.contains(currItems[j])){
+					packingPlan[i] = 1;
+				}
+				i++;
+			}
+		}
+		/*
+		System.out.println("********");
+		
+		for (i = 0; i < packingPlan.length; i++){
+			System.out.println(packingPlan[i]);
+		}
+		
+		System.out.println("********");
+		*/
+        return packingPlan;
+    }
+	
     /**
      * Returns an the item specified by the given index
      * @param: int: The index of the item

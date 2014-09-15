@@ -63,12 +63,20 @@ public class City {
         itemCount++;
     }
 
-     /**
+    /**
      * Get the Items from this City
-     * @return: the Items from this City
+     * @return: Item[]: the Items from this City
      */
     public Item[] getItems() {
         return items;
+    }
+	
+	/**
+     * Get the number of Items in this City
+     * @return: int: the number of Items in this City
+     */
+    public int getItemCount() {
+        return itemCount;
     }
 	
 	/**
