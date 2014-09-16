@@ -323,17 +323,6 @@ public class TTPInstance {
         double vmin = this.minSpeed;
         double vmax = this.maxSpeed;
         solution.ftraw = 0;
-        //            double[][] distances,
-        //            double[] weights,
-        //            double[] values,
-        //            int[][] av,
-        //            int[] tour,
-        //            int[] z,
-        //            double weightofKnapsack,
-        //            double vmax,
-        //            double vmin,
-        //            double rentRate
-        //            ) {
         
         // correctness check: does the tour start and end in the same city
         if(tour[0]!=tour[tour.length-1]) {
@@ -352,43 +341,7 @@ public class TTPInstance {
         int itemsPerCity = solution.packingPlan.length / (solution.tspTour.length-2);
         if (debugPrint) System.out.println("itemsPerCity="+itemsPerCity+" solution.tspTour.length="+solution.tspTour.length);
         
-        //        for (int i=0; i<tour.length; i++) {
         for (int i=0; i<tour.length-1; i++) {
-            //            // determine all the items that are picked up in the current city
-            //            ArrayList selectedItem = new ArrayList();
-            //            for (int j=0; j<z.length; j++) {
-            //                if (z[j]==tour[i]) {
-            //                    selectedItem.add(j);
-            //                }
-            //            }
-            //
-            //            // correctness check: are all to-be-picked items available in the current city
-            //            int availabilityCounter = 0;
-            //            for (Object o:selectedItem) {
-            //                int currentItem = ((Integer)o).intValue();
-            //                if (av(currentItem,tour[i])==1)
-            ////                if (av[currentItem][tour[i]]==1)
-            //                    availabilityCounter++;
-            //            }
-            //            if(availabilityCounter!=selectedItem.size()) {
-            //                System.out.println("ERROR: One or more items are not available at this city "+tour[i]);
-            //                solution.reset();
-            //                return;
-            //            }
-            //
-            //            // do the actual TTP computations
-            //            if(!selectedItem.isEmpty()) {
-            //                if (debugPrint) System.out.print("packing: ");
-            //                for (Object o:selectedItem) {
-            //                    int currentItem = ((Integer)o).intValue();
-            //                    if (debugPrint) System.out.print(currentItem+"(p="+this.items[currentItem][1]+") ");
-            //                    wc=wc+this.items[currentItem][2];
-            ////                    wc=wc+weights[currentItem];
-            //                    solution.fp=solution.fp+this.items[currentItem][1];
-            ////                    solution.fp=solution.fp+values[currentItem];
-            //                }
-            //                if (debugPrint) System.out.println();
-            //            }
             
             // important: nothing to be picked at the first city!
             if (debugPrint) System.out.print("\ni="+i+" checking packing: ");
@@ -410,11 +363,6 @@ public class TTPInstance {
                     if (debugPrint) System.out.print("itemIndex="+itemIndex+" ");
                     
                     if (z[indexOfPackingPlan]==1) {
-                        // pack item
-                        //                    int itemIndex = currentCity+itemNumber*(this.numberOfNodes-1);//* (this.numberOfNodes-1);
-                        //                    int itemIndex = (i-1)+itemNumber* (this.numberOfNodes-1); // GECCO incorrect
-                        
-                        //                    if (debugPrint) System.out.print("itemIndex="+itemIndex+" ");
                         
                         int currentWC = this.items[itemIndex][2];
                         wc=wc+currentWC;
@@ -438,7 +386,6 @@ public class TTPInstance {
             
             // compute the adjusted (effective) distance
             solution.ft=solution.ft+ (distance / (1-wc*(vmax-vmin)/weightofKnapsack));
-            //              (distances[tour[i]][tour[h]] / (1-wc*(vmax-vmin)/weightofKnapsack));
             
             if (debugPrint) System.out.println("i="+i+" tour[i]="+tour[i]+" tour[h]="+tour[h]+" distance="+distance+" fp="+solution.fp + " ft=" + solution.ft);
         }

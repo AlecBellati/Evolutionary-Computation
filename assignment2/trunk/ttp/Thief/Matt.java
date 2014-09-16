@@ -74,11 +74,63 @@ public class Matt {
         knapsack.print();
         
         //3. Solve TSP for Knapsack cities to maximise profit
-        runTSP(3);
+        ArrayList<City> inSack = new ArrayList<City>();
+        ArrayList<City> notInSack = new ArrayList<City>();
+        notInSack.add(cities[0]);
+        
+        for(int i = 0; i < items.size(); i++) {
+            Item it = items.get(i);
+            
+            //is it in the knapsack?
+            if(knapsack.containsCity(it.getCityNum())) {
+                //is it already in the list of cities?
+                if(!inSack.contains(cities[it.getCityNum()])) {
+                    inSack.add(cities[it.getCityNum()]);
+                }
+            
+            //otherwise, add to notInSack (if not already added)
+            } else {
+                if(!notInSack.contains(cities[it.getCityNum()])) {
+                    notInSack.add(cities[it.getCityNum()]);
+                }
+            }
+        }
+        
+        City[] inSackArray = new City[inSack.size()];
+        inSackArray = inSack.toArray(inSackArray);
+        
+        City[] notInSackArray = new City[notInSack.size()];
+        notInSackArray = notInSack.toArray(notInSackArray);
+        
+        Individual best = runTSP(3, inSackArray);
         
         //4. Solve TSP for all cities that are not profitable
+        Individual rest = runTSP(3, notInSackArray);
         
         //5. Combine Knapsack TSP and non-profit TSP into TSPSolution
+        System.out.println("Best Individual: ");
+        best.print();
+        
+        System.out.println("\nRest Individual:");
+        rest.print();
+        System.out.println();
+        
+        //create the new individual to combine two city arrays
+        TSPSolution = new Individual(inSackArray.length + notInSackArray.length);
+        int counter = 0;
+
+        //add notInSackArray
+        for(int i = 0; i < rest.getCities().length; i++) {
+            TSPSolution.setCity(i, rest.getCityByIndex(i));
+            counter++;
+        }
+
+        //add inSackArray
+        for(int i = 0; i < best.getCities().length; i++) {
+            TSPSolution.setCity(counter+i, best.getCityByIndex(i));
+        }
+        
+        TSPSolution.print();
         
     }
     
@@ -100,7 +152,6 @@ public class Matt {
      */
     public void stealProfitableItems() {
         ArrayList<Item> profit = new ArrayList<Item>();
-        boolean profitable = false;
         
         //tracking variables
         double totalProfit = 0;
@@ -121,7 +172,7 @@ public class Matt {
                 
             //calculate the potential speed if taking the item
             double tempSpeed = (maxSpeed - minSpeed)*weightRatio;
-                
+            
             //get the edge cost from the previous city to this city
             double edgeCost = TTPGraph[prevCity.getNodeNum()][currCity.getNodeNum()];
                 
@@ -152,7 +203,7 @@ public class Matt {
     
     /**
      * Function that gets called when time is up
-     * @return: TSPSolution: solution after 10 minutes
+     * @return: TTPSolution: solution after 10 minutes
      */
     public TTPSolution getBestSolution() {
         System.out.println("Matt: Timer expired function, return the best solution");
@@ -165,7 +216,7 @@ public class Matt {
         
         //create TTP variables
         int[] tspTour = TSPSolution.getCitiesByID();
-        int[] packingPlan = knapsack.getItemsByID();
+        int[] packingPlan = knapsack.getPackingPlan(TSPSolution, items.size());
         
         //create a new solution
         solution = new TTPSolution(tspTour, packingPlan);
@@ -183,15 +234,9 @@ public class Matt {
      * Run the TSP algorithm with the algorithm you would like to use
      * @param: int: the algorithm number you would like to use (numbers are
      */
-    private Individual runTSP(int alg) {
-        if(alg == 1) {
-            TSPSolution = testingAlgorithm1(50, 10000);
-        } else if(alg == 2) {
-            TSPSolution = testingAlgorithm2(50, 10000);
-        } else if(alg == 3) {
-            TSPSolution = testingAlgorithm3(50, 10000);
-        } else if(alg == 4) {
-            TSPSolution = testingInverOver(50, 10000);
+    private Individual runTSP(int alg, City[] subCity) {
+        if(0 < alg && alg < 5) {
+            TSPSolution = runTSP(50, 30000, alg, subCity);
         } else {
             System.out.println("TSP Algorithm Numbers must be [1,4]");
             return null;
@@ -205,55 +250,14 @@ public class Matt {
 	 * Will run Algorithm 1 and output best solution
 	 * @param populationSize - size of population to run with
 	 * @param generations - number of cycles to perform algorithm
+     * @param int - Algorithm number to use [1,4]
+     * @param City[] - cities to pass to the TSP solver
 	 * @return Individual - best individual from the given algorithm
 	 */
-	private Individual testingAlgorithm1(int populationSize, int generations) {
+	private Individual runTSP(int populationSize, int generations, int alg, City[] subCity) {
 		int solutionSize = populationSize/2;
 		double mutationPercentage = 0.10, operationPercentage = 0.90;
 		int removalRate = (int)Math.ceil(populationSize/10);
-		return control.runSequence(cities, solutionSize, populationSize, generations, mutationPercentage, operationPercentage, removalRate, 1);
+		return control.runSequence(subCity, solutionSize, populationSize, generations, mutationPercentage, operationPercentage, removalRate, alg);
 	}
-    
-	/**
-	 * Basic testing function
-	 * Will run Algorithm 2 and output best solution
-	 * @param populationSize - size of population to run with
-	 * @param generations - number of cycles to perform algorithm
-	 * @return Individual - best individual from the given algorithm
-	 */
-	private Individual testingAlgorithm2(int populationSize, int generations) {
-		int solutionSize = populationSize/2;
-		double mutationPercentage = 0.10, operationPercentage = 0.90;
-		int removalRate = (int)Math.ceil(populationSize/10);
-		return control.runSequence(cities, solutionSize, populationSize, generations, mutationPercentage, operationPercentage, removalRate, 2);
-	}
-    
-	/**
-	 * Basic testing function
-	 * Will run Algorithm 3 and output best solution
-	 * @param populationSize - size of population to run with
-	 * @param generations - number of cycles to perform algorithm
-	 * @return Individual - best individual from the given algorithm
-	 */
-	private Individual testingAlgorithm3(int populationSize, int generations) {
-		int solutionSize = populationSize/2;
-		double mutationPercentage = 0.10, operationPercentage = 0.90;
-		int removalRate = (int)Math.ceil(populationSize/10);
-		return control.runSequence(cities, solutionSize, populationSize, generations, mutationPercentage, operationPercentage, removalRate, 3);
-    }
-    
-	/**
-	 * Basic testing function
-	 * Will run Inver-Over algorithm and output best solution
-	 * @param populationSize - size of population to run with
-	 * @param generations - number of cycles to perform algorithm
-	 * @return Individual - best individual from the given algorithm
-	 */
-	private Individual testingInverOver(int populationSize, int generations) {
-		int solutionSize = populationSize/2;
-		double mutationPercentage = 0.10, operationPercentage = 0.90;
-		int removalRate = (int)Math.ceil(populationSize/10);
-		return control.runSequence(cities, solutionSize, populationSize, generations, mutationPercentage, operationPercentage, removalRate, 4);
-    }
-    
 }

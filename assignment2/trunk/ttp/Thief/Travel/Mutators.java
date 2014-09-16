@@ -95,8 +95,6 @@ public class Mutators {
 	 * @param boolean inversion - if true, run the inversion, else run scramble
 	 */
 	private void inversionOrScramble(Individual individual, boolean inversion) {
-        System.out.println("individual before: ");
-        individual.print();
 		// Find the subset of position to mutate
 		int posA = 0;
         int posB = 0;
@@ -118,9 +116,6 @@ public class Mutators {
 			if (inversion) {
 				//invert positions in the array
 				inverseSubset(individual, posA, posB);
-                System.out.println("Individual After: ");
-                individual.print();
-                System.exit(1);
 			} else {
 				//scramble the positions in the array
 				int subsetSize = posB - posA;

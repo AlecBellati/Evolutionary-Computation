@@ -77,7 +77,7 @@ public class Knapsack {
 	/**
      * Returns the packing plan
      * @param: Individual: The tsp solution this knapsack is for
-     * @param: int: The total amount of items
+     * @param: int: The total amount of items available
      * @return: int[]: A binary int array of the packing plan
      */
     public int[] getPackingPlan(Individual TSPSolution, int totalItems) {
@@ -123,6 +123,20 @@ public class Knapsack {
     }
     
     /**
+     * Does the knapsack contain an item from this city?
+     * @param: int: the cityNumber you're looking for
+     */
+    public boolean containsCity(int cityNum) {
+        for(int i = 0; i < items.size(); i++) {
+            Item it = items.get(i);
+            if(it.getCityNum() == cityNum) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Print function
      */
     public void print() {
@@ -130,8 +144,9 @@ public class Knapsack {
         System.out.println("-> Capacity of Knapsack: " + capacity);
         System.out.println("-> Current Weight of Knapsack: " + currentWeight);
         //NB: percent sign is escaped with a percent sign.
-        System.out.println(String.format("-> the Knapsack is %2.2f %% full!", currentWeight/capacity));
-        System.out.println("->Current Items in the Knapsack:\n");
+        double percent = (currentWeight/capacity) * 100;
+        System.out.println(String.format("-> the Knapsack is %2.2f %% full!", percent));
+        System.out.println("-> Current Items in the Knapsack:\n");
         if(items.isEmpty()) {
             System.out.println("--> Knapsack is empty");
         } else {

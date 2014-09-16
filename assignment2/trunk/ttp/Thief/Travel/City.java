@@ -78,7 +78,19 @@ public class City {
     public int getItemCount() {
         return itemCount;
     }
-	
+    
+    /**
+     * Checks to see if the item is contained in this city
+     * @param: boolean true if contains item, else false
+     */
+	public boolean containsItem(Item item) {
+        for(int i = 0; i < items.length; i++) {
+            if(items[i] == item) {
+                return true;
+            }
+        }
+        return false;
+    }
 	/**
 	 * Gets the "name" of the node
 	 * @return: int node: the name of the node

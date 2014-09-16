@@ -401,7 +401,7 @@ public class Control {
 				// 3) PMX Crossover                  20%
 				// 4) Cycle Crossover                10%
 				
-				double doOperation = rnd.nextDouble();
+				double doOperation = 1;//rnd.nextDouble();
 				
 				if (doOperation < 0.10) {
 					// Do Cycle Crossover
