@@ -48,12 +48,13 @@ public class Operators {
         int posA = 0;
         int posB = 0;
         
-        // Ensure that city[0] stays the same
+        // Ensure first city isn't selected
         while (posA == 0 || posB == 0) {
             posA = rnd.nextInt(length);
             posB = rnd.nextInt(length);
         }
-		// Ensure that posA is less than  or equal to posB
+		
+        // Ensure that posA is less than  or equal to posB
 		if (posA > posB){
 			int posTemp = posA;
 			posA = posB;
@@ -61,13 +62,21 @@ public class Operators {
 		}
 		int subsetLength = posB - posA + 1;
 		
-		// Copy subset from parentA to childA and parentB to childB
-		// Keep copied values so they don't get copied again
+
+        // Create children
+        // Store copied values so they don't get copied again
 		Individual childA = new Individual(length);
 		Individual childB = new Individual(length);
 		ArrayList<Integer> valuesCopiedA = new ArrayList<Integer>();
 		ArrayList<Integer> valuesCopiedB = new ArrayList<Integer>();
-		
+        
+        // Copy first cities over so they don't change
+        childA.setCity(0, parentA.getCityByIndex(0));
+        childB.setCity(0, parentB.getCityByIndex(0));
+        valuesCopiedA.add(parentA.getCityByIndex(0).getNodeNum());
+        valuesCopiedB.add(parentB.getCityByIndex(0).getNodeNum());
+        
+        // Copy subset from parentA to childA and parentB to childB
 		for (int i = posA; i <= posB; i++) {
 			childA.setCity(i, parentA.getCityByIndex(i));
 			childB.setCity(i, parentB.getCityByIndex(i));
@@ -82,10 +91,10 @@ public class Operators {
 		int childIndex;
 		int parentIndex;
 		
-		// Ensure counters stay in range
+		// Ensure counters stay in range and ignore city[0]
 		if (posB + 1 == length) {
-			childIndex = 0;
-			parentIndex = 0;
+			childIndex = 1;
+			parentIndex = 1;
 		} else {
 			childIndex = posB + 1;
 			parentIndex = posB + 1;
@@ -101,14 +110,14 @@ public class Operators {
 				// Increment counters
 				spotsFilled++;
 				if (childIndex == length - 1) {
-					childIndex = 0;
+					childIndex = 1;
 				} else {
 					childIndex++;
 				}
 			}
 			
 			if (parentIndex == length - 1) {
-				parentIndex = 0;
+				parentIndex = 1;
 			} else {
 				parentIndex++;
 			}
@@ -117,10 +126,10 @@ public class Operators {
 		// Fill in remaining spots in Child B
 		spotsFilled = 0;
 		
-		// Ensure counters stay in range
+		// Ensure counters stay in range and ignore city[0]
 		if (posB + 1 == length) {
-			childIndex = 0;
-			parentIndex = 0;
+			childIndex = 1;
+			parentIndex = 1;
 		} else {
 			childIndex = posB + 1;
 			parentIndex = posB + 1;
@@ -135,14 +144,14 @@ public class Operators {
 				// Increment counters
 				spotsFilled++;
 				if (childIndex == length - 1) {
-					childIndex = 0;
+					childIndex = 1;
 				} else {
 					childIndex++;
 				}
 			}
 			
 			if (parentIndex == length - 1) {
-				parentIndex = 0;
+				parentIndex = 1;
 			} else {
 				parentIndex++;
 			}
