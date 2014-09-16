@@ -45,9 +45,14 @@ public class Operators {
 		
 		// Choose random part of parents to copy
 		int length = parentA.getNumCities();
-		int posA = rnd.nextInt(length);
-		int posB = rnd.nextInt(length);
-		
+        int posA = 0;
+        int posB = 0;
+        
+        // Ensure that city[0] stays the same
+        while (posA == 0 || posB == 0) {
+            posA = rnd.nextInt(length);
+            posB = rnd.nextInt(length);
+        }
 		// Ensure that posA is less than  or equal to posB
 		if (posA > posB){
 			int posTemp = posA;
