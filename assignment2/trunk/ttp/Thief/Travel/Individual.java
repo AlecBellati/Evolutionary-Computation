@@ -57,9 +57,10 @@ public class Individual {
 	 * Gets the basic solution set and puts it into the City[]
 	 */
 	public void generateRandomSolution() {
+		//will not modify city[0]
 		Random rnd = new Random();
 		for (int i = cities.length - 1; i > 0; i--) {
-			int index = rnd.nextInt(cities.length-1);
+			int index = rnd.nextInt(cities.length-1)+1;
 			// Simple swap
 			if(index != i) {
 				City temp = cities[index];

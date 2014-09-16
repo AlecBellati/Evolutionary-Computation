@@ -121,4 +121,26 @@ public class Knapsack {
     public int getNumItems() {
        return items.size();
     }
+    
+    /**
+     * Print function
+     */
+    public void print() {
+        System.out.println("*** Knapsack Details ***");
+        System.out.println("-> Capacity of Knapsack: " + capacity);
+        System.out.println("-> Current Weight of Knapsack: " + currentWeight);
+        //NB: percent sign is escaped with a percent sign.
+        System.out.println(String.format("-> the Knapsack is %2.2f %% full!", currentWeight/capacity));
+        System.out.println("->Current Items in the Knapsack:\n");
+        if(items.isEmpty()) {
+            System.out.println("--> Knapsack is empty");
+        } else {
+            System.out.printf("%-11s  %-11s  %-11s  %-11s  %-11s\n", "Item #", "Profit", "Weight", "Ratio", "From City #");
+            System.out.println("-----------------------------------------------------------------");
+            for(int i = 0; i < items.size(); i++) {
+                Item it = items.get(i);
+                System.out.printf("%-11d  %-11d  %-11d  %-9.2f    %-11d\n", it.getItemNum(), it.getProfit(), it.getWeight(), it.profitToWeightRatio(), it.getCityNum());
+            }
+        }
+    }
 }

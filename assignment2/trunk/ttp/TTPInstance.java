@@ -140,12 +140,12 @@ public class TTPInstance {
         /********************
          * CREATE YOUR THIEF*
          ********************/
-        alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
-        //matt = new Matt(cities, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
+        //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
+        matt = new Matt(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
         //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this);
         
-        //getBestSolution();
+        getBestSolution();
     }
     
     /**
@@ -155,29 +155,25 @@ public class TTPInstance {
         System.out.println("TTPInstance: Getting TTPSolution");
         String name = "";
         //solution = alec.getBestSolution(); name = "Alec";
-        //solution = matt.getBestSolution(); name = "Matt";
+        solution = matt.getBestSolution(); name = "Matt";
         //solution = sami.getBestSolution(); name = "Sami";
-        solution = will.getBestSolution(); name = "Will";
-        evaluate(solution);
-
-        //Replace with your name here
+        //solution = will.getBestSolution(); name = "Will";
+        
+        
         //create file name (calling convention is: <ttpfile>.<algorithmname>.<systemtime>)
         String filename = problemName + "." + name + "."+ System.currentTimeMillis();
         
-        
-        //write solution to a file
-        System.out.println("TTPInstance: Writing solution to file");
-        
+        //Check if solution exists
         if(solution == null) {
-            System.out.println("TTPInstance: No Solution Available");
+            System.out.println("TTPInstance: No Solution Available!");
         } else {
+            System.out.println("TTPInstance: Solution Exists! Evalutating and Writing Solution to File");
+            evaluate(solution);
             solution.writeResult(filename);
+            System.out.println("Total profit = " + solution.getObjective());
         }
         
-        System.out.println("Total profit = " + solution.getObjective());
         System.out.println("TTPInstance: exiting program");
-
-
     }
     
     
@@ -400,7 +396,7 @@ public class TTPInstance {
             int currentCityTEMP = tour[i]; // what's the current city? --> but the items start at city 2 in the TTP file, so I have to take another 1 off!
             
             int currentCity = currentCityTEMP-1;
-            //System.out.println("CURRENT CITY: " + currentCity);
+            System.out.println("CURRENT CITY: " + currentCity);
             
             if (i>0) if (debugPrint) System.out.print("city "+currentCityTEMP+" cityIndexForItem[][] "+currentCity+" (this.numberOfNodes="+this.numberOfNodes+"): ");
             

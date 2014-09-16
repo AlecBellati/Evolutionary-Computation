@@ -259,10 +259,34 @@ public class TSPProblem {
 		}
 		
 		TSPProblem TSPInstance = new TSPProblem(fileToLoad);
-		TSPInstance.testingAlgorithm1(50, 10000);
-		TSPInstance.testingAlgorithm2(50, 10000);
-		TSPInstance.testingAlgorithm3(50, 10000);
-		TSPInstance.testingInverOver(50, 10000);
+		TSPInstance.test();
+		//TSPInstance.testingAlgorithm1(50, 10000);
+		//TSPInstance.testingAlgorithm2(50, 10000);
+		//TSPInstance.testingAlgorithm3(50, 10000);
+		//TSPInstance.testingInverOver(50, 10000);
+	}
+
+	public void test(){
+		ArrayList<String> lines = new ArrayList<String>();
+		int count = 0;
+		try{
+			File file = new File("results.csv");
+	        BufferedWriter output = new BufferedWriter(new FileWriter(file));
+
+			for(int i = 0; i < 10000; i++){
+				Individual testing = new Individual(cities, true);
+				String output_str = testing.print();
+				output.write(output_str);
+				if(lines.contains(output_str)){
+					count++;
+				}
+				lines.add(output_str);
+			}
+			output.write("Number of Duplicates: " + count);
+	        output.close();
+	    }catch(Exception e){
+
+	    }
 	}
 	
 	/**
