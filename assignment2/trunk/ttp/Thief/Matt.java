@@ -74,7 +74,7 @@ public class Matt {
         knapsack.print();
         
         //3. Solve TSP for Knapsack cities to maximise profit
-        
+        runTSP(3);
         
         //4. Solve TSP for all cities that are not profitable
         

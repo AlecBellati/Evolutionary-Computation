@@ -406,10 +406,10 @@ public class Operators {
 			// Reset for the second city
 			cityCount = 0;
 		}
-		
+        
 		// Insert random starting city
 		int indiv = rnd.nextInt(2);
-		int startPT = rnd.nextInt(parents[0].length);
+		int startPT = 0;
 		solution[0][0] = parents[indiv][startPT];
 		
 		// Recombine elements into new solution
@@ -499,7 +499,7 @@ public class Operators {
 			// Update the solution array with the next element to process
 			solution[0][idx+1] = nextElem;
 		}
-		
+
 		// Return new solution
 		return new Individual(solution[0] , false);
 	}

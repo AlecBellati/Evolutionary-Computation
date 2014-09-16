@@ -60,7 +60,7 @@ public class Individual {
 		//will not modify city[0]
 		Random rnd = new Random();
 		for (int i = cities.length - 1; i > 0; i--) {
-			int index = rnd.nextInt(cities.length=1)+1;
+			int index = rnd.nextInt(cities.length-1)+1;
 			// Simple swap
 			if(index != i) {
 				City temp = cities[index];
