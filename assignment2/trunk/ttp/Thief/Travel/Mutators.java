@@ -95,12 +95,14 @@ public class Mutators {
 	 * @param boolean inversion - if true, run the inversion, else run scramble
 	 */
 	private void inversionOrScramble(Individual individual, boolean inversion) {
+        System.out.println("individual before: ");
+        individual.print();
 		// Find the subset of position to mutate
 		int posA = 0;
         int posB = 0;
         
         // Keep city[0] the same
-        while (posA == 0 || posb == 0) {
+        while (posA == 0 || posB == 0) {
             posA = rnd.nextInt(individual.getNumCities());
             posB = rnd.nextInt(individual.getNumCities());
         }
@@ -116,6 +118,9 @@ public class Mutators {
 			if (inversion) {
 				//invert positions in the array
 				inverseSubset(individual, posA, posB);
+                System.out.println("Individual After: ");
+                individual.print();
+                System.exit(1);
 			} else {
 				//scramble the positions in the array
 				int subsetSize = posB - posA;
@@ -139,13 +144,13 @@ public class Mutators {
 		int b = posB;
 		
 		// Handle the area to be inversed if it is circular (wraps around end of solution)
-		while (a < individual.getNumCities() && b >= 0) {
+		while (a < individual.getNumCities() && b > 0) {
 			swapCities(individual, a, b);
 			a++;
 			b--;
 		}
 		if (a == individual.getNumCities()){
-			a = 0;
+			a = 1;
 		} else {
 			b = individual.getNumCities() - 1;
 		}
