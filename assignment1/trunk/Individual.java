@@ -56,8 +56,8 @@ public class Individual {
 	 */
 	public void generateRandomSolution() {
 		Random rnd = new Random();
-		for (int i = cities.length - 1; i > 0; i--) {
-			int index = rnd.nextInt(cities.length-1);
+		for (int i = cities.length - 1; i >= 0; i--) {
+			int index = rnd.nextInt(cities.length);
 			// Simple swap
 			if(index != i) {
 				City temp = cities[index];
@@ -211,11 +211,12 @@ public class Individual {
 	* Print an Individual solution in-line
 	* This format is easier to read when comparing solutions (for debugging)
 	*/
-	public void print() {
-		System.out.print("[ ");
-		for (int j = 0; j < cities.length; j++) {
-			System.out.print(cities[j].getNodeNum() + " ");
+	public String print() {
+		String result = "";
+		for (int j = 0; j < cities.length-1; j++) {
+			result += cities[j].getNodeNum() + ",";
 		}
-		System.out.println("]");
+		result += cities[cities.length-1].getNodeNum() + "\n";
+		return result;
 	}
 }
