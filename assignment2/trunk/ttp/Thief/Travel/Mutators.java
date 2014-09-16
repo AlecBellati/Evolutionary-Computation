@@ -96,8 +96,14 @@ public class Mutators {
 	 */
 	private void inversionOrScramble(Individual individual, boolean inversion) {
 		// Find the subset of position to mutate
-		int posA = rnd.nextInt(individual.getNumCities());
-		int posB = rnd.nextInt(individual.getNumCities());
+		int posA = 0;
+        int posB = 0;
+        
+        // Keep city[0] the same
+        while (posA == 0 || posb == 0) {
+            posA = rnd.nextInt(individual.getNumCities());
+            posB = rnd.nextInt(individual.getNumCities());
+        }
 		
 		// Ensure that posA is less than posB
 		if (posA > posB){

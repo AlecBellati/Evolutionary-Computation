@@ -26,9 +26,9 @@ import TTP.Utils.DeepCopy;
 public class Optimisation {
     
     
-    public static TTPSolution hillClimber(TTPInstance instance, int[] tour, 
-            int mode, 
-            int durationWithoutImprovement, int maxRuntime) {
+    public static TTPSolution hillClimber(TTPInstance instance, int[] tour,
+                                          int mode,
+                                          int durationWithoutImprovement, int maxRuntime) {
         
         TTP.Utils.Utils.startTiming();
         
@@ -37,7 +37,7 @@ public class Optimisation {
         
         int[] packingPlan = new int[instance.numberOfItems];
         
-                
+        
         boolean improvement = true;
         double bestObjective = Double.NEGATIVE_INFINITY;
         
@@ -48,26 +48,26 @@ public class Optimisation {
         while(counter<durationWithoutImprovement) {
             
             if (i%10==0 /*do the time check just every 10 iterations, as it is time consuming*/
-                    && (System.currentTimeMillis()-startingTimeForRuntimeLimit)>=maxRuntime)
+                && (System.currentTimeMillis()-startingTimeForRuntimeLimit)>=maxRuntime)
                 break;
             
             
             if (debugPrint) {
-                System.out.println(" i="+i+"("+counter+") bestObjective="+bestObjective); 
+                System.out.println(" i="+i+"("+counter+") bestObjective="+bestObjective);
             }
             int[] newPackingPlan = (int[])DeepCopy.copy(packingPlan);
             
             boolean flippedToZero = false;
             
             switch (mode) {
-                case 1: 
+                case 1:
                     // flip one bit
                     int position = (int)(Math.random()*newPackingPlan.length);
-//                    newPackingPlan[position] = Math.abs(newPackingPlan[position]-1);
+                    //                    newPackingPlan[position] = Math.abs(newPackingPlan[position]-1);
                     if (newPackingPlan[position] == 1) {
-                                newPackingPlan[position] = 0;
-                                // investigation: was at least one item flipped to zero during an improvement?
-//                                flippedToZero = true;
+                        newPackingPlan[position] = 0;
+                        // investigation: was at least one item flipped to zero during an improvement?
+                        //                                flippedToZero = true;
                     } else {
                         newPackingPlan[position] = 1;
                     }
@@ -79,7 +79,7 @@ public class Optimisation {
                             if (newPackingPlan[j] == 1) {
                                 newPackingPlan[j] = 0;
                                 // investigation: was at least one item flipped to zero during an improvement?
-//                                flippedToZero = true;
+                                //                                flippedToZero = true;
                             } else {
                                 newPackingPlan[j] = 1;
                             }
@@ -89,19 +89,19 @@ public class Optimisation {
             
             
             
-//            ttp.Utils.Utils.startTiming();
+            //            ttp.Utils.Utils.startTiming();
             TTPSolution newSolution = new TTPSolution(tour, newPackingPlan);
             instance.evaluate(newSolution);
-//            System.out.println(ttp.Utils.Utils.stopTiming());
+            //            System.out.println(ttp.Utils.Utils.stopTiming());
             
-                        
+            
             /* replacement condition:
              *   objective value has to be at least as good AND
              *   the knapsack cannot be overloaded
              */
             if (newSolution.ob >= bestObjective && newSolution.wend >=0 ) {
                 
-                // for the stopping criterion: check if there was an actual improvement 
+                // for the stopping criterion: check if there was an actual improvement
                 if (newSolution.ob > bestObjective && newSolution.wend >=0) {
                     improvement = true;
                     counter = 0;
@@ -137,7 +137,7 @@ public class Optimisation {
         String tspresultfilename = temp.substring(0,index)+".linkern.tour";
         
         if (debugPrint) System.out.println("LINKERN: "+tspfilename);
-    
+        
         File tspresultfile = new File(tspresultfilename);
         
         
@@ -148,8 +148,8 @@ public class Optimisation {
                 command.add("-o");
                 command.add(tspresultfilename);
                 command.add(tspfilename);
-//                printListOfStrings(command);
-
+                //                printListOfStrings(command);
+                
                 ProcessBuilder builder = new ProcessBuilder(command);
                 builder.redirectErrorStream(true);
                 final Process process = builder.start();
@@ -160,15 +160,15 @@ public class Optimisation {
                 while ((line = br.readLine()) != null) {
                     if (debugPrint) System.out.println("<LINKERN> "+line);
                 }
-                if (debugPrint) System.out.println("Program terminated?");    
+                if (debugPrint) System.out.println("Program terminated?");
                 int rc = process.waitFor();
                 if (debugPrint) System.out.println("Program terminated!");
             }
-
+            
             List<String> command = new ArrayList<String>();
             command.add("cat");
             command.add(tspresultfilename);
-//            printListOfStrings(command);
+            //            printListOfStrings(command);
             ProcessBuilder builder = new ProcessBuilder(command);
             builder.redirectErrorStream(true);
             final Process process = builder.start();
@@ -176,7 +176,7 @@ public class Optimisation {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             // discard the first line
-            String line = br.readLine();                    
+            String line = br.readLine();
             for (int i=0; i<result.length; i++) {
                 line = br.readLine();
                 if (debugPrint) System.out.println("<TOUR> "+line);
@@ -185,12 +185,12 @@ public class Optimisation {
                 result[i] = number;
                 if (debugPrint) System.out.println(Arrays.toString(result));
             }
-            if (debugPrint) System.out.println("Program terminated?");    
+            if (debugPrint) System.out.println("Program terminated?");
             int rc = process.waitFor();
             if (debugPrint) System.out.println("Program terminated!");
             
-            } catch (Exception ex) {
-            }
+        } catch (Exception ex) {
+        }
         return result;
     }
     
@@ -199,7 +199,7 @@ public class Optimisation {
         boolean debugPrint = false;
         
         File f = new File("instances/tsplibCEIL");
-//        File f = new File("instances/");
+        //        File f = new File("instances/");
         try {
             if (debugPrint) System.out.println(f.getCanonicalPath());
         } catch (IOException ex) {
@@ -208,9 +208,9 @@ public class Optimisation {
         File[] fa = f.listFiles(new FilenameFilter() {
             public boolean accept(File dir, String name) {
                 boolean result = false;
-//                if (name.contains(".ttp") 
-                if (name.contains(".tsp") 
-                        ) result = true;
+                //                if (name.contains(".ttp")
+                if (name.contains(".tsp")
+                    ) result = true;
                 return result;
             }});
         
@@ -220,31 +220,31 @@ public class Optimisation {
             }
         
         // create a nonsense instance just to be able to run linkernTour/1 on it
-//        TTPInstance instance = new TTPInstance(new File("."));        
-//        int[] tour = new int[0];
-//        tour = Optimisation.linkernTour(instance);
+        //        TTPInstance instance = new TTPInstance(new File("."));
+        //        int[] tour = new int[0];
+        //        tour = Optimisation.linkernTour(instance);
         
         
         
-//        int[] result = new int[instance.numberOfNodes+1];
-//        
-//        boolean debugPrint = !true;
-//        
-//        String temp = instance.file.getAbsolutePath();
-//        int index = temp.indexOf("_");
+        //        int[] result = new int[instance.numberOfNodes+1];
+        //
+        //        boolean debugPrint = !true;
+        //
+        //        String temp = instance.file.getAbsolutePath();
+        //        int index = temp.indexOf("_");
         for(File tsp:fa) {
             String tspfilename = tsp.getAbsolutePath();
             int index = tspfilename.indexOf("_");
             if (index==-1) index = tspfilename.indexOf(".");
             String tspresultfilename = tspfilename.substring(0, index) +".linkern.tour";
-//            int index = tspfilename.indexOf(".tsp");
-//            String tspresultfilename = tspfilename.substring(0, index) +".linkern.tour";
-//            String tspresultfilename = tspfilename+".linkern.tour";
-
+            //            int index = tspfilename.indexOf(".tsp");
+            //            String tspresultfilename = tspfilename.substring(0, index) +".linkern.tour";
+            //            String tspresultfilename = tspfilename+".linkern.tour";
+            
             if (debugPrint) System.out.println("LINKERN: "+tspfilename);
-
+            
             File tspresultfile = new File(tspresultfilename);
-
+            
             try {
                 if (! tspresultfile.exists()) {
                     List<String> command = new ArrayList<String>();
@@ -252,8 +252,8 @@ public class Optimisation {
                     command.add("-o");
                     command.add(tspresultfilename);
                     command.add(tspfilename);
-//                    printListOfStrings(command);
-
+                    //                    printListOfStrings(command);
+                    
                     ProcessBuilder builder = new ProcessBuilder(command);
                     builder.redirectErrorStream(true);
                     
@@ -267,7 +267,7 @@ public class Optimisation {
                     while ((line = br.readLine()) != null) {
                         if (debugPrint) System.out.println("<LINKERN> "+line);
                     }
-                    if (debugPrint) System.out.println("Program terminated?");    
+                    if (debugPrint) System.out.println("Program terminated?");
                     int rc = process.waitFor();
                     
                     long duration = TTP.Utils.Utils.stopTiming();
@@ -280,8 +280,8 @@ public class Optimisation {
                 
                 
                 
-                } catch (Exception ex) {
-                }
+            } catch (Exception ex) {
+            }
         }
         
     }
