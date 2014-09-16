@@ -25,8 +25,8 @@ public class City {
 	private double[] edgePheromone;
 	private double[] increaseRate;
 	private double[] decreaseRate;
-	private final double PHEROMONE_MIN = 0.1;
-	private final double PHEROMONE_MAX = 5.0;
+	private final double PHEROMONE_MIN = 1.0;
+	private final double PHEROMONE_MAX = 9999999.0;
     
     /**
 	 * Constructor of a City.
@@ -154,15 +154,33 @@ public class City {
 		for (int i = 0; i < edges.length; i++){
 			if (i != (node)){
 				edgePheromone[i] = PHEROMONE_MIN;
-				increaseRate[i] = 1.0 / edges[i];
-				decreaseRate[i] = increaseRate[i] / 2.0;
 			}
 		}
 	}
 	
 	/**
+	 * Set the increase rate of edge to a city
+	 * @param: int: the city num at the end of the edge
+	 * @param: double: the increase rate
+	 */
+	public void setIncreaseRate(int city, double rate) {
+		increaseRate[city] = rate;
+		
+		increasePheromone(city);
+	}
+	
+	/**
+	 * Set the decrease rate of edge to a city
+	 * @param: int: the city num at the end of the edge
+	 * @param: double: the decrease rate
+	 */
+	public void setDecreaseRate(int city, double rate) {
+		decreaseRate[city] = rate;
+	}
+	
+	/**
      * Increase the pheromone value of this edge to 'city'
-	 * @param: int: The city num of the city at the end of the edge
+	 * @param: int: The city num at the city at the end of the edge
      */
     public void increasePheromone(int city){
         edgePheromone[city] = edgePheromone[city] + increaseRate[city];

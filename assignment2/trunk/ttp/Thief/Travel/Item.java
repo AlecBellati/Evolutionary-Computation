@@ -22,9 +22,9 @@ public class Item {
 	private double pheromone;
 	private double increaseRate;
 	private double decreaseRate;
-	private final double PHEROMONE_MIN = 0.1;
-	private final double PHEROMONE_MAX = 0.9;
-	
+	private final double PHEROMONE_MIN = 1.0;
+	private final double PHEROMONE_MAX = 100.0;
+    
     /**
      * Item Constructor
      * @param: int: Item node number
@@ -36,6 +36,8 @@ public class Item {
         profit = itemProfit;
         weight = itemWeight;
         this.cityNum = -1;
+		
+		setupPheromone();
     }
 
     /**
@@ -50,6 +52,8 @@ public class Item {
         profit = itemProfit;
         weight = itemWeight;
         this.cityNum = cityNum;
+		
+		setupPheromone();
     }
     
     /**
@@ -117,12 +121,36 @@ public class Item {
     }
     
     /**
+     * Get the probability of taking the item
+     * @return: double: the probability of taking the item
+     */
+    public double getProbability(){
+		return (pheromone / PHEROMONE_MAX);
+    }
+    
+    /**
 	 * Set up the pheromone value for the item
 	 */
 	public void setupPheromone(){
 		pheromone = PHEROMONE_MIN;
-		increaseRate = 1.0 / weight;
-		decreaseRate = increaseRate / 2.0;
+	}
+	
+	/**
+	 * Set the increase rate
+	 * @param: double: the increase rate
+	 */
+	public void setIncreaseRate(double rate) {
+		increaseRate = rate;
+		
+		increasePheromone();
+	}
+	
+	/**
+	 * Set the decrease rate
+	 * @param: double: the decrease rate
+	 */
+	public void setDecreaseRate(double rate) {
+		decreaseRate = rate;
 	}
 	
 	/**

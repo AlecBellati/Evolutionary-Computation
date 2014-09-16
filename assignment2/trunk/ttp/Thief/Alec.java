@@ -6,6 +6,7 @@ import TTP.Thief.Travel.Item;
 import TTP.Thief.Knapsack;
 import TTP.TTPInstance;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -17,7 +18,6 @@ public class Alec {
 	/* The cost of the solution */
 	private double solutionCost;
 	
-	
 	/** TTP Variables */
 	/* The cities in the problem */
 	private City[] cities;
@@ -27,8 +27,9 @@ public class Alec {
 	private double capacityOfKnapsack;
 	
 	/** Algorithm parameters */
-	private final int POPULATION_SIZE = 50;
-	private final int GENERATIONS = 1000;
+	private final int POPULATION_SIZE = 100;
+	private final int SELECTION_SIZE = 50;
+	private final int GENERATIONS = 10000;
 	
 	/** Randomiser */
 	private Random rnd;
@@ -44,12 +45,8 @@ public class Alec {
 		solutionCost = Double.NEGATIVE_INFINITY;
 		rnd = new Random();
 		
-		for (int i = 0; i < cities.length; i++){
-			cities[i].setupEdgePheromones();
-		}
-		for (int i = 0; i < items.length; i++){
-			items[i].setupPheromone();
-		}
+		setupEdgePheromones();
+		setupItemPheromones();
     }
     
     /**
@@ -59,7 +56,10 @@ public class Alec {
     public void getSolution(TTPInstance instance) {
         System.out.println("Alec: Running Program");
 		
-		for (int g = 0; g < GENERATIONS; g++){
+		double currBest = solutionCost;
+		
+		//for (int g = 0; g < GENERATIONS; g++){
+		for (int g = 0; true; g++){
 			Individual[] popTSP = new Individual[POPULATION_SIZE];
 			Knapsack[] popKnap = new Knapsack[POPULATION_SIZE];
 			TTPSolution[] popTTP = new TTPSolution[POPULATION_SIZE];
@@ -73,7 +73,10 @@ public class Alec {
 				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), packingPlan);
 			}
 			
-			// Increase the edge pheromone values
+			// Update the solutions and the best solution
+			getBestSolutions(popTTP, popTSP, popKnap, instance);
+			
+			// Find the taken edges across the population
 			Boolean[][] edgeTaken = new Boolean[cities.length][];
 			for (int i = 0; i < cities.length; i++){
 				edgeTaken[i] = new Boolean[cities.length];
@@ -85,29 +88,30 @@ public class Alec {
 				currCity = popTSP[t].getCityByIndex(0);
 				for (int i = 1; i < popTSP[t].getNumCities(); i++){
 					nextCity = popTSP[t].getCityByIndex(i);
-					currCity.increasePheromone(nextCity.getNodeNum());
 					edgeTaken[currCity.getNodeNum()][nextCity.getNodeNum()] = true;
 					currCity = nextCity;
 				}
 			}
-			// Decrease the edge pheromone values
+			
+			// Increase or decrease the edge pheromone values
 			for (int i = 0; i < cities.length; i++){
 				for (int j = 0; j < cities.length; j++){
-					if (!edgeTaken[i][j]){
+					if (edgeTaken[i][j]){
 						cities[i].increasePheromone(j);
+					}
+					else {
+						cities[i].decreasePheromone(j);
 					}
 				}
 			}
 			
-			// Increase the item pheromone values
+			// Find the taken items across the population
 			Boolean[] itemTaken = new Boolean[items.length];
 			Arrays.fill(itemTaken, false);
 			Item currItem;
 			for (int i = 0; i < popKnap.length; i++){
 				for (int j = 0; j < popKnap[i].getNumItems(); j++){
 					currItem = popKnap[i].getItem(j);
-					currItem.increasePheromone();
-					
 					itemTaken[currItem.getItemNum()] = true;
 				}
 			}
@@ -115,37 +119,22 @@ public class Alec {
 			for (int i = 0; i < popKnap.length; i++){
 				for (int j = 0; j < items.length; j++){
 					currItem = items[j];
-					if(!itemTaken[currItem.getItemNum()]){
+					if(itemTaken[currItem.getItemNum()]){
+						currItem.increasePheromone();
+					}
+					else {
 						currItem.decreasePheromone();
 					}
 				}
 			}
 			
-			// Evaluate the solutions to get the best
-			TTPSolution bestSol = null;
-			
-			
-			double bestCost = Double.NEGATIVE_INFINITY;
-			double currCost;
-			for (int i = 0; i < popTTP.length; i++){
-				instance.evaluate(popTTP[i]);
-				currCost = popTTP[i].getObjective();
-				
-				if (currCost > bestCost){
-					bestSol = popTTP[i];
-					bestCost = currCost;
-				}
-			}
-			
 			// Print the cost of the best solution found
-			System.out.println("****" + g + ": " + bestCost + "****");
-			//bestSol.println();
-			
-			
-			// Check if a overall better solution has been found
-			if (bestCost > solutionCost){
-				solution = bestSol;
-				solutionCost = bestCost;
+			if (solutionCost > currBest){
+				System.out.println("****" + g + ": " + solutionCost + "****");
+				//popTTP[0].println();
+				//popKnap[0].print();
+				
+				currBest = solutionCost;
 			}
 			
 		}
@@ -157,20 +146,13 @@ public class Alec {
      */
     public TTPSolution getBestSolution() {
         System.out.println("Alec: Timer expired function, return the best solution");
-        /*
+        
         //check to see if null no solution has been found
-        if(TSPSolution == null) {
-            System.out.println("Alec: TSPSolution has not been found");
+        if(solution == null) {
+            System.out.println("Alec: TTPSolution has not been found");
             return null;
         }
         
-        //create TTP variables
-        int[] tspTour = TSPSolution.getCitiesByID();
-        int[] packingPlan = knapsack.getItemsByID();
-        
-        //create a new solution
-        solution = new TTPSolution(tspTour, packingPlan);
-        */
         //exit
         return solution;
     }
@@ -196,7 +178,7 @@ public class Alec {
 		
 		for (i = 1; i < cities.length; i++){
 			// Get the total pheromone values for each valid edge
-			totalProb = 0;
+			totalProb = 0.0;
 			for (j = 1; j < cities.length; j++){
 				if (!taken[j]){
 					totalProb += currentCity.getEdgePheromone(j);
@@ -205,9 +187,8 @@ public class Alec {
 			
 			// Get the next city
 			next = rnd.nextDouble();
-			total = 0;
+			total = 0.0;
 			j = 0;
-			
 			while (j < cities.length && total <= next){
 				j++;
 				
@@ -245,7 +226,7 @@ public class Alec {
 			for (int j = 0; j < cityItems.length; j++){
 				if (cityItems[j] != null){
 					if (knapSol.getCurrentCapacity() >= cityItems[j].getWeight()){
-						itemProb = items[cityItems[j].getItemNum()].getPheromone();
+						itemProb = items[cityItems[j].getItemNum()].getProbability();
 						
 						takeProb = rnd.nextDouble();
 						if (itemProb > takeProb){
@@ -260,17 +241,138 @@ public class Alec {
 	}
 	
 	/**
-	 * Get the best amount of TTP solutions and set the best
+	 * Setup the pheromone values of the edges
+	 */
+	private void setupEdgePheromones(){
+		// Initialise the pheromone values
+		for (int i = 0; i < cities.length; i++){
+			cities[i].setupEdgePheromones();
+		}
+		
+		// Find the smallest and largest edge
+		double currEdge = cities[0].getEdge(1);
+		double min = currEdge;
+		double max = currEdge;
+		for (int i = 0; i < cities.length; i++){
+			for (int j = i + 1; j < cities.length; j++){
+				if (i != j){
+					currEdge = cities[i].getEdge(j);
+					if (currEdge < min){
+						min = currEdge;
+					}
+					else if (currEdge > max){
+						max = currEdge;
+					}
+				}
+			}
+		}
+		
+		// Set the increase and decrease values
+		double incRate, decRate;
+		for (int i = 0; i < cities.length; i++){
+			for (int j = i + 1; j < cities.length; j++){
+				if (i != j){
+					currEdge = cities[i].getEdge(j);
+					incRate = max / currEdge;
+					decRate = min / currEdge;
+					
+					cities[i].setIncreaseRate(j, incRate);
+					cities[j].setIncreaseRate(i, incRate);
+					cities[i].setDecreaseRate(j, decRate);
+					cities[j].setDecreaseRate(i, decRate);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Setup the pheromone values of the items
+	 */
+	private void setupItemPheromones(){
+		// Find the smallest and largest edge
+		double currItem = items[0].getPheromone();
+		double min = currItem;
+		double max = currItem;
+		for (int i = 1; i < items.length; i++){
+			currItem = items[i].getPheromone();
+			if (currItem < min){
+				min = currItem;
+			}
+			else if (currItem > max){
+				max = currItem;
+			}
+		}
+		
+		// Set the increase and decrease values
+		double incRate, decRate;
+		for (int i = 0; i < items.length; i++){
+			currItem = items[i].getPheromone();
+			incRate = max / currItem;
+			decRate = min / currItem;
+			
+			items[i].setIncreaseRate(incRate);
+			items[i].setDecreaseRate(decRate);
+		}
+	}
+	
+	/**
+	 * Trim TTP solutions to have only the best amount and set the best
 	 * @param: TTPSolution[]: The TTP solutions
-	 * @param: int: The number of solutions to save
 	 * @param: TTPInstance: The TTP instance this is a part of
 	 * @return: TTPSolution[]: The TTP solutions that are being saved
-	 *//*
-	private TTPSolution[] getBestSolutions(TTPSolution[] population, TTPInstance instance){
-		// Evaluate the cost of the solutions
-		for (int i = 0; i < population.length; i++){
-			instance.evaluate(population[i])
+	 */
+	private void getBestSolutions(TTPSolution[] popTTP, Individual[] popTSP, Knapsack[] popKnap, TTPInstance instance){
+		ArrayList<TTPSolution> orderedTTP = new ArrayList<TTPSolution>();
+		ArrayList<Individual> orderedTSP = new ArrayList<Individual>();
+		ArrayList<Knapsack> orderedKnap = new ArrayList<Knapsack>();
+		
+		// Fill the array lists in order of highest cost to lowest
+		int size = 0;
+		int pos;
+		double cost;
+		for (int i = 0; i < popTTP.length; i++){
+			// Add the value
+			instance.evaluate(popTTP[i]);
+			cost = popTTP[i].getObjective();
+			pos = 0;
+			while (pos < size){
+				if (cost > orderedTTP.get(pos).getObjective()){
+					orderedTTP.add(pos, popTTP[i]);
+					orderedTSP.add(pos, popTSP[i]);
+					orderedKnap.add(pos, popKnap[i]);
+					
+					pos = size;
+				}
+				pos++;
+			}
+			if (pos == size){
+				orderedTTP.add(pos, popTTP[i]);
+				orderedTSP.add(pos, popTSP[i]);
+				orderedKnap.add(pos, popKnap[i]);
+			}
+			size++;
+			
+			// If the selection size is exceed, trim the last element
+			if  (size > SELECTION_SIZE){
+				orderedTTP.remove(size - 1);
+				orderedTSP.remove(size - 1);
+				orderedKnap.remove(size - 1);
+				size--;
+			}
+			
+			
 		}
-	}*/
+		
+		// Convert them to arrays
+		popTTP = orderedTTP.toArray(new TTPSolution[SELECTION_SIZE]);
+		popTSP = orderedTSP.toArray(new Individual[SELECTION_SIZE]);
+		popKnap = orderedKnap.toArray(new Knapsack[SELECTION_SIZE]);
+		
+		// Update the best solution
+		if (popTTP[0].getObjective() > solutionCost){
+			solution = popTTP[0];
+			solutionCost = solution.getObjective();
+		}
+	}
 	
 }
