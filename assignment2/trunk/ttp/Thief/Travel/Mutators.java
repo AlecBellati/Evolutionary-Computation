@@ -31,9 +31,15 @@ public class Mutators {
 	 */
 	public void insert(Individual individual) {
 		//get city move pos and place to put city
-		int move = rnd.nextInt(individual.getNumCities());
-		int insert = rnd.nextInt(individual.getNumCities());
+		int move = 0;
+		int insert = 0;
 		
+        //make sure Individual City[0] stays as City[0]
+        while(move == 0 || insert == 0) {
+            move = rnd.nextInt(individual.getNumCities());
+            insert = rnd.nextInt(individual.getNumCities());
+        }
+        
 		if (insert > move) {
 			int temp = move;
 			move = insert;
