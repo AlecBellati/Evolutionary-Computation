@@ -59,8 +59,9 @@ public class Mutators {
 	 * @param Individual - an individual candidate of the population to mutate
 	 */
 	public void swap(Individual individual) {
-		int posA = rnd.nextInt(individual.getNumCities());
-		int posB = rnd.nextInt(individual.getNumCities());
+		//does not move city[0]
+		int posA = rnd.nextInt(individual.getNumCities()-1)+1;
+		int posB = rnd.nextInt(individual.getNumCities()-1)+1;
 				
 		swapCities(individual, posA, posB);
 	}
