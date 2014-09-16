@@ -364,7 +364,7 @@ public class Control {
 							mutator.insert(individualA);
 							break;
 						case 1:
-							mutator.scramble(individualA);
+							mutator.swap(individualA);
 							break;
 					}
 					
