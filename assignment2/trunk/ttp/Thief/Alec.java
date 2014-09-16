@@ -18,7 +18,6 @@ public class Alec {
 	/* The cost of the solution */
 	private double solutionCost;
 	
-	
 	/** TTP Variables */
 	/* The cities in the problem */
 	private City[] cities;
@@ -77,7 +76,7 @@ public class Alec {
 			// Update the solutions and the best solution
 			getBestSolutions(popTTP, popTSP, popKnap, instance);
 			
-			// Increase the edge pheromone values
+			// Find the taken edges across the population
 			Boolean[][] edgeTaken = new Boolean[cities.length][];
 			for (int i = 0; i < cities.length; i++){
 				edgeTaken[i] = new Boolean[cities.length];
@@ -89,29 +88,30 @@ public class Alec {
 				currCity = popTSP[t].getCityByIndex(0);
 				for (int i = 1; i < popTSP[t].getNumCities(); i++){
 					nextCity = popTSP[t].getCityByIndex(i);
-					currCity.increasePheromone(nextCity.getNodeNum());
 					edgeTaken[currCity.getNodeNum()][nextCity.getNodeNum()] = true;
 					currCity = nextCity;
 				}
 			}
-			// Decrease the edge pheromone values
+			
+			// Increase or decrease the edge pheromone values
 			for (int i = 0; i < cities.length; i++){
 				for (int j = 0; j < cities.length; j++){
-					if (!edgeTaken[i][j]){
+					if (edgeTaken[i][j]){
+						cities[i].increasePheromone(j);
+					}
+					else {
 						cities[i].decreasePheromone(j);
 					}
 				}
 			}
 			
-			// Increase the item pheromone values
+			// Find the taken items across the population
 			Boolean[] itemTaken = new Boolean[items.length];
 			Arrays.fill(itemTaken, false);
 			Item currItem;
 			for (int i = 0; i < popKnap.length; i++){
 				for (int j = 0; j < popKnap[i].getNumItems(); j++){
 					currItem = popKnap[i].getItem(j);
-					currItem.increasePheromone();
-					
 					itemTaken[currItem.getItemNum()] = true;
 				}
 			}
@@ -119,7 +119,10 @@ public class Alec {
 			for (int i = 0; i < popKnap.length; i++){
 				for (int j = 0; j < items.length; j++){
 					currItem = items[j];
-					if(!itemTaken[currItem.getItemNum()]){
+					if(itemTaken[currItem.getItemNum()]){
+						currItem.increasePheromone();
+					}
+					else {
 						currItem.decreasePheromone();
 					}
 				}
@@ -129,6 +132,7 @@ public class Alec {
 			if (solutionCost > currBest){
 				System.out.println("****" + g + ": " + solutionCost + "****");
 				//popTTP[0].println();
+				//popKnap[0].print();
 				
 				currBest = solutionCost;
 			}
@@ -142,20 +146,13 @@ public class Alec {
      */
     public TTPSolution getBestSolution() {
         System.out.println("Alec: Timer expired function, return the best solution");
-        /*
+        
         //check to see if null no solution has been found
-        if(TSPSolution == null) {
-            System.out.println("Alec: TSPSolution has not been found");
+        if(solution == null) {
+            System.out.println("Alec: TTPSolution has not been found");
             return null;
         }
         
-        //create TTP variables
-        int[] tspTour = TSPSolution.getCitiesByID();
-        int[] packingPlan = knapsack.getItemsByID();
-        
-        //create a new solution
-        solution = new TTPSolution(tspTour, packingPlan);
-        */
         //exit
         return solution;
     }
@@ -181,7 +178,7 @@ public class Alec {
 		
 		for (i = 1; i < cities.length; i++){
 			// Get the total pheromone values for each valid edge
-			totalProb = 0;
+			totalProb = 0.0;
 			for (j = 1; j < cities.length; j++){
 				if (!taken[j]){
 					totalProb += currentCity.getEdgePheromone(j);
@@ -190,9 +187,8 @@ public class Alec {
 			
 			// Get the next city
 			next = rnd.nextDouble();
-			total = 0;
+			total = 0.0;
 			j = 0;
-			
 			while (j < cities.length && total <= next){
 				j++;
 				
@@ -230,7 +226,7 @@ public class Alec {
 			for (int j = 0; j < cityItems.length; j++){
 				if (cityItems[j] != null){
 					if (knapSol.getCurrentCapacity() >= cityItems[j].getWeight()){
-						itemProb = items[cityItems[j].getItemNum()].getPheromone();
+						itemProb = items[cityItems[j].getItemNum()].getProbability();
 						
 						takeProb = rnd.nextDouble();
 						if (itemProb > takeProb){
@@ -281,7 +277,7 @@ public class Alec {
 					decRate = min / currEdge;
 					
 					cities[i].setIncreaseRate(j, incRate);
-					cities[j].setIncreaseRate(j, incRate);
+					cities[j].setIncreaseRate(i, incRate);
 					cities[i].setDecreaseRate(j, decRate);
 					cities[j].setDecreaseRate(i, decRate);
 				}

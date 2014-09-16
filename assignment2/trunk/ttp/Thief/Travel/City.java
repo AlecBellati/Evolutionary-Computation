@@ -148,25 +148,27 @@ public class City {
 	
 	/**
 	 * Set the increase rate of edge to a city
-	 * @param: int: the city num of the end of the edge
+	 * @param: int: the city num at the end of the edge
 	 * @param: double: the increase rate
 	 */
-	public void setIncreaseRate(int cityNum, double rate) {
-		increaseRate[cityNum] = rate;
+	public void setIncreaseRate(int city, double rate) {
+		increaseRate[city] = rate;
+		
+		increasePheromone(city);
 	}
 	
 	/**
 	 * Set the decrease rate of edge to a city
-	 * @param: int: the city num of the end of the edge
+	 * @param: int: the city num at the end of the edge
 	 * @param: double: the decrease rate
 	 */
-	public void setDecreaseRate(int cityNum, double rate) {
-		decreaseRate[cityNum] = rate;
+	public void setDecreaseRate(int city, double rate) {
+		decreaseRate[city] = rate;
 	}
 	
 	/**
      * Increase the pheromone value of this edge to 'city'
-	 * @param: int: The city num of the city at the end of the edge
+	 * @param: int: The city num at the city at the end of the edge
      */
     public void increasePheromone(int city){
         edgePheromone[city] = edgePheromone[city] + increaseRate[city];
