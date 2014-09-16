@@ -22,7 +22,7 @@ public class Item {
 	private double pheromone;
 	private double increaseRate;
 	private double decreaseRate;
-	private final double PHEROMONE_MIN = 0.1;
+	private final double PHEROMONE_MIN = 0.5;
 	private final double PHEROMONE_MAX = 0.9;
 	
     /**
@@ -36,6 +36,8 @@ public class Item {
         profit = itemProfit;
         weight = itemWeight;
         this.cityNum = -1;
+		
+		setupPheromone();
     }
 
     /**
@@ -50,6 +52,8 @@ public class Item {
         profit = itemProfit;
         weight = itemWeight;
         this.cityNum = cityNum;
+		
+		setupPheromone();
     }
     
     /**
@@ -107,8 +111,22 @@ public class Item {
 	 */
 	public void setupPheromone(){
 		pheromone = PHEROMONE_MIN;
-		increaseRate = 1.0 / weight;
-		decreaseRate = increaseRate / 2.0;
+	}
+	
+	/**
+	 * Set the increase rate
+	 * @param: double: the increase rate
+	 */
+	public void setIncreaseRate(double rate) {
+		increaseRate = rate;
+	}
+	
+	/**
+	 * Set the decrease rate
+	 * @param: double: the decrease rate
+	 */
+	public void setDecreaseRate(double rate) {
+		decreaseRate = rate;
 	}
 	
 	/**
