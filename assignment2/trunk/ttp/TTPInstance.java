@@ -141,11 +141,11 @@ public class TTPInstance {
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
-        matt = new Matt(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
+        //matt = new Matt(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this);
+        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this);
         
-        getBestSolution();
+        //getBestSolution();
     }
     
     /**
@@ -396,7 +396,6 @@ public class TTPInstance {
             int currentCityTEMP = tour[i]; // what's the current city? --> but the items start at city 2 in the TTP file, so I have to take another 1 off!
             
             int currentCity = currentCityTEMP-1;
-            System.out.println("CURRENT CITY: " + currentCity);
             
             if (i>0) if (debugPrint) System.out.print("city "+currentCityTEMP+" cityIndexForItem[][] "+currentCity+" (this.numberOfNodes="+this.numberOfNodes+"): ");
             
