@@ -230,12 +230,10 @@ public class Population {
         
         //get each individual
         for(Individual in : solutionSet) {
-            System.out.println("*********************************************************");
             int counter = 0;
             //get the list of cities
             City[] allCities = in.getCities();
             thisCity = allCities[0];
-            System.out.println("allCities.length = " + allCities.length);
             for(int c = 1; c < allCities.length; c++){
                 
                 //get next city
@@ -248,7 +246,6 @@ public class Population {
                 //for each item in the city
                 for(Item current : thisCity.getItems()) {
                     
-                    counter++;
                     
                     //the temporary weight of the thief if taking the item
                     if(current != null) {
@@ -282,8 +279,7 @@ public class Population {
                 thisCity = nextCity;
             }
             in.setProfit(netProfit);
-            System.out.println("numItems = " + counter);
-            System.out.println(String.format("netProfit for in = %f", in.getProfit()));
+
             //is this individual better?
             if(best == null) {
                 best = in;
