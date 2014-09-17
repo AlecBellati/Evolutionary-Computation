@@ -45,14 +45,23 @@ public class Knapsack {
     }
 
     /**
+     * Add an item to the knapsack at a specific index
+     * @param: index: index to place the item
+     * @param: Item: the item to add to the knapsack
+     */
+    public void addItem(int index, Item item) {
+        items.add(index, item);
+        currentWeight += item.getWeight();
+    }
+
+    /**
      * Add an item to the knapsack at a specific point
      * @param: index: index to place the item
      * @param: Item: the item to add to the knapsack
      */
     public void setItem(int index, Item item) {
         removeItem(items.get(index));
-        items.add(index, item);
-        currentWeight += item.getWeight();
+        addItem(index, item);
     }
     
     /**
@@ -122,7 +131,7 @@ public class Knapsack {
 		for (int i = 0; i < items.size(); i++){
 			packingPlan[items.get(i).getItemNum()] = 1;
 		}
-        int itemCount = (TSPSolution.getNumCities()-1)/totalItems;
+        int itemCount = totalItems/(TSPSolution.getNumCities()-1);
 		
 		// Order the plan
 		int[] tours = TSPSolution.getCitiesByID();
