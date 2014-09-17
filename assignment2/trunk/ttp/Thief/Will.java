@@ -59,7 +59,7 @@ public class Will {
     private void generateKnapsack(int algorithm){
         switch(algorithm){
             case 1:
-                random();
+                knapsackSolution();
                 break;
             case 2:
                 costFirst();
@@ -68,7 +68,7 @@ public class Will {
                 weightFirst();
                 break;
             case 4:
-                knapsackSolution();
+                random();
                 break;
         }
     }   
@@ -96,25 +96,25 @@ public class Will {
      * Then adjusts the current optimal knapsack by injecting more items to see if it increases the profit
      * @param: ttp: the TTPInstance of this solution, used for the evaluate function
      */
-    public void getSolution(TTPInstance ttp) {
+    public void getSolution(TTPInstance ttp, int knapsackAlgorithm, int TSPAlgorithm, boolean randomChoice) {
         this.ttp = ttp;
         System.out.println("Will: Running Program");
 
-        generateKnapsack(3);
+        generateKnapsack(knapsackAlgorithm);
         Item[] optimal = knapsack.getItems();
         //gets the items that are not part of the knapsack solution
         Item[] itemsMinusOptimal = removeOptimal(optimal);
 
         //get a good TSP tour
-        generateTSP(1);
+        generateTSP(TSPAlgorithm);
         double bestCost = calculateCost(0);
         System.out.println("Starting Cost: " + bestCost);
 
         //check if there is a more optimal solution using the items not already in the solution
-        bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost);
+        bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost, randomChoice);
         //some of the items originaly in the knapsack solution may have been removed
         //check they can't still find a good home
-        bestCost = checkBetterSolution(optimal, false, bestCost);
+        bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
 
         System.out.println("End Cost: " + bestCost);
     }
@@ -127,13 +127,26 @@ public class Will {
     * @param: _bestCost: what is the current best cost
     * @return: double: current best cost
     */
-    private double checkBetterSolution(Item[] currentItems, boolean optimalRemoved, double _bestCost){
+    private double checkBetterSolution(Item[] currentItems, boolean optimalRemoved, double _bestCost, boolean randomChoice){
         double bestCost = _bestCost;
         boolean compare = false;
 
+        ArrayList<Item> listOfItems = new ArrayList<Item>(Arrays.asList(currentItems));
+        Random rnd = new Random();
+        int pos = 0;
         //check every item we are sent
-        for(int i = 0; i < currentItems.length; i++){
-            Item currentItem = currentItems[i]; 
+        while(listOfItems.size() > 0 && pos < currentItems.length){
+
+            Item currentItem = null;
+            //depending on the supplied boolean, either choose an item randomly or just get the next item
+            if(randomChoice){
+                currentItem = listOfItems.get(rnd.nextInt(listOfItems.size()));
+                listOfItems.remove(pos); 
+            }else{
+                currentItem = listOfItems.get(pos);
+                pos++;
+            }
+
             int newIndex = -1;
 
             //then place it in every position in the array to get its optimal position

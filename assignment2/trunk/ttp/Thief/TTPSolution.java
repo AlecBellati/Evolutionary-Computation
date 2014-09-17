@@ -88,7 +88,6 @@ public class TTPSolution {
     	}
     	
     	int itemsPerCity = packingPlan.length / (tspTour.length  -2);
-        System.out.println(packingPlan.length + " " + (tspTour.length-2));
     	
     	List<Integer> packingPlanList = new ArrayList<Integer>();
     	int packingPlanIndex = 0;
