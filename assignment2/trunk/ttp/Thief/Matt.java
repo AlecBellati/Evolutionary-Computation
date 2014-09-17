@@ -54,11 +54,9 @@ public class Matt {
         capacityOfKnapsack = _capacityOfKnapsack;
         rentingRatio = _rentingRatio;
         
-        //create Controller
-        control = new Control();
-        
         //create new knapsack
         knapsack = new Knapsack(capacityOfKnapsack);
+        knapsack.setRentingRatio(rentingRatio);
     }
     
     /**
@@ -194,6 +192,9 @@ public class Matt {
                 totalProfit += netProfit;
                 
                 knapsack.addItem(current);
+                
+                int currIdx = current.getCityNum();
+                cities[currIdx].takeItem(current);
             }
         }
         
@@ -236,7 +237,7 @@ public class Matt {
      */
     private Individual runTSP(int alg, City[] subCity) {
         if(0 < alg && alg < 5) {
-            TSPSolution = runTSP(50, 30000, alg, subCity);
+            TSPSolution = runTSP(50, 10000, alg, subCity);
         } else {
             System.out.println("TSP Algorithm Numbers must be [1,4]");
             return null;
@@ -255,6 +256,10 @@ public class Matt {
 	 * @return Individual - best individual from the given algorithm
 	 */
 	private Individual runTSP(int populationSize, int generations, int alg, City[] subCity) {
+        
+        //create Controller
+        control = new Control(TTPGraph, maxSpeed, minSpeed, knapsack);
+        
 		int solutionSize = populationSize/2;
 		double mutationPercentage = 0.10, operationPercentage = 0.90;
 		int removalRate = (int)Math.ceil(populationSize/10);

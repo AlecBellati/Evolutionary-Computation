@@ -10,6 +10,8 @@
 package TTP.Thief.Travel;
 
 
+import TTP.Thief.Knapsack;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
@@ -214,6 +216,93 @@ public class Population {
 		sort();
 		return solutionSet.get(0);
 	}
+    
+    /**
+     * return the best tour based on TSP AND Knapsack
+     *
+     */
+    public Individual getBestTTPSolution(double[][] TTPGraph, double maxSpeed, double minSpeed, Knapsack knapsack) {
+        City thisCity = null, nextCity = null;
+        double weight = 0;
+        double netProfit = 0;
+        
+        Individual best = null;
+        
+        //get each individual
+        for(Individual in : solutionSet) {
+            System.out.println("*********************************************************");
+            int counter = 0;
+            //get the list of cities
+            City[] allCities = in.getCities();
+            thisCity = allCities[0];
+            System.out.println("allCities.length = " + allCities.length);
+            for(int c = 1; c < allCities.length; c++){
+                
+                //get next city
+                if((c+1) == allCities.length) {
+                    nextCity = allCities[0];
+                } else {
+                    nextCity = allCities[c];
+                }
+                
+                //for each item in the city
+                for(Item current : thisCity.getItems()) {
+                    
+                    counter++;
+                    
+                    //the temporary weight of the thief if taking the item
+                    if(current != null) {
+                        if(current.isTaken()) {
+                            weight += current.getWeight();
+                        }
+                    }
+                    //How much of the knapsack is full?
+                    double weightRatio = weight / knapsack.getCapacity();
+                    
+                    //calculate the potential speed if taking the item
+                    double tempSpeed = maxSpeed - (weight * ((maxSpeed - minSpeed)/knapsack.getCapacity()));
+                    
+                    //get the edge cost from the previous city to this city
+                    double edgeCost = TTPGraph[thisCity.getNodeNum()][nextCity.getNodeNum()]/tempSpeed;
+                    
+                    //calculate the potential profit for the item
+                    double grossProfit = 0;
+                    if(current != null) {
+                        if(current.isTaken()) {
+                            grossProfit = current.getProfit();
+                        }
+                    }
+                    double losses = edgeCost*knapsack.getRentingRatio();
+                    double thisProfit = grossProfit - losses;
+                    netProfit += thisProfit;
+                    
+                }
+                
+                //go to next city
+                thisCity = nextCity;
+            }
+            in.setProfit(netProfit);
+            System.out.println("numItems = " + counter);
+            System.out.println(String.format("netProfit for in = %f", in.getProfit()));
+            //is this individual better?
+            if(best == null) {
+                best = in;
+            } else {
+                if(in.getProfit() > best.getProfit()) {
+                    best = in;
+                }
+            }
+            
+            //reset for next solution
+            thisCity = null;
+            nextCity = null;
+            weight = 0;
+            netProfit = 0;
+        }
+        
+        
+        return best;
+    }
 	
 	/**
 	 * Return the size of the population

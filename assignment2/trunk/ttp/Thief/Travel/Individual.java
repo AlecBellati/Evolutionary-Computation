@@ -19,6 +19,7 @@ public class Individual {
 	private City[] cities;				// Contains cities and their weights
 	private double cost;					// Cost of current individual's current solution
 	private boolean costFound;		// Indicates whether the cost needs to be calculated
+    private double profit;
 	
 	
 	/**
@@ -84,6 +85,22 @@ public class Individual {
 		return cost;
 	}
 	
+    /**
+     * Set the profit of this individual
+     * @param: double: profit of this individual
+     */
+    public void setProfit(double _profit) {
+        profit = _profit;
+    }
+    
+    /**
+     * get the profit of this individual
+     * @return: double: profit of this individual
+     */
+    public double getProfit() {
+        return profit;
+    }
+    
 	/**
 	 * Return the number of cities in the solution set
 	 * @return int - number of cities in this solution

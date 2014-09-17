@@ -11,6 +11,7 @@ public class Knapsack {
     
     private double capacity;
     private double currentWeight;
+    private double rentingRatio;
     private ArrayList<Item> items;
     
     /**
@@ -33,6 +34,22 @@ public class Knapsack {
             items.add(item[i]);
             currentWeight += item[i].getWeight();
         }
+    }
+    
+    /**
+     * set rentingratio
+     * @param: double: renting ratio of knapsack
+     */
+    public void setRentingRatio(double RR) {
+        rentingRatio = RR;
+    }
+    
+    /**
+     * get rentingratio
+     * @return: double: renting ratio of knapsack
+     */
+    public double getRentingRatio() {
+        return rentingRatio;
     }
     
     /**
@@ -91,6 +108,14 @@ public class Knapsack {
      */
     public double getCurrentCapacity(){
         return (capacity - currentWeight);
+    }
+    
+    /**
+     * get the capacity of the knapsack
+     * @return double: capacity of the knapsack
+     */
+    public double getCapacity() {
+        return capacity;
     }
 
     public Item[] getItems(){

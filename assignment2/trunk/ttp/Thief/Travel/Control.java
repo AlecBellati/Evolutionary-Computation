@@ -10,6 +10,8 @@
 package TTP.Thief.Travel;
 
 
+import TTP.Thief.Knapsack;
+
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -21,6 +23,11 @@ public class Control {
 	private Operators operator;			// Contains 4 operator functions
 	private Selection selection;		// Contains 3 selection functions
 	private Individual bestSolution;	// Holds the best solution for current algorithm
+    
+    //TTP Variables
+    private double[][] TTPGraph;
+    private double minSpeed, maxSpeed;
+    private Knapsack knapsack;
 	
 	/**
 	 * Constructor
@@ -32,6 +39,25 @@ public class Control {
 		operator = new Operators();
 		selection = new Selection();
 	}
+    
+    /**
+     * TTP Control Constructor
+     * @param: double[][]: graph of edges between nodes
+     * @param: double: maxSpeed of thief
+     * @param: double: minSpeed of thief
+     * @param: Knapsack: knapsack of the thief
+     */
+    public Control(double[][] _TTPGraph, double _maxSpeed, double _minSpeed, Knapsack _knapsack) {
+        TTPGraph = _TTPGraph;
+        maxSpeed = _maxSpeed;
+        minSpeed = _minSpeed;
+        knapsack = _knapsack;
+        
+        rnd = new Random();
+		mutator = new Mutators();
+		operator = new Operators();
+		selection = new Selection();
+    }
 	
 	/**
 	 * Determines what algorithm to be used based on the supplied "algorithm" number
@@ -56,7 +82,7 @@ public class Control {
 			case 2:
 				return algorithm2(population, solutionSize, populationSize, generations, removalRate);
 			case 3:
-				return algorithm3(population, solutionSize, populationSize, mutationPercentage, operationPercentage, generations);
+				return algorithm3TTP(population, solutionSize, populationSize, mutationPercentage, operationPercentage, generations);
 			case 4:
 				return inverOver(cities, population, populationSize, generations);
 		}
@@ -456,6 +482,157 @@ public class Control {
 			} else if(challenger.getCost() < bestSolution.getCost()) {
 				bestSolution = challenger;
 				System.out.println((i+1) + ": ***** Best Solution ***** = " + bestSolution.getCost());
+			}
+			
+			// Every n generations, add some new individuals
+			int nGens = 10, nGuys = 10;
+			if(i % nGens == 0) {
+				// Add in some random solutions
+				Population randomGuys = new Population(nGuys);
+				randomGuys.generateRandomSolutionSet(population.getSolution(0).getCities());
+				
+				population.addPopulation(randomGuys);
+			}
+		}
+		
+		return bestSolution;
+	}
+    
+    /**
+	 * Algorithm 3 for TTP based on Operator/Mutator and Selection efficiacy.
+	 * @param Population - the TSPGraph to perform the algorithm on
+	 * @param int solutionSize - population to begin each generation (cut down at selection)
+	 * @param int poplation_size - population size at the end of a generation (before selection)
+	 * @param int generations - number of times to perform the mutation/operation cycles
+	 * @param double mutationPercentage - chances of mutation occuring
+	 * @param double operationPercentage - chances of an operation occuring
+	 * @return Individual - the best individual from the populations generated
+	 */
+	public Individual algorithm3TTP(Population population, int solutionSize, int populationSize, double mutationPercentage, double operationPercentage, int generations) {
+		Individual individualA;
+		Individual individualB;
+		Individual bestSolution = null;
+		
+		int rand = 0;
+		for (int i = 0; i < generations; i++) {
+			Population mutants = population.clone();
+			Population operators = new Population(population.size());
+			
+			// Mutate to get mutants
+			for (int j = 0; j < mutants.size(); j++) {
+				individualA = mutants.getSolution(j);
+				
+				//Order of preference for mutators
+				//1) Inversion          50%
+				//2/3) Insert / swap    45%
+				//4) Scramble            5%
+				
+				double doMutation = rnd.nextDouble();
+				if (doMutation < 0.05) {
+					
+					// Do scramble
+					mutator.scramble(individualA);
+					
+				} else if (doMutation < 0.50) {
+					// Do Insert or Scramble (50% change of either)
+					rand = rnd.nextInt(2);
+					switch (rand) {
+						case 0:
+							mutator.insert(individualA);
+							break;
+						case 1:
+							mutator.swap(individualA);
+							break;
+					}
+					
+				} else {
+					// Do inversion
+					mutator.inversion(individualA);
+				}
+			}
+			
+			// Get the ArrayList of individuals
+			ArrayList<Individual> individuals = new ArrayList<Individual>();
+			
+			// Create a deep copy of the population such that the original is not destroyed
+			for(Individual in : population.getSolutionSet()) {
+				individuals.add(in.clone());
+			}
+			
+			// Operate to get operators
+			while(individuals.size() > 1) {
+				
+				// Choose the first individual and remove it from the list
+				int randomIdx = rnd.nextInt(individuals.size());
+				individualA = population.getSolution(randomIdx);
+				individuals.remove(randomIdx);
+				
+				// Choose the second individual and remove it from the list
+				randomIdx = rnd.nextInt(individuals.size());
+				individualB = population.getSolution(rnd.nextInt(population.getSize()));
+				individuals.remove(randomIdx);
+				
+				// Order of preference for Operators
+				// 1) Edge Recombination             40%
+				// 2) Order Crossover                30%
+				// 3) PMX Crossover                  20%
+				// 4) Cycle Crossover                10%
+				
+				double doOperation = 1;//rnd.nextDouble();
+				
+				if (doOperation < 0.10) {
+					// Do Cycle Crossover
+					operators.addSet(operator.cycleCrossover(individualA, individualB));
+				} else if (doOperation < 0.30) {
+					// Do PMX Crossover
+					operators.addSet(operator.pmxCrossover(individualA, individualB));
+				} else if (doOperation < 0.60) {
+					//do Order Crossover
+					operators.addSet(operator.orderCrossover(individualA, individualB));
+				} else {
+					// do Edge Recombination
+					operators.add(operator.edgeRecombination(individualA, individualB));
+				}
+			}
+			
+			// Combine all populations into one
+			population.addPopulation(mutants);
+			population.addPopulation(operators);
+			
+			// Add the best individual (if they exist)
+			if(bestSolution != null) {
+				population.add(bestSolution);
+			}
+			
+			// Order of preference for Selectors
+			// 1) Elitism / Tournament (split evenly)  95%
+			// 2) Fitness                               5%
+			
+			double doSelection = rnd.nextDouble();
+			if (doSelection < 0.475) {
+				// Do Elitism
+				population = selection.elitism(population, solutionSize);
+			} else if (doSelection < 0.95) {
+				// Do Tournament
+				int popnSize = population.getSize()/2;
+				
+				// Check to see if there are enough in the population to pick a solution
+				if(popnSize < solutionSize) {
+					popnSize = solutionSize;
+				}
+				population = selection.tournamentSelection(population, popnSize, solutionSize);
+			} else {
+				// Do Fitness
+				population = selection.fitnessProportional(population, solutionSize);
+			}
+			
+			// Keep the very best individual and always have them in the population
+			Individual challenger = population.getBestTTPSolution(TTPGraph, maxSpeed, minSpeed, knapsack);
+			if (bestSolution == null) {
+				bestSolution = challenger;
+			} else if(challenger.getProfit() > bestSolution.getProfit()) {
+				bestSolution = challenger;
+				System.out.println((i+1) + ": ***** Best Solution ***** = " + bestSolution.getProfit());
 			}
 			
 			// Every n generations, add some new individuals

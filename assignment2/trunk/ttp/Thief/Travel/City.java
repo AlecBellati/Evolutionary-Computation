@@ -62,6 +62,19 @@ public class City {
         items[itemCount] = item;
         itemCount++;
     }
+    
+    /**
+     * Set an item in this city as taken
+     * @param: Item: Item to mark as taken
+     */
+    public void takeItem(Item item) {
+        for(int i = 0; i < items.length; i++) {
+            if(items[i].getItemNum() == item.getItemNum()) {
+                items[i].takeItem(true);
+                return;
+            }
+        }
+    }
 
     /**
      * Get the Items from this City

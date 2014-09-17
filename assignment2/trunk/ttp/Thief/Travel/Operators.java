@@ -85,7 +85,7 @@ public class Operators {
 		}
 		
 		// Fill in remaining spots in Child A
-		int spotsToFill = length-subsetLength;
+		int spotsToFill = length-subsetLength-1;
 		int spotsFilled = 0;
 		
 		int childIndex;

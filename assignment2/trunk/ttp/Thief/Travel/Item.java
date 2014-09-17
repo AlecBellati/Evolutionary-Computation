@@ -17,6 +17,7 @@ public class Item {
     private int profit;
     private int weight;
     private int cityNum;
+    private boolean taken;
 	
 	/** Attributes for 'Alec' algorithm */
 	private double pheromone;
@@ -36,6 +37,7 @@ public class Item {
         profit = itemProfit;
         weight = itemWeight;
         this.cityNum = -1;
+        taken = false;
 		
 		setupPheromone();
     }
@@ -52,8 +54,25 @@ public class Item {
         profit = itemProfit;
         weight = itemWeight;
         this.cityNum = cityNum;
-		
+		taken = false;
+        
 		setupPheromone();
+    }
+    
+    /**
+     * Return whether the item is taken
+     * @return: boolean: true if taken, else false
+     */
+    public boolean isTaken() {
+        return taken;
+    }
+    
+    /**
+     * Set state of the item as taken or not taken
+     * @param: boolean: true if taken, else false
+     */
+    public void takeItem(boolean take) {
+        taken = take;
     }
     
     /**
