@@ -21,6 +21,19 @@ public class Knapsack {
         currentWeight = 0;
         items = new ArrayList<Item>();
     }
+
+    /**
+     * Construct an empty knapsack with a known weight limit
+     */
+    public Knapsack(double _capacity, Item[] item) {
+        capacity = _capacity;
+        currentWeight = 0;
+        items = new ArrayList<Item>();
+        for(int i = 0; i < item.length; i++){
+            items.add(item[i]);
+            currentWeight += item[i].getWeight();
+        }
+    }
     
     /**
      * Add an item to the knapsack
@@ -28,6 +41,17 @@ public class Knapsack {
      */
     public void addItem(Item item) {
         items.add(item);
+        currentWeight += item.getWeight();
+    }
+
+    /**
+     * Add an item to the knapsack at a specific point
+     * @param: index: index to place the item
+     * @param: Item: the item to add to the knapsack
+     */
+    public void setItem(int index, Item item) {
+        removeItem(items.get(index));
+        items.add(index, item);
         currentWeight += item.getWeight();
     }
     
@@ -59,6 +83,16 @@ public class Knapsack {
     public double getCurrentCapacity(){
         return (capacity - currentWeight);
     }
+
+    public Item[] getItems(){
+        Item[] itemsArray = new Item[items.size()];
+        
+        for(int i = 0; i < items.size(); i++) {
+            itemsArray[i] = items.get(i);
+        }
+        
+        return itemsArray;
+    }
     
     /**
      * Returns an int array of items in the knapsack
@@ -68,7 +102,7 @@ public class Knapsack {
         int[] packingPlan = new int[items.size()];
         
         for(int i = 0; i < items.size(); i++) {
-            items.get(i).getItemNum();
+            packingPlan[i] = items.get(i).getItemNum();
         }
         
         return packingPlan;
@@ -88,6 +122,7 @@ public class Knapsack {
 		for (int i = 0; i < items.size(); i++){
 			packingPlan[items.get(i).getItemNum()] = 1;
 		}
+        int itemCount = (TSPSolution.getNumCities()-1)/totalItems;
 		
 		// Order the plan
 		int[] tours = TSPSolution.getCitiesByID();
@@ -95,7 +130,6 @@ public class Knapsack {
 		int pos = 0;
 		for (int tourNum = 1; tourNum < tours.length - 1; tourNum++){
 			int tourId = tours[tourNum];
-			int itemCount = TSPSolution.getCityByIndex(tourId).getItemCount();
 			for (int i = 0; i < itemCount; i++){
 				packingPlanOrdered[pos] = packingPlan[tourId + i - 1];
 				pos++;
@@ -130,6 +164,22 @@ public class Knapsack {
         for(int i = 0; i < items.size(); i++) {
             Item it = items.get(i);
             if(it.getCityNum() == cityNum) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+    * Checks to see if the currentItem is in the provided array
+    * @param: currentItem: item to look for in the array
+    * @return: boolean: true if the current item is in the solution, false otherwise
+    */
+    public boolean containsItem(Item currentItem){
+        for(int i = 0; i < items.size(); i++){
+            //item number will be the same (among other things)
+            if(items.get(i).getItemNum() == currentItem.getItemNum()){
                 return true;
             }
         }
