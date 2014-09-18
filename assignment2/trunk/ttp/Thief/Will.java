@@ -70,6 +70,9 @@ public class Will {
             case 4:
                 random();
                 break;
+            case 5:
+                tourLast();
+                break;
         }
     }   
 
@@ -100,18 +103,20 @@ public class Will {
         this.ttp = ttp;
         System.out.println("Will: Running Program");
 
+        //get a good TSP tour
+        generateTSP(TSPAlgorithm);
+
         generateKnapsack(knapsackAlgorithm);
         Item[] optimal = knapsack.getItems();
         //gets the items that are not part of the knapsack solution
         Item[] itemsMinusOptimal = removeOptimal(optimal);
 
-        //get a good TSP tour
-        generateTSP(TSPAlgorithm);
         double bestCost = calculateCost(0);
         System.out.println("Starting Cost: " + bestCost);
 
         //check if there is a more optimal solution using the items not already in the solution
         bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost, randomChoice);
+        removeItemsKnapsack(bestCost);
         //some of the items originaly in the knapsack solution may have been removed
         //check they can't still find a good home
         bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
@@ -215,11 +220,46 @@ public class Will {
         ttp.evaluate(tempSolution);
         double cost = tempSolution.getObjective();
 
+        if(bestCost == 0){
+            solution = tempSolution;
+            solution.println();
+        }
+
         if(cost > bestCost){
             solution = tempSolution;
         }
 
         return cost;
+    }
+
+    /**
+    *
+    *
+    */
+    private void removeItemsKnapsack(double _bestCost){
+        double bestCost = _bestCost;
+        int pos = -1;
+
+        for(int i = knapsack.getNumItems()-1; i >= 0; i--){
+            for(int j = knapsack.getNumItems()-1; j >= 0; j--){
+                Item temp = knapsack.getItem(j);
+                knapsack.removeItem(temp);
+
+                double newCost = calculateCost(bestCost);
+
+                //if its better, remember the index number and keep going
+                if(newCost > bestCost){
+                    bestCost = newCost;
+                    pos = j;
+                }
+                knapsack.addItem(j, temp);
+            }
+
+            if(pos != -1){
+                knapsack.removeItem(knapsack.getItem(pos));
+                pos = -1;
+            }
+        }
     }
 
     /**
@@ -250,6 +290,22 @@ public class Will {
     */
     private void costFirst(){
         ArrayList<Item> itemsList = sortByCost();
+        for(int i = 0; i < itemsList.size(); i++){
+            Item currentItem = itemsList.get(i);
+            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
+                break;
+            }
+            knapsack.addItem(currentItem);
+        }
+    }
+
+    /**
+    * Seeds the knapsack with the items closest to the end of the tour
+    * Calls the sortByCity() method to achieve this
+    * Modifies the global knapsack variable
+    */
+    private void tourLast(){
+        ArrayList<Item> itemsList = sortByCity();
         for(int i = 0; i < itemsList.size(); i++){
             Item currentItem = itemsList.get(i);
             if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
@@ -311,10 +367,31 @@ public class Will {
         Collections.sort(itemsList, new Comparator<Item>() {
             @Override
             public int compare (Item i1, Item i2) {
-                return (int)(i2.getProfit() - i1.getProfit());
+                return (int)((i2.getProfit()/i2.getWeight()) - (i1.getProfit()/i1.getWeight()));
             }
         });
         return itemsList;
+    }
+
+    /**
+    * Sorts the items in the itemsArray by the TSP tour
+    * @return: ArrayList<Item>: List containing sorted items matching the TSP tour
+    */
+    private ArrayList<Item> sortByCity() {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
+        ArrayList<Item> sortedItemsList = new ArrayList<Item>();
+
+        int[] tour = TSPSolution.getCitiesByID();
+        for(int i = tour.length-2; i > 0; i--){
+            for(int j = itemsList.size()-1; j >= 0; j--){
+                if(tour[i] == itemsList.get(j).getCityNum()){
+                    sortedItemsList.add(itemsList.get(j));
+                    itemsList.remove(j);
+                }
+            }
+        }
+
+        return sortedItemsList;
     }
 
     /**

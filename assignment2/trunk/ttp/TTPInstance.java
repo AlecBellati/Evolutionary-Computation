@@ -140,9 +140,9 @@ public class TTPInstance {
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
-        matt = new Matt(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
+        //matt = new Matt(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this, 4, 1, false);
+        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this, 2, 1, false);
         
         getBestSolution();
     }
@@ -154,9 +154,9 @@ public class TTPInstance {
         System.out.println("TTPInstance: Getting TTPSolution");
         String name = "";
         //solution = alec.getBestSolution(); name = "Alec";
-        solution = matt.getBestSolution(); name = "Matt";
+        //solution = matt.getBestSolution(); name = "Matt";
         //solution = sami.getBestSolution(); name = "Sami";
-        //solution = will.getBestSolution(); name = "Will";
+        solution = will.getBestSolution(); name = "Will";
         
         
         //create file name (calling convention is: <ttpfile>.<algorithmname>.<systemtime>)
@@ -168,6 +168,7 @@ public class TTPInstance {
         } else {
             System.out.println("TTPInstance: Solution Exists! Evalutating and Writing Solution to File");
             evaluate(solution);
+            solution.println();
             solution.writeResult(filename);
             System.out.println("Total profit = " + solution.getObjective());
         }

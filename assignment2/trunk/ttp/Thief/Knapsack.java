@@ -118,6 +118,9 @@ public class Knapsack {
         return capacity;
     }
 
+    /**
+    *
+    */
     public Item[] getItems(){
         Item[] itemsArray = new Item[items.size()];
         
@@ -126,6 +129,14 @@ public class Knapsack {
         }
         
         return itemsArray;
+    }
+
+    /**
+    *
+    *
+    */
+    public ArrayList<Item> getItemsArray(){
+        return items;
     }
     
     /**
@@ -165,7 +176,7 @@ public class Knapsack {
 		for (int tourNum = 1; tourNum < tours.length - 1; tourNum++){
 			int tourId = tours[tourNum];
 			for (int i = 0; i < itemCount; i++){
-				packingPlanOrdered[pos] = packingPlan[tourId + i - 1];
+				packingPlanOrdered[pos] = packingPlan[(tourId*itemCount) + i - itemCount];
 				pos++;
 			}
 		}
