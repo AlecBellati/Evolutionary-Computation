@@ -126,7 +126,7 @@ public class Will {
         addItemsKnapsack(bestCost);
 
         //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
-        bestCost = useBestTTPAlgorithm(bestCost);
+        //bestCost = useBestTTPAlgorithm(bestCost);
 
         System.out.println("End Cost: " + bestCost);
     }
