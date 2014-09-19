@@ -30,6 +30,7 @@ public class Will {
     
     //TTP Variables
     private Item[] itemsArray;
+    private double[][] TTPGraph;
     private double minSpeed, maxSpeed;
     private double capacityOfKnapsack;
     private double rentingRatio;
@@ -39,12 +40,13 @@ public class Will {
      * Assign local variables
      * Initialise and create a new knapsack
      */
-    public Will(City[] _cities, Item[] _itemsArray, double _minSpeed, double _maxSpeed, double _capacityOfKnapsack, double _rentingRatio) {
+    public Will(City[] _cities, Item[] _itemsArray, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, double _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
         cities = _cities;
         itemsArray = _itemsArray;
         minSpeed = _minSpeed;
         maxSpeed = _maxSpeed;
+        TTPGraph = _TTPGraph;
         capacityOfKnapsack = _capacityOfKnapsack;
         rentingRatio = _rentingRatio;
         
@@ -123,6 +125,9 @@ public class Will {
         bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
         addItemsKnapsack(bestCost);
 
+        //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
+        bestCost = useBestTTPAlgorithm(bestCost);
+
         System.out.println("End Cost: " + bestCost);
     }
 
@@ -196,7 +201,6 @@ public class Will {
     * @return: Item[]: returns a new Item[] without items in the knapsack
     */
     private Item[] removeOptimal(Item[] optimal){
-        System.out.println(itemsArray.length + " " + knapsack.getNumItems());
         Item[] removedOptimal = new Item[itemsArray.length - knapsack.getNumItems()];
         int counter = 0;
         for(int i = 0; i < itemsArray.length; i++){
@@ -472,11 +476,36 @@ public class Will {
     */
     private void useBestTSPAlgorithm(){
         Control control = new Control();
-        int generations = 10000, populationSize = 50;
+        int generations = 5000, populationSize = 50;
         int solutionSize = populationSize/2;
         double mutationPercentage = 0.10, operationPercentage = 0.90;
         int removalRate = (int)Math.ceil(populationSize/10);
         TSPSolution = control.runSequence(cities, solutionSize, populationSize, generations, mutationPercentage, operationPercentage, removalRate, 3);
+    }
+
+    /**
+    * Generates the best TSPSolution for this instance using our best algorithm from assignment 1
+    * That has been modified to find the best tour based on the current knapsack
+    * Modifies the global TSPSolution variable
+    */
+    private double useBestTTPAlgorithm(double bestCost){
+        Control control = new Control(TTPGraph, maxSpeed, minSpeed, knapsack);
+        int generations = 5000, populationSize = 50;
+        int solutionSize = populationSize/2;
+        double mutationPercentage = 0.10, operationPercentage = 0.90;
+        int removalRate = (int)Math.ceil(populationSize/10);
+
+        Individual oldTSPSolution = TSPSolution.clone();
+        TSPSolution = control.runSequence(cities, solutionSize, populationSize, generations, mutationPercentage, operationPercentage, removalRate, 3);
+        
+        double newCost = calculateCost(bestCost);
+        System.out.println("Result from use of TSPAlgorithm: " + newCost);
+
+        if(newCost < bestCost){
+            TSPSolution = oldTSPSolution;
+            newCost = bestCost;
+        }
+        return newCost;
     }
     
     /**
