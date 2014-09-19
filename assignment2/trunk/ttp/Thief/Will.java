@@ -117,9 +117,11 @@ public class Will {
         //check if there is a more optimal solution using the items not already in the solution
         bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost, randomChoice);
         removeItemsKnapsack(bestCost);
+        addItemsKnapsack(bestCost);
         //some of the items originaly in the knapsack solution may have been removed
         //check they can't still find a good home
         bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
+        addItemsKnapsack(bestCost);
 
         System.out.println("End Cost: " + bestCost);
     }
@@ -194,6 +196,7 @@ public class Will {
     * @return: Item[]: returns a new Item[] without items in the knapsack
     */
     private Item[] removeOptimal(Item[] optimal){
+        System.out.println(itemsArray.length + " " + knapsack.getNumItems());
         Item[] removedOptimal = new Item[itemsArray.length - knapsack.getNumItems()];
         int counter = 0;
         for(int i = 0; i < itemsArray.length; i++){
@@ -233,18 +236,28 @@ public class Will {
     }
 
     /**
-    *
-    *
+    * Remove some items from the knapsack and check if it gets a better cost
+    * Checks to ensure it removes an item from the optimal position
+    * If no further item is being removed, the function ends
+    * params - _bestCost: current best cost
     */
     private void removeItemsKnapsack(double _bestCost){
         double bestCost = _bestCost;
         int pos = -1;
 
-        for(int i = knapsack.getNumItems()-1; i >= 0; i--){
+        do{
+            //if pos != -1 then an item to remove has been found
+            if(pos != -1){
+                knapsack.removeItem(knapsack.getItem(pos));
+                pos = -1;
+            }
+
+            //check every item in the knapsack
             for(int j = knapsack.getNumItems()-1; j >= 0; j--){
                 Item temp = knapsack.getItem(j);
                 knapsack.removeItem(temp);
 
+                //calculate the cost of removing this item
                 double newCost = calculateCost(bestCost);
 
                 //if its better, remember the index number and keep going
@@ -252,14 +265,51 @@ public class Will {
                     bestCost = newCost;
                     pos = j;
                 }
+                //add the item back in, only remove at the end of the loop
                 knapsack.addItem(j, temp);
             }
+        //until removing more items does NOT gain us a profit
+        }while (pos != -1);
+    }
 
-            if(pos != -1){
-                knapsack.removeItem(knapsack.getItem(pos));
-                pos = -1;
+    /**
+    * Add some items to the knapsack and check if it gets a better cost
+    * If no further item can be added, the function ends
+    * params - _bestCost: current best cost
+    */
+    private void addItemsKnapsack(double _bestCost){
+        double bestCost = _bestCost;
+        Item addition = null;
+
+        Item[] optimal = knapsack.getItems();
+        //gets the items that are not part of the knapsack solution
+        Item[] itemsMinusOptimal = removeOptimal(optimal);
+
+        do{
+            //if addition != -1 then an item to add has been found
+            if(addition != null){
+                knapsack.addItem(addition);
+                addition = null;
             }
-        }
+
+            //check all the items that are not currently in the knapsack
+            for(int j = 0; j < itemsMinusOptimal.length; j++){
+                Item temp = itemsMinusOptimal[j];
+                if(temp.getWeight() <= knapsack.getCurrentCapacity()){
+                    knapsack.addItem(temp);
+                    double newCost = calculateCost(bestCost);
+
+                    //if its better, remember the index number and keep going
+                    if(newCost > bestCost){
+                        bestCost = newCost;
+                        addition = temp;
+                    }
+                    //remove the item to obtain the original knapsack
+                    knapsack.removeItem(temp);
+                }
+            }
+        //if no more items are being added, we can end as we will not obtain a better solution
+        }while (addition != null);
     }
 
     /**
