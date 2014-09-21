@@ -34,7 +34,7 @@ public class TTPInstance {
     public String knapsackDataType;
     public int numberOfNodes;
     public int numberOfItems;
-    public double capacityOfKnapsack;
+    public long capacityOfKnapsack;
     public double minSpeed;
     public double maxSpeed;
     public double rentingRatio;
@@ -198,7 +198,7 @@ public class TTPInstance {
             String line;
             while ((line = br.readLine()) != null) {
                 // process the line
-                
+
                 if (line.startsWith("PROBLEM NAME")) {
                     line = line.substring(line.indexOf(":")+1);
                     line = line.replaceAll("\\s+","");
@@ -218,7 +218,7 @@ public class TTPInstance {
                     TTPGraph = new double[numberOfNodes][numberOfNodes];
                     cities = new City[numberOfNodes];
                 }
-                if (line.startsWith("NUMBER OF ITEMS")) {
+                 if (line.startsWith("NUMBER OF ITEMS")) {
                     line = line.substring(line.indexOf(":")+1);
                     line = line.replaceAll("\\s+","");
                     this.numberOfItems=Integer.parseInt(line);
@@ -226,7 +226,7 @@ public class TTPInstance {
                 if (line.startsWith("CAPACITY OF KNAPSACK")) {
                     line = line.substring(line.indexOf(":")+1);
                     line = line.replaceAll("\\s+","");
-                    this.capacityOfKnapsack=Double.parseDouble(line);
+                    this.capacityOfKnapsack=Long.parseLong(line);
                 }
                 if (line.startsWith("MIN SPEED")) {
                     line = line.substring(line.indexOf(":")+1);
@@ -255,6 +255,7 @@ public class TTPInstance {
                         String[] splittedLine = line.split("\\s+");
                         for (int j=0; j<splittedLine.length; j++) {
                             double temp = Double.parseDouble(splittedLine[j]);
+//                            int temp = Integer.parseInt(splittedLine[j]);
                             // adjust city number by 1
                             if (j==0) temp =  temp-1;
                             this.nodes[i][j] = temp;
@@ -277,7 +278,6 @@ public class TTPInstance {
                 }
             }
             br.close();
-            
         } catch (IOException ex) {
             System.out.println("Something went wrong when parsing the file");
             ex.printStackTrace();
@@ -314,16 +314,14 @@ public class TTPInstance {
     public void evaluate(TTPSolution solution) {
         
         boolean debugPrint = !true;
-        
         int[] tour = solution.tspTour;
         int[] z = solution.packingPlan;
-
-        double weightofKnapsack = this.capacityOfKnapsack;
+        long weightofKnapsack = this.capacityOfKnapsack;
         double rentRate = this.rentingRatio;
         double vmin = this.minSpeed;
         double vmax = this.maxSpeed;
         solution.ftraw = 0;
-        
+
         // correctness check: does the tour start and end in the same city
         if(tour[0]!=tour[tour.length-1]) {
             System.out.println("ERROR: The last city must be the same as the first city");
@@ -336,11 +334,11 @@ public class TTPInstance {
         solution.fp=0;
         
         /* the following is used for a different interpretation of "packingPlan"
-         *
+         * 
          */
         int itemsPerCity = solution.packingPlan.length / (solution.tspTour.length-2);
         if (debugPrint) System.out.println("itemsPerCity="+itemsPerCity+" solution.tspTour.length="+solution.tspTour.length);
-        
+       
         for (int i=0; i<tour.length-1; i++) {
             
             // important: nothing to be picked at the first city!
@@ -358,11 +356,10 @@ public class TTPInstance {
                     if (debugPrint) System.out.print("indexOfPackingPlan="+indexOfPackingPlan+" ");
                     
                     // what is the next item's index in items-array?
-                    int itemIndex = currentCity+itemNumber*(this.numberOfNodes-1);//* (this.numberOfNodes-1);
+                    int itemIndex = currentCity+itemNumber*(this.numberOfNodes-1);//* (this.numberOfNodes-1); 
                     if (debugPrint) System.out.print("itemIndex="+itemIndex+" ");
                     
                     if (z[indexOfPackingPlan]==1) {
-                        
                         int currentWC = this.items[itemIndex][2];
                         wc=wc+currentWC;
                         
@@ -384,7 +381,8 @@ public class TTPInstance {
             solution.ftraw += distance;
             
             // compute the adjusted (effective) distance
-            solution.ft=solution.ft+ (distance / (1-wc*(vmax-vmin)/weightofKnapsack));
+            solution.ft=solution.ft+(distance / (1-wc*(vmax-vmin)/weightofKnapsack));
+            //(distances[tour[i]][tour[h]] / (1-wc*(vmax-vmin)/weightofKnapsack));
             
             if (debugPrint) System.out.println("i="+i+" tour[i]="+tour[i]+" tour[h]="+tour[h]+" distance="+distance+" fp="+solution.fp + " ft=" + solution.ft);
         }

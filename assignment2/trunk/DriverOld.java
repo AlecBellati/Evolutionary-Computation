@@ -23,6 +23,8 @@ import TTP.Utils.Utils;
  */
 public class DriverOld {
     
+    private static double total;
+
     /* The current sequence of parameters is
      * args[0]  folder with TTP files
      * args[1]  pattern to identify the TTP problems that should be solved
@@ -31,12 +33,25 @@ public class DriverOld {
      * args[4]  stopping criterion: time in milliseconds (e.g., 60000 equals 1 minute)
      */
     public static void main(String[] args) {
-       
-        if (args.length==0){
-            args = new String[]{"../instances/", "a280_n1395_uncorr-similar-weights_05.ttp", "2", "10000", "60000"};
-        }
+        total = 0;
+        int runs = 20;
 
-        doBatch(args);
+        if (args.length==0){
+            args = new String[]{"../instances/", "a280_n1395_uncorr-similar-weights_05.ttp", "2", "10000", "600000"};
+        }
+        long startTime = System.currentTimeMillis();
+
+        for(int i = 0; i < 20; i++){
+            doBatch(args);
+        }
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime);
+
+        double avgTime = duration/1000;
+        double avgTimeRun = avgTime/runs;
+
+        System.out.println("Batch run took " + avgTime + " seconds, averaging " + avgTimeRun 
+            + " seconds, and a score of " + (total/runs) + " per run.\n");
     }
     
     // note: doBatch can process several files sequentially
@@ -70,11 +85,11 @@ public class DriverOld {
             
             
             // print to file
-            solution.writeResult(resultTitle);
+            //solution.writeResult(resultTitle);
             
             // print to screen
             solution.println();
-            
+            total += solution.getObjective();
             
 //            solution.printFull();
         }
