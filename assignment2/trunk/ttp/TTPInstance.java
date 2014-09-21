@@ -142,7 +142,7 @@ public class TTPInstance {
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
         //matt = new Matt(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        will = new Will(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this, 2, 1, false);
+        will = new Will(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this, 4, 1, true);
         
         getBestSolution();
     }

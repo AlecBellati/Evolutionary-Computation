@@ -114,21 +114,26 @@ public class Will {
         Item[] itemsMinusOptimal = removeOptimal(optimal);
 
         double bestCost = calculateCost(0);
-        System.out.println("Starting Cost: " + bestCost);
+        
+        for(int i = 0; i < 10; i++){
+            System.out.println("Starting Cost: " + bestCost);
 
-        //check if there is a more optimal solution using the items not already in the solution
-        bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost, randomChoice);
-        removeItemsKnapsack(bestCost);
-        addItemsKnapsack(bestCost);
-        //some of the items originaly in the knapsack solution may have been removed
-        //check they can't still find a good home
-        bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
-        addItemsKnapsack(bestCost);
+            //check if there is a more optimal solution using the items not already in the solution
+            bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost, randomChoice);
+            removeItemsKnapsack(bestCost);
+            addItemsKnapsack(bestCost);
 
-        //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
-        //bestCost = useBestTTPAlgorithm(bestCost);
+            //some of the items originaly in the knapsack solution may have been removed
+            //check they can't still find a good home
+            bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
+            addItemsKnapsack(bestCost);
+            removeItemsKnapsack(bestCost);
 
-        System.out.println("End Cost: " + bestCost);
+            //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
+            //bestCost = useBestTTPAlgorithm(bestCost);
+
+            System.out.println("End Cost: " + bestCost);
+        }
     }
 
     /**
@@ -164,11 +169,7 @@ public class Will {
             //then place it in every position in the array to get its optimal position
             for(int j = 0; j < knapsack.getNumItems(); j++){
                 //for one set of arrays, there is the possibility for duplicates
-                //only run this when needed as it takes a little while
-                if(!optimalRemoved){
-                    compare = knapsack.containsItem(currentItem);
-                }
-
+                compare = knapsack.containsItem(currentItem);
                 Item temp = knapsack.getItem(j);
                 //check its going to fit and that it isnt already in the solution
                 if(currentItem.getWeight() <= (temp.getWeight() + knapsack.getCurrentCapacity()) && !compare){
@@ -201,7 +202,7 @@ public class Will {
     * @return: Item[]: returns a new Item[] without items in the knapsack
     */
     private Item[] removeOptimal(Item[] optimal){
-        Item[] removedOptimal = new Item[itemsArray.length - knapsack.getNumItems()];
+        Item[] removedOptimal = new Item[itemsArray.length - optimal.length];
         int counter = 0;
         for(int i = 0; i < itemsArray.length; i++){
             Item currentItem = itemsArray[i];
@@ -299,7 +300,7 @@ public class Will {
             //check all the items that are not currently in the knapsack
             for(int j = 0; j < itemsMinusOptimal.length; j++){
                 Item temp = itemsMinusOptimal[j];
-                if(temp.getWeight() <= knapsack.getCurrentCapacity()){
+                if(temp.getWeight() <= knapsack.getCurrentCapacity() && !knapsack.containsItem(temp)){
                     knapsack.addItem(temp);
                     double newCost = calculateCost(bestCost);
 
@@ -513,7 +514,7 @@ public class Will {
      * @return: TTPSolution: solution after 10 minutes
      */
     public TTPSolution getBestSolution() {
-        System.out.println("Will: Timer expired function, return the best solution");
+        System.out.println("Will: Execution has ended, return the best solution");
         
         //check to see if null no solution has been found
         if(TSPSolution == null) {
