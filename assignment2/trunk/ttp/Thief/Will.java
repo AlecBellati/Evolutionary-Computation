@@ -115,19 +115,17 @@ public class Will {
 
         double bestCost = calculateCost(0);
         
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 1; i++){
             System.out.println("Starting Cost: " + bestCost);
 
             //check if there is a more optimal solution using the items not already in the solution
             bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost, randomChoice);
             removeItemsKnapsack(bestCost);
-            addItemsKnapsack(bestCost);
 
             //some of the items originaly in the knapsack solution may have been removed
             //check they can't still find a good home
             bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
             addItemsKnapsack(bestCost);
-            removeItemsKnapsack(bestCost);
 
             //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
             //bestCost = useBestTTPAlgorithm(bestCost);
