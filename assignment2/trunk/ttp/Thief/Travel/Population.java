@@ -224,7 +224,10 @@ public class Population {
     public Individual getBestTTPSolution(double[][] TTPGraph, double maxSpeed, double minSpeed, Knapsack knapsack) {
         City thisCity = null, nextCity = null;
         double weight = 0;
-        double netProfit = 0;
+        double profit = 0;
+        
+        long rawDistance = 0;
+        double actualDistance = 0;
         
         Individual best = null;
         
@@ -246,39 +249,31 @@ public class Population {
                 //for each item in the city
                 for(Item current : thisCity.getItems()) {
                     
-                    
-                    //the temporary weight of the thief if taking the item
+                    //update profit and weight if item has been taken
                     if(current != null) {
                         if(current.isTaken()) {
                             weight += current.getWeight();
+                            profit += current.getProfit();
                         }
                     }
-                    //How much of the knapsack is full?
-                    double weightRatio = weight / knapsack.getCapacity();
-                    
-                    //calculate the potential speed if taking the item
-                    double tempSpeed = maxSpeed - (weight * ((maxSpeed - minSpeed)/knapsack.getCapacity()));
-                    
-                    //get the edge cost from the previous city to this city
-                    double edgeCost = TTPGraph[thisCity.getNodeNum()][nextCity.getNodeNum()]/tempSpeed;
-                    
-                    //calculate the potential profit for the item
-                    double grossProfit = 0;
-                    if(current != null) {
-                        if(current.isTaken()) {
-                            grossProfit = current.getProfit();
-                        }
-                    }
-                    double losses = edgeCost*knapsack.getRentingRatio();
-                    double thisProfit = grossProfit - losses;
-                    netProfit += thisProfit;
-                    
                 }
+                
+                //get the raw distance between the cities
+                long distance = (long)Math.ceil(TTPGraph[thisCity.getNodeNum()][nextCity.getNodeNum()]);
+                rawDistance += distance;
+                
+                //calculate the adjusted distance
+                actualDistance = actualDistance + (distance / (1-weight*(maxSpeed - minSpeed)/knapsack.getCapacity()));
                 
                 //go to next city
                 thisCity = nextCity;
             }
-            in.setProfit(netProfit);
+            
+            //adjust final profit to get objective value
+            profit = profit - actualDistance*knapsack.getRentingRatio();
+            
+            //set this individuals profit
+            in.setProfit(profit);
 
             //is this individual better?
             if(best == null) {
@@ -293,7 +288,9 @@ public class Population {
             thisCity = null;
             nextCity = null;
             weight = 0;
-            netProfit = 0;
+            profit = 0;
+            rawDistance = 0;
+            actualDistance = 0;
         }
         
         

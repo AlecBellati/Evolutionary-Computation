@@ -71,7 +71,7 @@ public class Matt {
         stealProfitableItems();
         knapsack.print();
         
-        //3. Solve TSP for Knapsack cities to maximise profit
+        //3. create lists of profitable and not profitable cities
         ArrayList<City> inSack = new ArrayList<City>();
         ArrayList<City> notInSack = new ArrayList<City>();
         notInSack.add(cities[0]);
@@ -94,16 +94,29 @@ public class Matt {
             }
         }
         
-        City[] inSackArray = new City[inSack.size()];
-        inSackArray = inSack.toArray(inSackArray);
-        
+        //4a. get TSP for the rest cities
         City[] notInSackArray = new City[notInSack.size()];
         notInSackArray = notInSack.toArray(notInSackArray);
         
-        Individual best = runTSP(3, inSackArray);
+        System.out.println("Run TSP for rest");
+        Individual rest = runTSP(50, 15000, 3, notInSackArray);
         
-        //4. Solve TSP for all cities that are not profitable
-        Individual rest = runTSP(3, notInSackArray);
+        
+        //4b. Solve TSP for all cities that are profitable
+        inSack.add(0, rest.getCities()[rest.getCities().length-1]);
+        
+        City[] inSackArray = new City[inSack.size()];
+        inSackArray = inSack.toArray(inSackArray);
+        
+        System.out.println("Run TSP for best");
+        System.out.println("best.lenght = " + inSackArray.length);
+        Individual best = null;
+        if(inSackArray.length == 1) {
+            best = new Individual(inSackArray, true);
+        } else {
+            best = runTSP(50, 15000, 3, inSackArray);
+        }
+        System.out.println("done");
         
         //5. Combine Knapsack TSP and non-profit TSP into TSPSolution
         System.out.println("Best Individual: ");
@@ -113,8 +126,10 @@ public class Matt {
         rest.print();
         System.out.println();
         
+        System.out.println("Total Profit = " + (best.getProfit() + rest.getProfit()) );
+        
         //create the new individual to combine two city arrays
-        TSPSolution = new Individual(inSackArray.length + notInSackArray.length);
+        TSPSolution = new Individual(inSackArray.length-1 + notInSackArray.length);
         int counter = 0;
 
         //add notInSackArray
@@ -124,8 +139,8 @@ public class Matt {
         }
 
         //add inSackArray
-        for(int i = 0; i < best.getCities().length; i++) {
-            TSPSolution.setCity(counter+i, best.getCityByIndex(i));
+        for(int i = 1; i < best.getCities().length; i++) {
+            TSPSolution.setCity(counter+i-1, best.getCityByIndex(i));
         }
         
         TSPSolution.print();
@@ -147,6 +162,7 @@ public class Matt {
     
     /**
      * Fill the knapsack with as many profitable items as possible
+     * needs rewrite
      */
     public void stealProfitableItems() {
         ArrayList<Item> profit = new ArrayList<Item>();
@@ -226,26 +242,6 @@ public class Matt {
         return solution;
     }
     
-    
-    
-    
-    
-    
-    /**
-     * Run the TSP algorithm with the algorithm you would like to use
-     * @param: int: the algorithm number you would like to use (numbers are
-     */
-    private Individual runTSP(int alg, City[] subCity) {
-        if(0 < alg && alg < 5) {
-            TSPSolution = runTSP(50, 10000, alg, subCity);
-        } else {
-            System.out.println("TSP Algorithm Numbers must be [1,4]");
-            return null;
-        }
-        
-        return TSPSolution;
-    }
-    
     /**
 	 * Basic testing function
 	 * Will run Algorithm 1 and output best solution
@@ -256,7 +252,11 @@ public class Matt {
 	 * @return Individual - best individual from the given algorithm
 	 */
 	private Individual runTSP(int populationSize, int generations, int alg, City[] subCity) {
-        
+        if(alg < 0 || alg > 6) {
+            System.out.println("TSP Algorithm Numbers must be [1,5]");
+            return null;
+        }
+
         //create Controller
         control = new Control(TTPGraph, maxSpeed, minSpeed, knapsack);
         

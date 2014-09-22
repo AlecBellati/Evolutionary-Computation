@@ -69,7 +69,7 @@ public class Control {
 	 * @param double mutationPercentage - chances of mutation occuring
 	 * @param double operationPercentage - chances of an operation occuring
 	 * @param int removalRate - determines how many duplicate or similar solutions are removed from a population
-	 * @param int algorithm - which algorithm to use (1-4)
+	 * @param int algorithm - which algorithm to use (1-5)
 	 * @return Individual - the best individual from the populations generated
 	 */
 	public Individual runSequence(City[] cities, int solutionSize, int populationSize, int generations, double mutationPercentage, double operationPercentage, int removalRate, int algorithm) {
@@ -82,9 +82,11 @@ public class Control {
 			case 2:
 				return algorithm2(population, solutionSize, populationSize, generations, removalRate);
 			case 3:
-				return algorithm3TTP(population, solutionSize, populationSize, mutationPercentage, operationPercentage, generations);
+				return algorithm3(population, solutionSize, populationSize, mutationPercentage, operationPercentage, generations);
 			case 4:
 				return inverOver(cities, population, populationSize, generations);
+            case 5:
+                return algorithm3TTP(population, solutionSize, populationSize, mutationPercentage, operationPercentage, generations);
 		}
 		return null;
 	}
@@ -612,7 +614,7 @@ public class Control {
 			if (doSelection < 0.475) {
 				// Do Elitism
 				population = selection.elitism(population, solutionSize);
-			} else if (doSelection < 0.95) {
+			} else if (doSelection < 1) {
 				// Do Tournament
 				int popnSize = population.getSize()/2;
 				
@@ -622,7 +624,7 @@ public class Control {
 				}
 				population = selection.tournamentSelection(population, popnSize, solutionSize);
 			} else {
-				// Do Fitness
+				// Do Fitness (never becaues it's minimising at the moment)
 				population = selection.fitnessProportional(population, solutionSize);
 			}
 			
