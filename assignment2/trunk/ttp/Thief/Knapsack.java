@@ -9,15 +9,15 @@ import java.util.Arrays;
 
 public class Knapsack {
     
-    private double capacity;
-    private double currentWeight;
+    private long capacity;
+    private long currentWeight;
     private double rentingRatio;
     private ArrayList<Item> items;
     
     /**
      * Construct an empty knapsack with a known weight limit
      */
-    public Knapsack(double _capacity) {
+    public Knapsack(long _capacity) {
         capacity = _capacity;
         currentWeight = 0;
         items = new ArrayList<Item>();
@@ -26,7 +26,7 @@ public class Knapsack {
     /**
      * Construct an empty knapsack with a known weight limit
      */
-    public Knapsack(double _capacity, Item[] item) {
+    public Knapsack(long _capacity, Item[] item) {
         capacity = _capacity;
         currentWeight = 0;
         items = new ArrayList<Item>();
@@ -96,25 +96,25 @@ public class Knapsack {
 
     /**
      * Returns the current weight of the knapsack
-     * @return: double: currentWeight of the knapsack
+     * @return: long: currentWeight of the knapsack
      */
-    public double getCurrentWeight(){
+    public long getCurrentWeight(){
         return currentWeight;
     }
     
     /**
      * Returns the current capacity of the knapsack
-     * @return: double: The amount of more weight the knapsack can hold
+     * @return: long: The amount of more weight the knapsack can hold
      */
-    public double getCurrentCapacity(){
+    public long getCurrentCapacity(){
         return (capacity - currentWeight);
     }
     
     /**
      * get the capacity of the knapsack
-     * @return double: capacity of the knapsack
+     * @return long: capacity of the knapsack
      */
-    public double getCapacity() {
+    public long getCapacity() {
         return capacity;
     }
 

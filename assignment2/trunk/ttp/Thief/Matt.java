@@ -31,7 +31,7 @@ public class Matt {
     //TTP Variables
     private double[][] TTPGraph;
     private double minSpeed, maxSpeed;
-    private double capacityOfKnapsack;
+    private long capacityOfKnapsack;
     private double rentingRatio;
     
     /**
@@ -44,7 +44,7 @@ public class Matt {
      *
      *
      */
-    public Matt(City[] _cities, Item[] allItems, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, double _capacityOfKnapsack, double _rentingRatio) {
+    public Matt(City[] _cities, Item[] allItems, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
         cities = _cities;
         items = new ArrayList<Item>(Arrays.asList(allItems));
