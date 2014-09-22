@@ -24,7 +24,7 @@ public class Alec {
 	/* The items in the problem */
 	private Item[] items;
 	/* Capacity of the knapsack */
-	private double capacityOfKnapsack;
+	private long capacityOfKnapsack;
 	
 	/** Algorithm parameters */
 	private final int POPULATION_SIZE = 100;
@@ -37,7 +37,7 @@ public class Alec {
     /**
      * CONSTRUCTOR
      */
-    public Alec(City[] cities, Item[] items, double capacityOfKnapsack) {
+    public Alec(City[] cities, Item[] items, long capacityOfKnapsack) {
         this.cities = cities;
 		this.items = items;
 		this.capacityOfKnapsack = capacityOfKnapsack;

@@ -32,7 +32,7 @@ public class Will {
     private Item[] itemsArray;
     private double[][] TTPGraph;
     private double minSpeed, maxSpeed;
-    private double capacityOfKnapsack;
+    private long capacityOfKnapsack;
     private double rentingRatio;
     
     /**
@@ -40,7 +40,7 @@ public class Will {
      * Assign local variables
      * Initialise and create a new knapsack
      */
-    public Will(City[] _cities, Item[] _itemsArray, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, double _capacityOfKnapsack, double _rentingRatio) {
+    public Will(City[] _cities, Item[] _itemsArray, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
         cities = _cities;
         itemsArray = _itemsArray;
@@ -107,25 +107,25 @@ public class Will {
 
         //get a good TSP tour
         generateTSP(TSPAlgorithm);
-
         generateKnapsack(knapsackAlgorithm);
-        Item[] optimal = knapsack.getItems();
-        //gets the items that are not part of the knapsack solution
-        Item[] itemsMinusOptimal = removeOptimal(optimal);
 
         double bestCost = calculateCost(0);
         
-        for(int i = 0; i < 1; i++){
+        for(int i = 0; i < 5; i++){
             System.out.println("Starting Cost: " + bestCost);
 
+            Item[] optimal = knapsack.getItems();
+            //gets the items that are not part of the knapsack solution
+            Item[] itemsMinusOptimal = removeOptimal(optimal);
+
             //check if there is a more optimal solution using the items not already in the solution
-            bestCost = checkBetterSolution(itemsMinusOptimal, true, bestCost, randomChoice);
-            removeItemsKnapsack(bestCost);
+            bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, true, bestCost, randomChoice);
+            bestCost = removeItemsKnapsack(bestCost);
 
             //some of the items originaly in the knapsack solution may have been removed
             //check they can't still find a good home
-            bestCost = checkBetterSolution(optimal, false, bestCost, randomChoice);
-            addItemsKnapsack(bestCost);
+            bestCost = checkBetterSolutionHeuristic(optimal, false, bestCost, randomChoice);
+            bestCost = addItemsKnapsack(bestCost);
 
             //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
             //bestCost = useBestTTPAlgorithm(bestCost);
@@ -195,6 +195,68 @@ public class Will {
     }
 
     /**
+    * Replaces each item in the knapsack with a new item and checks if the solution is better
+    * If it is then the change remains in place
+    * @param: currentItems: current set of items to place into the optimal solution to check if they make it better
+    * @param: optimalRemoved: do we need to check if the current item is already in the solution (for one of the arrays above we do)
+    * @param: _bestCost: what is the current best cost
+    * @return: double: current best cost
+    */
+    private double checkBetterSolutionHeuristic(Item[] currentItems, boolean optimalRemoved, double _bestCost, boolean randomChoice){
+        double bestCost = _bestCost;
+        boolean compare = false;
+
+        ArrayList<Item> listOfItems = new ArrayList<Item>(Arrays.asList(currentItems));
+        Random rnd = new Random();
+        int pos = 0;
+        //check every item we are sent
+        while(listOfItems.size() > 0 && pos < currentItems.length){
+            Item currentItem = null;
+            //depending on the supplied boolean, either choose an item randomly or just get the next item
+            if(randomChoice){
+                currentItem = listOfItems.get(rnd.nextInt(listOfItems.size()));
+                listOfItems.remove(pos); 
+            }else{
+                currentItem = listOfItems.get(pos);
+                pos++;
+            }
+
+            int newIndex = -1;
+
+            //then place it in every position in the array to get its optimal position
+            for(int j = 0; j < 15; j++){
+                int tempIndex = rnd.nextInt(knapsack.getNumItems());
+
+                //for one set of arrays, there is the possibility for duplicates
+                compare = knapsack.containsItem(currentItem);
+                Item temp = knapsack.getItem(tempIndex);
+                //check its going to fit and that it isnt already in the solution
+                if(currentItem.getWeight() <= (temp.getWeight() + knapsack.getCurrentCapacity()) && !compare){
+                    //replace the item and position j and calculate its cost
+                    knapsack.setItem(tempIndex, currentItem);
+                    double newCost = calculateCost(bestCost);
+
+                    //if its better, remember the index number and keep going
+                    if(newCost > bestCost){
+                        bestCost = newCost;
+                        newIndex = tempIndex;
+                    }
+                    knapsack.setItem(tempIndex, temp);
+                }
+            }
+
+            //if we eventually did find a good place to put it, make it permanent by updating the current weight
+            //and placing it into the knapsack solution one last time
+            if(newIndex != -1){
+                knapsack.setItem(newIndex, currentItem);
+            }
+        }
+
+        return bestCost;
+    }
+
+
+    /**
     * Takes the current itemArray and removes the items in the knapsack solution
     * @param: optimal: the current knapsack solution
     * @return: Item[]: returns a new Item[] without items in the knapsack
@@ -244,35 +306,24 @@ public class Will {
     * If no further item is being removed, the function ends
     * params - _bestCost: current best cost
     */
-    private void removeItemsKnapsack(double _bestCost){
+    private double removeItemsKnapsack(double _bestCost){
         double bestCost = _bestCost;
-        int pos = -1;
 
-        do{
-            //if pos != -1 then an item to remove has been found
-            if(pos != -1){
-                knapsack.removeItem(knapsack.getItem(pos));
-                pos = -1;
-            }
+        //check every item in the knapsack
+        for(int j = knapsack.getNumItems()-1; j >= 0; j--){
+            Item temp = knapsack.getItem(j);
+            knapsack.removeItem(temp);
 
-            //check every item in the knapsack
-            for(int j = knapsack.getNumItems()-1; j >= 0; j--){
-                Item temp = knapsack.getItem(j);
-                knapsack.removeItem(temp);
-
-                //calculate the cost of removing this item
-                double newCost = calculateCost(bestCost);
-
-                //if its better, remember the index number and keep going
-                if(newCost > bestCost){
-                    bestCost = newCost;
-                    pos = j;
-                }
-                //add the item back in, only remove at the end of the loop
+            //calculate the cost of removing this item
+            double newCost = calculateCost(bestCost);
+            if(newCost > bestCost){
+                bestCost = newCost;
+            }else{
                 knapsack.addItem(j, temp);
             }
-        //until removing more items does NOT gain us a profit
-        }while (pos != -1);
+        }
+
+        return bestCost;
     }
 
     /**
@@ -280,39 +331,32 @@ public class Will {
     * If no further item can be added, the function ends
     * params - _bestCost: current best cost
     */
-    private void addItemsKnapsack(double _bestCost){
+    private double addItemsKnapsack(double _bestCost){
         double bestCost = _bestCost;
-        Item addition = null;
 
         Item[] optimal = knapsack.getItems();
         //gets the items that are not part of the knapsack solution
         Item[] itemsMinusOptimal = removeOptimal(optimal);
 
-        do{
-            //if addition != -1 then an item to add has been found
-            if(addition != null){
-                knapsack.addItem(addition);
-                addition = null;
-            }
 
-            //check all the items that are not currently in the knapsack
-            for(int j = 0; j < itemsMinusOptimal.length; j++){
-                Item temp = itemsMinusOptimal[j];
-                if(temp.getWeight() <= knapsack.getCurrentCapacity() && !knapsack.containsItem(temp)){
-                    knapsack.addItem(temp);
-                    double newCost = calculateCost(bestCost);
+        //check all the items that are not currently in the knapsack
+        for(int j = 0; j < itemsMinusOptimal.length; j++){
+            Item temp = itemsMinusOptimal[j];
+            if(temp.getWeight() <= knapsack.getCurrentCapacity() && !knapsack.containsItem(temp)){
+                knapsack.addItem(temp);
+                double newCost = calculateCost(bestCost);
 
-                    //if its better, remember the index number and keep going
-                    if(newCost > bestCost){
-                        bestCost = newCost;
-                        addition = temp;
-                    }
+                //if its better, remember the index number and keep going
+                if(newCost > bestCost){
+                    bestCost = newCost;
+                }else{
                     //remove the item to obtain the original knapsack
                     knapsack.removeItem(temp);
                 }
             }
-        //if no more items are being added, we can end as we will not obtain a better solution
-        }while (addition != null);
+        }
+
+        return bestCost;
     }
 
     /**
