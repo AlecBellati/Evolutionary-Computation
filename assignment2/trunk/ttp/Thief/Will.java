@@ -125,7 +125,7 @@ public class Will {
             //some of the items originaly in the knapsack solution may have been removed
             //check they can't still find a good home
             //bestCost = checkBetterSolutionHeuristic(optimal, false, bestCost, randomChoice);
-            bestCost = addItemsKnapsack(bestCost);
+            //bestCost = addItemsKnapsack(bestCost);
 
             //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
             //bestCost = useBestTTPAlgorithm(bestCost);
@@ -308,17 +308,17 @@ public class Will {
     }
 
     /**
-    *
-    * @param - good: pick this many of the top Items (sorted by cost - might need some other metric)
+    * From the itemsArray, pick the best items, both by weighted cost and at random
+    * @param - good: pick this many of the top Items (sorted by weighted cost)
     * @param - random: pick this many items at random for funsies!
     * @return - Item[]: contains (good+random) number of items
     */
     private Item[] pickBestItems(int good, int random){
         Item[] pickedItems = new Item[good+random];
-        ArrayList<Item> itemsList = sortByCost();
+        ArrayList<Item> itemsList = sortByWeightedCost();
 
         if(good > itemsList.size()){
-            return itemsArray;
+            good = itemsList.size();
         }
         for(int i = 0; i < good; i++){
             pickedItems[i] = itemsList.get(i);
@@ -336,7 +336,7 @@ public class Will {
     }
 
     /**
-    *
+    * Shuffle an array containing integers [0, length)
     * @param - length: size of the array to shuffle
     * @return - List<Integer>: A shuffled integer array containing values [0, length)
     */
@@ -439,6 +439,24 @@ public class Will {
             @Override
             public int compare (Item i1, Item i2) {
                 return (int)(i1.getWeight() - i2.getWeight());
+            }
+        });
+        return itemsList;
+    }
+
+    /**
+    * CHANGE THIS TO WEIGHTED COST!!!
+    * Sorts the items in the itemsArray by a weighted cost
+    * @return: ArrayList<Item>: List containing sorted items from highest to lowest weighted cost
+    * Weighted costs is dependant on where it is in the tour as well as its profit/weight ratio
+    */
+    private ArrayList<Item> sortByWeightedCost() {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(removeOptimal(knapsack.getItems())));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)((i2.getProfit()/i2.getWeight()) - (i1.getProfit()/i1.getWeight()));
             }
         });
         return itemsList;
