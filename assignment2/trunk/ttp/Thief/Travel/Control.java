@@ -25,7 +25,6 @@ public class Control {
 	private Individual bestSolution;	// Holds the best solution for current algorithm
     
     //TTP Variables
-    private double[][] TTPGraph;
     private double minSpeed, maxSpeed;
     private Knapsack knapsack;
 	
@@ -47,8 +46,7 @@ public class Control {
      * @param: double: minSpeed of thief
      * @param: Knapsack: knapsack of the thief
      */
-    public Control(double[][] _TTPGraph, double _maxSpeed, double _minSpeed, Knapsack _knapsack) {
-        TTPGraph = _TTPGraph;
+    public Control(double _maxSpeed, double _minSpeed, Knapsack _knapsack) {
         maxSpeed = _maxSpeed;
         minSpeed = _minSpeed;
         knapsack = _knapsack;
@@ -629,7 +627,7 @@ public class Control {
 			}
 			
 			// Keep the very best individual and always have them in the population
-			Individual challenger = population.getBestTTPSolution(TTPGraph, maxSpeed, minSpeed, knapsack);
+			Individual challenger = population.getBestTTPSolution(maxSpeed, minSpeed, knapsack);
 			if (bestSolution == null) {
 				bestSolution = challenger;
 			} else if(challenger.getProfit() > bestSolution.getProfit()) {

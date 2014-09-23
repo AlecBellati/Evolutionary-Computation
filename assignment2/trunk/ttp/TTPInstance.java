@@ -44,7 +44,6 @@ public class TTPInstance {
     private Item[] itemsArray;
     
     //TTPGraph of edges
-    public double[][] TTPGraph;         //2D array of node edges
     private City[] cities;              //array of created cities
     
     //Thieves
@@ -73,19 +72,8 @@ public class TTPInstance {
      */
     public void createTTPGraph() {
         for(int i = 0; i < numberOfNodes; i++) {
-            //Correct
-            cities[i] = new City(i, numberOfNodes, (numberOfItems/numberOfNodes)+1);
-            
-            for(int j = 0; j < numberOfNodes; j++) {
-                if(i == j) {
-                    TTPGraph[i][j] = 0;
-                } else {
-                    TTPGraph[i][j] = distances(i, j);
-                }
-                
-                //add edge to City
-                cities[i].addEdge(j, TTPGraph[i][j]);
-            }
+            //Correct (tick)
+            cities[i] = new City(i, numberOfNodes, (numberOfItems/numberOfNodes)+1, this.nodes[i][1], this.nodes[i][2]);
         }
         
         //now add items to the cities
@@ -100,8 +88,7 @@ public class TTPInstance {
                            (this.nodes[i][1]-this.nodes[j][1]) *
                            (this.nodes[i][1]-this.nodes[j][1]) +
                            (this.nodes[i][2]-this.nodes[j][2]) *
-                           (this.nodes[i][2]-this.nodes[j][2])
-                           );
+                           (this.nodes[i][2]-this.nodes[j][2]));
         
         if (!true) System.out.println(" distance="+this.nodes[i][1]+ " "
                                       +this.nodes[j][1]+" "+this.nodes[i][2]+" "+this.nodes[j][2]+"->"+result);
@@ -125,7 +112,7 @@ public class TTPInstance {
     public void printTTPGraph() {
         for(int i = 0; i < numberOfNodes; i++) {
             for(int j = 0; j < numberOfNodes; j++) {
-                System.out.print(String.format("%3.2f ", TTPGraph[i][j]));
+                System.out.print(String.format("%3.2f ", distances(i, j)));
             }
             System.out.println();
             System.out.println();
@@ -140,9 +127,9 @@ public class TTPInstance {
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
-        matt = new Matt(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
+        matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        //will = new Will(cities, itemsArray, TTPGraph, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this, 2, 1, false);
+        //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.getSolution(this, 2, 1, false);
         
         getBestSolution();
     }
@@ -215,7 +202,6 @@ public class TTPInstance {
                     this.numberOfNodes=Integer.parseInt(line);
                     
                     //Create TTPGraph and cities array
-                    TTPGraph = new double[numberOfNodes][numberOfNodes];
                     cities = new City[numberOfNodes];
                 }
                  if (line.startsWith("NUMBER OF ITEMS")) {

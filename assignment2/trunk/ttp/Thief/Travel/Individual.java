@@ -161,8 +161,9 @@ public class Individual {
 	 */
 	public double getEdgeCost(int city_from, int city_to) {
 		City from = getCityByNumber(city_from);
+		City to = getCityByNumber(city_to);
 		if (from != null) {
-			return from.getEdge(city_to);
+			return from.distance(to);
 		}
 		return 0;
 	}
@@ -238,7 +239,7 @@ public class Individual {
 				//return to start
 				next_city = cities[0];
 			}
-			cost_to_node = curr_city.getEdge(next_city.getNodeNum());
+			cost_to_node = curr_city.distance(next_city);
 			cost += cost_to_node;
 		}
 	}
