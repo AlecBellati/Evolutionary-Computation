@@ -250,13 +250,15 @@ public class Alec {
 		}
 		
 		// Find the smallest and largest edge
-		double currEdge = cities[0].getEdge(1);
+		//double currEdge = cities[0].getEdge(1);
+		double currEdge = 0;
 		double min = currEdge;
 		double max = currEdge;
 		for (int i = 0; i < cities.length; i++){
 			for (int j = i + 1; j < cities.length; j++){
 				if (i != j){
-					currEdge = cities[i].getEdge(j);
+					//currEdge = cities[i].getEdge(j);
+					currEdge = 0;
 					if (currEdge < min){
 						min = currEdge;
 					}
@@ -272,7 +274,8 @@ public class Alec {
 		for (int i = 0; i < cities.length; i++){
 			for (int j = i + 1; j < cities.length; j++){
 				if (i != j){
-					currEdge = cities[i].getEdge(j);
+					//currEdge = cities[i].getEdge(j);
+					currEdge = 0;
 					incRate = max / currEdge;
 					decRate = min / currEdge;
 					

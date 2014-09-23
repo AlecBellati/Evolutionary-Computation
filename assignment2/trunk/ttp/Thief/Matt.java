@@ -29,7 +29,6 @@ public class Matt {
     private TTPSolution solution;
     
     //TTP Variables
-    private double[][] TTPGraph;
     private double minSpeed, maxSpeed;
     private long capacityOfKnapsack;
     private double rentingRatio;
@@ -44,11 +43,10 @@ public class Matt {
      *
      *
      */
-    public Matt(City[] _cities, Item[] allItems, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
+    public Matt(City[] _cities, Item[] allItems, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
         cities = _cities;
         items = new ArrayList<Item>(Arrays.asList(allItems));
-        TTPGraph = _TTPGraph;
         minSpeed = _minSpeed;
         maxSpeed = _maxSpeed;
         capacityOfKnapsack = _capacityOfKnapsack;
@@ -188,7 +186,7 @@ public class Matt {
             double tempSpeed = (maxSpeed - minSpeed)*weightRatio;
             
             //get the edge cost from the previous city to this city
-            double edgeCost = TTPGraph[prevCity.getNodeNum()][currCity.getNodeNum()];
+            double edgeCost = prevCity.distance(currCity);
                 
             //calculate the potential profit for the item
             double grossProfit = current.getProfit();
@@ -258,7 +256,7 @@ public class Matt {
         }
 
         //create Controller
-        control = new Control(TTPGraph, maxSpeed, minSpeed, knapsack);
+        control = new Control(maxSpeed, minSpeed, knapsack);
         
 		int solutionSize = populationSize/2;
 		double mutationPercentage = 0.10, operationPercentage = 0.90;

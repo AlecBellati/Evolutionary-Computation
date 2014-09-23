@@ -221,7 +221,7 @@ public class Population {
      * return the best tour based on TSP AND Knapsack
      *
      */
-    public Individual getBestTTPSolution(double[][] TTPGraph, double maxSpeed, double minSpeed, Knapsack knapsack) {
+    public Individual getBestTTPSolution(double maxSpeed, double minSpeed, Knapsack knapsack) {
         City thisCity = null, nextCity = null;
         double weight = 0;
         double profit = 0;
@@ -259,7 +259,7 @@ public class Population {
                 }
                 
                 //get the raw distance between the cities
-                long distance = (long)Math.ceil(TTPGraph[thisCity.getNodeNum()][nextCity.getNodeNum()]);
+                long distance = (long)Math.ceil(thisCity.distance(nextCity));
                 rawDistance += distance;
                 
                 //calculate the adjusted distance

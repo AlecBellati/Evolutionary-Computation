@@ -14,12 +14,13 @@ import TTP.Thief.Travel.Item;
 public class City {
 	
 	/* Class variables */
-	private double[] edges;			// Edge weights - edges[1] indicates cost to travel to City 1
 	private int node;				// City number, considered its name
 	private boolean visited;		// Determines if node has been visited in a solution
     private int itemCount;
     private int numItems;
+    private int numEdges;
     private Item[] items;           // List of items that could be stolen from this city
+    private double xCoord, yCoord;
 	
 	/** Attributes for 'Alec' algorithm */
 	private double[] edgePheromone;
@@ -34,24 +35,33 @@ public class City {
 	 * @param int numEdges - number of cities it connects to
      * @param int numItems - number of items in the city
 	 */
-	public City(int cityNode, int numEdges, int _numItems) {
+	public City(int cityNode, int _numEdges, int _numItems, double x, double y) {
 		node = cityNode;
-		edges = new double[numEdges];
         visited = false;
+        numEdges = _numEdges;
+        xCoord = x;
+        yCoord = y;
         
         //handle Items
         itemCount = 0;
         numItems = _numItems;
         items = new Item[numItems];
 	}
-	
+
 	/**
-	 * Adds the edge and its cost to the edges array.
-	 * @param int toCity - the city's name to add
-	 * @param double edgeCost - the cost of the city to add
-	 */
-	public void addEdge(int toCity, double edgeCost) {
-		edges[toCity] = edgeCost;
+	*
+	*
+	*/
+	public double getX(){
+		return xCoord;
+	}
+
+	/**
+	*
+	*
+	*/
+	public double getY(){
+		return yCoord;
 	}
     
     /**
@@ -111,15 +121,7 @@ public class City {
 	public int getNodeNum() {
 		return node;
 	}
-	
-	/**
-	 * Gets the edge of the node
-	 * @return: double edges[city]: the cost of the edge
-	 */
-	public double getEdge(int city) {
-		return edges[city];
-	}
-	
+
 	/**
 	 * Sets whether a node has been visited.
 	 * @param boolean b - whether the node has been visited
@@ -143,7 +145,7 @@ public class City {
 	 */
 	public String toString(City toCity) {
 		int nextCity = toCity.getNodeNum();
-		return "CITY: " + node + ",\t COST TO CITY " + nextCity + " = " + edges[nextCity];
+		return "CITY: " + node + "\n";
 	}
 	
 	/* Methods for the 'Alec' algorithm */
@@ -161,10 +163,10 @@ public class City {
 	 * Set up the pheromone values for the city
 	 */
 	public void setupEdgePheromones() {
-		edgePheromone = new double[edges.length];
-		increaseRate = new double[edges.length];
-		decreaseRate = new double[edges.length];
-		for (int i = 0; i < edges.length; i++){
+		edgePheromone = new double[numEdges];
+		increaseRate = new double[numEdges];
+		decreaseRate = new double[numEdges];
+		for (int i = 0; i < numEdges; i++){
 			if (i != (node)){
 				edgePheromone[i] = PHEROMONE_MIN;
 			}
@@ -214,5 +216,15 @@ public class City {
 			edgePheromone[city] = PHEROMONE_MIN;
 		}
     }
-    
+
+    /**
+    * Used to simulate the distance matrix
+    *
+    */
+    public double distance(City city) {
+        double result = 0;
+        result = Math.sqrt((xCoord-city.getX()) * (xCoord-city.getX()) + (yCoord-city.getY()) * (yCoord-city.getY()));
+        
+        return result;
+    }
 }

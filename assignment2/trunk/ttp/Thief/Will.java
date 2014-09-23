@@ -30,7 +30,6 @@ public class Will {
     
     //TTP Variables
     private Item[] itemsArray;
-    private double[][] TTPGraph;
     private double minSpeed, maxSpeed;
     private long capacityOfKnapsack;
     private double rentingRatio;
@@ -40,13 +39,12 @@ public class Will {
      * Assign local variables
      * Initialise and create a new knapsack
      */
-    public Will(City[] _cities, Item[] _itemsArray, double[][] _TTPGraph, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
+    public Will(City[] _cities, Item[] _itemsArray, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
         cities = _cities;
         itemsArray = _itemsArray;
         minSpeed = _minSpeed;
         maxSpeed = _maxSpeed;
-        TTPGraph = _TTPGraph;
         capacityOfKnapsack = _capacityOfKnapsack;
         rentingRatio = _rentingRatio;
         
@@ -532,7 +530,7 @@ public class Will {
     * Modifies the global TSPSolution variable
     */
     private double useBestTTPAlgorithm(double bestCost){
-        Control control = new Control(TTPGraph, maxSpeed, minSpeed, knapsack);
+        Control control = new Control(maxSpeed, minSpeed, knapsack);
         int generations = 5000, populationSize = 50;
         int solutionSize = populationSize/2;
         double mutationPercentage = 0.10, operationPercentage = 0.90;
