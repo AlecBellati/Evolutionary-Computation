@@ -45,6 +45,9 @@ public class City {
         itemCount = 0;
         numItems = _numItems;
         items = new Item[numItems];
+		
+		
+		setupEdgePheromones();
 	}
 
 	/**
@@ -176,7 +179,7 @@ public class City {
 		edgePheromone = new double[numEdges];
 		for (int i = 0; i < numEdges; i++){
 			if (i != (node)){
-				edgePheromone[i] = PHEROMONE_MIN;
+				edgePheromone[i] = PHEROMONE_MAX;
 			}
 		}
 	}

@@ -150,7 +150,7 @@ public class Item {
 	 * Set up the pheromone value for the item
 	 */
 	public void setupPheromone(){
-		pheromone = PHEROMONE_MIN;
+		pheromone = (PHEROMONE_MAX + PHEROMONE_MIN) / 2;
 	}
 	
 	/**
