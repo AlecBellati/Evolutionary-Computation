@@ -47,7 +47,7 @@ public class City {
         items = new Item[numItems];
 		
 		
-		setupEdgePheromones();
+		//setupEdgePheromones();
 	}
 
 	/**

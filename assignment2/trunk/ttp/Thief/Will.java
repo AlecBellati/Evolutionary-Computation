@@ -16,6 +16,19 @@ import java.util.Random;
 import java.util.Collections;
 import java.util.Comparator;
 
+//optimal values (generations/iterations/items[good, random]/removal; Item choice function; Knapsack seed value)
+/*
+ * 279_279 = 5/all/all/all; convertOptimal(); Seed 2
+ * 279_1395 = 20/all/all/all; convertOptimal(); Seed 2
+ * 279_2790 = 5/all/all/all; convertOptimal(); Seed 2
+ * 4461_4461 = 1/all/all/all; convertOptimal(); Seed 2
+ * 4461_22300 = 10/8/all/all; convertOptimal(); Seed 2
+ * 4461_446100 = 1/25/all/all; convertOptimal(); Seed 4
+ * 33810_33809 = 6/5/7500,2500/all; pickBestItems(); Seed 4
+ * 33810_169045 = 1/12/2000,500/40000; pickBestItems(); Seed 4 (actually getting better results using runs from above)
+ * 33810_338090 = 1/NA/NA/all; pickBestItems(); Seed 4
+ */
+
 public class Will {
     
     //TSP Variables
@@ -97,13 +110,15 @@ public class Will {
         }
     }   
 
-
     /**
      * Generates an optimal knapsack for an optimal TSP tour
      * Does so by first generating a knapsack solution (choice of 4 algorithms)
      * Then find the best TSP solution (either use TSP algorithm or instance supplied)
      * Then adjusts the current optimal knapsack by injecting more items to see if it increases the profit
      * @param: ttp: the TTPInstance of this solution, used for the evaluate function
+     * @param: knapsackAlgorithm - how to seed the knapsack
+     * @param: TSPAlgorithm - how to generate the TSP solution
+     * @param: boolean randomChoice - if true, randomly pick items to add and remove
      */
     public void getSolution(TTPInstance ttp, int knapsackAlgorithm, int TSPAlgorithm, boolean randomChoice) {
         this.ttp = ttp;
@@ -121,26 +136,21 @@ public class Will {
 
             System.out.println("Iteration " + (i+1) + " Starting Cost: " + bestCost);
 
-            //gets the items that are not part of the knapsack solution
-            //need to check if the itemsListOptimalRemoved is properly doing its job with all the seed/solution functions
-            //also need to change the weighted cost function
-            
+            //gets the items that are not part of the knapsack solution           
             //Item[] itemsMinusOptimal = convertOptimal(itemsListOptimalRemoved);
             //Item[] itemsMinusOptimal = randomSelect(randomItems);
-            //Item[] itemsMinusOptimal = pickBestItems(goodItems, randomItems);
-            System.out.println("Converted Array!");
+            Item[] itemsMinusOptimal = pickBestItems(goodItems, randomItems);
+            //System.out.println("Converted Array!");
 
             //check if there is a more optimal solution using the items not already in the solution
-            bestCost = removeItemsKnapsack(bestCost, removal, false);
-            System.out.println("Removed some items! " + knapsack.getNumItems() + " left in the knapsack, " + itemsListOptimalRemoved.size() + " remaining.");
+            bestCost = removeItemsKnapsack(bestCost, removal, randomChoice);
+            //System.out.println("Removed some items! " + knapsack.getNumItems() + " left in the knapsack, " + itemsListOptimalRemoved.size() + " remaining.");
 
             int iterations = 5;
-
-            //perhaps this should check if it gets a better result by just adding it instead of replacing an item?
-            bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, true, bestCost, randomChoice, iterations);
+            bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, bestCost, randomChoice, iterations);
 
             itemsMinusOptimal = convertOptimal(itemsListTemp);
-            bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, true, bestCost, randomChoice, iterations);
+            bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, bestCost, randomChoice, iterations);
             
             //with the best knapsack, pass to the control algorithm to solve the tour based on the knapsack
             //bestCost = useBestTTPAlgorithm(bestCost);
@@ -153,11 +163,12 @@ public class Will {
     * Replaces each item in the knapsack with a new item and checks if the solution is better
     * If it is then the change remains in place
     * @param: currentItems: current set of items to place into the optimal solution to check if they make it better
-    * @param: optimalRemoved: do we need to check if the current item is already in the solution (for one of the arrays above we do)
     * @param: _bestCost: what is the current best cost
+    * @param: randomChoice: if true, choose items from the currentItems array at random
+    * @param: iterations: number of times that the algorithm will try and place the current Item into a better position
     * @return: double: current best cost
     */
-    private double checkBetterSolutionHeuristic(Item[] currentItems, boolean optimalRemoved, double _bestCost, boolean randomChoice, int iterations){
+    private double checkBetterSolutionHeuristic(Item[] currentItems, double _bestCost, boolean randomChoice, int iterations){
         double bestCost = _bestCost;
         boolean compare = false;
 
@@ -182,11 +193,12 @@ public class Will {
             int newIndex = -1;
 
             boolean added = false;
+            //check if it can just be added right away
             if(currentItem.getWeight() <= knapsack.getCurrentCapacity() && !compare){
                 knapsack.addItem(currentItem);
                 double newCost = calculateCost(bestCost);
 
-                //if its better, remember the index number and keep going
+                //if its better, set added to true so it won't be added again the function below
                 if(newCost > bestCost){
                     bestCost = newCost;
                     itemsListOptimalRemoved.remove(currentItem);
@@ -196,9 +208,10 @@ public class Will {
                 }
             }
 
+            //if the item was not added above, do the following
             if(!added){
 
-                //then place it in every position in the array to get its optimal position
+                //place the item in every position (or only a subset depending on the "iterations" variable) in the array to get its optimal position
                 for(int j = 0; j < iterations; j++){
                     int tempIndex = rnd.nextInt(knapsack.getNumItems());
 
@@ -224,6 +237,8 @@ public class Will {
                 //and placing it into the knapsack solution one last time
                 if(newIndex != -1){
                     itemsListTemp.add(knapsack.getItem(newIndex));
+
+                    //maintain the itemsList not in the knapsack
                     itemsListOptimalRemoved.remove(currentItem);
                     itemsListOptimalRemoved.add(knapsack.getItem(newIndex));
 
@@ -235,22 +250,8 @@ public class Will {
         return bestCost;
     }
 
-
     /**
-    * Takes the current itemArray and removes the items in the knapsack solution
-    * @param: optimal: the current knapsack solution
-    * @return: Item[]: returns a new Item[] without items in the knapsack
-    */
-    private Item[] convertOptimal(ArrayList<Item> itemsToConvert){
-        Item[] convert = new Item[itemsToConvert.size()];
-        for(int i = 0; i < itemsToConvert.size(); i++){          
-            convert[i] = itemsToConvert.get(i);
-        }
-        return convert;
-    }
-
-    /**
-    * Calculates the cost (profit) of the knapsack usin the TTPInstance evaluate function
+    * Calculates the cost (profit) of the knapsack using the TTPInstance evaluate function
     * @param: bestCost: the current best cost of the knapsack
     * @return: double: the cost of this solution
     */
@@ -261,11 +262,6 @@ public class Will {
         ttp.evaluate(tempSolution);
         double cost = tempSolution.getObjective();
 
-        if(bestCost == 0){
-            solution = tempSolution;
-            solution.println();
-        }
-
         if(cost > bestCost){
             solution = tempSolution;
         }
@@ -275,14 +271,15 @@ public class Will {
 
     /**
     * Remove some items from the knapsack and check if it gets a better cost
-    * Checks to ensure it removes an item from the optimal position
-    * If no further item is being removed, the function ends
-    * params - _bestCost: current best cost
+    * @param: _bestCost - current best cost
+    * @param: iterations - number of items to remove
+    * @oaram: random - if true, pick items at random
     */
     private double removeItemsKnapsack(double _bestCost, int iterations, boolean random){
         double bestCost = _bestCost;
         Random rnd = new Random();
 
+        //check boundary size just in case
         if(iterations > knapsack.getNumItems()){
             iterations = knapsack.getNumItems();
         }
@@ -302,44 +299,8 @@ public class Will {
             if(newCost > bestCost){
                 bestCost = newCost;
                 itemsListOptimalRemoved.add(temp);
-                //itemsListTemp.add(temp);
             }else{
                 knapsack.addItem(pos, temp);
-            }
-        }
-
-        return bestCost;
-    }
-
-    /**
-    * Add some items to the knapsack and check if it gets a better cost
-    * If no further item can be added, the function ends
-    * params - _bestCost: current best cost
-    */
-    private double addItemsKnapsack(double _bestCost, boolean random){
-        double bestCost = _bestCost;
-        Random rand = new Random();
-
-        //check all the items that are not currently in the knapsack
-        for(int j = itemsListOptimalRemoved.size()-1; j >= 0 ; j--){
-            int pos = j;
-            if(random){
-                pos = rand.nextInt(itemsListOptimalRemoved.size());
-            }
-
-            Item temp = itemsListOptimalRemoved.get(pos);
-            if(temp.getWeight() <= knapsack.getCurrentCapacity() && !knapsack.containsItem(temp)){
-                knapsack.addItem(temp);
-                double newCost = calculateCost(bestCost);
-
-                //if its better, remember the index number and keep going
-                if(newCost > bestCost){
-                    bestCost = newCost;
-                    itemsListOptimalRemoved.remove(temp);
-                }else{
-                    //remove the item to obtain the original knapsack
-                    knapsack.removeItem(temp);
-                }
             }
         }
 
@@ -354,21 +315,27 @@ public class Will {
     */
     private Item[] pickBestItems(int good, int random){
         Item[] pickedItems = new Item[good+random];
-         ArrayList<Item> itemsList = new ArrayList<Item>();
+        ArrayList<Item> itemsList = new ArrayList<Item>();
+
+        //get the sorted list of items by weighted cost
         if(good > 0){
             itemsList = sortByWeightedCost(convertOptimal(itemsListOptimalRemoved));
         }
 
+        //check boundary size
         if(good > itemsList.size()){
             good = itemsList.size();
         }
+        //get the top items specified by the "good" variable
         for(int i = 0; i < good; i++){
             pickedItems[i] = itemsList.get(i);
         }
 
+        //check boundary size
         if(random > itemsList.size()){
             random = itemsList.size();
         }
+        //then just pick at random for the remainder
         Random rnd = new Random();
         for(int i = good; i < (good+random); i++){
             pickedItems[i] = itemsList.get(rnd.nextInt(itemsList.size()));
@@ -389,30 +356,6 @@ public class Will {
         }
         Collections.shuffle(dataList);
         return dataList;
-    }
-
-    /**
-    * 
-    *
-    * @param - pick:
-    * @param - top:
-    * @return - Item[]:
-    */
-    private Item[] randomSelect(int top){
-        Random rand = new Random();
-        List<Integer> itemsList = shuffleArray(itemsListOptimalRemoved.size());
-        Item[] pickedItems = convertOptimal(itemsListOptimalRemoved);
-        ArrayList<Item> sortedItems = sortByWeightedCost(pickedItems);
-
-        pickedItems = new Item[top];
-        for(int i = 0; i < sortedItems.size(); i++){
-            if(i < top){
-                pickedItems[i] = sortedItems.get(i);
-            }else{
-                itemsListOptimalRemoved.add(sortedItems.get(i));
-            }
-        }
-        return pickedItems;
     }
 
     /**
@@ -455,7 +398,127 @@ public class Will {
         itemsListOptimalRemoved = itemsList;
     }
 
+
     /**
+    * Sorts the items in the itemsArray by a weighted cost
+    * @param: itemsToSort - Items that need sorting!
+    * @return: ArrayList<Item>: List containing sorted items from highest to lowest weighted cost
+    * Weighted costs is dependant on where it is in the tour as well as its profit/weight ratio
+    */
+    private ArrayList<Item> sortByWeightedCost(Item[] itemsToSort) {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsToSort));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)(((i2.getProfit()/i2.getWeight())*i2.getCityNum()) - ((i1.getProfit()/i1.getWeight())*i1.getCityNum()));
+            }
+        });
+        return itemsList;
+    }
+
+    /**
+    * Sorts the items in the itemsArray by cost
+    * @return: ArrayList<Item>: List containing sorted items from highest to lowest cost
+    */
+    private ArrayList<Item> sortByCost() {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)((i2.getProfit()/i2.getWeight()) - (i1.getProfit()/i1.getWeight()));
+            }
+        });
+        return itemsList;
+    }
+
+    /**
+    * Using the given instance, loads the cities into a TSPInstance for use
+    * Uses to Optimisation.linkernTour method to extract the cities from file
+    * Modifies the global TSPSolution variable
+    */
+    private void useInstance(){
+        int[] tour = Optimisation.linkernTour(ttp);
+        TSPSolution = new Individual(tour.length-1);
+        for(int i = 0; i < tour.length-1; i++){
+            int currentCity = tour[i];
+            City current;
+            for(int j = 0; j < cities.length; j++){
+                current = cities[j];
+
+                if(current.getNodeNum() == currentCity){
+                    TSPSolution.setCity(i, current);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+    * Converts and ArrayList<Item> to an Item[]
+    * @param: optimal: the current knapsack solution
+    * @return: Item[]: returns a new Item[] without items in the knapsack
+    */
+    private Item[] convertOptimal(ArrayList<Item> itemsToConvert){
+        return itemsToConvert.toArray(new Item[itemsToConvert.size()]);
+    }
+    
+    /**
+     * Function that gets called when time is up
+     * @return: TTPSolution: solution after 10 minutes
+     */
+    public TTPSolution getBestSolution() {        
+        //check to see if null no solution has been found
+        if(TSPSolution == null) {
+            System.out.println("Will: TSPSolution has not been found");
+            return null;
+        }
+        
+        //create TTP variables
+        //int[] tspTour = TSPSolution.getCitiesByID();
+        //int[] packingPlan = knapsack.getPackingPlan(TSPSolution, itemsArray.length);
+        
+        //create a new solution
+        //solution = new TTPSolution(tspTour, packingPlan);
+        
+        //exit
+        return solution;
+    }
+
+
+
+
+    /***************************
+     ********* NOT USED ********
+     ***************************/
+    //but were useful for the testing process and hence have been preserved here
+
+    /**
+    * Randomly pick items from the itemsArray
+    * Uses sortByWeightedCost to ensure a uniform order to choose from
+    * @param - top: max number to pick
+    * @return - Item[]: "top" number of Items randomly chosen
+    */
+    private Item[] randomSelect(int top){
+        Random rand = new Random();
+        List<Integer> itemsList = shuffleArray(itemsListOptimalRemoved.size());
+        Item[] pickedItems = convertOptimal(itemsListOptimalRemoved);
+        ArrayList<Item> sortedItems = sortByWeightedCost(pickedItems);
+
+        pickedItems = new Item[top];
+        for(int i = 0; i < sortedItems.size(); i++){
+            if(i < top){
+                pickedItems[i] = sortedItems.get(i);
+            }else{
+                //maintains the items not in the knapsack
+                itemsListOptimalRemoved.add(sortedItems.get(i));
+            }
+        }
+        return pickedItems;
+    }
+
+        /**
     * Seeds the knapsack with the items having the highest weighted cost
     * Calls the sortByWeightedCost() method to achieve this
     * Modifies the global knapsack variable
@@ -535,39 +598,6 @@ public class Will {
         return itemsList;
     }
 
-    /**
-    * CHANGE THIS TO WEIGHTED COST!!!
-    * Sorts the items in the itemsArray by a weighted cost
-    * @return: ArrayList<Item>: List containing sorted items from highest to lowest weighted cost
-    * Weighted costs is dependant on where it is in the tour as well as its profit/weight ratio
-    */
-    private ArrayList<Item> sortByWeightedCost(Item[] itemsToSort) {
-        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsToSort));
-        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-        Collections.sort(itemsList, new Comparator<Item>() {
-            @Override
-            public int compare (Item i1, Item i2) {
-                return (int)(((i2.getProfit()/i2.getWeight())*i2.getCityNum()) - ((i1.getProfit()/i1.getWeight())*i1.getCityNum()));
-            }
-        });
-        return itemsList;
-    }
-
-    /**
-    * Sorts the items in the itemsArray by cost
-    * @return: ArrayList<Item>: List containing sorted items from highest to lowest cost
-    */
-    private ArrayList<Item> sortByCost() {
-        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
-        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-        Collections.sort(itemsList, new Comparator<Item>() {
-            @Override
-            public int compare (Item i1, Item i2) {
-                return (int)((i2.getProfit()/i2.getWeight()) - (i1.getProfit()/i1.getWeight()));
-            }
-        });
-        return itemsList;
-    }
 
     /**
     * Sorts the items in the itemsArray by the TSP tour
@@ -588,28 +618,6 @@ public class Will {
         }
 
         return sortedItemsList;
-    }
-
-    /**
-    * Using the given instance, loads the cities into a TSPInstance for use
-    * Uses to Optimisation.linkernTour method to extract the cities from file
-    * Modifies the global TSPSolution variable
-    */
-    private void useInstance(){
-        int[] tour = Optimisation.linkernTour(ttp);
-        TSPSolution = new Individual(tour.length-1);
-        for(int i = 0; i < tour.length-1; i++){
-            int currentCity = tour[i];
-            City current;
-            for(int j = 0; j < cities.length; j++){
-                current = cities[j];
-
-                if(current.getNodeNum() == currentCity){
-                    TSPSolution.setCity(i, current);
-                    break;
-                }
-            }
-        }
     }
 
     /**
@@ -648,29 +656,5 @@ public class Will {
             newCost = bestCost;
         }
         return newCost;
-    }
-    
-    /**
-     * Function that gets called when time is up
-     * @return: TTPSolution: solution after 10 minutes
-     */
-    public TTPSolution getBestSolution() {
-        System.out.println("Will: Execution has ended, return the best solution");
-        
-        //check to see if null no solution has been found
-        if(TSPSolution == null) {
-            System.out.println("Will: TSPSolution has not been found");
-            return null;
-        }
-        
-        //create TTP variables
-        int[] tspTour = TSPSolution.getCitiesByID();
-        int[] packingPlan = knapsack.getPackingPlan(TSPSolution, itemsArray.length);
-        
-        //create a new solution
-        solution = new TTPSolution(tspTour, packingPlan);
-        
-        //exit
-        return solution;
     }
 }

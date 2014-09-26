@@ -132,14 +132,16 @@ public class TTPInstance {
         will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
         will.getSolution(this, 4, 1, false);
         
-        getBestSolution();
+        getBestSolution(false);
     }
     
     /**
      * Timer has expired, get the best solution from the thief and exit the program
      */
-    public void getBestSolution() {
-        System.out.println("TTPInstance: Getting TTPSolution");
+    public void getBestSolution(boolean intermediate) {
+        if(!intermediate){
+            System.out.println("TTPInstance: Getting Final TTPSolution");
+        }
         String name = "";
         //solution = alec.getBestSolution(); name = "Alec";
         //solution = matt.getBestSolution(); name = "Matt";
@@ -148,20 +150,24 @@ public class TTPInstance {
         
         
         //create file name (calling convention is: <ttpfile>.<algorithmname>.<systemtime>)
-        String filename = problemName + "." + name + "."+ System.currentTimeMillis();
+        String filename = problemName + "_n" + itemsArray.length + "." + name + "."+ System.currentTimeMillis() + ".ttp";
         
         //Check if solution exists
         if(solution == null) {
             System.out.println("TTPInstance: No Solution Available!");
         } else {
-            System.out.println("TTPInstance: Solution Exists! Evalutating and Writing Solution to File");
-            evaluate(solution);
+            if(!intermediate){
+                System.out.println("TTPInstance: Solution Exists! Evalutating and Writing Solution to File");
+                evaluate(solution);
+                solution.writeResult(filename);
+            }
             solution.println();
-            solution.writeResult(filename);
             System.out.println("Total profit = " + solution.getObjective());
         }
         
-        System.out.println("TTPInstance: exiting program");
+        if(!intermediate){
+            System.out.println("TTPInstance: exiting program");
+        }
     }
     
     

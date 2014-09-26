@@ -53,9 +53,15 @@ public class Driver {
                     System.out.println("Starting Timer");
                     
                 //after the initial call, output results and kill the program
-                } else {
-                    System.out.println("Driver: Timer Has Expired");
-                    ttp.getBestSolution();
+                }else if(counter == 2){
+                    System.out.println("\nSolution after two minutes:");
+                    ttp.getBestSolution(true);
+                }else if(counter == 5){
+                    System.out.println("\nSolution after five minutes:");
+                    ttp.getBestSolution(true);
+                }else if(counter == 10){
+                    System.out.println("\nDriver: Timer Has Expired");
+                    ttp.getBestSolution(false);
                     System.out.println("Driver: Exiting Program");
                     System.exit(1);
                 }
@@ -64,7 +70,7 @@ public class Driver {
         };
         
         Timer timer = new Timer("MyTimer");
-        timer.scheduleAtFixedRate(timerTask, 0, TENMINUTES);
+        timer.scheduleAtFixedRate(timerTask, 0, 60000);
     }
     
     
