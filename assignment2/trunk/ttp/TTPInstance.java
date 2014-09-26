@@ -130,7 +130,7 @@ public class TTPInstance {
         //matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
         will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
-        will.getSolution(this, 2, 1, true);
+        will.getSolution(this, 4, 1, false);
         
         getBestSolution();
     }
