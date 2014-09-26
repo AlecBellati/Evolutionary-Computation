@@ -24,10 +24,9 @@ public class City {
 	
 	/** Attributes for 'Alec' algorithm */
 	private double[] edgePheromone;
-	private double[] increaseRate;
-	private double[] decreaseRate;
 	private final double PHEROMONE_MIN = 1.0;
 	private final double PHEROMONE_MAX = 9999999.0;
+    private final double PHEROMONE_DECREASE_RATE = 1.0;
     
     /**
 	 * Constructor of a City.
@@ -147,6 +146,17 @@ public class City {
 		int nextCity = toCity.getNodeNum();
 		return "CITY: " + node + "\n";
 	}
+
+    /**
+    * Used to simulate the distance matrix
+    *
+    */
+    public double distance(City city) {
+        double result = 0;
+        result = Math.sqrt((xCoord-city.getX()) * (xCoord-city.getX()) + (yCoord-city.getY()) * (yCoord-city.getY()));
+        
+        return result;
+    }
 	
 	/* Methods for the 'Alec' algorithm */
 	
@@ -164,8 +174,6 @@ public class City {
 	 */
 	public void setupEdgePheromones() {
 		edgePheromone = new double[numEdges];
-		increaseRate = new double[numEdges];
-		decreaseRate = new double[numEdges];
 		for (int i = 0; i < numEdges; i++){
 			if (i != (node)){
 				edgePheromone[i] = PHEROMONE_MIN;
@@ -174,31 +182,12 @@ public class City {
 	}
 	
 	/**
-	 * Set the increase rate of edge to a city
-	 * @param: int: the city num at the end of the edge
-	 * @param: double: the increase rate
-	 */
-	public void setIncreaseRate(int city, double rate) {
-		increaseRate[city] = rate;
-		
-		increasePheromone(city);
-	}
-	
-	/**
-	 * Set the decrease rate of edge to a city
-	 * @param: int: the city num at the end of the edge
-	 * @param: double: the decrease rate
-	 */
-	public void setDecreaseRate(int city, double rate) {
-		decreaseRate[city] = rate;
-	}
-	
-	/**
      * Increase the pheromone value of this edge to 'city'
 	 * @param: int: The city num at the city at the end of the edge
+     * @param: double: The amount the pheromone should be increased by
      */
-    public void increasePheromone(int city){
-        edgePheromone[city] = edgePheromone[city] + increaseRate[city];
+    public void increasePheromone(int city, double amount){
+        edgePheromone[city] = edgePheromone[city] + amount;
 		
 		if (edgePheromone[city] > PHEROMONE_MAX){
 			edgePheromone[city] = PHEROMONE_MAX;
@@ -210,21 +199,10 @@ public class City {
 	 * @param: int: The city num of the city at the end of the edge
      */
     public void decreasePheromone(int city){
-        edgePheromone[city] = edgePheromone[city] - decreaseRate[city];
+        edgePheromone[city] = edgePheromone[city] - PHEROMONE_DECREASE_RATE;
 		
 		if (edgePheromone[city] < PHEROMONE_MIN){
 			edgePheromone[city] = PHEROMONE_MIN;
 		}
-    }
-
-    /**
-    * Used to simulate the distance matrix
-    *
-    */
-    public double distance(City city) {
-        double result = 0;
-        result = Math.sqrt((xCoord-city.getX()) * (xCoord-city.getX()) + (yCoord-city.getY()) * (yCoord-city.getY()));
-        
-        return result;
     }
 }
