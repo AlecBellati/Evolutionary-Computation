@@ -34,7 +34,7 @@ public class Alec {
 	/** Randomiser */
 	private Random rnd;
 	
-    /**
+	/**
      * CONSTRUCTOR
      */
     public Alec(City[] cities, Item[] items, long capacityOfKnapsack) {
@@ -64,8 +64,12 @@ public class Alec {
 			
 			// Get the solutions
 			for (int i = 0; i < POPULATION_SIZE; i++){
-				popTSP[i] = getTSPSolution();
-				popKnap[i] = getKnapsackSolution(popTSP[i]);
+				//popTSP[i] = getTSPSolution();
+				//popKnap[i] = getKnapsackSolution(popTSP[i]);
+				popKnap[i] = getKnapsackSolution();
+				popTSP[i] = getTSPSolution(popKnap[i]);
+				
+				
 				packingPlan = popKnap[i].getPackingPlan(popTSP[i], items.length);
 				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), packingPlan);
 			}
@@ -79,9 +83,9 @@ public class Alec {
 			// Print the cost of the best solution found
 			if (bestCost > currBest){
 				System.out.println("****" + g + ": " + bestCost + "****");
-				popTTP[0].println();
-				popTSP[0].print();
-				popKnap[0].print();
+				//popTTP[0].println();
+				//popTSP[0].print();
+				//popKnap[0].print();
 				
 				currBest = bestCost;
 			}
@@ -156,7 +160,127 @@ public class Alec {
 	}
 	
 	/**
-	 * Get an pack plan for a tsp solution
+	 * Get an tsp solution based on a knapsack
+	 * @param: Knapsack: The knapsack the thief plans to fill
+	 * @return: Individual: The tsp solution
+	 */
+	private Individual getTSPSolution(Knapsack plan){
+		Individual tspSol = new Individual(cities.length);
+		
+		Boolean[] taken = new Boolean[cities.length];
+		Arrays.fill(taken, false);
+		
+		// Set the first city
+		tspSol.setCity(0, cities[0]);
+		taken[0] = true;
+		
+		// Get the path to the items in order of heaviest to lightest
+		int[] itemIDs = plan.getItemsByID();
+		double max;
+		City maxLoc, nextCity;
+		Item nextItem;
+		int last = cities.length - 1;
+		for (int i = 0; i < itemIDs.length; i++){
+			max = Double.NEGATIVE_INFINITY;
+			maxLoc = null;
+			
+			for (int j = 0; j < itemIDs.length; j++){
+				nextItem = items[itemIDs[j]];
+				nextCity = cities[nextItem.getCityNum()];
+				if (!taken[nextCity.getNodeNum()] && nextItem.getWeight() > max){
+					maxLoc = nextCity;
+					max = nextItem.getWeight();
+				}
+			}
+			
+			if (maxLoc != null){
+				tspSol.setCity(last, maxLoc);
+				taken[maxLoc.getNodeNum()] = true;
+				last--;
+			}
+		}
+		
+		// Get the path to the remaining items
+		City currentCity = tspSol.getCityByIndex(0);
+		int i, j;
+		double totalProb, next, current, total;
+		
+		for (i = 1; i <= last; i++){
+			// Get the total pheromone values for each valid edge
+			totalProb = 0.0;
+			for (j = 1; j < cities.length; j++){
+				if (!taken[j]){
+					totalProb += currentCity.getEdgePheromone(j);
+				}
+			}
+			
+			// Get the next city
+			next = rnd.nextDouble();
+			total = 0.0;
+			j = 0;
+			while (j < (cities.length - 1) && total <= next){
+				j++;
+				
+				if (!taken[j]){
+					current = currentCity.getEdgePheromone(j) / totalProb;
+					total += current;
+				}
+			}
+			
+			currentCity = cities[j];
+			tspSol.setCity(i, currentCity);
+			taken[j] = true;
+		}
+		
+		return tspSol;
+	}
+	
+	/**
+	 * Fill a knapsack
+	 * @return: Knapsack: The knapsack for a ttp solution
+	 */
+	private Knapsack getKnapsackSolution(){
+		Knapsack knapSol = new Knapsack(capacityOfKnapsack);
+		
+		// Add items to the knapsack
+		double itemProb, takeProb;
+		for (int i = 0; i < items.length; i++){
+			if (knapSol.getCurrentCapacity() >= items[i].getWeight()){
+				itemProb = items[i].getProbability();
+				takeProb = rnd.nextDouble();
+				if (itemProb > takeProb){
+					knapSol.addItem(items[i]);
+				}
+			}
+		}
+		
+		// Sort the items by ratio
+		// Note: this isn't sorting the most efficient way but I just wanted to get this done so watevz
+		Item[] knapItems = knapSol.getItems();
+		Item currItem, nextItem;
+		for (int i = 0; i < knapItems.length; i++){
+			currItem = knapItems[i];
+			for (int j = i + 1; j < knapItems.length; j++){
+				nextItem = knapItems[j];
+				if (currItem.profitToWeightRatio() > nextItem.profitToWeightRatio()){
+					knapItems[i] = nextItem;
+					knapItems[j] = currItem;
+					currItem = nextItem;
+				}
+			}
+		}
+		
+		// Remove items from the knapsack
+		int removalAmount = rnd.nextInt(knapItems.length);
+		for (int i = 0; i < removalAmount; i++){
+			knapSol.removeItem(knapItems[i]);
+		}
+		
+		return knapSol;
+	}
+	
+	/**
+	 * Fill a knapsack for a given tsp solution
 	 * @param: Individual: The tsp solution
 	 * @return: Knapsack: The packing plan for the tsp solution
 	 */
@@ -256,10 +380,16 @@ public class Alec {
 	 * @param: Knapsack[]: The population of corresponding knapsacks
 	 */
 	private void updatePheromone(TTPSolution[] popTTP, Individual[] popTSP, Knapsack[] popKnap){
+		// Decrease the item pheromones
+		for (int i = 0; i < items.length; i++){
+			items[i].decreasePheromone();
+		}
+		
+		// Increase the edge pheromones
 		for (int solution = 0; solution < popTTP.length; solution++){
 			// Get the increase rate for this solution
 			double cost = popTTP[solution].getObjective();
-			double increaseRate = bestCost / cost;
+			double increaseRate = cost / bestCost;
 			
 			// Update the edge pheromones
 			for (int i = 0; i < popTSP.length; i++){
@@ -275,6 +405,13 @@ public class Alec {
 				for (int j = 0; j < currKnap.length; j++){
 					items[currKnap[j]].increasePheromone(increaseRate);
 				}
+			}
+		}
+		
+		// Decrease the edge pheromones
+		for (int i = 0; i < cities.length; i++){
+			for (int j = 0; j < cities.length; j++){
+				cities[i].decreasePheromone(j);
 			}
 		}
 	}
