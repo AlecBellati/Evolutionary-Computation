@@ -197,6 +197,7 @@ public class TTPInstance {
             runWill(choice);
             
             getBestSolution(false);
+            System.out.println();
         }
     }
     
