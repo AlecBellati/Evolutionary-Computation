@@ -271,15 +271,41 @@ public class Alec {
 	private Knapsack getKnapsackSolution(){
 		Knapsack knapSol = new Knapsack(capacityOfKnapsack);
 		
-		// Add items to the knapsack
-		double itemProb, takeProb;
+		// Get the total chance of each item being chosen
+		double totalProb = 0.0;
 		for (int i = 0; i < items.length; i++){
-			if (knapSol.getCurrentCapacity() >= items[i].getWeight()){
-				itemProb = items[i].getProbability();
-				takeProb = rnd.nextDouble();
-				if (itemProb > takeProb){
-					knapSol.addItem(items[i]);
+			totalProb += items[i].getPheromone() * items[i].getAttractiveness();
+		}
+		
+		// Fill the knapsack
+		Boolean[] taken = new Boolean[items.length];
+		Arrays.fill(taken, false);
+		taken[0] = true;
+		
+		double next, current, total;
+		
+		boolean findMore = true;
+		while (findMore){
+			// Get the next item
+			next = rnd.nextDouble();
+			total = 0.0;
+			int i = -1;
+			while (i < (items.length - 1) && total <= next){
+				i++;
+				
+				if (!taken[i]){
+					current = items[i].getPheromone() * items[i].getAttractiveness();
+					total += current / totalProb;
 				}
+			}
+			
+			if (items[i].getWeight() <= knapSol.getCurrentCapacity()){
+				knapSol.addItem(items[i]);
+				total -= items[i].getPheromone() * items[i].getAttractiveness();
+				taken[i] = true;
+			}
+			else {
+				findMore = false;
 			}
 		}
 		

@@ -21,6 +21,7 @@ public class Item {
 	
 	/** Attributes for 'Alec' algorithm */
 	private double pheromone;
+	private double attractiveness;
 	private final double PHEROMONE_MIN = 1.0;
 	private final double PHEROMONE_MAX = 100.0;
     private final double PHEROMONE_DECREASE_RATE = 1.0;
@@ -139,6 +140,14 @@ public class Item {
     }
     
     /**
+     * Get the attractiveness of this item
+     * @return: double: the attractiveness of the item
+     */
+    public double getAttractiveness(){
+		return attractiveness;
+    }
+    
+    /**
      * Get the probability of taking the item
      * @return: double: the probability of taking the item
      */
@@ -147,10 +156,11 @@ public class Item {
     }
     
     /**
-	 * Set up the pheromone value for the item
+	 * Set up the pheromone value for the item as well as the attractiveness
 	 */
 	public void setupPheromone(){
 		pheromone = PHEROMONE_MIN;
+		attractiveness = 1 / (double)weight;
 	}
 	
 	/**
