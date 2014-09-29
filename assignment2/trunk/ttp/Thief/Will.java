@@ -18,9 +18,9 @@ import java.util.Comparator;
 
 //optimal values (generations/iterations/items[good, random]/removal; Item choice function; Knapsack seed value)
 /*
- * 279_279 = 5/all/all/all; convertOptimal(); Seed 2
- * 279_1395 = 20/all/all/all; convertOptimal(); Seed 2
- * 279_2790 = 5/all/all/all; convertOptimal(); Seed 2
+ * 279_279 = 10/all/all/all; convertOptimal(); Seed 2
+ * 279_1395 = 10/all/all/all; convertOptimal(); Seed 2
+ * 279_2790 = 6/all/all/all; convertOptimal(); Seed 2
  * 4461_4461 = 1/all/all/all; convertOptimal(); Seed 2
  * 4461_22300 = 10/8/all/all; convertOptimal(); Seed 2
  * 4461_446100 = 1/25/all/all; convertOptimal(); Seed 4
@@ -120,7 +120,7 @@ public class Will {
      * @param: TSPAlgorithm - how to generate the TSP solution
      * @param: boolean randomChoice - if true, randomly pick items to add and remove
      */
-    public void getSolution(TTPInstance ttp, int knapsackAlgorithm, int TSPAlgorithm, boolean randomChoice) {
+    public void getSolution(TTPInstance ttp, int knapsackAlgorithm, int TSPAlgorithm, int generations, int _iterations, int[] itemChoice) {
         this.ttp = ttp;
         System.out.println("Will: Running Program");
 
@@ -128,25 +128,40 @@ public class Will {
         generateTSP(TSPAlgorithm);
         generateKnapsack(knapsackAlgorithm);
         double bestCost = calculateCost(Integer.MIN_VALUE);
-        int goodItems = 7500, randomItems = 2500;
+        boolean randomChoice = false;
         
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < generations; i++){
             itemsListTemp = new ArrayList<Item>();
+            
+            //if there are more than 160000 items, we will spend most of the time just removing items!
             int removal = knapsack.getNumItems();
+            if(itemsArray.length > 160000){
+                removal = 40000;
+            }
 
             System.out.println("Iteration " + (i+1) + " Starting Cost: " + bestCost);
 
-            //gets the items that are not part of the knapsack solution           
-            //Item[] itemsMinusOptimal = convertOptimal(itemsListOptimalRemoved);
-            //Item[] itemsMinusOptimal = randomSelect(randomItems);
-            Item[] itemsMinusOptimal = pickBestItems(goodItems, randomItems);
-            //System.out.println("Converted Array!");
+            //pick the items to try and inject into the knapsack          
+            Item[] itemsMinusOptimal;
+            if(itemChoice == null){
+                itemsMinusOptimal = convertOptimal(itemsListOptimalRemoved);
+            }else if(itemChoice.length == 1){
+                itemsMinusOptimal = randomSelect(itemChoice[0]);
+            }else if(itemChoice.length == 2){
+                itemsMinusOptimal = pickBestItems(itemChoice[0], itemChoice[1]);
+            }else{
+                itemsMinusOptimal = convertOptimal(itemsListOptimalRemoved);
+            }
 
             //check if there is a more optimal solution using the items not already in the solution
             bestCost = removeItemsKnapsack(bestCost, removal, randomChoice);
             //System.out.println("Removed some items! " + knapsack.getNumItems() + " left in the knapsack, " + itemsListOptimalRemoved.size() + " remaining.");
 
-            int iterations = 5;
+            int iterations = knapsack.getNumItems();
+            if(_iterations != -1){
+                iterations = _iterations;
+            }
+
             bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, bestCost, randomChoice, iterations);
 
             itemsMinusOptimal = convertOptimal(itemsListTemp);
@@ -178,7 +193,7 @@ public class Will {
         int pos = 0;
         //check every item we are sent
         while(listOfItems.size() > 0 && pos < currentItems.length){
-            //System.out.println(pos);
+
             Item currentItem = null;
             //depending on the supplied boolean, either choose an item randomly or just get the next item
             if(randomChoice){

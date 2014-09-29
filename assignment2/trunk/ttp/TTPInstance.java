@@ -126,11 +126,11 @@ public class TTPInstance {
         /********************
          * CREATE YOUR THIEF*
          ********************/
-        alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
+        //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
         //matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
-        //will.getSolution(this, 4, 1, false);
+        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
+        will.getSolution(this, 2, 1, 5, -1, null);
         
         getBestSolution(false);
     }
@@ -143,10 +143,10 @@ public class TTPInstance {
             System.out.println("TTPInstance: Getting Final TTPSolution");
         }
         String name = "";
-        solution = alec.getBestSolution(); name = "Alec";
+        //solution = alec.getBestSolution(); name = "Alec";
         //solution = matt.getBestSolution(); name = "Matt";
         //solution = sami.getBestSolution(); name = "Sami";
-        //solution = will.getBestSolution(); name = "Will";
+        solution = will.getBestSolution(); name = "Will";
         
         
         //create file name (calling convention is: <ttpfile>.<algorithmname>.<systemtime>)
