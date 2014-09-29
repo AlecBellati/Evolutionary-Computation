@@ -160,7 +160,7 @@ public class Item {
 	 */
 	public void setupPheromone(){
 		pheromone = PHEROMONE_MIN;
-		attractiveness = 1 / (double)weight;
+		attractiveness = profitToWeightRatio();
 	}
 	
 	/**

@@ -113,6 +113,11 @@ public class Alec {
 					currCity = nextCity;
 				}
 				*/
+				/*
+				for (int i = 1; i < popKnap[0].getNumItems(); i++){
+					System.out.println(items[popKnap[0].getItem(i).getItemNum()].getPheromone());
+				}
+				*/
 			}
 			
 		}
@@ -461,7 +466,14 @@ public class Alec {
 		for (int solution = 0; solution < popTTP.length; solution++){
 			// Get the increase rate for this solution
 			double cost = popTTP[solution].getObjective();
-			double increaseRate = cost / bestCost;
+			double increaseRate;
+			
+			if (bestCost >= 0 && cost < 0){
+				increaseRate = cost * -1 / bestCost;
+			}
+			else{
+				increaseRate = cost / bestCost;
+			}
 			
 			// Update the edge pheromones
 			for (int i = 0; i < popTSP.length; i++){
