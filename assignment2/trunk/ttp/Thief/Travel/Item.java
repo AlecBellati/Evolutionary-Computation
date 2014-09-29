@@ -22,7 +22,7 @@ public class Item {
 	/** Attributes for 'Alec' algorithm */
 	private double pheromone;
 	private final double PHEROMONE_MIN = 1.0;
-	private final double PHEROMONE_MAX = 9999999.0;
+	private final double PHEROMONE_MAX = 100.0;
     private final double PHEROMONE_DECREASE_RATE = 1.0;
     
     /**
@@ -150,7 +150,15 @@ public class Item {
 	 * Set up the pheromone value for the item
 	 */
 	public void setupPheromone(){
-		pheromone = PHEROMONE_MAX;
+		pheromone = PHEROMONE_MIN;
+	}
+	
+	/**
+	 * Set the pheromone value
+	 * @param: double: The amount to set the pheromone value
+     */
+	public void setPheromone(double pheromone) {
+		this.pheromone = pheromone;
 	}
 	
 	/**

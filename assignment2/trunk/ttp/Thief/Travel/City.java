@@ -25,8 +25,8 @@ public class City {
 	/** Attributes for 'Alec' algorithm */
 	private double[] edgePheromone;
 	private final double PHEROMONE_MIN = 1.0;
-	private final double PHEROMONE_MAX = 9999999.0;
-    private final double PHEROMONE_DECREASE_RATE = 1.0;
+	private final double PHEROMONE_MAX = 99999.0;
+    private final double PHEROMONE_DECREASE_RATE = 50.0;
     
     /**
 	 * Constructor of a City.
@@ -47,7 +47,7 @@ public class City {
         items = new Item[numItems];
 		
 		
-		//setupEdgePheromones();
+		setupEdgePheromones();
 	}
 
 	/**
@@ -179,9 +179,18 @@ public class City {
 		edgePheromone = new double[numEdges];
 		for (int i = 0; i < numEdges; i++){
 			if (i != (node)){
-				edgePheromone[i] = PHEROMONE_MAX;
+				edgePheromone[i] = PHEROMONE_MIN;
 			}
 		}
+	}
+	
+	/**
+	 * Set a pheromone values to a city
+	 * @param: int: The city num at the city at the end of the edge
+     * @param: double: The amount to set the pheromone value
+     */
+	public void setEdgePheromone(int city, double pheromone) {
+		edgePheromone[city] = pheromone;
 	}
 	
 	/**

@@ -26,9 +26,17 @@ public class Alec {
 	/* Capacity of the knapsack */
 	private long capacityOfKnapsack;
 	
+	/** Populations */
+	/* The population of TSP tours */
+	private Individual[] popTSP;
+	/* The population of the knapsacks */
+	private Knapsack[] popKnap;
+	/* The population of TTP tours */
+	private TTPSolution[] popTTP;
+	
 	/** Algorithm parameters */
-	private final int POPULATION_SIZE = 100;
-	private final int SELECTION_SIZE = 50;
+	private final int POPULATION_SIZE = 50;
+	private final int SELECTION_SIZE = 10;
 	private final int GENERATIONS = 10000;
 	
 	/** Randomiser */
@@ -57,28 +65,35 @@ public class Alec {
 		
 		//for (int g = 0; g < GENERATIONS; g++){
 		for (int g = 0; true; g++){
-			Individual[] popTSP = new Individual[POPULATION_SIZE];
-			Knapsack[] popKnap = new Knapsack[POPULATION_SIZE];
-			TTPSolution[] popTTP = new TTPSolution[POPULATION_SIZE];
+			popTSP = new Individual[POPULATION_SIZE];
+			popKnap = new Knapsack[POPULATION_SIZE];
+			popTTP = new TTPSolution[POPULATION_SIZE];
 			int[] packingPlan;
 			
 			// Get the solutions
 			for (int i = 0; i < POPULATION_SIZE; i++){
-				//popTSP[i] = getTSPSolution();
-				//popKnap[i] = getKnapsackSolution(popTSP[i]);
+				// Create a solution solving the tsp first
+				popTSP[i] = getTSPSolution();
+				popKnap[i] = getKnapsackSolution(popTSP[i]);
+				
+				packingPlan = popKnap[i].getPackingPlan(popTSP[i], items.length);
+				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), packingPlan);
+				
+				i++;
+				
+				// Create a solution solving the knapsack first
 				popKnap[i] = getKnapsackSolution();
 				popTSP[i] = getTSPSolution(popKnap[i]);
-				
 				
 				packingPlan = popKnap[i].getPackingPlan(popTSP[i], items.length);
 				popTTP[i] = new TTPSolution(popTSP[i].getCitiesByID(), packingPlan);
 			}
 			
 			// Update the solutions and the best solution
-			getBestSolutions(popTTP, popTSP, popKnap, instance);
+			getBestSolutions(instance);
 			
 			// Update the pheromone values
-			updatePheromone(popTTP, popTSP, popKnap);
+			updatePheromone();
 			
 			// Print the cost of the best solution found
 			if (bestCost > currBest){
@@ -88,6 +103,16 @@ public class Alec {
 				//popKnap[0].print();
 				
 				currBest = bestCost;
+				
+				/*
+				City currCity = popTSP[0].getCityByIndex(0);
+				City nextCity;
+				for (int i = 1; i < cities.length; i++){
+					nextCity = popTSP[0].getCityByIndex(i);
+					System.out.println(currCity.getEdgePheromone(nextCity.getNodeNum()));
+					currCity = nextCity;
+				}
+				*/
 			}
 			
 		}
@@ -127,14 +152,15 @@ public class Alec {
 		
 		City currentCity = cities[0];
 		int i, j;
-		double totalProb, next, current, total;
+		double totalProb, attractiveness, next, current, total;
 		
 		for (i = 1; i < cities.length; i++){
 			// Get the total pheromone values for each valid edge
 			totalProb = 0.0;
 			for (j = 1; j < cities.length; j++){
 				if (!taken[j]){
-					totalProb += currentCity.getEdgePheromone(j);
+					attractiveness = 1 / currentCity.distance(cities[j]);
+					totalProb += currentCity.getEdgePheromone(j) * attractiveness;
 				}
 			}
 			
@@ -146,7 +172,8 @@ public class Alec {
 				j++;
 				
 				if (!taken[j]){
-					current = currentCity.getEdgePheromone(j) / totalProb;
+					attractiveness = 1 / currentCity.distance(cities[j]);
+					current = currentCity.getEdgePheromone(j) * attractiveness / totalProb;
 					total += current;
 				}
 			}
@@ -203,14 +230,15 @@ public class Alec {
 		// Get the path to the remaining items
 		City currentCity = tspSol.getCityByIndex(0);
 		int i, j;
-		double totalProb, next, current, total;
+		double totalProb, attractiveness, next, current, total;
 		
 		for (i = 1; i <= last; i++){
 			// Get the total pheromone values for each valid edge
 			totalProb = 0.0;
 			for (j = 1; j < cities.length; j++){
 				if (!taken[j]){
-					totalProb += currentCity.getEdgePheromone(j);
+					attractiveness = 1 / currentCity.distance(cities[j]);
+					totalProb += currentCity.getEdgePheromone(j) * attractiveness;
 				}
 			}
 			
@@ -222,7 +250,8 @@ public class Alec {
 				j++;
 				
 				if (!taken[j]){
-					current = currentCity.getEdgePheromone(j) / totalProb;
+					attractiveness = 1 / currentCity.distance(cities[j]);
+					current = currentCity.getEdgePheromone(j) * attractiveness / totalProb;
 					total += current;
 				}
 			}
@@ -254,26 +283,9 @@ public class Alec {
 			}
 		}
 		
-		// Sort the items by ratio
-		// Note: this isn't sorting the most efficient way but I just wanted to get this done so watevz
-		Item[] knapItems = knapSol.getItems();
-		Item currItem, nextItem;
-		for (int i = 0; i < knapItems.length; i++){
-			currItem = knapItems[i];
-			for (int j = i + 1; j < knapItems.length; j++){
-				nextItem = knapItems[j];
-				if (currItem.profitToWeightRatio() > nextItem.profitToWeightRatio()){
-					knapItems[i] = nextItem;
-					knapItems[j] = currItem;
-					currItem = nextItem;
-				}
-			}
-		}
-		
 		// Remove items from the knapsack
-		int removalAmount = rnd.nextInt(knapItems.length);
-		for (int i = 0; i < removalAmount; i++){
-			knapSol.removeItem(knapItems[i]);
+		if (knapSol.getNumItems() > 0){
+			removeItems(knapSol);
 		}
 		
 		return knapSol;
@@ -310,16 +322,18 @@ public class Alec {
 			}
 		}
 		
+		// Remove items from the knapsack
+		if (knapSol.getNumItems() > 0){
+			removeItems(knapSol);
+		}
+		
 		return knapSol;
 	}
 	
 	/**
 	 * Trim TTP solutions to have only the best amount and set the best
-	 * @param: TTPSolution[]: The TTP solutions
-	 * @param: TTPInstance: The TTP instance this is a part of
-	 * @return: TTPSolution[]: The TTP solutions that are being saved
 	 */
-	private void getBestSolutions(TTPSolution[] popTTP, Individual[] popTSP, Knapsack[] popKnap, TTPInstance instance){
+	private void getBestSolutions(TTPInstance instance){
 		ArrayList<TTPSolution> orderedTTP = new ArrayList<TTPSolution>();
 		ArrayList<Individual> orderedTSP = new ArrayList<Individual>();
 		ArrayList<Knapsack> orderedKnap = new ArrayList<Knapsack>();
@@ -374,18 +388,50 @@ public class Alec {
 	}
 	
 	/**
-	 * Update the pheromone values of the edges and items
-	 * @param: TTPSolution[]: The population TTP solutions
-	 * @param: Individual[]: The population of corresponding paths
-	 * @param: Knapsack[]: The population of corresponding knapsacks
+	 * Remove items from the knapsack
+	 * @param: Knapsack: The knapsack
 	 */
-	private void updatePheromone(TTPSolution[] popTTP, Individual[] popTSP, Knapsack[] popKnap){
+	private void removeItems(Knapsack knapsack){
+		// Sort the items by ratio
+		// Note: this isn't sorting the most efficient way but I just wanted to get this done so watevz
+		Item[] knapItems = knapsack.getItems();
+		Item currItem, nextItem;
+		for (int i = 0; i < knapItems.length; i++){
+			currItem = knapItems[i];
+			for (int j = i + 1; j < knapItems.length; j++){
+				nextItem = knapItems[j];
+				if (currItem.profitToWeightRatio() > nextItem.profitToWeightRatio()){
+					knapItems[i] = nextItem;
+					knapItems[j] = currItem;
+					currItem = nextItem;
+				}
+			}
+		}
+		
+		// Remove items from the knapsack
+		int removalAmount = rnd.nextInt(knapItems.length);
+		for (int i = 0; i < removalAmount; i++){
+			knapsack.removeItem(knapItems[i]);
+		}
+	}
+	
+	/**
+	 * Update the pheromone values of the edges and items
+	 */
+	private void updatePheromone(){
+		// Decrease the edge pheromones
+		for (int i = 0; i < cities.length; i++){
+			for (int j = 0; j < cities.length; j++){
+				cities[i].decreasePheromone(j);
+			}
+		}
+		
 		// Decrease the item pheromones
 		for (int i = 0; i < items.length; i++){
 			items[i].decreasePheromone();
 		}
 		
-		// Increase the edge pheromones
+		// Increase the pheromones
 		for (int solution = 0; solution < popTTP.length; solution++){
 			// Get the increase rate for this solution
 			double cost = popTTP[solution].getObjective();
@@ -405,13 +451,6 @@ public class Alec {
 				for (int j = 0; j < currKnap.length; j++){
 					items[currKnap[j]].increasePheromone(increaseRate);
 				}
-			}
-		}
-		
-		// Decrease the edge pheromones
-		for (int i = 0; i < cities.length; i++){
-			for (int j = 0; j < cities.length; j++){
-				cities[i].decreasePheromone(j);
 			}
 		}
 	}
