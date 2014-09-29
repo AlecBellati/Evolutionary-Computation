@@ -22,7 +22,7 @@ public class Driver {
      * CONSTRUCTOR
      * @params: String: path/to/file.ttp to load and solve
      */
-    public Driver(String fileToLoad) {
+    public Driver(String fileToLoad, int choice) {
         //start new timer
         createTimer();
         
@@ -31,7 +31,7 @@ public class Driver {
         ttp = new TTPInstance(f);
         
         //get the solution
-        ttp.run();
+        ttp.run(choice);
         
         System.out.println("Driver: Program Finished Early, Exiting Program...");
         System.exit(1);
@@ -85,16 +85,19 @@ public class Driver {
         int fileIdx = Arrays.asList(args).lastIndexOf("-f");
         String fileToLoad = "";
         
+        int choice = 0;
         if(fileIdx == -1) {
             usage();
             System.exit(1);
         } else {
             fileToLoad = args[fileIdx+1];
-            
+            if(args.length == 3){
+                choice = Integer.parseInt(args[2]);
+            }
         }
         
         //create a new instance of the problem
-        Driver driver = new Driver(fileToLoad);
+        Driver driver = new Driver(fileToLoad, choice);
         
         
     }

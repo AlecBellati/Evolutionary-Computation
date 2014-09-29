@@ -118,21 +118,86 @@ public class TTPInstance {
             System.out.println();
         }
     }
+
+    /**
+    *
+    *
+    */
+    private String[] setupRun(int instance){
+        //knapsack seed, TSP choice, generations, iterations, {good items, random items}
+        String[] instances;
+            switch(instance){
+                case 1:
+                    instances = new String[]{"2", "1", "10", "-1", "-1", "-1"}; //280, 279
+                    break;
+                case 2:
+                    instances = new String[]{"2", "1", "10", "-1", "-1", "-1"}; //280, 1395
+                    break;
+                case 3:
+                    instances = new String[]{"2", "1", "6", "-1", "-1", "-1"}; //280, 2790
+                    break;
+                case 4:
+                    instances = new String[]{"2", "1", "1", "-1", "-1", "-1"}; //4461, 4461
+                    break;
+                case 5:
+                    instances = new String[]{"2", "1", "10", "8", "-1", "-1"}; //4461, 22300
+                    break;
+                case 6:
+                    instances = new String[]{"2", "1", "1", "25", "-1", "-1"}; //4461, 44610
+                    break;
+                case 7:
+                    instances = new String[]{"4", "1", "6", "5", "7500", "2500"}; //33810, 33809
+                    break;
+                case 8:
+                    instances = new String[]{"4", "1", "1", "12", "2000", "500"}; //33810, 169045
+                    break;
+                case 9:
+                    instances = new String[]{"4", "1", "1", "50", "2000", "500"}; //33810, 338090
+                    break;
+                default:
+                    instances = new String[]{"2", "1", "10", "-1", "-1", "-1"}; //33810, 338090
+                    break;
+        }
+
+        return instances;
+    }
+
+    /**
+    *
+    *
+    */
+    private void runWill(int instanceChoice){
+        String[] instance = setupRun(instanceChoice);
+        int goodItems = Integer.parseInt(instance[4]);
+        int randomItems = Integer.parseInt(instance[5]);
+        int[] itemChoice = null;
+        if(goodItems != -1){
+            if(randomItems != -1){
+                itemChoice = new int[]{goodItems, randomItems};
+            }else{
+                itemChoice = new int[]{goodItems};
+            }
+        }
+
+        will.getSolution(this, Integer.parseInt(instance[0]), Integer.parseInt(instance[1]), Integer.parseInt(instance[2]), Integer.parseInt(instance[3]), itemChoice);
+    }
     
     /**
      * Entry point for program to start running
      */
-    public void run() {
+    public void run(int choice) {
         /********************
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
         //matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
-        will.getSolution(this, 2, 1, 5, -1, null);
-        
-        getBestSolution(false);
+        for(int i = 0; i < 20; i++){
+            will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
+            runWill(choice);
+            
+            getBestSolution(false);
+        }
     }
     
     /**
