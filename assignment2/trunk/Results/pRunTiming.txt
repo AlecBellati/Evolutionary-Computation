@@ -1,0 +1,6 @@
+Finished Hard 1
+Runtime was 12004.7426319
+Finished Hard 2
+Runtime was 12006.0755193
+Finished Hard 3
+Runtime was 12012.9257457

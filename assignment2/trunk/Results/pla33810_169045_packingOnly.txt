@@ -1,0 +1,418 @@
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9374581822463855E7
+
+Solution after two minutes:
+9853337.0 6.7331457E7 3.3724864E7 66252058 1.302997678608115E8 -9274059.394067794 9223372036854775807
+Total profit = -9274059.394067794
+
+Solution after five minutes:
+2.1018808E7 5.6165986E7 2.9613785E7 66252058 1.0549257484251364E8 -5198764.698029503 9223372036854775807
+Total profit = -5198764.698029503
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.5102274E7 5.208252E7 2.9346502E7 66252058 9.90497229200332E7 -3339906.56361096 9223372036854775807
+Total profit = -3339906.56361096
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9021919317924097E7
+
+Solution after two minutes:
+9490313.0 6.7694481E7 3.4013209E7 66252058 1.3115589542623611E8 -9268236.490657918 9223372036854775807
+Total profit = -9268236.490657918
+
+Solution after five minutes:
+2.0258799E7 5.6925995E7 2.9973485E7 66252058 1.0658351472466391E8 -5199074.859139092 9223372036854775807
+Total profit = -5199074.859139092
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.5193144E7 5.199165E7 2.9334899E7 66252058 9.898823355718644E7 -3331218.073871527 9223372036854775807
+Total profit = -3331218.073871527
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9140299213893175E7
+
+Solution after two minutes:
+1.0443053E7 6.6741741E7 3.3539144E7 66252058 1.2822236090118065E8 -8774235.097389616 9223372036854775807
+Total profit = -8774235.097389616
+
+Solution after five minutes:
+2.172999E7 5.5454804E7 2.956643E7 66252058 1.0413554451391427E8 -4798299.689591713 9223372036854775807
+Total profit = -4798299.689591713
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4879457E7 5.2305337E7 2.9568167E7 66252058 9.923903097401585E7 -3180713.2214252315 9223372036854775807
+Total profit = -3180713.2214252315
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9262520390597947E7
+
+Solution after two minutes:
+1.0057253E7 6.7127541E7 3.3699086E7 66252058 1.2964437286109069E8 -9083557.044159926 9223372036854775807
+Total profit = -9083557.044159926
+
+Solution after five minutes:
+2.1116886E7 5.6067908E7 2.9676124E7 66252058 1.0524301540509893E8 -5054071.083682649 9223372036854775807
+Total profit = -5054071.083682649
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4814389E7 5.2370405E7 2.9531481E7 66252058 9.932889213706006E7 -3247053.405229822 9223372036854775807
+Total profit = -3247053.405229822
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9260353605620064E7
+
+Solution after two minutes:
+1.067138E7 6.6513414E7 3.3339939E7 66252058 1.2768821530559248E8 -8797172.050845519 9223372036854775807
+Total profit = -8797172.050845519
+
+Solution after five minutes:
+2.2046371E7 5.5138423E7 2.9372399E7 66252058 1.0359331870088895E8 -4813396.1712933555 9223372036854775807
+Total profit = -4813396.1712933555
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4934641E7 5.2250153E7 2.9457296E7 66252058 9.91468480635155E7 -3261163.8609601147 9223372036854775807
+Total profit = -3261163.8609601147
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.925317221283272E7
+
+Solution after two minutes:
+1.0093205E7 6.7091589E7 3.3552673E7 66252058 1.2913759421623196E8 -9062733.091356546 9223372036854775807
+Total profit = -9062733.091356546
+
+Solution after five minutes:
+2.1236531E7 5.5948263E7 2.9557337E7 66252058 1.048021754853748E8 -5027380.910173684 9223372036854775807
+Total profit = -5027380.910173684
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4853806E7 5.2330988E7 2.9447421E7 66252058 9.916314250033836E7 -3276416.0251116604 9223372036854775807
+Total profit = -3276416.0251116604
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.906827064676416E7
+
+Solution after two minutes:
+9854988.0 6.7329806E7 3.3717057E7 66252058 1.2975570125806741E8 -9102324.41516225 9223372036854775807
+Total profit = -9102324.41516225
+
+Solution after five minutes:
+2.0906565E7 5.6278229E7 2.9740626E7 66252058 1.0534762915739912E8 -5024091.621941708 9223372036854775807
+Total profit = -5024091.621941708
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4913865E7 5.2270929E7 2.9511166E7 66252058 9.90683360511721E7 -3181384.896886792 9223372036854775807
+Total profit = -3181384.896886792
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.920439309753278E7
+
+Solution after two minutes:
+9785358.0 6.7399436E7 3.385717E7 66252058 1.3028602928733379E8 -9137219.66482015 9223372036854775807
+Total profit = -9137219.66482015
+
+Solution after five minutes:
+2.0797382E7 5.6387412E7 2.9776869E7 66252058 1.0561303389365438E8 -5075432.184905946 9223372036854775807
+Total profit = -5075432.184905946
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.5041324E7 5.214347E7 2.9416016E7 66252058 9.899205993418783E7 -3251363.7782819867 9223372036854775807
+Total profit = -3251363.7782819867
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9157610233692862E7
+
+Solution after two minutes:
+1.0329237E7 6.6855557E7 3.3615038E7 66252058 1.2871636209047024E8 -8861361.489855178 9223372036854775807
+Total profit = -8861361.489855178
+
+Solution after five minutes:
+2.1667973E7 5.5516821E7 2.9600847E7 66252058 1.042497692385511E8 -4801576.848721862 9223372036854775807
+Total profit = -4801576.848721862
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.485344E7 5.2331354E7 2.9576309E7 66252058 9.915788310291398E7 -3145792.4239616133 9223372036854775807
+Total profit = -3145792.4239616133
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9344265980772197E7
+
+Solution after two minutes:
+1.0353724E7 6.683107E7 3.3487925E7 66252058 1.2872942103326513E8 -8992783.940977491 9223372036854775807
+Total profit = -8992783.940977491
+
+Solution after five minutes:
+2.1683743E7 5.5501051E7 2.9459244E7 66252058 1.0424807618628988E8 -4942621.141475663 9223372036854775807
+Total profit = -4942621.141475663
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4923903E7 5.2260891E7 2.9457287E7 66252058 9.920380823395222E7 -3279969.7172042355 9223372036854775807
+Total profit = -3279969.7172042355
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.946207892688565E7
+
+Solution after two minutes:
+9735261.0 6.7449533E7 3.373019E7 66252058 1.3067029391050215E8 -9391006.990465708 9223372036854775807
+Total profit = -9391006.990465708
+
+Solution after five minutes:
+2.0783043E7 5.6401751E7 2.9638938E7 66252058 1.057855885059607E8 -5270306.206967033 9223372036854775807
+Total profit = -5270306.206967033
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.5139762E7 5.2045032E7 2.926455E7 66252058 9.892588480863668E7 -3380991.986850105 9223372036854775807
+Total profit = -3380991.986850105
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9289046317384347E7
+
+Solution after two minutes:
+1.0071941E7 6.7112853E7 3.3712904E7 66252058 1.2965788715682113E8 -9074198.761750974 9223372036854775807
+Total profit = -9074198.761750974
+
+Solution after five minutes:
+2.1286266E7 5.5898528E7 2.9654793E7 66252058 1.0494735929024905E8 -4977835.565782189 9223372036854775807
+Total profit = -4977835.565782189
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4896284E7 5.228851E7 2.9516535E7 66252058 9.925854199019651E7 -3238783.8567648493 9223372036854775807
+Total profit = -3238783.8567648493
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9291262403185993E7
+
+Solution after two minutes:
+9813979.0 6.7370815E7 3.3793942E7 66252058 1.302436452997433E8 -9186460.948915288 9223372036854775807
+Total profit = -9186460.948915288
+
+Solution after five minutes:
+2.0791653E7 5.6393141E7 2.9775739E7 66252058 1.0567089829461041E8 -5095657.437221438 9223372036854775807
+Total profit = -5095657.437221438
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.5034811E7 5.2149983E7 2.9459658E7 66252058 9.911777495834117E7 -3249207.7362525873 9223372036854775807
+Total profit = -3249207.7362525873
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.917500432675103E7
+
+Solution after two minutes:
+1.0194615E7 6.6990179E7 3.359155E7 66252058 1.2889711434979393E8 -8944497.735431999 9223372036854775807
+Total profit = -8944497.735431999
+
+Solution after five minutes:
+2.1311802E7 5.5872992E7 2.9604956E7 66252058 1.0472136741280943E8 -4953095.246227115 9223372036854775807
+Total profit = -4953095.246227115
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4836765E7 5.2348029E7 2.95013E7 66252058 9.920249057519339E7 -3235521.8898138218 9223372036854775807
+Total profit = -3235521.8898138218
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.928292811272054E7
+
+Solution after two minutes:
+1.0110494E7 6.70743E7 3.366385E7 66252058 1.2935380812340982E8 -9022906.680725247 9223372036854775807
+Total profit = -9022906.680725247
+
+Solution after five minutes:
+2.1317771E7 5.5867023E7 2.9654913E7 66252058 1.0481100942760344E8 -4932720.111109138 9223372036854775807
+Total profit = -4932720.111109138
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4858783E7 5.2326011E7 2.9564579E7 66252058 9.930957954042456E7 -3207582.248340104 9223372036854775807
+Total profit = -3207582.248340104
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9282504913828395E7
+
+Solution after two minutes:
+1.0503912E7 6.6680882E7 3.3501585E7 66252058 1.2827063050040786E8 -8827723.065134592 9223372036854775807
+Total profit = -8827723.065134592
+
+Solution after five minutes:
+2.1927126E7 5.5257668E7 2.9495158E7 66252058 1.03880091936286E8 -4785272.338974379 9223372036854775807
+Total profit = -4785272.338974379
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4912169E7 5.2272625E7 2.955539E7 66252058 9.92508320488169E7 -3197384.5761095807 9223372036854775807
+Total profit = -3197384.5761095807
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.9230728536066838E7
+
+Solution after two minutes:
+1.0052386E7 6.7132408E7 3.3577702E7 66252058 1.29559311048356E8 -9176870.645957477 9223372036854775807
+Total profit = -9176870.645957477
+
+Solution after five minutes:
+2.1245001E7 5.5939793E7 2.9528804E7 66252058 1.0487902725607046E8 -5081274.994503252 9223372036854775807
+Total profit = -5081274.994503252
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.5007099E7 5.2177695E7 2.9385661E7 66252058 9.896977839156036E7 -3274365.869214922 9223372036854775807
+Total profit = -3274365.869214922
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.924106854984595E7
+
+Solution after two minutes:
+9908007.0 6.7276787E7 3.3791307E7 66252058 1.3008979077255179E8 -9138323.954942092 9223372036854775807
+Total profit = -9138323.954942092
+
+Solution after five minutes:
+2.0997639E7 5.6187155E7 2.9800454E7 66252058 1.0542020501918088E8 -4988213.656329691 9223372036854775807
+Total profit = -4988213.656329691
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.491866E7 5.2266134E7 2.9567536E7 66252058 9.914934038988027E7 -3151746.328660492 9223372036854775807
+Total profit = -3151746.328660492
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.92880004117857E7
+
+Solution after two minutes:
+9550014.0 6.763478E7 3.3942055E7 66252058 1.3119973989405286E8 -9353859.165037446 9223372036854775807
+Total profit = -9353859.165037446
+
+Solution after five minutes:
+2.0510279E7 5.6674515E7 2.992983E7 66252058 1.0631384283410744E8 -5153738.135255456 9223372036854775807
+Total profit = -5153738.135255456
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.51232E7 5.2061594E7 2.9409221E7 66252058 9.907326033801697E7 -3284954.9115456007 9223372036854775807
+Total profit = -3284954.9115456007
+TTPInstance: exiting program
+Driver: Exiting Program
+
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -1.925741887051671E7
+
+Solution after two minutes:
+1.0294666E7 6.6890128E7 3.3464991E7 66252058 1.285711185924439E8 -8963478.135506488 9223372036854775807
+Total profit = -8963478.135506488
+
+Solution after five minutes:
+2.1671659E7 5.5513135E7 2.9444856E7 66252058 1.041642326585963E8 -4929340.777336784 9223372036854775807
+Total profit = -4929340.777336784
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+2.4936223E7 5.2248571E7 2.9427635E7 66252058 9.905186857949777E7 -3259481.631234266 9223372036854775807
+Total profit = -3259481.631234266
+TTPInstance: exiting program
+Driver: Exiting Program

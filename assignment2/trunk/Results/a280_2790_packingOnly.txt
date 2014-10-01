@@ -1,0 +1,502 @@
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400110.6791102175
+Iteration 3 Starting Cost: 408987.97728039057
+
+Solution after two minutes:
+446000.0 816022.0 1184988.0 2613 3721.2697718744976 408991.614471011 9223372036854775807
+Total profit = 408991.614471011
+Iteration 4 Starting Cost: 411622.8886397983
+Iteration 5 Starting Cost: 411700.35265237896
+
+Solution after five minutes:
+421637.0 840385.0 1203258.0 2613 3795.893383914166 411700.35265237896 9223372036854775807
+Total profit = 411700.35265237896
+Iteration 6 Starting Cost: 411712.59992752864
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400088.5407445447
+Iteration 3 Starting Cost: 408988.67079509073
+
+Solution after two minutes:
+448152.0 813870.0 1184347.0 2613 3718.1998794731016 408990.7791334741 9223372036854775807
+Total profit = 408990.7791334741
+Iteration 4 Starting Cost: 411659.4943583822
+
+Solution after five minutes:
+422766.0 839256.0 1202900.0 2613 3794.1601666428783 411703.7804499606 9223372036854775807
+Total profit = 411703.7804499606
+Iteration 5 Starting Cost: 411704.64718583354
+Iteration 6 Starting Cost: 411712.7552660983
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400088.6266483081
+Iteration 3 Starting Cost: 408883.47909756424
+
+Solution after two minutes:
+449877.0 812145.0 1183014.0 2613 3712.3170239488354 408884.5309959494 9223372036854775807
+Total profit = 408884.5309959494
+Iteration 4 Starting Cost: 411659.4943583822
+Iteration 5 Starting Cost: 411707.86727288074
+
+Solution after five minutes:
+421590.0 840432.0 1203650.0 2613 3797.7371731986727 411707.86727288074 9223372036854775807
+Total profit = 411707.86727288074
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400151.5966547134
+Iteration 3 Starting Cost: 408864.8791412681
+
+Solution after two minutes:
+449195.0 812827.0 1183558.0 2613 3714.9915343575562 408870.81534041883 9223372036854775807
+Total profit = 408870.81534041883
+Iteration 4 Starting Cost: 411642.0704934604
+Iteration 5 Starting Cost: 411706.50493372185
+
+Solution after five minutes:
+422359.0 839663.0 1203546.0 2613 3797.244977059791 411706.50493372185 9223372036854775807
+Total profit = 411706.50493372185
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400259.45234585286
+Iteration 3 Starting Cost: 408978.93464428594
+
+Solution after two minutes:
+448684.0 813338.0 1183725.0 2613 3715.2433754098283 408985.2989257885 9223372036854775807
+Total profit = 408985.2989257885
+Iteration 4 Starting Cost: 411642.0704934604
+Iteration 5 Starting Cost: 411703.07773693965
+
+Solution after five minutes:
+422566.0 839456.0 1203395.0 2613 3796.5372956555907 411703.07773693965 9223372036854775807
+Total profit = 411703.07773693965
+Iteration 6 Starting Cost: 411712.4990234219
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400314.3533725353
+Iteration 3 Starting Cost: 409019.24204056535
+
+Solution after two minutes:
+447680.0 814342.0 1184377.0 2613 3718.1972248449865 409021.3327030749 9223372036854775807
+Total profit = 409021.3327030749
+Iteration 4 Starting Cost: 411659.4943583822
+Iteration 5 Starting Cost: 411706.50493372185
+
+Solution after five minutes:
+422359.0 839663.0 1203546.0 2613 3797.244977059791 411706.50493372185 9223372036854775807
+Total profit = 411706.50493372185
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400150.95735046617
+Iteration 3 Starting Cost: 408821.01663673285
+
+Solution after two minutes:
+449155.0 812867.0 1183057.0 2613 3712.8235429307933 408821.9065926416 9223372036854775807
+Total profit = 408821.9065926416
+Iteration 4 Starting Cost: 411641.74622660875
+Iteration 5 Starting Cost: 411704.25212760316
+
+Solution after five minutes:
+422561.0 839461.0 1203248.0 2613 3795.826729354994 411704.25212760316 9223372036854775807
+Total profit = 411704.25212760316
+Iteration 6 Starting Cost: 411713.90133998834
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400082.89690087235
+Iteration 3 Starting Cost: 408776.49552828725
+
+Solution after two minutes:
+448676.0 813346.0 1182952.0 2613 3712.530773337999 408777.957835827 9223372036854775807
+Total profit = 408777.957835827
+Iteration 4 Starting Cost: 411651.02333144296
+Iteration 5 Starting Cost: 411704.25212760316
+
+Solution after five minutes:
+422561.0 839461.0 1203248.0 2613 3795.826729354994 411704.25212760316 9223372036854775807
+Total profit = 411704.25212760316
+Iteration 6 Starting Cost: 411713.9263486472
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400085.21461909614
+Iteration 3 Starting Cost: 408910.99825836695
+
+Solution after two minutes:
+447455.0 814567.0 1184254.0 2613 3718.1271224190264 408912.9511619604 9223372036854775807
+Total profit = 408912.9511619604
+Iteration 4 Starting Cost: 411642.0704934604
+Iteration 5 Starting Cost: 411707.86727288074
+
+Solution after five minutes:
+421590.0 840432.0 1203650.0 2613 3797.7371731986727 411707.86727288074 9223372036854775807
+Total profit = 411707.86727288074
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400153.8251913851
+Iteration 3 Starting Cost: 408891.7302613071
+
+Solution after two minutes:
+448188.0 813834.0 1183716.0 2613 3715.63275720911 408895.1011391843 9223372036854775807
+Total profit = 408895.1011391843
+Iteration 4 Starting Cost: 411650.70669141866
+Iteration 5 Starting Cost: 411706.32255240204
+
+Solution after five minutes:
+422359.0 839663.0 1203546.0 2613 3797.244977059791 411706.50493372185 9223372036854775807
+Total profit = 411706.50493372185
+Iteration 6 Starting Cost: 411713.90133998834
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400085.21461909614
+Iteration 3 Starting Cost: 408965.30395833123
+
+Solution after two minutes:
+446171.0 815851.0 1184202.0 2613 3717.6167434734093 408967.38048348995 9223372036854775807
+Total profit = 408967.38048348995
+Iteration 4 Starting Cost: 411622.8049133299
+Iteration 5 Starting Cost: 411701.3305072343
+
+Solution after five minutes:
+422584.0 839438.0 1203287.0 2613 3796.0277633566666 411701.3305072343 9223372036854775807
+Total profit = 411701.3305072343
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400153.8251913851
+Iteration 3 Starting Cost: 408988.80660468515
+
+Solution after two minutes:
+448238.0 813784.0 1183990.0 2613 3716.477061982518 408993.03826478554 9223372036854775807
+Total profit = 408993.03826478554
+Iteration 4 Starting Cost: 411659.4943583822
+Iteration 5 Starting Cost: 411707.86727288074
+
+Solution after five minutes:
+421590.0 840432.0 1203650.0 2613 3797.7371731986727 411707.86727288074 9223372036854775807
+Total profit = 411707.86727288074
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400110.5845972141
+Iteration 3 Starting Cost: 408887.3613102868
+
+Solution after two minutes:
+448429.0 813593.0 1183305.0 2613 3713.6885251365507 408889.53185327514 9223372036854775807
+Total profit = 408889.53185327514
+Iteration 4 Starting Cost: 411651.02333144296
+Iteration 5 Starting Cost: 411703.07773693965
+
+Solution after five minutes:
+422566.0 839456.0 1203395.0 2613 3796.5372956555907 411703.07773693965 9223372036854775807
+Total profit = 411703.07773693965
+Iteration 6 Starting Cost: 411712.5588709641
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400087.22094187164
+Iteration 3 Starting Cost: 408921.1695978702
+
+Solution after two minutes:
+447682.0 814340.0 1184306.0 2613 3718.326374837063 408923.40105522715 9223372036854775807
+Total profit = 408923.40105522715
+Iteration 4 Starting Cost: 411622.8886397983
+
+Solution after five minutes:
+422712.0 839310.0 1202893.0 2613 3794.1417710681067 411700.6164791677 9223372036854775807
+Total profit = 411700.6164791677
+Iteration 5 Starting Cost: 411701.6086497698
+Iteration 6 Starting Cost: 411712.7552660983
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400153.1575901945
+Iteration 3 Starting Cost: 408899.60316245886
+
+Solution after two minutes:
+448635.0 813387.0 1183824.0 2613 3716.110581553612 408903.4604286252 9223372036854775807
+Total profit = 408903.4604286252
+Iteration 4 Starting Cost: 411642.0704934604
+Iteration 5 Starting Cost: 411693.89630059665
+
+Solution after five minutes:
+423454.0 838568.0 1202798.0 2613 3793.7131360692197 411694.99973548565 9223372036854775807
+Total profit = 411694.99973548565
+Iteration 6 Starting Cost: 411712.59992752864
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400323.21760186774
+Iteration 3 Starting Cost: 409129.6047785081
+
+Solution after two minutes:
+448518.0 813504.0 1184360.0 2613 3717.589020618264 409131.1615304734 9223372036854775807
+Total profit = 409131.1615304734
+Iteration 4 Starting Cost: 411675.00534919323
+Iteration 5 Starting Cost: 411706.50493372185
+
+Solution after five minutes:
+422359.0 839663.0 1203546.0 2613 3797.244977059791 411706.50493372185 9223372036854775807
+Total profit = 411706.50493372185
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400152.47012248076
+Iteration 3 Starting Cost: 408940.87215398066
+
+Solution after two minutes:
+447607.0 814415.0 1184534.0 2613 3719.3245473711895 408943.2521366859 9223372036854775807
+Total profit = 408943.2521366859
+Iteration 4 Starting Cost: 411642.0704934604
+Iteration 5 Starting Cost: 411708.6892827519
+
+Solution after five minutes:
+421773.0 840249.0 1203930.0 2613 3799.075963733027 411708.6892827519 9223372036854775807
+Total profit = 411708.6892827519
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400087.22094187164
+Iteration 3 Starting Cost: 408977.7680257448
+
+Solution after two minutes:
+447241.0 814781.0 1183628.0 2613 3714.783629894148 408984.16965817334 9223372036854775807
+Total profit = 408984.16965817334
+Iteration 4 Starting Cost: 411651.02333144296
+Iteration 5 Starting Cost: 411712.0901953968
+
+Solution after five minutes:
+421694.0 840328.0 1203687.0 2613 3797.8943547911726 411712.0901953968 9223372036854775807
+Total profit = 411712.0901953968
+Iteration 6 Starting Cost: 411714.78956539405
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400140.4906951464
+Iteration 3 Starting Cost: 408865.35400927917
+
+Solution after two minutes:
+447481.0 814541.0 1183250.0 2613 3713.5148138512527 408870.7558675982 9223372036854775807
+Total profit = 408870.7558675982
+Iteration 4 Starting Cost: 411632.8129244874
+Iteration 5 Starting Cost: 411700.2169384663
+
+Solution after five minutes:
+422401.0 839621.0 1203007.0 2613 3794.6903709851517 411700.2169384663 9223372036854775807
+Total profit = 411700.2169384663
+Iteration 6 Starting Cost: 411713.90133998834
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Starting Timer
+Will: Running Program
+Iteration 1 Starting Cost: -66260.51921224745
+Iteration 2 Starting Cost: 400153.8251913851
+Iteration 3 Starting Cost: 409000.6223454267
+
+Solution after two minutes:
+447190.0 814832.0 1184150.0 2613 3717.1995988908375 409002.3676432937 9223372036854775807
+Total profit = 409002.3676432937
+Iteration 4 Starting Cost: 411650.70669141866
+Iteration 5 Starting Cost: 411707.86727288074
+
+Solution after five minutes:
+421590.0 840432.0 1203650.0 2613 3797.7371731986727 411707.86727288074 9223372036854775807
+Total profit = 411707.86727288074
+Iteration 6 Starting Cost: 411714.01546337723
+End Cost: 411714.78956539405
+TTPInstance: Getting Final TTPSolution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+421090.0 840932.0 1204094.0 2613 3799.833167575917 411714.78956539405 9223372036854775807
+Total profit = 411714.78956539405
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+
+Execution took a total of xx, averaging xx and a total profit of 411714.8.
+The maximum value obtained was 411714.8

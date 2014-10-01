@@ -1,0 +1,6 @@
+Finished Easy 1
+Runtime was 22.8983097076
+Finished Easy 2
+Runtime was 2786.37437153
+Finished Easy 3
+Runtime was 9662.29165125

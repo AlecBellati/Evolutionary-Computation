@@ -1,0 +1,6 @@
+Finished Medium 1
+Runtime was 4415.36554456
+Finished Medium 2
+Runtime was 12004.4334207
+Finished Medium 3
+Runtime was 11175.5006855
