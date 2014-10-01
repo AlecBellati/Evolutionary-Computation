@@ -498,5 +498,5 @@ TTPInstance: exiting program
 
 Driver: Program Finished Early, Exiting Program...
 
-Execution took a total of xx, averaging xx and a total profit of 411714.8.
-The maximum value obtained was 411714.8
+Execution took a total of 9662.2916 seconds, averaging 483.1146 seconds and an average total profit of 411714.7896.
+The maximum value obtained was 411714.7896

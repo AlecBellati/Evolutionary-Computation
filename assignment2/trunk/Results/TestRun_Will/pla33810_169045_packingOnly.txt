@@ -416,3 +416,6 @@ TTPInstance: Solution Exists! Evalutating and Writing Solution to File
 Total profit = -3259481.631234266
 TTPInstance: exiting program
 Driver: Exiting Program
+
+Execution took a total of 12006.0755 seconds, averaging 600.3038 seconds and an average total profit of -3235085.312.
+The maximum value obtained was -3145792.424.

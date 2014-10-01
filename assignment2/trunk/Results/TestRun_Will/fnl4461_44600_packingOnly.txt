@@ -416,3 +416,6 @@ Total profit = 6025537.332926927
 TTPInstance: exiting program
 
 Driver: Program Finished Early, Exiting Program...
+
+Execution took a total of 11175.5007 seconds, averaging 558.775 seconds and an average total profit of 6027685.272.
+The maximum value obtained was 6030747.527.
