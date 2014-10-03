@@ -66,7 +66,7 @@ public class Matt {
         sortItems();
         
         //2. Find all/most profitable items and put them in the knapsack
-        stealProfitableItems();
+        stealProfitableItemsTwo();
         knapsack.print();
         
         //3. create lists of profitable and not profitable cities
@@ -163,7 +163,6 @@ public class Matt {
      * needs rewrite
      */
     public void stealProfitableItems() {
-        ArrayList<Item> profit = new ArrayList<Item>();
         
         //tracking variables
         double totalProfit = 0;
@@ -213,6 +212,86 @@ public class Matt {
         }
         
         System.out.println("Finished filling knapsack - ballpark profit is: " + totalProfit);
+    }
+    
+    /**
+     * Fill the knapsack with as many profitable items as possible
+     */
+    public void stealProfitableItemsTwo() {
+        ArrayList<City> used = new ArrayList<City>();
+        ArrayList<ArrayList<Item>> taken = new ArrayList<ArrayList<Item>>();
+        used.add(cities[0]);
+        
+        double profit = 0;
+        
+        //go through all items
+        for(int i = 0; i < items.size(); i++) {
+            Item current = items.get(i);
+            City currCity = cities[current.getCityNum()];
+            
+            long distance = 0;
+            double actualDistance = 0;
+            double weight = 0;
+            double newProfit = 0;
+            int cityIndex = -1;
+            
+            
+            //if this city isn't already in the list, add the information for this item
+            if(!used.contains(currCity)) {
+                weight += current.getWeight();
+                newProfit += current.getProfit();
+                
+                distance = (long)Math.ceil(currCity.distance(used.get(used.size()-1)));
+                actualDistance = actualDistance + (distance / (1-weight*(maxSpeed - minSpeed)/capacityOfKnapsack));
+            }
+            
+            //Calculate the current distance
+            for(int j = used.size()-1; j > 0; j--) {
+                //add the new items weight
+                if(used.get(j).getNodeNum() == currCity.getNodeNum()) {
+                    weight += current.getWeight();
+                    newProfit += current.getProfit();
+                    cityIndex = j;
+                }
+                
+                ArrayList<Item> takenItems = taken.get(j);
+                
+                //get all items weight
+                for(int k = 0; k < takenItems.size(); k++) {
+                    
+                    weight += takenItems.get(k).getWeight();
+                    newProfit += takenItems.get(k).getProfit();
+                }
+                
+                distance = (long)Math.ceil(used.get(j).distance(used.get(j-1)));
+                actualDistance = actualDistance + (distance / (1-weight*(maxSpeed - minSpeed)/capacityOfKnapsack));
+            }
+            
+            System.out.println("Old Profit: " + profit + ", new Profit: " + newProfit);
+            
+            //calculate new profit
+            newProfit = newProfit - actualDistance*rentingRatio;
+            
+            //if we're making money, take the item
+            if(newProfit > profit) {
+                //take the item
+                knapsack.addItem(current);
+                
+                //update profit
+                profit = newProfit;
+                
+                //update variables
+                if(cityIndex > 0) {
+                    ArrayList<Item> takenItems = taken.get(cityIndex);
+                    takenItems.add(current);
+                    
+                } else {
+                    ArrayList<Item> takenItems = new ArrayList<Item>();
+                    takenItems.add(current);
+                    taken.add(takenItems);
+                }
+            }
+        }
     }
     
     
