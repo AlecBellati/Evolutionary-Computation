@@ -63,6 +63,12 @@ public class Alec {
 		
 		double currBest = bestCost;
 		
+		// Setup edge pheromones
+		for (int i = 0; i < cities.length; i++){
+			cities[i].setupEdgePheromones();
+		}
+		
+		
 		//for (int g = 0; g < GENERATIONS; g++){
 		for (int g = 0; true; g++){
 			popTSP = new Individual[POPULATION_SIZE];
@@ -119,7 +125,6 @@ public class Alec {
 				}
 				*/
 			}
-			
 		}
     }
     
