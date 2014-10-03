@@ -336,7 +336,7 @@ public class Alec {
 		Knapsack knapSol = new Knapsack(capacityOfKnapsack);
 		
 		// Find the items to take on the tour starting at the back of the tour
-		Item[] cityItems;	
+		Item[] cityItems;
 		double itemProb, takeProb;
 		int nodeNum;
 		for (int i = tspSol.getNumCities() - 1; i > 0; i--){
@@ -347,11 +347,12 @@ public class Alec {
 			for (int j = 0; j < cityItems.length; j++){
 				if (cityItems[j] != null){
 					if (knapSol.getCurrentCapacity() >= cityItems[j].getWeight()){
-						itemProb = items[cityItems[j].getItemNum()].getProbability();
+						Item currItem = items[cityItems[j].getItemNum()];
+						itemProb = currItem.getProbability();
 						
 						takeProb = rnd.nextDouble();
 						if (itemProb > takeProb){
-							knapSol.addItem(cityItems[j]);
+							knapSol.addItem(currItem);
 						}
 					}
 				}
