@@ -22,11 +22,15 @@ The University of Adelaide\\
 
 \vspace{1cm}
 \section*{Exercise 5}
+Each of the algorithms supplied in the previous 3 exercises all approach the problem in completely separate ways, ranging from simple linear searchs to complex evolutiionary heuristics. With additional time, these algorithms could be evolved to formulate even greater results - however the conclusions drawn from this assignment appear to point towards taking two separate approaches.\\
 
+Using simple linear search methods and intelleigent heuristics, find a ``close to optimal'' packing of the knapsack. When found, use evolutionary methods to find the best TSP for the knapsack provided. An attempt on doing this in a similar manner by splitting the problem in half, and optimising one half for a TSP solution and the other for an optimal knapsack solution yielded poor results. Taking the entire solution in two separate stages may yield even greater results.\\
+
+As time has permitted an end to the modifications of our algorithms, the best algorithm was eventually that of the Obsessive Packing. Its simple implementation finds the best packing of the knapsack, given a particular tour. Our methods also enable to algorithm to first quickly find an optimal tour using methods created in assignment one. This functiionality has been turned off for the purposes of this exercise but can be added if desired. 
 
 \newpage
 \section{Test Parameters}
-Definitions:
+The following parameters were found to be close to optimal to achieve good results. Defintions for the categories are:
 \begin{itemize}
 	\item {\bf Knapsack Seed:} The algorithm allows for various methods to seed the knapsack. The ``seed'' is the starting packing of the knapsack and can greatly affect the final result. Seed 2 chooses items based on their profit-to-weight ratio, while seed 4 randomly picks items.
 	\item {\bf TSP Choice:} To account for extendibility, this algorithm not only considers just the packing of the knapsack, but may also consider changes to the TSP tour. Choice 1 simple uses the supplied linkern tour, where as choice 2 will use our best TSP algorithm from assignment 1.

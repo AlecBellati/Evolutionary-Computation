@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment Two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 import java.io.File;
 
 import java.util.Arrays;
@@ -20,7 +30,7 @@ public class Driver {
     
     /**
      * CONSTRUCTOR
-     * @params: String: path/to/file.ttp to load and solve
+     * @param: String: path/to/file.ttp to load and solve
      */
     public Driver(String fileToLoad, int choice) {
         //start new timer

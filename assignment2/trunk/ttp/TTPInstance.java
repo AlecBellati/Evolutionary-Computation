@@ -63,9 +63,11 @@ public class TTPInstance {
     private TTPSolution solution;
     
     
-    /* Constructor
-     * reads the instance from the file
-     */
+    /** 
+    * Constructor
+    * reads the instance from the file
+    * @param - file: file containing the TTP graph information
+    */
     public TTPInstance(File file) {
         //parse the file
         parseTTP(file);
@@ -88,7 +90,11 @@ public class TTPInstance {
         setupItems();
     }
     
-    // used to simulate the distance matrix
+    /**
+    * Calculates the distance between two points
+    * @param - int i, int j: cities i and j to calculate distance
+    * @return - double: distance between the two cities
+    */
     public double distances(int i, int j) {
         double result = 0;
         result = Math.sqrt(
@@ -175,6 +181,7 @@ public class TTPInstance {
     
     /**
      * Entry point for program to start running
+     * @param - choice: used for the "Will" algorithm to select the instance parameters
      */
     public void run(int choice) {
         /********************
@@ -191,6 +198,7 @@ public class TTPInstance {
     
     /**
      * Timer has expired, get the best solution from the thief and exit the program
+     * @param - intermediate: if it is an intermediate result (2 or 5 minutes) do not write to file
      */
     public void getBestSolution(boolean intermediate) {
         if(!intermediate){
@@ -331,9 +339,6 @@ public class TTPInstance {
             System.exit(1);
         }
     }
-    
-    
-    
     
     
     /**
