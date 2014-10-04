@@ -481,7 +481,7 @@ public class Control {
 				bestSolution = challenger;
 			} else if(challenger.getCost() < bestSolution.getCost()) {
 				bestSolution = challenger;
-				System.out.println((i+1) + ": ***** Best Solution ***** = " + bestSolution.getCost());
+				//System.out.println((i+1) + ": ***** Best Solution ***** = " + bestSolution.getCost());
 			}
 			
 			// Every n generations, add some new individuals

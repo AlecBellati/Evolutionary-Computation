@@ -67,8 +67,7 @@ public class Matt {
         
         //2. Find all/most profitable items and put them in the knapsack
         stealProfitableItemsTwo();
-        knapsack.print();
-        
+
         //3. create lists of profitable and not profitable cities
         ArrayList<City> inSack = new ArrayList<City>();
         ArrayList<City> notInSack = new ArrayList<City>();
@@ -96,7 +95,6 @@ public class Matt {
         City[] notInSackArray = new City[notInSack.size()];
         notInSackArray = notInSack.toArray(notInSackArray);
         
-        System.out.println("Run TSP for rest");
         Individual rest = runTSP(50, 15000, 3, notInSackArray);
         
         
@@ -106,26 +104,14 @@ public class Matt {
         City[] inSackArray = new City[inSack.size()];
         inSackArray = inSack.toArray(inSackArray);
         
-        System.out.println("Run TSP for best");
-        System.out.println("best.lenght = " + inSackArray.length);
         Individual best = null;
         if(inSackArray.length == 1) {
             best = new Individual(inSackArray, true);
         } else {
             best = runTSP(50, 15000, 3, inSackArray);
         }
-        System.out.println("done");
         
         //5. Combine Knapsack TSP and non-profit TSP into TSPSolution
-        System.out.println("Best Individual: ");
-        best.print();
-        
-        System.out.println("\nRest Individual:");
-        rest.print();
-        System.out.println();
-        
-        System.out.println("Total Profit = " + (best.getProfit() + rest.getProfit()) );
-        
         //create the new individual to combine two city arrays
         TSPSolution = new Individual(inSackArray.length-1 + notInSackArray.length);
         int counter = 0;
@@ -139,10 +125,7 @@ public class Matt {
         //add inSackArray
         for(int i = 1; i < best.getCities().length; i++) {
             TSPSolution.setCity(counter+i-1, best.getCityByIndex(i));
-        }
-        
-        TSPSolution.print();
-        
+        }        
     }
     
     /**
@@ -266,8 +249,6 @@ public class Matt {
                 distance = (long)Math.ceil(used.get(j).distance(used.get(j-1)));
                 actualDistance = actualDistance + (distance / (1-weight*(maxSpeed - minSpeed)/capacityOfKnapsack));
             }
-            
-            System.out.println("Old Profit: " + profit + ", new Profit: " + newProfit);
             
             //calculate new profit
             newProfit = newProfit - actualDistance*rentingRatio;
