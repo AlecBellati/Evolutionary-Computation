@@ -1,0 +1,190 @@
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Solution after five minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+
+Driver: Timer Has Expired
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: exiting program
+Driver: Exiting Program
