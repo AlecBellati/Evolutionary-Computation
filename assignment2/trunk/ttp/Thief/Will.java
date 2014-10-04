@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment Two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 package TTP.Thief;
 
 import TTP.Thief.Travel.City;
@@ -15,19 +25,6 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Collections;
 import java.util.Comparator;
-
-//optimal values (generations/iterations/items[good, random]/removal; Item choice function; Knapsack seed value)
-/*
- * 279_279 = 10/all/all/all; convertOptimal(); Seed 2
- * 279_1395 = 10/all/all/all; convertOptimal(); Seed 2
- * 279_2790 = 6/all/all/all; convertOptimal(); Seed 2
- * 4461_4461 = 1/all/all/all; convertOptimal(); Seed 2
- * 4461_22300 = 10/8/all/all; convertOptimal(); Seed 2
- * 4461_446100 = 1/25/all/all; convertOptimal(); Seed 4
- * 33810_33809 = 6/5/7500,2500/all; pickBestItems(); Seed 4
- * 33810_169045 = 1/12/2000,500/40000; pickBestItems(); Seed 4 (actually getting better results using runs from above)
- * 33810_338090 = 1/NA/NA/all; pickBestItems(); Seed 4
- */
 
 public class Will {
     
@@ -54,6 +51,11 @@ public class Will {
      * CONSTRUCTOR
      * Assign local variables
      * Initialise and create a new knapsack
+     * @param - _cities: contains a list of all the cities
+     * @param - _itemsArray: contains a list of all the items
+     * @param - _minSpeed, _max_speed: max and min speed of the thief
+     * @param - _capacityOfKnapsack: capacity of the knapsack
+     * @param - _rentingRatio: cost to rent the knapsack for a unit time period
      */
     public Will(City[] _cities, Item[] _itemsArray, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
@@ -64,7 +66,7 @@ public class Will {
         capacityOfKnapsack = _capacityOfKnapsack;
         rentingRatio = _rentingRatio;
         
-        //create new knapsack and a solver
+        //create new empty knapsack
         knapsack = new Knapsack(capacityOfKnapsack);
     }
 
@@ -155,8 +157,8 @@ public class Will {
 
             //check if there is a more optimal solution using the items not already in the solution
             bestCost = removeItemsKnapsack(bestCost, removal, randomChoice);
-            //System.out.println("Removed some items! " + knapsack.getNumItems() + " left in the knapsack, " + itemsListOptimalRemoved.size() + " remaining.");
 
+            //iterations determines the number of times to replace an item in the knapsack with the current one
             int iterations = knapsack.getNumItems();
             if(_iterations != -1){
                 iterations = _iterations;
@@ -164,6 +166,7 @@ public class Will {
 
             bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, bestCost, randomChoice, iterations);
 
+            //get the new list of items not in the knapsack and run it again
             itemsMinusOptimal = convertOptimal(itemsListTemp);
             bestCost = checkBetterSolutionHeuristic(itemsMinusOptimal, bestCost, randomChoice, iterations);
             
@@ -382,15 +385,18 @@ public class Will {
         ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
         Item currentItem = itemsList.get(rand.nextInt(itemsList.size()));
         itemsList.remove(currentItem);
+
+        //pick items ar random until the knapsack is at capacity
         while(currentItem.getWeight() <= knapsack.getCurrentCapacity()){
             knapsack.addItem(currentItem);
 
+            //or if we run out of items
             if(itemsList.size() == 0){
                 break;
             }
 
             currentItem = itemsList.get(rand.nextInt(itemsList.size()));            
-            itemsList.remove(currentItem);
+            itemsList.remove(currentItem); //keeps track of items NOT in the knapsack
         }
         itemsListOptimalRemoved = itemsList;
     }
@@ -451,17 +457,21 @@ public class Will {
     /**
     * Using the given instance, loads the cities into a TSPInstance for use
     * Uses to Optimisation.linkernTour method to extract the cities from file
+    * Also converts from using an integer array to our CITY objects
     * Modifies the global TSPSolution variable
     */
     private void useInstance(){
         int[] tour = Optimisation.linkernTour(ttp);
         TSPSolution = new Individual(tour.length-1);
+
+        //matches the city number with the CITY object supplied in the cities array
         for(int i = 0; i < tour.length-1; i++){
             int currentCity = tour[i];
             City current;
             for(int j = 0; j < cities.length; j++){
                 current = cities[j];
 
+                //sets that city in the TSPSolution with our CITY objects
                 if(current.getNodeNum() == currentCity){
                     TSPSolution.setCity(i, current);
                     break;

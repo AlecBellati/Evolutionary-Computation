@@ -1,3 +1,14 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment Two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ * Adapted from Markus Wagner
+ */
+
 package TTP;
 
 import java.io.BufferedReader;
@@ -22,10 +33,6 @@ import TTP.Thief.TTPSolution;
 import TTP.Thief.Travel.City;
 import TTP.Thief.Travel.Item;
 
-/**
- *
- * @author wagner
- */
 public class TTPInstance {
     
     public File file;
@@ -98,6 +105,7 @@ public class TTPInstance {
     
     /**
      * Add the corresponding items to their corresponding cities
+     * Also creates an independant items array
      */
     public void setupItems() {
         for(int i = 0; i < numberOfItems; i++) {
@@ -120,14 +128,15 @@ public class TTPInstance {
     }
 
     /**
-    *
-    *
+    * Used to return parameters for the algorithm "Will"
+    * @param - instance: instance parameters to return
+    * @return - String[]: parameters relating to a particular instance
     */
     private String[] setupRun(int instance){
         ArrayList<String[]> instances = new ArrayList<String[]>();
 
         //knapsack seed, TSP choice, generations, iterations, {good items, random items}
-        instances.add(0, new String[]{"2", "1", "10", "-1", "-1", "-1"});
+        instances.add(0, new String[]{"2", "1", "10", "-1", "-1", "-1"}); //default
         instances.add(1, new String[]{"2", "1", "10", "-1", "-1", "-1"}); //280, 279
         instances.add(2, new String[]{"2", "1", "10", "-1", "-1", "-1"}); //280, 1395
         instances.add(3, new String[]{"2", "1", "6", "-1", "-1", "-1"}); //280, 2790
@@ -142,8 +151,8 @@ public class TTPInstance {
     }
 
     /**
-    *
-    *
+    * Formats the parameters for the particular instance for the algorithm "Will"
+    * @param - instanceChoice: instance to be run, used to get the appropriate parameters
     */
     private void runWill(int instanceChoice){
         String[] instance = setupRun(instanceChoice);
