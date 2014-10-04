@@ -44,11 +44,18 @@ Steps two and three listed above can be performed multiple times to further the 
 \includegraphics{ObsessivePacking.png}
 \end{figure}
 
+\subsection{Profit Evaluation}
+The evaluate the profit of the solution at each step, the \textit{evaluate} function from the TTPInstance class was used. This ensures that the calculated profit uses the correct formulas and also reduces the code base. Research was done into faster evaluation methods and while it is possible to create a simpler (but less accurate) evaluation technique, the gains were not significant enough for the implementation of a new method.
+
+\subsection{Useability on Problem Types}
+The primary bonus in the choice of this algorithm is it ensures it will behave in similar ways, no matter how the problem is presented. Whether it be strongly bounded, uncorrelated, single item per city, multiple items per city or thousands of cities - the algorithm will be able to obtain good results. The reason for this is its seperate stages of addition, removal and replacement of items, which benefits selective types of data sets. While this process may perform some unecessary operations, it ensures it can be used on a broad range of problem types.
+
+
+\newpage
 \section{Modifications for Larger Data Sets}
 \subsection{Item Subset}
 Since the algorithm considers all items not in the knapsack, it has the potential to grow so large that it may not process important items within the allowable runtime. As a result, for the larger data sets (pla33810) the algorithm only considers a subset of items not contained in the knapsack. The number of items is specific to the problem size but these instances only consider between 2500 and 10000 items that are currently not in the knapsack. These items are approximately 75\% of the ``best'' items and the remaining 25\% are randomly chosen. The ``best'' items are chosen based on their profit-to-weight ratio.
 
-\newpage
 \subsection{Item Replacement}
 Replacing all items in the knapsack greatly increases the runtime. Similar to the section above, the larger data sets may produce large knapsacks and hence replacing every item in the knapsack may reduce the number of items that can be considered. To combat this, the larger data sets are given a maximum number of ``iterations''. An iteration is where an item in the knapsack is replaced with the current item and evaluated (see previous diagram). Where the smaller data sets consider the entire knapsack, the larger data sets may only consider 5 or 15 items to replace in the knapsack. 
 
@@ -63,6 +70,7 @@ Various methods were employed to better the result of the solution. These includ
 
 While these methods served as useful tests and concepts, they did not prove profitable within the algorithm. These methods can be found at the bottom of the algorithm implementation, still available for use.
 
+\newpage
 \subsection{Parameter Tweaking}
 The Obsessive Packing algorithm relies on the parameters defined below. While a baseline set of parameters can be supplied, the algorithm works best when these values are ``tweaked'' for the specific data set.
 \begin{itemize}
@@ -76,8 +84,9 @@ The Obsessive Packing algorithm relies on the parameters defined below. While a 
 \section{Conclusion}
 While this algorithm does prove computationally intensive, it does provide intelligent heuristics to adequately remove data that is considered unusable. While this algorithm is best used by tweaking a number of its values (explained in the testing section), it can be run with a general set of parameters, over various types of data sets, and still obtain good results. Initial runs with this algorithm prove its results are better than those obtained using the supplied \textit{Hill Climber} algorithm. Further explanation of these results can be found in Exercise 5.\\
 
-To better the usage of this algorithm, methods to intelligently select what items need replacing within the knapsack would reduce computation and may also allow for more items to be considered in larger data sets. In addition, methods to modify the parameters explained in the testing section would also allow for greater results and relinquish the need for the user to optimise the parameters.
+To better the usage of this algorithm, methods to intelligently select what items need replacing within the knapsack would reduce computation and may also allow for more items to be considered in larger data sets. In addition, methods to modify the parameters explained in the testing section would also allow for greater results and relinquish the need for the user to optimise the parameters. It would also ensure that operations best suited to that data set are used more often and more efficiently - for instance the larger data sets benefit from removing as many items as possible and them replacing very few with some good quality items.\\
 
+Finally, a more approximation based profit evaluation method may reduce computation time. As the instances become larger it takes a considerable amount of time to evaluate each solution, especially when it is done multiple times for each item not contained within the knapsack.
 
 
 \end{document}

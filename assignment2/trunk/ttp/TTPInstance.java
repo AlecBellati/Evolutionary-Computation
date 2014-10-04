@@ -147,6 +147,9 @@ public class TTPInstance {
         instances.add(8, new String[]{"4", "1", "1", "12", "2000", "500"}); //33810, 169045
         instances.add(9, new String[]{"4", "1", "1", "50", "2000", "500"}); //33810, 338090
 
+        if(instance < 0 || instance > 9){
+            return instances.get(0);
+        }
         return instances.get(instance);
     }
 
@@ -180,8 +183,7 @@ public class TTPInstance {
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
         //matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
-        runWill(choice);
+        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); runWill(choice);
             
         getBestSolution(false);
         System.out.println();

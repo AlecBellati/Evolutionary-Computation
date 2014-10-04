@@ -107,7 +107,7 @@ public class Driver {
 	 */
 	private static void usage() {
 		System.out.println("Usage notes for Driver.java");
-		System.out.println("java Driver <options> -f <filename>");
+		System.out.println("java Driver <options> -f <filename> [1-9]");
 		System.out.println();
 		System.out.println("Options:");
 		System.out.println("\t-f \t Flag followed by filepath/filename.xml of input (must be XML file)");

@@ -1,34 +1,45 @@
-Code for the publication "A Comprehensive Benchmark Set and Heuristics for the Traveling Thief Problem"
+Evolutionary Comptuation
+COMP SCI 4095
+Assignment Two
+William Reid (a1215621) - william.reid@student.adelaide.edu.au
+Alec Bellati (a1608934) - alec.bellati@student.adelaide.edu.au
+Sami Peachey (a1192722) - samantha.peachey@student.adelaide.edu.au
+Matthew Hart (a1193380) - matthew.hart@student.adelaide.edu.au
 
-Download: http://cs.adelaide.edu.au/~optlog/research/ttp.php
 
-Author: Markus Wagner (wagner@acrocon.com)
+URL: https://github.com/AlecBellati/Evolutionary-Computation/
+(Private Github repository, you should have access)
 
-If you have any questions, please do not hesitate to contact the author.
 
--- Details --
+---- Details ----
 
-Driver.java is the main driver file and contains several examples of how the
-code can be used.
+Hi Kelly, Markus, whomever else will be marking this,
 
-The objective function is implemented in TTPInstance.evaluate(...). An 
-alternative implementation that is based on Bonyadi's Matlab code can be found 
-in ttp.Utils.DriverOld.
+This README will explain how to run our code.
 
-ttp.Optimisation contains the iterative heuristics random local search (RLS) and
-the (1+1) evolutionary algorithm (EA). Via the parameter "mode", the user can
-switch between RLS (mode==1) and EA (mode==2). The switch-case-statements can be
-extended easily to incorporate additional heuristics.
+1. Driver.java is the program driver.
 
-ttp.Utils contains several helper function, e.g., a generator for Gridengine 
-batch jobs.
+2. Line 176 in the TTPInstance.java file contains calls to four different algorithms.
+	Alg 1: (Alec)
+	Alg 2: (Matt)
+	Alg 3: (Sami)
+	Alg 4: Obsessive Packing (Will)
+   Uncomment one of these at a time to test each algorithm
 
-instances:
-- The Chained Lin-Kernighan heuristic tours in the folder "instances" are based 
-on the implementation from http://www.tsp.gatech.edu/concorde/downloads/downloads.htm 
-- Exemplary, we include the instances based on the TSP instance a280. All others
-can be downloaded from http://cs.adelaide.edu.au/~optlog/CEC2014COMP_Instances/
+3. In addition, line 192 of the same file contains calls to each of the algorithms to get 
+   the final solution (after 10 minutes). Uncomment the same algorithm name as done in step 2.
 
-approach1-10000-600000.txt: a Gridengine batch job file that would execute all
-9720 TTP instances once using RLS, and a maximum of "10000 iterations no 
-improvment" (up to a total time limit of 600000 ms (=10min)).
+4. Once completed, compiled and run, the program should print out the solution after two minutes,
+   five minutes and 10 minutes.
+
+
+At command line, run:
+
+java Driver -f <filename> [1-9]
+
+The optional addition of the number on the end [1-9] is for us with the Obsessive Packing algorithm (Will)
+and will choose the best parameters for the particular instance supplied. I.e. for instance 1 (a280_n279),
+supply the number 1 at command line, where as for instance 9 (pla33810_n33809), supply the number 9.
+
+Thanking you,
+William Reid, Matthew Hart, Samantha Peachey, Alec Bellati.
