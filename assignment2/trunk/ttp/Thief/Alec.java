@@ -7,6 +7,7 @@
  * Sami Peachey (a1192722)
  * Matthew Hart (a1193380)
  */
+
 package TTP.Thief;
 
 import TTP.Thief.Travel.Individual;

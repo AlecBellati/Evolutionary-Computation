@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Computation
+ * COMP SCI 4095
+ * Assignment two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 package TTP.Thief;
 
 import TTP.Thief.Travel.Item;
@@ -16,6 +26,7 @@ public class Knapsack {
     
     /**
      * Construct an empty knapsack with a known weight limit
+     * @param - _capacity: capacity of this knapsack
      */
     public Knapsack(long _capacity) {
         capacity = _capacity;
@@ -25,6 +36,8 @@ public class Knapsack {
 
     /**
      * Construct a knapsack with items and a known weight limit
+     * @param - _capacity: capacity of this knapsack
+     * @param - item: items for this knapsack to hold
      */
     public Knapsack(long _capacity, Item[] item) {
         capacity = _capacity;
@@ -132,8 +145,8 @@ public class Knapsack {
     }
 
     /**
-    *
-    *
+    * Return the array list of items
+    * @return - ArrayList<Item>: list of items in this knapsack
     */
     public ArrayList<Item> getItemsArray(){
         return items;

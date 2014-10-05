@@ -9,8 +9,6 @@
  */
 package TTP.Thief.Travel;
 
-
-
 import java.util.Random;
 import java.util.ArrayList;
 

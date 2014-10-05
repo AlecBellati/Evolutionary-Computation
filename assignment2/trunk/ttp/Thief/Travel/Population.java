@@ -9,7 +9,6 @@
  */
 package TTP.Thief.Travel;
 
-
 import TTP.Thief.Knapsack;
 
 import java.util.Collections;
