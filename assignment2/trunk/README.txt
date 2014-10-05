@@ -20,7 +20,7 @@ This README will explain how to run our code.
 1. Driver.java is the program driver.
 
 2. Line 176 in the TTPInstance.java file contains calls to four different algorithms.
-	Alg 1: (Alec)
+	Alg 1: Ant Thieves (Alec)
 	Alg 2: (Matt)
 	Alg 3: (Sami)
 	Alg 4: Obsessive Packing (Will)
