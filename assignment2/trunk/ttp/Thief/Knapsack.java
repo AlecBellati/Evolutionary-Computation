@@ -24,7 +24,7 @@ public class Knapsack {
     }
 
     /**
-     * Construct an empty knapsack with a known weight limit
+     * Construct a knapsack with items and a known weight limit
      */
     public Knapsack(long _capacity, Item[] item) {
         capacity = _capacity;
