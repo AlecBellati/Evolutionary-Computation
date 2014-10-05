@@ -66,9 +66,8 @@ public class Matt {
         sortItems();
         
         //2. Find all/most profitable items and put them in the knapsack
-        stealProfitableItems();
-        knapsack.print();
-        
+        stealProfitableItemsTwo();
+
         //3. create lists of profitable and not profitable cities
         ArrayList<City> inSack = new ArrayList<City>();
         ArrayList<City> notInSack = new ArrayList<City>();
@@ -96,7 +95,6 @@ public class Matt {
         City[] notInSackArray = new City[notInSack.size()];
         notInSackArray = notInSack.toArray(notInSackArray);
         
-        System.out.println("Run TSP for rest");
         Individual rest = runTSP(50, 15000, 3, notInSackArray);
         
         
@@ -106,26 +104,14 @@ public class Matt {
         City[] inSackArray = new City[inSack.size()];
         inSackArray = inSack.toArray(inSackArray);
         
-        System.out.println("Run TSP for best");
-        System.out.println("best.lenght = " + inSackArray.length);
         Individual best = null;
         if(inSackArray.length == 1) {
             best = new Individual(inSackArray, true);
         } else {
             best = runTSP(50, 15000, 3, inSackArray);
         }
-        System.out.println("done");
         
         //5. Combine Knapsack TSP and non-profit TSP into TSPSolution
-        System.out.println("Best Individual: ");
-        best.print();
-        
-        System.out.println("\nRest Individual:");
-        rest.print();
-        System.out.println();
-        
-        System.out.println("Total Profit = " + (best.getProfit() + rest.getProfit()) );
-        
         //create the new individual to combine two city arrays
         TSPSolution = new Individual(inSackArray.length-1 + notInSackArray.length);
         int counter = 0;
@@ -139,10 +125,7 @@ public class Matt {
         //add inSackArray
         for(int i = 1; i < best.getCities().length; i++) {
             TSPSolution.setCity(counter+i-1, best.getCityByIndex(i));
-        }
-        
-        TSPSolution.print();
-        
+        }        
     }
     
     /**
@@ -163,7 +146,6 @@ public class Matt {
      * needs rewrite
      */
     public void stealProfitableItems() {
-        ArrayList<Item> profit = new ArrayList<Item>();
         
         //tracking variables
         double totalProfit = 0;
@@ -213,6 +195,84 @@ public class Matt {
         }
         
         System.out.println("Finished filling knapsack - ballpark profit is: " + totalProfit);
+    }
+    
+    /**
+     * Fill the knapsack with as many profitable items as possible
+     */
+    public void stealProfitableItemsTwo() {
+        ArrayList<City> used = new ArrayList<City>();
+        ArrayList<ArrayList<Item>> taken = new ArrayList<ArrayList<Item>>();
+        used.add(cities[0]);
+        
+        double profit = 0;
+        
+        //go through all items
+        for(int i = 0; i < items.size(); i++) {
+            Item current = items.get(i);
+            City currCity = cities[current.getCityNum()];
+            
+            long distance = 0;
+            double actualDistance = 0;
+            double weight = 0;
+            double newProfit = 0;
+            int cityIndex = -1;
+            
+            
+            //if this city isn't already in the list, add the information for this item
+            if(!used.contains(currCity)) {
+                weight += current.getWeight();
+                newProfit += current.getProfit();
+                
+                distance = (long)Math.ceil(currCity.distance(used.get(used.size()-1)));
+                actualDistance = actualDistance + (distance / (1-weight*(maxSpeed - minSpeed)/capacityOfKnapsack));
+            }
+            
+            //Calculate the current distance
+            for(int j = used.size()-1; j > 0; j--) {
+                //add the new items weight
+                if(used.get(j).getNodeNum() == currCity.getNodeNum()) {
+                    weight += current.getWeight();
+                    newProfit += current.getProfit();
+                    cityIndex = j;
+                }
+                
+                ArrayList<Item> takenItems = taken.get(j);
+                
+                //get all items weight
+                for(int k = 0; k < takenItems.size(); k++) {
+                    
+                    weight += takenItems.get(k).getWeight();
+                    newProfit += takenItems.get(k).getProfit();
+                }
+                
+                distance = (long)Math.ceil(used.get(j).distance(used.get(j-1)));
+                actualDistance = actualDistance + (distance / (1-weight*(maxSpeed - minSpeed)/capacityOfKnapsack));
+            }
+            
+            //calculate new profit
+            newProfit = newProfit - actualDistance*rentingRatio;
+            
+            //if we're making money, take the item
+            if(newProfit > profit) {
+                //take the item
+                knapsack.addItem(current);
+                
+                //update profit
+                profit = newProfit;
+                
+                //update variables
+                if(cityIndex > 0) {
+                    ArrayList<Item> takenItems = taken.get(cityIndex);
+                    takenItems.add(current);
+                    
+                } else {
+                    ArrayList<Item> takenItems = new ArrayList<Item>();
+                    takenItems.add(current);
+                    taken.add(takenItems);
+                }
+            }
+        }
     }
     
     

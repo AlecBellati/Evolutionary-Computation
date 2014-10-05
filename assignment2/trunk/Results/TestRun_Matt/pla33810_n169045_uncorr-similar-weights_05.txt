@@ -1,0 +1,14 @@
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+Starting Timer
+Starting Timer
+Starting Timer
+Starting Timer
+Starting Timer
+Starting Timer
+Starting Timer
+Starting Timer

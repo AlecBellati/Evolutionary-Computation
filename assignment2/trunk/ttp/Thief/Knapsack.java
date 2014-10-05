@@ -239,7 +239,7 @@ public class Knapsack {
         System.out.println("-> Capacity of Knapsack: " + capacity);
         System.out.println("-> Current Weight of Knapsack: " + currentWeight);
         //NB: percent sign is escaped with a percent sign.
-        double percent = (currentWeight/capacity) * 100;
+        double percent = ((double)currentWeight/capacity) * 100;
         System.out.println(String.format("-> the Knapsack is %2.2f %% full!", percent));
         System.out.println("-> Current Items in the Knapsack:\n");
         if(items.isEmpty()) {

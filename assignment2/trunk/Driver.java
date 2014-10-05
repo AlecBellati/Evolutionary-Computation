@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment Two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 import java.io.File;
 
 import java.util.Arrays;
@@ -20,7 +30,7 @@ public class Driver {
     
     /**
      * CONSTRUCTOR
-     * @params: String: path/to/file.ttp to load and solve
+     * @param: String: path/to/file.ttp to load and solve
      */
     public Driver(String fileToLoad, int choice) {
         //start new timer
@@ -107,7 +117,7 @@ public class Driver {
 	 */
 	private static void usage() {
 		System.out.println("Usage notes for Driver.java");
-		System.out.println("java Driver <options> -f <filename>");
+		System.out.println("java Driver <options> -f <filename> [1-9]");
 		System.out.println();
 		System.out.println("Options:");
 		System.out.println("\t-f \t Flag followed by filepath/filename.xml of input (must be XML file)");

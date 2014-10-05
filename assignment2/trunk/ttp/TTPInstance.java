@@ -1,3 +1,14 @@
+/*
+ * Evolutionary Comptuation
+ * COMP SCI 4095
+ * Assignment Two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ * Adapted from Markus Wagner
+ */
+
 package TTP;
 
 import java.io.BufferedReader;
@@ -22,10 +33,6 @@ import TTP.Thief.TTPSolution;
 import TTP.Thief.Travel.City;
 import TTP.Thief.Travel.Item;
 
-/**
- *
- * @author wagner
- */
 public class TTPInstance {
     
     public File file;
@@ -56,9 +63,11 @@ public class TTPInstance {
     private TTPSolution solution;
     
     
-    /* Constructor
-     * reads the instance from the file
-     */
+    /** 
+    * Constructor
+    * reads the instance from the file
+    * @param - file: file containing the TTP graph information
+    */
     public TTPInstance(File file) {
         //parse the file
         parseTTP(file);
@@ -81,7 +90,11 @@ public class TTPInstance {
         setupItems();
     }
     
-    // used to simulate the distance matrix
+    /**
+    * Calculates the distance between two points
+    * @param - int i, int j: cities i and j to calculate distance
+    * @return - double: distance between the two cities
+    */
     public double distances(int i, int j) {
         double result = 0;
         result = Math.sqrt(
@@ -98,6 +111,7 @@ public class TTPInstance {
     
     /**
      * Add the corresponding items to their corresponding cities
+     * Also creates an independant items array
      */
     public void setupItems() {
         for(int i = 0; i < numberOfItems; i++) {
@@ -120,14 +134,15 @@ public class TTPInstance {
     }
 
     /**
-    *
-    *
+    * Used to return parameters for the algorithm "Will"
+    * @param - instance: instance parameters to return
+    * @return - String[]: parameters relating to a particular instance
     */
     private String[] setupRun(int instance){
         ArrayList<String[]> instances = new ArrayList<String[]>();
 
         //knapsack seed, TSP choice, generations, iterations, {good items, random items}
-        instances.add(0, new String[]{"2", "1", "10", "-1", "-1", "-1"});
+        instances.add(0, new String[]{"2", "1", "10", "-1", "-1", "-1"}); //default
         instances.add(1, new String[]{"2", "1", "10", "-1", "-1", "-1"}); //280, 279
         instances.add(2, new String[]{"2", "1", "10", "-1", "-1", "-1"}); //280, 1395
         instances.add(3, new String[]{"2", "1", "6", "-1", "-1", "-1"}); //280, 2790
@@ -138,12 +153,15 @@ public class TTPInstance {
         instances.add(8, new String[]{"4", "1", "1", "12", "2000", "500"}); //33810, 169045
         instances.add(9, new String[]{"4", "1", "1", "50", "2000", "500"}); //33810, 338090
 
+        if(instance < 0 || instance > 9){
+            return instances.get(0);
+        }
         return instances.get(instance);
     }
 
     /**
-    *
-    *
+    * Formats the parameters for the particular instance for the algorithm "Will"
+    * @param - instanceChoice: instance to be run, used to get the appropriate parameters
     */
     private void runWill(int instanceChoice){
         String[] instance = setupRun(instanceChoice);
@@ -163,16 +181,16 @@ public class TTPInstance {
     
     /**
      * Entry point for program to start running
+     * @param - choice: used for the "Will" algorithm to select the instance parameters
      */
     public void run(int choice) {
         /********************
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
-        //matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
+        matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(); sami.getSolution();
-        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); 
-        runWill(choice);
+        //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); runWill(choice);
             
         getBestSolution(false);
         System.out.println();
@@ -180,6 +198,7 @@ public class TTPInstance {
     
     /**
      * Timer has expired, get the best solution from the thief and exit the program
+     * @param - intermediate: if it is an intermediate result (2 or 5 minutes) do not write to file
      */
     public void getBestSolution(boolean intermediate) {
         if(!intermediate){
@@ -187,9 +206,9 @@ public class TTPInstance {
         }
         String name = "";
         //solution = alec.getBestSolution(); name = "Alec";
-        //solution = matt.getBestSolution(); name = "Matt";
+        solution = matt.getBestSolution(); name = "Matt";
         //solution = sami.getBestSolution(); name = "Sami";
-        solution = will.getBestSolution(); name = "Will";
+        //solution = will.getBestSolution(); name = "Will";
         
         
         //create file name (calling convention is: <ttpfile>.<algorithmname>.<systemtime>)
@@ -320,9 +339,6 @@ public class TTPInstance {
             System.exit(1);
         }
     }
-    
-    
-    
     
     
     /**

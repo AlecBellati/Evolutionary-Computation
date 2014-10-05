@@ -1,0 +1,140 @@
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 3919 5224.402114115216 1667.1041398136367 9223372036854775807
+Total profit = 1667.1041398136367
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 3958 4785.871074346974 4127.263272913475 9223372036854775807
+Total profit = 4127.263272913475
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 4004 4831.871074346974 3869.203272913477 9223372036854775807
+Total profit = 3869.203272913477
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 3845 5301.34227319254 1235.469847389846 9223372036854775807
+Total profit = 1235.469847389846
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 4024 5480.34227319254 231.27984738984742 9223372036854775807
+Total profit = 231.27984738984742
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 3858 4685.871074346974 4688.263272913475 9223372036854775807
+Total profit = 4688.263272913475
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 3944 4771.871074346974 4205.803272913476 9223372036854775807
+Total profit = 4205.803272913476
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 4129 5434.402114115217 489.0041398136309 9223372036854775807
+Total profit = 489.0041398136309
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 3996 5452.34227319254 388.35984738984916 9223372036854775807
+Total profit = 388.35984738984916
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+
+Solution after two minutes:
+Matt: Timer expired function, return the best solution
+Matt: TSPSolution has not been found
+TTPInstance: No Solution Available!
+TTPInstance: Getting Final TTPSolution
+Matt: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+160.0 25776.0 30976.0 3951 5082.559716701054 2462.8399893070855 9223372036854775807
+Total profit = 2462.8399893070855
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...

@@ -45,9 +45,6 @@ public class City {
         itemCount = 0;
         numItems = _numItems;
         items = new Item[numItems];
-		
-		
-		//setupEdgePheromones();
 	}
 
 	/**
