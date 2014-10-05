@@ -20,7 +20,11 @@ import TTP.TTPInstance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
 import java.util.Random;
+
 
 public class Sami {
     
@@ -64,13 +68,17 @@ public class Sami {
     public void getSolution(TTPInstance ttp) {
         System.out.println("Sami: Running Program");
         this.ttp = ttp;
-        int generations = 10;
+        
+        // Parameters!
+        int generations = 10000; //Best number of generations as per assignment 1
+        int knapsackChoice = 2;
+        
         
         // Create a starting solution
         generateTSPSolution();
         
         // Get a packing plan
-        generateRandomKnapsack();
+        generateKnapsack(knapsackChoice);
         packingPlan = knapsack.getPackingPlan(TSPSolution, itemsArray.length);
         
         // Finish setting up starting solution
@@ -84,7 +92,7 @@ public class Sami {
         // But visit all cities in the order in the solution
         for (int i = 0; i < generations; i++) {
             
-            System.out.println("Generation " + (i+1) + " Starting Cost: " + bestCost);
+            //System.out.println("Generation " + (i+1) + " Starting Cost: " + bestCost);
             
             // Mutate tour
             Individual mutant = mutateTour();
@@ -178,9 +186,7 @@ public class Sami {
      * Mutates a provided tour, keeping the packing list intact.
      */
     public Individual mutateTour() {
-        
-        System.out.println("Mutating tour");
-        
+
         Random rand = new Random();
         ArrayList<Integer> alreadyAdded = new ArrayList<Integer>();
 
@@ -188,8 +194,8 @@ public class Sami {
         Individual mutated = TSPSolution.clone();
         
         // Find subset to mutate
-        int posA = 10;
-        int posB = 15;
+        int posA = 0;
+        int posB = 0;
         
         // Ensure not starting on the first city
         while (posA == 0) {
@@ -208,39 +214,53 @@ public class Sami {
         }
         
         int subsetSize = posB - posA;
-        System.out.println("pos a "+posA+" posb "+posB+" subsetsize "+subsetSize);
 
-        while (posA < posB) {
+        int i = posA;
+        while (i < posB) {
             
             if (requiredCities.contains(posA)) {
                 // Ensure not replacing already set index
-                posA++;
-                System.out.println("if: posA "+posA);
+                i++;
             } else {
                 
-                int index = rand.nextInt((posB - posA) +1) + posA;
+                int index = rand.nextInt((posB - posA)) + posA;
 
-                while (alreadyAdded.contains(index) || requiredCities.contains(posA)) {
-                    index = rand.nextInt((posB - posA) +1) + posA;
-                    System.out.println("index = "+index);
+                while (alreadyAdded.contains(index)) {
+                    index = rand.nextInt((posB - posA)) + posA;
                 }
                 
-                mutated.setCity(posA, cities[index]);
+                mutated.setCity(i, cities[index]);
                 alreadyAdded.add(index);
-                System.out.println("set position "+posA+" to city "+index);
-                posA++;
-                
-                System.out.println("else: posA "+posA);
-
+                i++;
             }
-            
         }
         
         return mutated;
         
     }
     
+    /**
+     * Depending on the supplied integer, seed the knapsack with values
+     * @param: algorithm: determines the algorithm to use
+     */
+    private void generateKnapsack(int algorithm){
+        switch(algorithm){
+            case 1:
+                generateCostFirst();
+                break;
+            case 2:
+                generateWeightFirst();
+                break;
+            case 3:
+                generateRandomKnapsack();
+                break;
+            case 4:
+                generateWeightedCostFirst();
+                break;
+        }
+    }
     
+
     /**
      * Generates a random knapsack.
      */
@@ -267,6 +287,109 @@ public class Sami {
         
     }
     
+    /**
+     * Seeds the knapsack with the items having the highest cost
+     * Calls the sortByCost() method to achieve this
+     * Modifies the global knapsack variable
+     */
+    private void generateCostFirst(){
+        ArrayList<Item> items = sortByCost();
+        for(int i = 0; i < items.size(); i++){
+            Item currentItem = items.get(0);
+            items.remove(0);
+            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
+                break;
+            }
+            knapsack.addItem(currentItem);
+        }
+        itemsList = items;
+    }
+
+    /**
+     * Seeds the knapsack with the items having the lowest weight
+     * Calls the sortByWeight() method to achieve this
+     * Modifies the global knapsack variable
+     */
+    private void generateWeightFirst(){
+        ArrayList<Item> items = sortByWeight();
+        for(int i = 0; i < items.size(); i++){
+            Item currentItem = items.get(0);
+            items.remove(0);
+            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
+                break;
+            }
+            knapsack.addItem(currentItem);
+        }
+        itemsList = items;
+    }
+    
+    /**
+     * Seeds the knapsack with the items having the highest weighted cost
+     * Calls the sortByWeightedCost() method to achieve this
+     * Modifies the global knapsack variable
+     */
+    private void generateWeightedCostFirst(){
+        ArrayList<Item> items = sortByWeightedCost(itemsArray);
+        for(int i = 0; i < items.size(); i++){
+            Item currentItem = items.get(0);
+            items.remove(0);
+            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
+                break;
+            }
+            knapsack.addItem(currentItem);
+        }
+        itemsList = items;
+    }
+    
+    /**
+     * Sorts the items in the itemsArray by weight
+     * @return: ArrayList<Item>: List containing sorted items from lowest to highest weight
+     */
+    private ArrayList<Item> sortByWeight() {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)(i1.getWeight() - i2.getWeight());
+            }
+        });
+        return itemsList;
+    }
+    
+    /**
+     * Sorts the items in the itemsArray by cost
+     * @return: ArrayList<Item>: List containing sorted items from highest to lowest cost
+     */
+    private ArrayList<Item> sortByCost() {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)((i2.getProfit()/i2.getWeight()) - (i1.getProfit()/i1.getWeight()));
+            }
+        });
+        return itemsList;
+    }
+    
+    /**
+     * Sorts the items in the itemsArray by a weighted cost
+     * @param: itemsToSort - Items that need sorting!
+     * @return: ArrayList<Item>: List containing sorted items from highest to lowest weighted cost
+     * Weighted costs is dependant on where it is in the tour as well as its profit/weight ratio
+     */
+    private ArrayList<Item> sortByWeightedCost(Item[] itemsToSort) {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsToSort));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)(((i2.getProfit()/i2.getWeight())*i2.getCityNum()) - ((i1.getProfit()/i1.getWeight())*i1.getCityNum()));
+            }
+        });
+        return itemsList;
+    }
     
     /**
      * Function that gets called when time is up

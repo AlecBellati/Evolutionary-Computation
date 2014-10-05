@@ -1,0 +1,55 @@
+Starting Timer
+Sami: Running Program
+End Cost: 3.167356848286016E7
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+-2887.0 28823.0 33723.0 11293 -5639901.155590046 3.167356848286016E7 9223372036854775807
+Total profit = 3.167356848286016E7
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+End Cost: 6.611486086339986E8
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+-6219.0 32155.0 38055.0 13667 -1.1784501847308353E8 6.611486086339986E8 9223372036854775807
+Total profit = 6.611486086339986E8
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+End Cost: 2.368574772414532E9
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+-2882.0 28818.0 34018.0 14270 -4.221997779705048E8 2.368574772414532E9 9223372036854775807
+Total profit = 2.368574772414532E9
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+End Cost: 1.7349052893189034E8
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+-2883.0 28819.0 33919.0 9310 -3.0919181806041054E7 1.7349052893189034E8 9223372036854775807
+Total profit = 1.7349052893189034E8
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+End Cost: 3.065938232218639E7
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+-2886.0 28822.0 34722.0 8910 -5458941.233901317 3.065938232218639E7 9223372036854775807
+Total profit = 3.065938232218639E7
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...

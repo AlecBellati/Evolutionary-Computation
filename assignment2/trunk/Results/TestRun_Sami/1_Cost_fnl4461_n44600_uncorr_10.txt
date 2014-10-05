@@ -1,0 +1,90 @@
+Starting Timer
+Sami: Running Program
+
+Solution after two minutes:
+Sami: Timer expired function, return the best solution
+9061275.0 1.1182884E7 1.1180543E7 5233498 7175301.740776339 -3.385436638454388E8 9223372036854775807
+Total profit = -3.385436638454388E8
+End Cost: -3.271376195491325E8
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+9162344.0 1.1081815E7 1.1115955E7 5072740 6939958.443765542 -3.271376195491325E8 9223372036854775807
+Total profit = -3.271376195491325E8
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+
+Solution after two minutes:
+Sami: Timer expired function, return the best solution
+9157882.0 1.1086277E7 1.1165877E7 5278128 7215331.900240441 -3.405093998177191E8 9223372036854775807
+Total profit = -3.405093998177191E8
+
+Solution after five minutes:
+Sami: Timer expired function, return the best solution
+9177036.0 1.1067123E7 1.1223548E7 5117808 6965079.36851819 -3.282544204215766E8 9223372036854775807
+Total profit = -3.282544204215766E8
+End Cost: -3.2765110222391015E8
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+9211725.0 1.1032434E7 1.1197406E7 5112054 6952164.715303861 -3.2765110222391015E8 9223372036854775807
+Total profit = -3.2765110222391015E8
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+
+Solution after two minutes:
+Sami: Timer expired function, return the best solution
+9231246.0 1.1012913E7 1.1044757E7 5298994 7232306.3324998915 -3.4145785364604473E8 9223372036854775807
+Total profit = -3.4145785364604473E8
+
+Solution after five minutes:
+Sami: Timer expired function, return the best solution
+9179025.0 1.1065134E7 1.1070165E7 5130515 7009859.258951166 -3.305903752812798E8 9223372036854775807
+Total profit = -3.305903752812798E8
+End Cost: -3.282461043732028E8
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+9190853.0 1.1053306E7 1.1055468E7 5097467 6961460.24565455 -3.282461043732028E8 9223372036854775807
+Total profit = -3.282461043732028E8
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+
+Solution after two minutes:
+Sami: Timer expired function, return the best solution
+9162250.0 1.1081909E7 1.1107367E7 5228863 7182739.750694343 -3.389793684488423E8 9223372036854775807
+Total profit = -3.389793684488423E8
+End Cost: -3.2137024842073655E8
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+9203436.0 1.1040723E7 1.1075288E7 4996840 6820794.756272805 -3.2137024842073655E8 9223372036854775807
+Total profit = -3.2137024842073655E8
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
+
+Solution after two minutes:
+Sami: Timer expired function, return the best solution
+9272765.0 1.0971394E7 1.1090702E7 5194646 7081211.147504205 -3.3404752932935494E8 9223372036854775807
+Total profit = -3.3404752932935494E8
+End Cost: -3.242100091175265E8
+TTPInstance: Getting Final TTPSolution
+Sami: Timer expired function, return the best solution
+TTPInstance: Solution Exists! Evalutating and Writing Solution to File
+9222211.0 1.1021948E7 1.108395E7 5040768 6879235.927729308 -3.242100091175265E8 9223372036854775807
+Total profit = -3.242100091175265E8
+TTPInstance: exiting program
+
+Driver: Program Finished Early, Exiting Program...
