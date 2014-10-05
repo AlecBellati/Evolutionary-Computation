@@ -95,7 +95,7 @@ public class Matt {
         City[] notInSackArray = new City[notInSack.size()];
         notInSackArray = notInSack.toArray(notInSackArray);
         
-        Individual rest = runTSP(50, 15000, 3, notInSackArray);
+        Individual rest = runTSP(50, 10000, 3, notInSackArray);
         
         
         //4b. Solve TSP for all cities that are profitable
@@ -108,7 +108,7 @@ public class Matt {
         if(inSackArray.length == 1) {
             best = new Individual(inSackArray, true);
         } else {
-            best = runTSP(50, 15000, 3, inSackArray);
+            best = runTSP(50, 10000, 3, inSackArray);
         }
         
         //5. Combine Knapsack TSP and non-profit TSP into TSPSolution
