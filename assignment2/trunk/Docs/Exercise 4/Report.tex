@@ -2,6 +2,7 @@
 \usepackage{a4wide}
 \usepackage{acronym}
 \usepackage{graphicx}
+\usepackage{amssymb,amsmath}
 \usepackage[title,titletoc,toc]{appendix}
 
 
@@ -24,6 +25,96 @@ The University of Adelaide\\
 
 \section*{Exercise 4}
 In the planning phase, two algorithms were conceptualised that could potentially solve the Travelling Thief Problem. The first of these algorithms was based on the ``Ant Colony Optimisation'' method that was discussed in lectures. The second was an optimisation to the naive solution based on a recognised heuristic of the problem that taking items early in the tour is likely to be more expensive than taking items as late in the tour as possible.
+
+% ALGORITHM 1
+
+\subsection*{Algorithm 1: Ant Thieves}
+
+The ant thieves (AT) algorithm is an ant colony optimization algorithm. The idea behind this approach is to try and optimise both the tour and knapsack at the same time unlike the approaches in exercise 2 and 3.
+
+
+\subsubsection*{1. Setup}
+
+At the start of the algorithm, each item and path is given an attractiveness and pheromone value. The attractiveness is a constant value which is used to determine how valuable the item or path is to take. The attractiveness of an item can be calculated by the following equation:
+
+\begin{equation}
+\frac{Weight}{Profit}
+\end{equation}
+
+The attractiveness of a path can be calculated by the following equation:
+
+\begin{equation}
+\frac{1}{Length}
+\end{equation}
+
+The pheromone value of the items and paths changes throughout the run of the algorithm and not at the constant rate aswell.
+
+\subsubsection*{2. Find ant solutions}
+
+AT uses “ants” which walk along paths between cities and sometimes picking up item(s) at the city visited. An equal amount of two types of ants are considered when finding solutions. One ant finds the tour first then fills its knapsack, while the other does the other way around.
+
+\paragraph*{2a. Tour-first ant}
+
+The tour-first ant finds a tour of between every city then uses this route to determine which items it should take.
+
+Starting from the first city, the ant calculates a probability to take each path by considering the attractiveness and pheromone value of it. The probability for some path x can be calculated using the following formula where n is the number of paths being considered:
+
+\begin{equation}
+\frac{Attractiveness_{x} * Pheromone_{x}}{\sum_{i = 1}^{n} Attractiveness_{i} * Pheromone_{i}}
+\end{equation}
+
+The ant repeats this set with each time not considering the previous city until the entire path has been found.
+
+Afterwards the ant picks up items by starting considering them starting from the back of the tour. The probability that an item x will be taken is the following:
+
+\begin{equation}
+\frac{Pheromone_{x}}{Pheromone_{MAX}}
+\end{equation}
+
+The ant stops picking up items when the next item considered will not fit in its knapsack. The ant then removes a random amount of items from the knapsack that have the lowest profit to weight ratio.
+
+
+\paragraph*{2b. Knapsack-first ant}
+
+The knapsack-first ant finds which items to take then determines the route it should take following this.
+
+Each item is considered until either all items have been considered or the next item it tries to add to it's knapsack does not fit. The probability for choosing for some item x is the following where n is the number of items left to consider:
+
+\begin{equation}
+\frac{Attractiveness_{x} * Pheromone_{x}}{\sum_{i = 1}^{n} Attractiveness_{i} * Pheromone_{i}}
+\end{equation}
+
+Similarly to the tour-first ant, it removes items based on their profit to weight ratio.
+
+After the items has been chosen, the ant then decides upon a path between all the cities with these items the same way as ant 1 pickings their path. Then similarly creates a path between all the other cities and links them together with the second path created being taken first.
+
+\subsubsection*{3. Cull weaker ants}
+
+The algorithm only uses the best ants in the population so that the solution can skew towards the better paths and items. It does this by removing a subsection of the ants that produced worse results than all the others.
+
+\subsubsection*{4. Update pheromone values}
+
+After all the considered ants have finished their tour, the algorithm updates the pheromone values based on their tours. Firstly all item and path pheromone values decay by a constant rate.
+
+For each solution found, the ant lays the same amount of pheromone on each path visited as well as the items taken. The amount dropped can be calculated by the following equation:
+
+\begin{equation}
+\frac{SolutionCost}{BestSolutionCost}
+\end{equation}
+
+The algorithm then returns to step 2 until the timer runs out.
+
+\subsection*{Ant Thieves Results}
+
+
+The results of this approach were not as ideal as other approaches considered. For the smaller test sets the algorithm produced positive results but were not as great as other approaches. Also when considering larger test sets, the program would run out of memory due to the large amount of overhead in saving the pheromone values.
+
+
+
+
+
+
+% ALGORITHM 2
 
 \subsection*{Algorithm 2: Late Item Collection}
 \begin{figure}[h]
@@ -70,7 +161,7 @@ The set of profitable cities are currently ordered by the Item rank. However, th
 Finally, the two subsets need to be combined into the final solution. This is done by taking the best individual from step 3 and prefixing this to the best individual from step 4. Once the two subsets have been recombined into a final solution, this is then sent to TTPSolution and TTPInstance.evaluate to obtain the objective function.
 
 
-\subsection*{Results}
+\subsection*{Late Item Collection Results}
 Unfortunately, the Late Item Collection algorithm does not perform very well, getting poor results on small, medium and large datasets - splitting the problem space into two subsets, whilst a good heuristic, allows for bad results.
 
 Upon analysis, the reason for this is that splitting the problem into two subsets allows for a potentially good solution within the subsets themselves, but when recombined, the solution allows for expensive edge costs within the tour as a whole (as displayed in figure 3).
