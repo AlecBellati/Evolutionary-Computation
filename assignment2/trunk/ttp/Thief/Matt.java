@@ -305,12 +305,12 @@ public class Matt {
 	 * Will run Algorithm 1 and output best solution
 	 * @param populationSize - size of population to run with
 	 * @param generations - number of cycles to perform algorithm
-     * @param int - Algorithm number to use [1,4]
+     * @param int - Algorithm number to use [1,5]
      * @param City[] - cities to pass to the TSP solver
 	 * @return Individual - best individual from the given algorithm
 	 */
 	private Individual runTSP(int populationSize, int generations, int alg, City[] subCity) {
-        if(alg < 0 || alg > 6) {
+        if(alg < 1 || alg > 5) {
             System.out.println("TSP Algorithm Numbers must be [1,5]");
             return null;
         }

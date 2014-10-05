@@ -163,7 +163,7 @@ public class Knapsack {
         // Setup a binary array
 		int[] packingPlan = new int[totalItems];
         Arrays.fill(packingPlan, 0);
-		
+        
 		for (int i = 0; i < items.size(); i++){
 			packingPlan[items.get(i).getItemNum()] = 1;
 		}

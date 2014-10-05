@@ -386,7 +386,7 @@ public class Will {
         Item currentItem = itemsList.get(rand.nextInt(itemsList.size()));
         itemsList.remove(currentItem);
 
-        //pick items ar random until the knapsack is at capacity
+        //pick items at random until the knapsack is at capacity
         while(currentItem.getWeight() <= knapsack.getCurrentCapacity()){
             knapsack.addItem(currentItem);
 

@@ -188,8 +188,8 @@ public class TTPInstance {
          * CREATE YOUR THIEF*
          ********************/
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
-        matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
-        //sami = new Sami(); sami.getSolution();
+        //matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
+        sami = new Sami(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); sami.getSolution(this);
         //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); runWill(choice);
             
         getBestSolution(false);
@@ -206,8 +206,8 @@ public class TTPInstance {
         }
         String name = "";
         //solution = alec.getBestSolution(); name = "Alec";
-        solution = matt.getBestSolution(); name = "Matt";
-        //solution = sami.getBestSolution(); name = "Sami";
+        //solution = matt.getBestSolution(); name = "Matt";
+        solution = sami.getBestSolution(); name = "Sami";
         //solution = will.getBestSolution(); name = "Will";
         
         
