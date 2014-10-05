@@ -1,5 +1,5 @@
 /*
- * Evolutionary Comptuation
+ * Evolutionary Computation
  * COMP SCI 4095
  * Assignment One
  * William Reid (a1215621)
@@ -30,9 +30,11 @@ public class City {
     
     /**
 	 * Constructor of a City.
-	 * @param int cityNode - number to characterize this city (considered its name)
-	 * @param int numEdges - number of cities it connects to
-     * @param int numItems - number of items in the city
+	 * @param: int: Number to characterize this city (considered its name)
+	 * @param: int: Number of cities it connects to
+     * @param: int: Number of items in the city
+	 * @param: double: The x coordinate of this city
+	 * @param: double: The y coordinate of this city
 	 */
 	public City(int cityNode, int _numEdges, int _numItems, double x, double y) {
 		node = cityNode;
@@ -48,24 +50,24 @@ public class City {
 	}
 
 	/**
-	*
-	*
-	*/
+	 * Return the x coordinate of this city
+	 * @return: The x coordinate of the city
+	 */
 	public double getX(){
 		return xCoord;
 	}
 
 	/**
-	*
-	*
-	*/
+	 * Return the y coordinate of this city
+	 * @return: The y coordinate of the city
+	 */
 	public double getY(){
 		return yCoord;
 	}
     
     /**
      * Add an item to the city
-     * @param: Item: item to add to the city
+     * @param: Item: Item to add to the city
      */
     public void addItem(Item item) {
         items[itemCount] = item;
@@ -87,7 +89,7 @@ public class City {
 
     /**
      * Get the Items from this City
-     * @return: Item[]: the Items from this City
+     * @return: Item[]: The Items from this City
      */
     public Item[] getItems() {
         return items;
@@ -95,7 +97,7 @@ public class City {
 	
 	/**
      * Get the number of Items in this City
-     * @return: int: the number of Items in this City
+     * @return: int: The number of Items in this City
      */
     public int getItemCount() {
         return itemCount;
@@ -103,7 +105,7 @@ public class City {
     
     /**
      * Checks to see if the item is contained in this city
-     * @param: boolean true if contains item, else false
+     * @param: boolean: True if contains item, else false
      */
 	public boolean containsItem(Item item) {
         for(int i = 0; i < items.length; i++) {
@@ -115,7 +117,7 @@ public class City {
     }
 	/**
 	 * Gets the "name" of the node
-	 * @return: int node: the name of the node
+	 * @return: int: The name of the node
 	 */
 	public int getNodeNum() {
 		return node;
@@ -123,7 +125,7 @@ public class City {
 
 	/**
 	 * Sets whether a node has been visited.
-	 * @param boolean b - whether the node has been visited
+	 * @param: boolean: Whether the node has been visited
 	 */
 	public void hasBeenVisited(boolean b) {
 		visited = b;
@@ -131,7 +133,7 @@ public class City {
 	
 	/**
 	 * Indicates whether the node has been visited
-	 * @return boolean visited - whether the node has been visited
+	 * @return: boolean: Whether the node has been visited
 	 */
 	public boolean visited() {
 		return visited;
@@ -139,8 +141,8 @@ public class City {
 	
 	/**
 	 * Combine the properties of a city
-	 * @param City toCity - the city to get the properties for
-	 * @return String - the city's properties
+	 * @param: City: The city to get the properties for
+	 * @return: String: The city's properties
 	 */
 	public String toString(City toCity) {
 		int nextCity = toCity.getNodeNum();
@@ -149,11 +151,12 @@ public class City {
 
     /**
     * Used to simulate the distance matrix
-    *
+    * @param: City: The city the distance is being found to
+	* @return: double: The distance between the two cities
     */
     public double distance(City city) {
         double result = 0;
-        result = Math.sqrt((xCoord-city.getX()) * (xCoord-city.getX()) + (yCoord-city.getY()) * (yCoord-city.getY()));
+        result = Math.sqrt(Math.pow(xCoord-city.getX(), 2) + Math.pow(yCoord-city.getY(), 2));
         
         return result;
     }
@@ -162,8 +165,8 @@ public class City {
 	
     /**
 	 * Gets the pheromone of the edge to 'city'
-	 * @param: int: the city num of the end of the edge
-	 * @return: double edgePheromone[city]: the pheromone value of the edge
+	 * @param: int: The city num of the end of the edge
+	 * @return: double: The pheromone value of the edge
 	 */
 	public double getEdgePheromone(int city) {
 		return edgePheromone[city];
