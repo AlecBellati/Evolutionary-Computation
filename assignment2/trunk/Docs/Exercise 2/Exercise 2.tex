@@ -45,10 +45,10 @@ Steps two and three listed above can be performed multiple times to further the 
 \end{figure}
 
 \subsection{Profit Evaluation}
-The evaluate the profit of the solution at each step, the \textit{evaluate} function from the TTPInstance class was used. This ensures that the calculated profit uses the correct formulas and also reduces the code base. Research was done into faster evaluation methods and while it is possible to create a simpler (but less accurate) evaluation technique, the gains were not significant enough for the implementation of a new method.
+To evaluate the profit of the solution at each step, the \textit{evaluate} function from the TTPInstance class was used. This ensures that the calculated profit uses the correct formulas and also reduces the code base. Research was done into faster evaluation methods and while it is possible to create a simpler (but less accurate) evaluation technique, the gains were not significant enough for the implementation of a new method.
 
 \subsection{Useability on Problem Types}
-The primary bonus in the choice of this algorithm is it ensures it will behave in similar ways, no matter how the problem is presented. Whether it be strongly bounded, uncorrelated, single item per city, multiple items per city or thousands of cities - the algorithm will be able to obtain good results. The reason for this is its seperate stages of addition, removal and replacement of items, which benefits selective types of data sets. While this process may perform some unecessary operations, it ensures it can be used on a broad range of problem types.
+The primary bonus in the choice of this algorithm is it ensures it will behave in similar ways, no matter how the problem is presented. Whether it be strongly bounded, uncorrelated, single item per city, multiple items per city or thousands of cities - the algorithm will be able to obtain good results. The reason for this is its separate stages of addition, removal and replacement of items, which benefits selective types of data sets. While this process may perform some unnecessary operations, it ensures it can be used on a broad range of problem types.
 
 
 \newpage
