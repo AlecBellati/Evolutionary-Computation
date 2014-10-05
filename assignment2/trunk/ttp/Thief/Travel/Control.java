@@ -7,6 +7,7 @@
  * Sami Peachey (a1192722)
  * Matthew Hart (a1193380)
  */
+
 package TTP.Thief.Travel;
 
 
@@ -89,7 +90,7 @@ public class Control {
 		return null;
 	}
 	
-		/**
+    /**
 	 * Simulates an algorithm something similar to that of the GA in the book/lecture
 	 * @param Population - the TSPGraph to perform the algorithm on
 	 * @param int solutionSize - population to begin each generation (cut down at selection)
@@ -499,7 +500,7 @@ public class Control {
 	}
     
     /**
-	 * Algorithm 3 for TTP based on Operator/Mutator and Selection efficiacy.
+	 * Algorithm 5 for TTP based on Operator/Mutator and Selection efficiacy. This algorithm maximises for profit instead of minimising for total edge costs
 	 * @param Population - the TSPGraph to perform the algorithm on
 	 * @param int solutionSize - population to begin each generation (cut down at selection)
 	 * @param int poplation_size - population size at the end of a generation (before selection)

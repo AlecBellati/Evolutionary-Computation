@@ -1,3 +1,13 @@
+/*
+ * Evolutionary Computation
+ * COMP SCI 4095
+ * Assignment two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
+
 package TTP.Thief;
 
 import TTP.Thief.Travel.City;
@@ -35,13 +45,12 @@ public class Matt {
     
     /**
      * Constructor for Thief
-     *
-     *
-     *
-     * I'mma do this later
-     *
-     *
-     *
+     * @param: City[]: array of all city objects in this TTP
+     * @param: Item[]: array of all items in all cities
+     * @param: double: minimum speed of the thief
+     * @param: double: maximum speed of the thief
+     * @param: long: capacity of the knapsack
+     * @param: double: renting ratio for the knapsack
      */
     public Matt(City[] _cities, Item[] allItems, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
@@ -95,7 +104,7 @@ public class Matt {
         City[] notInSackArray = new City[notInSack.size()];
         notInSackArray = notInSack.toArray(notInSackArray);
         
-        Individual rest = runTSP(50, 15000, 3, notInSackArray);
+        Individual rest = runTSP(50, 10000, 3, notInSackArray);
         
         
         //4b. Solve TSP for all cities that are profitable
@@ -108,7 +117,7 @@ public class Matt {
         if(inSackArray.length == 1) {
             best = new Individual(inSackArray, true);
         } else {
-            best = runTSP(50, 15000, 3, inSackArray);
+            best = runTSP(50, 10000, 3, inSackArray);
         }
         
         //5. Combine Knapsack TSP and non-profit TSP into TSPSolution
@@ -143,7 +152,7 @@ public class Matt {
     
     /**
      * Fill the knapsack with as many profitable items as possible
-     * needs rewrite
+     * has bugs - use the second one
      */
     public void stealProfitableItems() {
         
