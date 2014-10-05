@@ -1,7 +1,7 @@
 /*
  * Evolutionary Computation
  * COMP SCI 4095
- * Assignment One
+ * Assignment two
  * William Reid (a1215621)
  * Alec Bellati (a1608934)
  * Sami Peachey (a1192722)

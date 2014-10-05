@@ -1,3 +1,12 @@
+/*
+ * Evolutionary Computation
+ * COMP SCI 4095
+ * Assignment two
+ * William Reid (a1215621)
+ * Alec Bellati (a1608934)
+ * Sami Peachey (a1192722)
+ * Matthew Hart (a1193380)
+ */
 package TTP.Thief;
 
 import TTP.Thief.Travel.Individual;
@@ -42,8 +51,14 @@ public class Alec {
 	/** Randomiser */
 	private Random rnd;
 	
+	/** TTP instance */
+	private TTPInstance instance;
+	
 	/**
-     * CONSTRUCTOR
+     * Constructor
+	 * @param: City[]: The cities in the problem
+	 * @param: Item[]: The items in the problem
+	 * @param: long: The capacity of the knapsack in the problem
      */
     public Alec(City[] cities, Item[] items, long capacityOfKnapsack) {
         this.cities = cities;
@@ -61,13 +76,13 @@ public class Alec {
     public void getSolution(TTPInstance instance) {
         System.out.println("Alec: Running Program");
 		
+		this.instance = instance;
 		double currBest = bestCost;
 		
 		// Setup edge pheromones
 		for (int i = 0; i < cities.length; i++){
 			cities[i].setupEdgePheromones();
 		}
-		
 		
 		//for (int g = 0; g < GENERATIONS; g++){
 		for (int g = 0; true; g++){
@@ -96,7 +111,7 @@ public class Alec {
 			}
 			
 			// Update the solutions and the best solution
-			getBestSolutions(instance);
+			getBestSolutions();
 			
 			// Update the pheromone values
 			updatePheromone();
@@ -104,33 +119,14 @@ public class Alec {
 			// Print the cost of the best solution found
 			if (bestCost > currBest){
 				System.out.println("****" + g + ": " + bestCost + "****");
-				//popTTP[0].println();
-				//popTSP[0].print();
-				//popKnap[0].print();
-				
 				currBest = bestCost;
-				
-				/*
-				City currCity = popTSP[0].getCityByIndex(0);
-				City nextCity;
-				for (int i = 1; i < cities.length; i++){
-					nextCity = popTSP[0].getCityByIndex(i);
-					System.out.println(currCity.getEdgePheromone(nextCity.getNodeNum()));
-					currCity = nextCity;
-				}
-				*/
-				/*
-				for (int i = 1; i < popKnap[0].getNumItems(); i++){
-					System.out.println(items[popKnap[0].getItem(i).getItemNum()].getPheromone());
-				}
-				*/
 			}
 		}
     }
     
     /**
      * Function that gets called when time is up
-	 * @return: TSPSolution: solution after 10 minutes
+	 * @return: TSPSolution: Solution after 10 minutes
      */
     public TTPSolution getBestSolution() {
         System.out.println("Alec: Timer expired function, return the best solution");
@@ -370,7 +366,7 @@ public class Alec {
 	/**
 	 * Trim TTP solutions to have only the best amount and set the best
 	 */
-	private void getBestSolutions(TTPInstance instance){
+	private void getBestSolutions(){
 		ArrayList<TTPSolution> orderedTTP = new ArrayList<TTPSolution>();
 		ArrayList<Individual> orderedTSP = new ArrayList<Individual>();
 		ArrayList<Knapsack> orderedKnap = new ArrayList<Knapsack>();
