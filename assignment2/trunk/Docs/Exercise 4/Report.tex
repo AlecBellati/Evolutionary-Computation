@@ -111,7 +111,7 @@ The results of this approach were not as ideal as other approaches considered. F
 
 Tweaking can be done to this project changing certain constants such as the decay rate of pheromone values, but it is predicted this will not have significant enough of an effect on the results. Also as the algorithm cannot be run in larger test sets due to a overhead that cannot be completely elimated, this algorithm will not be acceptable even if it produced much greater results.
 
-
+\newpage
 
 
 % ALGORITHM 2
@@ -132,9 +132,9 @@ The implementation of this algorithm was broken down into 5 parts:
 
 \subsubsection*{1. Rank Each Item}
 Every item in every city is given a ranking. This ranking is based on the profit of the item versus the weight of the item.
-\begin{center}
-\emph{profitOfItem/weightOfItem}
-\end{center}
+\begin{equation}
+\frac{profitOfItem}{weightOfItem}
+\end{equation}
 
 \subsubsection*{2. Fill Knapsack}
 \begin{figure}[h]
@@ -162,12 +162,14 @@ Finally, the two subsets need to be combined into the final solution. This is do
 
 
 \subsection*{Late Item Collection Results}
-Unfortunately, the Late Item Collection algorithm does not perform very well, getting poor results on small, medium and large datasets - splitting the problem space into two subsets, whilst a good heuristic, allows for bad results.
-
+Unfortunately, the Late Item Collection algorithm does not perform very well, getting poor results on small, medium and large datasets (in fact timing out on the medium and large dataset) - splitting the problem space into two subsets, whilst a good heuristic, allows for bad results.\\
+\\
 Upon analysis, the reason for this is that splitting the problem into two subsets allows for a potentially good solution within the subsets themselves, but when recombined, the solution allows for expensive edge costs within the tour as a whole (as displayed in figure 3).
 \begin{figure}[h]
 \centering
 \includegraphics[width=80mm]{TheIssue.png}
 \end{figure}
+\\
+The bulk of the time in this algorithm is spent solving the TSP, rather than filling the knapsack. Unfortunately, in the medium and large datasets, solving the TSP with a reasonable number of generations exceeds the 10 minute limit.\\
 
 \end{document}
