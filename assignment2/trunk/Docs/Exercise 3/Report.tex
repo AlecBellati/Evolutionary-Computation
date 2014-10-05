@@ -54,15 +54,15 @@ Some different methods were considered to try and better the result of the solut
 
 The results of this algorithm were not as ideal as other approaches considered. This problem can be reduced to finding the shortest path through a graph, with required checkpoints at given stages. Given the limitations in regards to the items that need to be collected, this simply becomes a matter of minimising the rent paid and there are not many other variables that can influence this. \\
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=80mm]{AlgorithmResults.png}
+\end{figure}
+
 Using the cost first approach to generating the knapsack, negative values were consistently produced. This approach was run using n = 10,000 generations (this was found to be the optimal number of generations in assignment 1), and the improvement over such a large number of generations was minimal. \\
 
-The same can be said of the random knapsack generation, however over significantly smaller generation sizes (n = 10, n = 100), this approach saw a significantly better improvement from the initial starting position. The random knapsack generation approach also works much better than the cost first approach for both the bounded strong correlated and uncorrelated but similar weights problems, yet for the uncorrelated, dissimilar weights problems, the random knapsack seed was consistenlty worse. \\
+The same can be said of the random knapsack generation, however over significantly smaller generation sizes (n = 10, n = 100), this approach saw a significantly better improvement from the initial starting position. The random knapsack generation approach also works much better than the cost first approach for both the bounded strong correlated and uncorrelated but similar weights problems, yet for the uncorrelated, dissimilar weights problems, the random knapsack seed was consistently worse. \\
 
-\newpage
-
-\section{Conclusion}
-
-
-
+It can be seen that the initial knapsack packing has a significant impact upon the performance of the travelling thief, and if this is suboptimal, there is not much that can be done to rectify the situation. It is also quite possible that there is a problem with my implementation, given the extremely negative figures, or in some instances, extremely high figures. 
 
 \end{document}

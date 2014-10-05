@@ -3,14 +3,14 @@ Sami: Running Program
 
 Solution after two minutes:
 Sami: Timer expired function, return the best solution
-168806.0 218344.0 269444.0 5485921 7366156.400330384 -1.0043174960462537E7 9223372036854775807
-Total profit = -1.0043174960462537E7
-End Cost: -9416173.799602525
+79564.0 307586.0 497386.0 5517568 9015682.894509172 -1.212457005231284E7 9223372036854775807
+Total profit = -1.212457005231284E7
+End Cost: -1.192665476058856E7
 TTPInstance: Getting Final TTPSolution
 Sami: Timer expired function, return the best solution
 TTPInstance: Solution Exists! Evalutating and Writing Solution to File
-189027.0 198123.0 245423.0 5412603 6901140.571144662 -9416173.799602525 9223372036854775807
-Total profit = -9416173.799602525
+83575.0 303575.0 490675.0 5475481 8869521.257563258 -1.192665476058856E7 9223372036854775807
+Total profit = -1.192665476058856E7
 TTPInstance: exiting program
 
 Driver: Program Finished Early, Exiting Program...
@@ -19,16 +19,18 @@ Sami: Running Program
 
 Solution after two minutes:
 Sami: Timer expired function, return the best solution
-176612.0 210538.0 263338.0 5619896 7391426.554815571 -1.00846591767418E7 9223372036854775807
-Total profit = -1.00846591767418E7
-End Cost: -9718477.378072351
+78443.0 308707.0 495207.0 5494175 9035551.366559582 -1.2154564913183413E7 9223372036854775807
+Total profit = -1.2154564913183413E7
+End Cost: -1.194405960485335E7
 TTPInstance: Getting Final TTPSolution
 Sami: Timer expired function, return the best solution
 TTPInstance: Solution Exists! Evalutating and Writing Solution to File
-185295.0 201855.0 251955.0 5549031 7121737.412908823 -9718477.378072351 9223372036854775807
-Total profit = -9718477.378072351
+82538.0 304612.0 488312.0 5465479 8880265.432038108 -1.194405960485335E7 9223372036854775807
+Total profit = -1.194405960485335E7
 TTPInstance: exiting program
 
 Driver: Program Finished Early, Exiting Program...
+Starting Timer
+Sami: Running Program
 Starting Timer
 Sami: Running Program
