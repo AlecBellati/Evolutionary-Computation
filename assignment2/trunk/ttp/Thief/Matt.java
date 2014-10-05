@@ -35,13 +35,12 @@ public class Matt {
     
     /**
      * Constructor for Thief
-     *
-     *
-     *
-     * I'mma do this later
-     *
-     *
-     *
+     * @param: City[]: array of all city objects in this TTP
+     * @param: Item[]: array of all items in all cities
+     * @param: double: minimum speed of the thief
+     * @param: double: maximum speed of the thief
+     * @param: long: capacity of the knapsack
+     * @param: double: renting ratio for the knapsack
      */
     public Matt(City[] _cities, Item[] allItems, double _minSpeed, double _maxSpeed, long _capacityOfKnapsack, double _rentingRatio) {
         //Setup variables
@@ -143,7 +142,7 @@ public class Matt {
     
     /**
      * Fill the knapsack with as many profitable items as possible
-     * needs rewrite
+     * has bugs - use the second one
      */
     public void stealProfitableItems() {
         
