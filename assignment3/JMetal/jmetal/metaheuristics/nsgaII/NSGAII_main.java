@@ -29,6 +29,7 @@ import jmetal.operators.crossover.CrossoverFactory;
 import jmetal.operators.mutation.MutationFactory;
 import jmetal.operators.selection.SelectionFactory;
 import jmetal.problems.ProblemFactory;
+import jmetal.problems.ZDT.ZDT2;
 import jmetal.problems.ZDT.ZDT3;
 import jmetal.qualityIndicator.QualityIndicator;
 import jmetal.util.Configuration;
@@ -98,7 +99,10 @@ public class NSGAII_main {
       //problem = new Kursawe("Real", 3);
       //problem = new Kursawe("BinaryReal", 3);
       //problem = new Water("Real");
-      problem = new ZDT3("ArrayReal", 30);
+        
+        problem = new ZDT2("ArrayReal", 30);
+      //problem = new ZDT3("ArrayReal", 30);
+
       //problem = new ConstrEx("Real");
       //problem = new DTLZ1("Real");
       //problem = new OKA2("Real") ;
@@ -108,7 +112,7 @@ public class NSGAII_main {
     //algorithm = new ssNSGAII(problem);
 
     // Algorithm parameters
-    int populationSize = 100;
+    int populationSize = 10;
     int fixedGenerations = 10000;
     algorithm.setInputParameter("populationSize", populationSize);
     int generations = populationSize * fixedGenerations; 
