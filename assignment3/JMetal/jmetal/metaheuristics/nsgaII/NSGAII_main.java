@@ -100,8 +100,8 @@ public class NSGAII_main {
       //problem = new Kursawe("BinaryReal", 3);
       //problem = new Water("Real");
         
-        problem = new ZDT2("ArrayReal", 30);
-      //problem = new ZDT3("ArrayReal", 30);
+      //problem = new ZDT2("ArrayReal", 30);
+      problem = new ZDT3("ArrayReal", 30);
 
       //problem = new ConstrEx("Real");
       //problem = new DTLZ1("Real");
@@ -112,7 +112,7 @@ public class NSGAII_main {
     //algorithm = new ssNSGAII(problem);
 
     // Algorithm parameters
-    int populationSize = 10;
+    int populationSize = 1000;
     int fixedGenerations = 10000;
     algorithm.setInputParameter("populationSize", populationSize);
     int generations = populationSize * fixedGenerations; 
