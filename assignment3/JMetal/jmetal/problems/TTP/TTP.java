@@ -1,68 +1,64 @@
-
 package jmetal.problems.TTP;
 
+
 import jmetal.core.Solution;
-import jmetal.core.TTPSolution;
 import jmetal.core.Problem;
+
 import jmetal.encodings.solutionType.IntSolutionType;
+
 import jmetal.util.JMException;
 import jmetal.util.wrapper.XReal;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.File;
+import java.io.FileReader;
 
 /**
  * Class representing problem ZDT1
  */
 public class TTP extends Problem {
     
-    private int numberOfNodes;
-    private long capacityOfKnapsack;
-    private double minSpeed;
-    private double maxSpeed;
-    private double rentingRatio;
-    private int[][] items;
-    private double[][] nodes;
+    public File file;
+    
+    public String problemName;
+    public String knapsackDataType;
+    public int numberOfNodes;
+    public int numberOfItems;
+    public long capacityOfKnapsack;
+    public double minSpeed;
+    public double maxSpeed;
+    public double rentingRatio;
+    public String edgeWeightType;
+    public double[][] nodes;
+    public int[][] items;
+    
+    public Item[] itemsArray;
+    public City[] cities;
     
     /**
      * Constructor.
      * Creates a default instance of problem ZDT1 (30 decision variables)
-     * @param: String: Name of TTP File
-     * @param: int: Number of Cities
-     * @param: long: Capacity of the knapsack
-     * @param: double: minimum speed of the thief
-     * @param: double: maximum speed of the thief
-     * @param: double: renting ratio of the knpasack
-     * @param: int[][]: 2D-array of items and item information
+     * @param: File: File object containing link to File to be parsed.
      */
-    public TTP(String problemName, int numberOfNodes, long capacityOfKnapsack, double minSpeed, double maxSpeed, double rentingRatio, int[][] items, double[][] nodes) throws ClassNotFoundException {
-        
-        this(problemName, numberOfNodes, capacityOfKnapsack, minSpeed, maxSpeed, rentingRatio, items, nodes, 30); // 30 variables by default
+    public TTP(File file) throws ClassNotFoundException {
+        this(file, 30); // 30 variables by default
     }
     
     /**
-     * Creates a new instance of problem ZDT1.
-     * @param: String: Name of TTP File
-     * @param: int: Number of Cities
-     * @param: long: Capacity of the knapsack
-     * @param: double: minimum speed of the thief
-     * @param: double: maximum speed of the thief
-     * @param: double: renting ratio of the knpasack
-     * @param: int[][]: 2D-array of items and item information
+     * Creates a new instance of problem TTP.
+     * @param: File: File object containing link to File to be parsed.
      * @param: Integer: Number of variables to keep track of (default is 30 from previous constructor)
      */
-    public TTP(String problemName, int numberOfNodes, long capacityOfKnapsack, double minSpeed, double maxSpeed, double rentingRatio, int[][] items, double[][] nodes, Integer numberOfVariables) {
+    public TTP(File file, Integer numberOfVariables) {
+        //parse the file into the necessary TTP data structures (in this class header) for evaluate
+        parseTTP(file);
         
-        //get required variables such that
-        this.numberOfNodes = numberOfNodes;
-        this.capacityOfKnapsack = capacityOfKnapsack;
-        this.minSpeed = minSpeed;
-        this.maxSpeed = maxSpeed;
-        this.rentingRatio = rentingRatio;
-        this.nodes = nodes;
-        this.items = items;
-        
+        //setup jmetal variables
         numberOfVariables_  = numberOfVariables;
-        numberOfObjectives_ =  1;
+        numberOfObjectives_ =  2;
         numberOfConstraints_=  0;
-        problemName_        = "TTP_"+problemName;
+        problemName_        = "TTP_"+file.getName();
         
         upperLimit_ = new double[numberOfVariables_];
         lowerLimit_ = new double[numberOfVariables_];
@@ -184,6 +180,13 @@ public class TTP extends Problem {
         solution.wendUsed = wc;
         solution.wend=weightofKnapsack-wc;
         solution.ob=solution.fp-solution.ft*rentRate;
+        
+        
+        //objective 0 is the amount of unused space in the knapsack at the end of the tour
+        solution.setObjective(0,solution.wend);
+        
+        //objective 1 is the distance travelled taking into account weight
+        solution.setObjective(1,solution.ft);
     }
     
     /**
@@ -204,34 +207,111 @@ public class TTP extends Problem {
         
         return result;
     }
-}
-
     
+    
+    
+    /*#################################*
+     * PARSER COPIED FROM TTPINSTANCE #*
+     *#################################*/
     
     /**
-     * Returns the value of the ZDT1 function G.
-     * @param  x Solution
-     * @throws JMException
-     *
-     private double evalG(XReal x) throws JMException {
-     double g = 0.0;
-     for (int i = 1; i < x.getNumberOfDecisionVariables();i++)
-     g += x.getValue(i);
-     double constant = (9.0 / (numberOfVariables_-1));
-     g = constant * g;
-     g = g + 1.0;
-     return g;
-     } // evalG
-     
-     /**
-     * Returns the value of the ZDT1 function H.
-     * @param f First argument of the function H.
-     * @param g Second argument of the function H.
-     *
-     public double evalH(double f, double g) {
-     double h = 0.0;
-     h = 1.0 - java.lang.Math.sqrt(f/g);
-     return h;
-     } // evalH
-     } // ZDT1
+     * Parse TTP File (Parser written by Markus)
+     * @param: File: file object to parse
      */
+    public void parseTTP(File file) {
+        boolean debugPrint = !true;
+        if (debugPrint) System.out.println(file.getAbsolutePath());
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(file));
+            this.file = file;
+            String line;
+            while ((line = br.readLine()) != null) {
+                // process the line
+                
+                if (line.startsWith("PROBLEM NAME")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.problemName = line;
+                }
+                if (line.startsWith("KNAPSACK DATA TYPE")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.knapsackDataType = line;
+                }
+                if (line.startsWith("DIMENSION")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.numberOfNodes=Integer.parseInt(line);
+                    
+                    //Create TTPGraph and cities array
+                    cities = new City[numberOfNodes];
+                }
+                if (line.startsWith("NUMBER OF ITEMS")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.numberOfItems=Integer.parseInt(line);
+                }
+                if (line.startsWith("CAPACITY OF KNAPSACK")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.capacityOfKnapsack=Long.parseLong(line);
+                }
+                if (line.startsWith("MIN SPEED")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.minSpeed=Double.parseDouble(line);
+                }
+                if (line.startsWith("MAX SPEED")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.maxSpeed=Double.parseDouble(line);
+                }
+                if (line.startsWith("RENTING RATIO")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.rentingRatio=Double.parseDouble(line);
+                }
+                if (line.startsWith("EDGE_WEIGHT_TYPE")) {
+                    line = line.substring(line.indexOf(":")+1);
+                    line = line.replaceAll("\\s+","");
+                    this.edgeWeightType = line;
+                }
+                if (line.startsWith("NODE_COORD_SECTION")) {
+                    this.nodes = new double[this.numberOfNodes][3];
+                    for (int i=0; i<this.numberOfNodes; i++) {
+                        line = br.readLine();
+                        String[] splittedLine = line.split("\\s+");
+                        for (int j=0; j<splittedLine.length; j++) {
+                            double temp = Double.parseDouble(splittedLine[j]);
+                            //                            int temp = Integer.parseInt(splittedLine[j]);
+                            // adjust city number by 1
+                            if (j==0) temp =  temp-1;
+                            this.nodes[i][j] = temp;
+                        }
+                    }
+                }
+                if (line.startsWith("ITEMS SECTION")) {
+                    this.items = new int[this.numberOfItems][4];
+                    for (int i=0; i<this.numberOfItems; i++) {
+                        line = br.readLine();
+                        String[] splittedLine = line.split("\\s+");
+                        for (int j=0; j<splittedLine.length; j++) {
+                            int temp = Integer.parseInt(splittedLine[j]);
+                            // adjust city number by 1
+                            if (j==0) temp =  temp-1;  // item numbers start here with 0 --> in TTP files with 1
+                            if (j==3) temp =  temp-1;  // city numbers start here with 0 --> in TTP files with 1
+                            this.items[i][j] = temp;
+                        }
+                    }
+                }
+            }
+            br.close();
+        } catch (IOException ex) {
+            System.out.println("Something went wrong when parsing the file");
+            ex.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+}

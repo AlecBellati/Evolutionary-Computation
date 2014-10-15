@@ -1,4 +1,6 @@
-package jmetal.core;
+package jmetal.problems.TTP;
+
+import jmetal.core.Solution;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -58,7 +60,9 @@ public class TTPSolution extends Solution{
         return this.ob;
     }
     
+    //need to call super() to ensure parent is constructed
     public TTPSolution(int[] tspTour, int[] packingPlan) {
+        super(2);
         this.tspTour = tspTour;
         this.packingPlan = packingPlan;
     }
