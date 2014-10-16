@@ -56,7 +56,7 @@ public class TTP extends Problem {
         
         //setup jmetal variables
         numberOfVariables_  = numberOfVariables;
-        numberOfObjectives_ =  2;
+        numberOfObjectives_ =  3;
         numberOfConstraints_=  0;
         problemName_        = "TTP_"+file.getName();
         
@@ -182,11 +182,15 @@ public class TTP extends Problem {
         solution.ob=solution.fp-solution.ft*rentRate;
         
         
-        //objective 0 is the amount of unused space in the knapsack at the end of the tour
-        solution.setObjective(0,solution.wend);
+        //objective 0 is the distance travelled taking into account weight
+        solution.setObjective(0,solution.ftraw);
         
-        //objective 1 is the distance travelled taking into account weight
-        solution.setObjective(1,solution.ft);
+        //objective 1 is the amount of unused space in the knapsack at the end of the tour
+        solution.setObjective(1,solution.wend);
+        
+        //objective 2 is the profit (because JMetal minimises, the profit is negativised to turn it into a minimisation problem
+        solution.setObjective(2,solution.ob*-1);
+        
     }
     
     /**

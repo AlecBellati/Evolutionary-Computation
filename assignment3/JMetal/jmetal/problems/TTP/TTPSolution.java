@@ -62,7 +62,7 @@ public class TTPSolution extends Solution{
     
     //need to call super() to ensure parent is constructed
     public TTPSolution(int[] tspTour, int[] packingPlan) {
-        super(2);
+        super(3);
         this.tspTour = tspTour;
         this.packingPlan = packingPlan;
     }
