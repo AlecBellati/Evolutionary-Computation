@@ -1,6 +1,7 @@
 package jmetal.problems.TTP;
 
 import jmetal.core.Solution;
+import jmetal.core.Problem;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -65,6 +66,11 @@ public class TTPSolution extends Solution{
         super(3);
         this.tspTour = tspTour;
         this.packingPlan = packingPlan;
+    }
+    
+    //constructor for nsga and other algorithms
+    public TTPSolution(Problem problem) throws ClassNotFoundException{
+        super(problem);
     }
     
     

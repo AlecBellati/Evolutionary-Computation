@@ -3,8 +3,10 @@ package jmetal.problems.TTP;
 
 import jmetal.core.Solution;
 import jmetal.core.Problem;
+import jmetal.core.Variable;
 
-import jmetal.encodings.solutionType.IntSolutionType;
+import jmetal.encodings.solutionType.IndividualSolutionType;
+import jmetal.encodings.variable.Individual;
 
 import jmetal.util.JMException;
 import jmetal.util.wrapper.XReal;
@@ -53,6 +55,10 @@ public class TTP extends Problem {
     public TTP(File file, Integer numberOfVariables) {
         //parse the file into the necessary TTP data structures (in this class header) for evaluate
         parseTTP(file);
+
+        //once parsed, setup the cities and itemsArray
+        createTTPGraph();
+
         
         //setup jmetal variables
         numberOfVariables_  = numberOfVariables;
@@ -71,7 +77,7 @@ public class TTP extends Problem {
         }
         
         
-        solutionType_ = new IntSolutionType(this);
+        solutionType_ = new IndividualSolutionType(this);
     }
     
     /*####################################*
@@ -102,6 +108,25 @@ public class TTP extends Problem {
      */
     public void evaluate(Solution _solution) {
         TTPSolution solution = (TTPSolution) _solution;
+        
+        //Get an individual from the solution
+        Variable[] indivArr = (Variable[]) solution.getDecisionVariables();
+        Individual individual = (Individual)indivArr[0];
+        
+        if(individual.getCitiesByID() == null) {
+            //objective 0 is the distance travelled taking into account weight
+            solution.setObjective(0,Double.MAX_VALUE);
+            
+            //objective 1 is the amount of unused space in the knapsack at the end of the tour
+            solution.setObjective(1,Double.MAX_VALUE);
+            
+            //objective 2 is the profit (because JMetal minimises, the profit is negativised to turn it into a minimisation problem
+            solution.setObjective(2,Double.MAX_VALUE);
+
+        }
+        
+        solution.tspTour = individual.getCitiesByID();
+        solution.packingPlan = new int[280];
         
         boolean debugPrint = !true;
         int[] tour = solution.tspTour;
@@ -317,5 +342,31 @@ public class TTP extends Problem {
             System.exit(1);
         }
     }
+    
+    /**
+     * Create the edge graph (same as the edge graph we had in TSP
+     */
+    public void createTTPGraph() {
+        for(int i = 0; i < numberOfNodes; i++) {
+            //Correct (tick)
+            cities[i] = new City(i, numberOfNodes, (numberOfItems/numberOfNodes)+1, this.nodes[i][1], this.nodes[i][2]);
+        }
+        
+        //now add items to the cities
+        itemsArray = new Item[numberOfItems];
+        setupItems();
+    }
+
+    /**
+     * Add the corresponding items to their corresponding cities
+     * Also creates an independant items array
+     */
+    public void setupItems() {
+        for(int i = 0; i < numberOfItems; i++) {
+            itemsArray[i] = new Item(items[i][0], items[i][1], items[i][2], cities[items[i][3]].getNodeNum());
+            cities[items[i][3]].addItem(new Item(items[i][0], items[i][1], items[i][2]));
+        }
+    }
+
 
 }
