@@ -31,14 +31,12 @@ public class TTPInversion extends Mutation {
     
     /**
      * Override method from execute
-     * @param: Object: not sure yet...?
-     * this gets passed a jmetal.core.Solution object
+     * @param: Object: this gets passed a jmetal.core.Solution object
      */
     @Override
     public Object execute(Object object) throws JMException {
         //Typecast the object to a solution and perform the inversion
         Solution solution = (Solution) object;
-        System.out.println("inversion");
         inversionOrScramble(solution);
         
         return solution;
@@ -63,9 +61,6 @@ public class TTPInversion extends Mutation {
             int idx = rnd.nextInt(indivArr.length);
             Individual individual = (Individual) indivArr[idx];
             
-            System.out.print("Before: ");
-            individual.print();
-            
             // Find the subset of position to mutate
             int posA = 0;
             int posB = 0;
@@ -87,10 +82,6 @@ public class TTPInversion extends Mutation {
                 //invert positions in the array
                 inverseSubset(individual, posA, posB);
             }
-
-            System.out.println("After: ");
-            individual.print();
-
         } else {
             System.out.println("TTPInversion.inversionOrScramble: invalid type. " +
                                          ""+ solution.getDecisionVariables()[0].getVariableType());

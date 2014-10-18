@@ -127,7 +127,7 @@ public class NSGAII_main {
     parameters = new HashMap() ;
     parameters.put("probability", 0.9) ;
     parameters.put("distributionIndex", 20.0) ;
-    crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);                   
+    crossover = CrossoverFactory.getCrossoverOperator("TTPOrderCrossover", parameters);                   
 
     parameters = new HashMap() ;
     parameters.put("probability", 1) ;
