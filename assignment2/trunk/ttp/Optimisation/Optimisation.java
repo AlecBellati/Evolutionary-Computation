@@ -143,26 +143,19 @@ public class Optimisation {
         
         try {
             if (!tspresultfile.exists()) {
-                List<String> command = new ArrayList<String>();
-                command.add("./linkern");
-                command.add("-o");
-                command.add(tspresultfilename);
-                command.add(tspfilename);
-//                printListOfStrings(command);
-
-                ProcessBuilder builder = new ProcessBuilder(command);
-                builder.redirectErrorStream(true);
-                final Process process = builder.start();
-                InputStream is = process.getInputStream();
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if (debugPrint) System.out.println("<LINKERN> "+line);
-                }
-                if (debugPrint) System.out.println("Program terminated?");    
-                int rc = process.waitFor();
-                if (debugPrint) System.out.println("Program terminated!");
+                 BufferedReader br = new BufferedReader( new FileReader(tspresultfilename));
+            // discard the first line
+            br.readLine();
+            String line = null; 
+            for (int i=0; i<result.length-1; i++) {
+                line = br.readLine();
+                if (debugPrint) System.out.println("<TOUR> "+line);
+                index = line.indexOf(" ");
+                int number = Integer.parseInt(line.split("\\s+")[0]);
+                result[i] = number; 
+            }
+            
+            if (debugPrint) System.out.println(Arrays.toString(result));
             }
 
             List<String> command = new ArrayList<String>();

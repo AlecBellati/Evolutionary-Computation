@@ -36,9 +36,12 @@ import jmetal.util.Configuration;
 import jmetal.util.JMException;
 
 import java.io.IOException;
+import java.io.File;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+
+import jmetal.problems.TTP.TTP;
 
 /** 
  * Class to configure and execute the NSGA-II algorithm.  
@@ -99,13 +102,17 @@ public class NSGAII_main {
       //problem = new Kursawe("Real", 3);
       //problem = new Kursawe("BinaryReal", 3);
       //problem = new Water("Real");
-        
       //problem = new ZDT2("ArrayReal", 30);
-      problem = new ZDT3("ArrayReal", 30);
-
+      //problem = new ZDT3("ArrayReal", 30);
       //problem = new ConstrEx("Real");
       //problem = new DTLZ1("Real");
       //problem = new OKA2("Real") ;
+
+
+      problem = new TTP(new File("instances\\a280_n279_bounded-strongly-corr_01.ttp"));
+      //problem = new TTP(new File("instances\\fnl4461_n4460_bounded-strongly-corr_01.ttp"));
+      //problem = new TTP(new File("instances\\pla33810_n33809_bounded-strongly-corr_01.ttp"));
+
     } // else
     
     algorithm = new NSGAII(problem);
@@ -122,12 +129,12 @@ public class NSGAII_main {
     parameters = new HashMap() ;
     parameters.put("probability", 0.9) ;
     parameters.put("distributionIndex", 20.0) ;
-    crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);                   
+    crossover = CrossoverFactory.getCrossoverOperator("TTPOrderCrossover", parameters);                   
 
     parameters = new HashMap() ;
-    parameters.put("probability", 1.0/problem.getNumberOfVariables()) ;
+    parameters.put("probability", 1) ;
     parameters.put("distributionIndex", 20.0) ;
-    mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);                    
+    mutation = MutationFactory.getMutationOperator("TTPInversion", parameters);
 
     // Selection Operator 
     parameters = null ;

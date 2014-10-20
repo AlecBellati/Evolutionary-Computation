@@ -35,9 +35,12 @@ import jmetal.util.Configuration;
 import jmetal.util.JMException;
 
 import java.io.IOException;
+import java.io.File;
 import java.util.HashMap;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+
+import jmetal.problems.TTP.TTP;
 
 /**
  * Class for configuring and running the SPEA2 algorithm
@@ -84,21 +87,31 @@ public class SPEA2_main {
       indicators = new QualityIndicator(problem, args[1]) ;
     } // if
     else { // Default problem
-      problem = new Kursawe("Real", 3); 
+      //problem = new Kursawe("Real", 3); 
       //problem = new Water("Real");
       //problem = new ZDT1("ArrayReal", 1000);
       //problem = new ZDT4("BinaryReal");
       //problem = new WFG1("Real");
       //problem = new DTLZ1("Real");
       //problem = new OKA2("Real") ;
+
+
+      problem = new TTP(new File("instances\\a280_n279_bounded-strongly-corr_01.ttp"));
+      //problem = new TTP(new File("instances\\fnl4461_n4460_bounded-strongly-corr_01.ttp"));
+      //problem = new TTP(new File("instances\\pla33810_n33809_bounded-strongly-corr_01.ttp"));
+
     } // else
        
     algorithm = new SPEA2(problem);
     
     // Algorithm parameters
-    algorithm.setInputParameter("populationSize",100);
+    int populationSize = 10;
+    int fixedGenerations = 10000;
+    algorithm.setInputParameter("populationSize", populationSize);
+    int generations = populationSize * fixedGenerations; 
+    algorithm.setInputParameter("maxEvaluations", generations);
+
     algorithm.setInputParameter("archiveSize",100);
-    algorithm.setInputParameter("maxEvaluations",25000);
       
     // Mutation and Crossover for Real codification 
     parameters = new HashMap() ;
