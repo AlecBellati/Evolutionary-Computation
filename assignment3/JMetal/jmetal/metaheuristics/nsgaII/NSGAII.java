@@ -102,7 +102,7 @@ public class NSGAII extends Algorithm {
 
     // Generations 
     while (evaluations < maxEvaluations) {
-
+      System.out.println(evaluations);
       // Create the offSpring solutionSet      
       offspringPopulation = new SolutionSet(populationSize);
       TTPSolution[] parents = new TTPSolution[2];

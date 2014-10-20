@@ -109,7 +109,7 @@ public class NSGAII_main {
       //problem = new OKA2("Real") ;
 
 
-      //problem = new TTP(new File("instances\\a280_n279_bounded-strongly-corr_01.ttp"));
+      problem = new TTP(new File("instances\\a280_n279_bounded-strongly-corr_01.ttp"));
       //problem = new TTP(new File("instances\\fnl4461_n4460_bounded-strongly-corr_01.ttp"));
       //problem = new TTP(new File("instances\\pla33810_n33809_bounded-strongly-corr_01.ttp"));
 
@@ -119,7 +119,7 @@ public class NSGAII_main {
     //algorithm = new ssNSGAII(problem);
 
     // Algorithm parameters
-    int populationSize = 10;
+    int populationSize = 1000;
     int fixedGenerations = 10000;
     algorithm.setInputParameter("populationSize", populationSize);
     int generations = populationSize * fixedGenerations; 

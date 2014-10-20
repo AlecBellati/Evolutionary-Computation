@@ -26,6 +26,8 @@ import jmetal.util.JMException;
 import jmetal.util.Ranking;
 import jmetal.util.Spea2Fitness;
 
+import jmetal.problems.TTP.TTPSolution;
+
 /** 
  * This class representing the SPEA2 algorithm
  */
@@ -72,9 +74,9 @@ public class SPEA2 extends Algorithm{
     evaluations = 0;
         
     //-> Create the initial solutionSet
-    Solution newSolution;
+    TTPSolution newSolution;
     for (int i = 0; i < populationSize; i++) {
-      newSolution = new Solution(problem_);
+      newSolution = new TTPSolution(problem_);
       problem_.evaluate(newSolution);            
       problem_.evaluateConstraints(newSolution);
       evaluations++;
@@ -88,21 +90,21 @@ public class SPEA2 extends Algorithm{
       archive = spea.environmentalSelection(archiveSize);                       
       // Create a new offspringPopulation
       offSpringSolutionSet= new SolutionSet(populationSize);    
-      Solution  [] parents = new Solution[2];
+      TTPSolution  [] parents = new TTPSolution[2];
       while (offSpringSolutionSet.size() < populationSize){           
         int j = 0;
         do{
           j++;                
-          parents[0] = (Solution)selectionOperator.execute(archive);
+          parents[0] = (TTPSolution)selectionOperator.execute(archive);
         } while (j < SPEA2.TOURNAMENTS_ROUNDS); // do-while                    
         int k = 0;
         do{
           k++;                
-          parents[1] = (Solution)selectionOperator.execute(archive);
+          parents[1] = (TTPSolution)selectionOperator.execute(archive);
         } while (k < SPEA2.TOURNAMENTS_ROUNDS); // do-while
             
         //make the crossover 
-        Solution [] offSpring = (Solution [])crossoverOperator.execute(parents);            
+        TTPSolution [] offSpring = (TTPSolution [])crossoverOperator.execute(parents);            
         mutationOperator.execute(offSpring[0]);            
         problem_.evaluate(offSpring[0]);
         problem_.evaluateConstraints(offSpring[0]);            
