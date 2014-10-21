@@ -108,6 +108,20 @@ public class Knapsack {
     }
 
     /**
+     * Remove an item from the knapsack
+     * @param: pos: position of item to remove
+     * @return: Boolean: True if item was successfully removed, else false
+     */
+    public boolean removeItem(int pos) {
+        Item removedItem;
+        if((removedItem = items.remove(pos)) != null){
+            currentWeight -= removedItem.getWeight();
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Returns the current weight of the knapsack
      * @return: long: currentWeight of the knapsack
      */
