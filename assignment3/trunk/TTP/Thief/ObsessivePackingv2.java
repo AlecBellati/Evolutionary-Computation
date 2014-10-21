@@ -43,31 +43,10 @@ public class ObsessivePackingv2 {
     } 
 
     /**
-    * Depending on the supplied integer, seed the knapsack with values
-    * @param: algorithm - determines the algorithm to use
-    * @return: Knapsack - knapsack seeded with values
-    */
-    public Knapsack seedKnapsack(Knapsack knapsack, int algorithm){
-        switch(algorithm){
-            case 1:
-                return costFirst(knapsack);
-            case 2:
-                return weightFirst(knapsack);
-            case 3:
-                return random(knapsack);
-            case 4:
-                return tourLast(knapsack);
-            case 5:
-                return weightedCostFirst(knapsack);
-        }
-        return null;
-    }   
-
-    /**
     * Either add (if space allows it) to the knapsack OR
     * Replace a number of items in the knapsack with better/random ones
     * Picks items to add/replace from a sorted list - sort dependant on the sortChoice integer supplied
-    * 1 = by cost, 2 = by weight, 3 = by weighted cost, 4 = by city, default = random
+    * 1 = by cost, 2 = by weight, default = random
     * Also removes a number of items at random to increase randomness!
     * @param: knapsack - knapsack to operate on - will eventually be returned
     * @param: randomProbability - probability of items randomly picked from the sorted array (remainder will be considered the "best" for that sort type)
@@ -85,12 +64,6 @@ public class ObsessivePackingv2 {
                 break;
             case 2:
                 sortedItems = sortByWeight(itemsMinusKnapsack);
-                break;
-            case 3:
-                sortedItems = sortByWeightedCost(itemsMinusKnapsack);
-                break;
-            case 4:
-                sortedItems = sortByCity(itemsMinusKnapsack);
                 break;
             default:
                 sortedItems = new ArrayList<Item>(Arrays.asList(itemsMinusKnapsack));
@@ -181,115 +154,13 @@ public class ObsessivePackingv2 {
     }
 
     /**
-    * Seeds the knapsack with a set of randomly chosen items
-    * Modifies the local knapsack variable and returns it
-    * @param: knapsack - knapsack to seed
-    * @return: Knapsack - seeded Knapsack
+    * HELPER METHOD
+    * Converts and ArrayList<Item> to an Item[]
+    * @param: optimal: the current knapsack solution
+    * @return: Item[]: returns a new Item[] without items in the knapsack
     */
-    private Knapsack random(Knapsack knapsack){
-        Random rand = new Random();
-        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
-        Item currentItem = itemsList.get(rand.nextInt(itemsList.size()));
-        itemsList.remove(currentItem);
-
-        //pick items at random until the knapsack is at capacity
-        while(currentItem.getWeight() <= knapsack.getCurrentCapacity()){
-            knapsack.addItem(currentItem);
-
-            //or if we run out of items
-            if(itemsList.size() == 0){
-                break;
-            }
-
-            currentItem = itemsList.get(rand.nextInt(itemsList.size()));            
-            itemsList.remove(currentItem); //keeps track of items NOT in the knapsack
-        }
-
-        return knapsack;
-    }
-
-    /**
-    * Seeds the knapsack with the items having the highest cost
-    * Calls the sortByCost() method to achieve this
-    * Modifies the local knapsack variable and returns it
-    * @param: knapsack - knapsack to seed
-    * @return: Knapsack - seeded Knapsack
-    */
-    private Knapsack costFirst(Knapsack knapsack){
-        ArrayList<Item> itemsList = sortByCost(itemsArray);
-        for(int i = 0; i < itemsList.size(); i++){
-            Item currentItem = itemsList.get(0);
-            itemsList.remove(0);
-            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
-                break;
-            }
-            knapsack.addItem(currentItem);
-        }
-        
-        return knapsack;
-    }
-
-    /**
-    * Seeds the knapsack with the items having the highest weighted cost
-    * Calls the sortByWeightedCost() method to achieve this
-    * Modifies the local knapsack variable and returns it
-    * @param: knapsack - knapsack to seed
-    * @return: Knapsack - seeded Knapsack
-    */
-    private Knapsack weightedCostFirst(Knapsack knapsack){
-        ArrayList<Item> itemsList = sortByWeightedCost(itemsArray);
-        for(int i = 0; i < itemsList.size(); i++){
-            Item currentItem = itemsList.get(0);
-            itemsList.remove(0);
-            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
-                break;
-            }
-            knapsack.addItem(currentItem);
-        }
-
-        return knapsack;
-    }
-
-    /**
-    * Seeds the knapsack with the items closest to the end of the tour
-    * Calls the sortByCity() method to achieve this
-    * Modifies the local knapsack variable and returns it
-    * @param: knapsack - knapsack to seed
-    * @return: Knapsack - seeded Knapsack
-    */
-    private Knapsack tourLast(Knapsack knapsack){
-        ArrayList<Item> itemsList = sortByCity(itemsArray);
-        for(int i = 0; i < itemsList.size(); i++){
-            Item currentItem = itemsList.get(0);
-            itemsList.remove(0);
-            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
-                break;
-            }
-            knapsack.addItem(currentItem);
-        }
-
-        return knapsack;
-    }
-
-    /**
-    * Seeds the knapsack with the items having the lowest weight
-    * Calls the sortByWeight() method to achieve this
-    * Modifies the local knapsack variable and returns it
-    * @param: knapsack - knapsack to seed
-    * @return: Knapsack - seeded Knapsack
-    */
-    private Knapsack weightFirst(Knapsack knapsack){
-        ArrayList<Item> itemsList = sortByWeight(itemsArray);
-        for(int i = 0; i < itemsList.size(); i++){
-            Item currentItem = itemsList.get(0);
-            itemsList.remove(0);
-            if(currentItem.getWeight() > knapsack.getCurrentCapacity()){
-                break;
-            }
-            knapsack.addItem(currentItem);
-        }
-
-        return knapsack;
+    private Item[] convertArrayList(ArrayList<Item> itemsToConvert){
+        return itemsToConvert.toArray(new Item[itemsToConvert.size()]);
     }
 
     /**
@@ -309,44 +180,6 @@ public class ObsessivePackingv2 {
     }
 
     /**
-    * Sorts the items in the itemsArray by the TSP tour
-    * @return: ArrayList<Item>: List containing sorted items matching the TSP tour
-    */
-    private ArrayList<Item> sortByCity(Item[] itemsToSort) {
-        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsToSort));
-        ArrayList<Item> sortedItemsList = new ArrayList<Item>();
-
-        for(int i = cities.length-1; i > 0; i--){
-            for(int j = itemsList.size()-1; j >= 0; j--){
-                if(cities[i].getNodeNum() == itemsList.get(j).getCityNum()){
-                    sortedItemsList.add(itemsList.get(j));
-                    itemsList.remove(j);
-                }
-            }
-        }
-
-        return sortedItemsList;
-    }
-
-    /**
-    * Sorts the items in the itemsArray by a weighted cost
-    * @param: itemsToSort - Items that need sorting!
-    * @return: ArrayList<Item>: List containing sorted items from highest to lowest weighted cost
-    * Weighted costs is dependant on where it is in the tour as well as its profit/weight ratio
-    */
-    private ArrayList<Item> sortByWeightedCost(Item[] itemsToSort) {
-        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsToSort));
-        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-        Collections.sort(itemsList, new Comparator<Item>() {
-            @Override
-            public int compare (Item i1, Item i2) {
-                return (int)(((i2.getProfit()/i2.getWeight())*i2.getCityNum()) - ((i1.getProfit()/i1.getWeight())*i1.getCityNum()));
-            }
-        });
-        return itemsList;
-    }
-
-    /**
     * Sorts the items in the itemsArray by cost
     * @return: ArrayList<Item>: List containing sorted items from highest to lowest cost
     */
@@ -360,15 +193,5 @@ public class ObsessivePackingv2 {
             }
         });
         return itemsList;
-    }
-
-    /**
-    * HELPER METHOD
-    * Converts and ArrayList<Item> to an Item[]
-    * @param: optimal: the current knapsack solution
-    * @return: Item[]: returns a new Item[] without items in the knapsack
-    */
-    private Item[] convertArrayList(ArrayList<Item> itemsToConvert){
-        return itemsToConvert.toArray(new Item[itemsToConvert.size()]);
     }
 }

@@ -1,7 +1,7 @@
 /*
  * Evolutionary Computation
  * COMP SCI 4095
- * Assignment two
+ * Assignment three
  * William Reid (a1215621)
  * Alec Bellati (a1608934)
  * Sami Peachey (a1192722)
@@ -15,6 +15,10 @@ import TTP.Thief.Travel.Individual;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class Knapsack {
@@ -23,6 +27,7 @@ public class Knapsack {
     private long currentWeight;
     private double rentingRatio;
     private ArrayList<Item> items;
+    private Item[] itemsArray;
     
     /**
      * Construct an empty knapsack with a known weight limit
@@ -48,6 +53,38 @@ public class Knapsack {
             currentWeight += item[i].getWeight();
         }
     }
+
+    /**
+     * Construct a knapsack with a known weight limit and seed using the supplied seedChoice
+     * @param - _capacity: capacity of this knapsack
+     * @param - _itemsArray: list of all items - used for seeding the knapsack
+     * @param - seedChoice: method to see the knapsack
+     */
+    public Knapsack(long _capacity, Item[] _itemsArray, int seedChoice) {
+        capacity = _capacity;
+        currentWeight = 0;
+        itemsArray = _itemsArray;
+        items = new ArrayList<Item>();
+        seedKnapsack(seedChoice);
+    }
+
+    /**
+    * Depending on the supplied integer, seed the knapsack with values
+    * @param: algorithm - determines the algorithm to use
+    */
+    public void seedKnapsack(int algorithm){
+        switch(algorithm){
+            case 1:
+                costFirst();
+                break;
+            case 2:
+                weightFirst();
+                break;
+            case 3:
+                random();
+                break;
+        }
+    }   
     
     /**
      * set rentingratio
@@ -242,7 +279,6 @@ public class Knapsack {
         return false;
     }
 
-
     /**
     * Checks to see if the currentItem is in the provided array
     * @param: currentItem: item to look for in the array
@@ -279,5 +315,95 @@ public class Knapsack {
                 System.out.printf("%-11d  %-11d  %-11d  %-9.2f    %-11d\n", it.getItemNum(), it.getProfit(), it.getWeight(), it.profitToWeightRatio(), it.getCityNum());
             }
         }
+    }
+
+    /**
+    * Seeds the knapsack with a set of randomly chosen items
+    * Modifies the local knapsack variable and returns it
+    */
+    private void random(){
+        Random rand = new Random();
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsArray));
+        Item currentItem = itemsList.get(rand.nextInt(itemsList.size()));
+        itemsList.remove(currentItem);
+
+        //pick items at random until the knapsack is at capacity
+        while(currentItem.getWeight() <= getCurrentCapacity()){
+            addItem(currentItem);
+
+            //or if we run out of items
+            if(itemsList.size() == 0){
+                break;
+            }
+
+            currentItem = itemsList.get(rand.nextInt(itemsList.size()));            
+            itemsList.remove(currentItem); //keeps track of items NOT in the knapsack
+        }
+    }
+
+    /**
+    * Seeds the knapsack with the items having the highest cost
+    * Calls the sortByCost() method to achieve this
+    * Modifies the local knapsack variable and returns it
+    */
+    private void costFirst(){
+        ArrayList<Item> itemsList = sortByCost(itemsArray);
+        for(int i = 0; i < itemsList.size(); i++){
+            Item currentItem = itemsList.get(0);
+            itemsList.remove(0);
+            if(currentItem.getWeight() > getCurrentCapacity()){
+                break;
+            }
+            addItem(currentItem);
+        }
+    }
+
+    /**
+    * Seeds the knapsack with the items having the lowest weight
+    * Calls the sortByWeight() method to achieve this
+    * Modifies the local knapsack variable and returns it
+    */
+    private void weightFirst(){
+        ArrayList<Item> itemsList = sortByWeight(itemsArray);
+        for(int i = 0; i < itemsList.size(); i++){
+            Item currentItem = itemsList.get(0);
+            itemsList.remove(0);
+            if(currentItem.getWeight() > getCurrentCapacity()){
+                break;
+            }
+            addItem(currentItem);
+        }
+    }
+
+    /**
+    * Sorts the items in the itemsArray by weight
+    * @return: ArrayList<Item>: List containing sorted items from lowest to highest weight
+    */
+    private ArrayList<Item> sortByWeight(Item[] itemsToSort) {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsToSort));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)(i1.getWeight() - i2.getWeight());
+            }
+        });
+        return itemsList;
+    }
+
+    /**
+    * Sorts the items in the itemsArray by cost
+    * @return: ArrayList<Item>: List containing sorted items from highest to lowest cost
+    */
+    private ArrayList<Item> sortByCost(Item[] itemsToSort) {
+        ArrayList<Item> itemsList = new ArrayList<Item>(Arrays.asList(itemsToSort));
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        Collections.sort(itemsList, new Comparator<Item>() {
+            @Override
+            public int compare (Item i1, Item i2) {
+                return (int)((i2.getProfit()/i2.getWeight()) - (i1.getProfit()/i1.getWeight()));
+            }
+        });
+        return itemsList;
     }
 }

@@ -161,8 +161,7 @@ public class TTPInstance {
     */
     public void ObsessivePacking(){
         ObsessivePackingv2 packing = new ObsessivePackingv2(cities, itemsArray);
-        Knapsack knapsack = new Knapsack(capacityOfKnapsack);
-        knapsack = packing.seedKnapsack(knapsack, 3);
+        Knapsack knapsack = new Knapsack(capacityOfKnapsack, itemsArray, 3);
         Item[] items = knapsack.getItems();
 
         Knapsack old_solution = knapsack;
@@ -171,7 +170,7 @@ public class TTPInstance {
         double bestCost = Integer.MIN_VALUE;
         int generations = 2500;
         for(int i = 0; i < generations; i++){
-            knapsack = packing.changePacking(knapsack, 0.50, 1, 2, 5);
+            knapsack = packing.changePacking(knapsack, 0.50, 15, 3, 5);
 
             int[] optimalItemsOrdered = knapsack.getPackingPlan(TSPSolution, itemsArray.length);
             TTPSolution tempSolution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItemsOrdered);
