@@ -1,7 +1,7 @@
 /*
  * Evolutionary Comptuation
  * COMP SCI 4095
- * Assignment Two
+ * Assignment Three
  * William Reid (a1215621)
  * Alec Bellati (a1608934)
  * Sami Peachey (a1192722)
@@ -45,7 +45,7 @@ public class ObsessivePackingv2 {
     /**
     * Depending on the supplied integer, seed the knapsack with values
     * @param: algorithm - determines the algorithm to use
-    * @return: Knapsack - 
+    * @return: Knapsack - knapsack seeded with values
     */
     public Knapsack seedKnapsack(Knapsack knapsack, int algorithm){
         switch(algorithm){
@@ -64,14 +64,17 @@ public class ObsessivePackingv2 {
     }   
 
     /**
-    * 
-    *
-    * @param: knapsack -
-    * @param: randomProbability -
-    * @param: items -
-    * @param: sortChoice -
-    * @param: removal -
-    * @return: Knapsack - 
+    * Either add (if space allows it) to the knapsack OR
+    * Replace a number of items in the knapsack with better/random ones
+    * Picks items to add/replace from a sorted list - sort dependant on the sortChoice integer supplied
+    * 1 = by cost, 2 = by weight, 3 = by weighted cost, 4 = by city, default = random
+    * Also removes a number of items at random to increase randomness!
+    * @param: knapsack - knapsack to operate on - will eventually be returned
+    * @param: randomProbability - probability of items randomly picked from the sorted array (remainder will be considered the "best" for that sort type)
+    * @param: items - number of items to add/replace
+    * @param: sortChoice - sort type to order items (and then pick from)
+    * @param: removal - number of items to remove at random
+    * @return: Knapsack - modified knapsack
     */
     public Knapsack changePacking(Knapsack knapsack, double randomProbability, int items, int sortChoice, int removal){
         Item[] itemsMinusKnapsack = itemsMinusKnapsack(knapsack);
@@ -91,50 +94,55 @@ public class ObsessivePackingv2 {
                 break;
             default:
                 sortedItems = new ArrayList<Item>(Arrays.asList(itemsMinusKnapsack));
-            }
+        }
+
+        //remove some items from the knapsack to allow space for others
+        knapsack = removeItemsKnapsack(knapsack, removal);
 
         Random rnd = new Random();
-        int goodReplacement = (int)Math.round(items * randomProbability);
+        int goodReplacement = (int)Math.round(items * (1-randomProbability));
 
-        //check every item we are sent
+        //add/replace "items" number of times
         for(int x = 0; x < items; x++){
 
+            //pick the item based on the "randomProbability"
+            //because of the sort method, the "best" items will be at the top
             Item currentItem = null;
             if(x <= goodReplacement){
                 currentItem = sortedItems.get(x);
             }else{
                 currentItem = sortedItems.get(rnd.nextInt(sortedItems.size()));
             }
-            
 
-            boolean added = false;
-            //check if it can just be added right away
-            if(currentItem.getWeight() <= knapsack.getCurrentCapacity()){
-                knapsack.addItem(currentItem);
-                added = true;
-            }
+            //hopefully its not already in the knapsack, but just in case
+            if(!knapsack.containsItem(currentItem)){
+                boolean added = false;
+                //check if it can just be added right away
+                if(currentItem.getWeight() <= knapsack.getCurrentCapacity()){
+                    knapsack.addItem(currentItem);
+                    added = true;
+                }
 
-            //if the item was not added above, do the following
-            if(!added){
-                int tempIndex = rnd.nextInt(knapsack.getNumItems());
-                Item temp = knapsack.getItem(tempIndex);
+                //if the item was not added above, do the following
+                if(!added){
+                    int tempIndex = rnd.nextInt(knapsack.getNumItems());
+                    Item temp = knapsack.getItem(tempIndex);
 
-                //check its going to fit and that it isnt already in the solution
-                if(currentItem.getWeight() <= (temp.getWeight() + knapsack.getCurrentCapacity())){
-                    //replace the item and position j and calculate its cost
-                    knapsack.setItem(tempIndex, currentItem);
+                    //check its going to fit
+                    if(currentItem.getWeight() <= (temp.getWeight() + knapsack.getCurrentCapacity())){
+                        knapsack.setItem(tempIndex, currentItem);
+                    }
                 }
             }
         }
-        knapsack = removeItemsKnapsack(knapsack, removal);
 
         return knapsack;
     }
 
     /**
-    *
-    * @param: knapsack -
-    * @return: ArrayList<Item> -
+    * Return an Item array containing those items not already in the knapsack
+    * @param: knapsack - knapsack holding current set of items
+    * @return: Item[] - items not already contained in the knapsack
     */
     private Item[] itemsMinusKnapsack(Knapsack knapsack){
         Item[] removedKnapsack = new Item[itemsArray.length - knapsack.getNumItems()];
@@ -151,10 +159,10 @@ public class ObsessivePackingv2 {
     }
 
     /**
-    * 
-    * @param: knapsack -
-    * @param: iterations -
-    * @return: Knapsack -
+    * Removes a number of items from the knapsack at random
+    * @param: knapsack - knapsack to operate on, eventually returned
+    * @param: iterations - number of items to remove at random
+    * @return: Knapsack - modified knapsack (items now removed)
     */
     private Knapsack removeItemsKnapsack(Knapsack knapsack, int iterations){
         Random rnd = new Random();
@@ -164,7 +172,6 @@ public class ObsessivePackingv2 {
             iterations = knapsack.getNumItems();
         }
 
-        //check every item in the knapsack
         for(int j = iterations-1; j >= 0; j--){
             int pos = rnd.nextInt(knapsack.getNumItems());
             knapsack.removeItem(pos);
@@ -363,9 +370,5 @@ public class ObsessivePackingv2 {
     */
     private Item[] convertArrayList(ArrayList<Item> itemsToConvert){
         return itemsToConvert.toArray(new Item[itemsToConvert.size()]);
-    }
-
-    public static void main(String[] args){
-
     }
 }
