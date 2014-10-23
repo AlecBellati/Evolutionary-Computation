@@ -37,9 +37,7 @@ public class TTPInversion extends Mutation {
     public Object execute(Object object) throws JMException {
         //Typecast the object to a solution and perform the inversion
         Solution solution = (Solution) object;
-        inversionOrScramble(solution);
-        
-        return solution;
+        return inversionOrScramble(solution);
     }
     
     
@@ -54,7 +52,7 @@ public class TTPInversion extends Mutation {
      * Functions are similar and hence their functions have been combined
      * @param Individual - The solution of cities to be mutated
      */
-    private void inversionOrScramble(Solution solution) throws JMException{
+    private Solution inversionOrScramble(Solution solution) throws JMException{
         if(solution.getType().getClass() == IndividualSolutionType.class) {
             //Get an individual from the solution
             Variable[] indivArr = (Variable[]) solution.getDecisionVariables();
@@ -82,6 +80,11 @@ public class TTPInversion extends Mutation {
                 //invert positions in the array
                 inverseSubset(individual, posA, posB);
             }
+            
+            //set the solution
+            indivArr[idx] = individual;
+            solution.setDecisionVariables(indivArr);
+            
         } else {
             System.out.println("TTPInversion.inversionOrScramble: invalid type. " +
                                          ""+ solution.getDecisionVariables()[0].getVariableType());
@@ -90,6 +93,8 @@ public class TTPInversion extends Mutation {
             String name = cls.getName();
             throw new JMException("Exception in " + name + ".inversionOrScramble()") ;
         }
+        
+        return solution;
     }
     
     /**

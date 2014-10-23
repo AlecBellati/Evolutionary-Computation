@@ -34,7 +34,7 @@ public class IndividualSolutionType extends SolutionType {
         Variable[] variables = new Variable[problem_.getNumberOfVariables()];
         
         for(int i = 0; i < variables.length; i++) {
-            variables[i] = new Individual(this.problem.cities, true);
+            variables[i] = new Individual(this.problem.cities, this.problem.capacityOfKnapsack, this.problem.rentingRatio, this.problem.itemsArray);
         }
         
         return variables;

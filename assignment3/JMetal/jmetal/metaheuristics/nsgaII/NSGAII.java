@@ -28,7 +28,6 @@ import jmetal.util.JMException;
 import jmetal.util.Ranking;
 import jmetal.util.comparators.CrowdingComparator;
 
-import jmetal.problems.TTP.TTPSolution;
 
 /** 
  *  Implementation of NSGA-II.
@@ -91,9 +90,9 @@ public class NSGAII extends Algorithm {
     selectionOperator = operators_.get("selection");
 
     // Create the initial solutionSet
-    TTPSolution newSolution;
+    Solution newSolution;
     for (int i = 0; i < populationSize; i++) {
-      newSolution = new TTPSolution(problem_);
+      newSolution = new Solution(problem_);
       problem_.evaluate(newSolution);
       problem_.evaluateConstraints(newSolution);
       evaluations++;
@@ -105,13 +104,13 @@ public class NSGAII extends Algorithm {
       System.out.println(evaluations);
       // Create the offSpring solutionSet      
       offspringPopulation = new SolutionSet(populationSize);
-      TTPSolution[] parents = new TTPSolution[2];
+      Solution[] parents = new Solution[2];
       for (int i = 0; i < (populationSize / 2); i++) {
         if (evaluations < maxEvaluations) {
           //obtain parents
-          parents[0] = (TTPSolution) selectionOperator.execute(population);
-          parents[1] = (TTPSolution) selectionOperator.execute(population);
-          TTPSolution[] offSpring = (TTPSolution[]) crossoverOperator.execute(parents);
+          parents[0] = (Solution) selectionOperator.execute(population);
+          parents[1] = (Solution) selectionOperator.execute(population);
+          Solution[] offSpring = (Solution[]) crossoverOperator.execute(parents);
           mutationOperator.execute(offSpring[0]);
           mutationOperator.execute(offSpring[1]);
           problem_.evaluate(offSpring[0]);
