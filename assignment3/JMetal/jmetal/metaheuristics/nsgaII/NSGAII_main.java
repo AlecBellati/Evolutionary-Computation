@@ -138,7 +138,7 @@ public class NSGAII_main {
 
     // Selection Operator 
     parameters = null ;
-    selection = SelectionFactory.getSelectionOperator("BinaryTournament2", parameters) ;                           
+    selection = SelectionFactory.getSelectionOperator("TTPElitism", parameters) ;
 
     // Add the operators to the algorithm
     algorithm.addOperator("crossover",crossover);

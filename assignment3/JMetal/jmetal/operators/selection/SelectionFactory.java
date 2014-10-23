@@ -50,6 +50,8 @@ public class SelectionFactory {
       return new RankingAndCrowdingSelection(parameters);
     else if (name.equalsIgnoreCase("DifferentialEvolutionSelection"))
       return new DifferentialEvolutionSelection(parameters);
+      else if (name.equalsIgnoreCase("TTPElitism"))
+          return new TTPElitism(parameters);
 //    else if (name.equalsIgnoreCase("MatingSelection"))
 //        return new MatingSelection(parameters);
 //    else if (name.equalsIgnoreCase("EnviromentalSelection"))
