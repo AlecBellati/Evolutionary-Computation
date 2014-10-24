@@ -77,8 +77,6 @@ public class NSGAII extends Algorithm {
     populationSize = ((Integer) getInputParameter("populationSize")).intValue();
     maxEvaluations = ((Integer) getInputParameter("maxEvaluations")).intValue();
     indicators = (QualityIndicator) getInputParameter("indicators");
-      
-      System.out.println(populationSize);
 
     //Initialize the variables
     population = new SolutionSet(populationSize);
@@ -103,7 +101,6 @@ public class NSGAII extends Algorithm {
 
     // Generations 
     while (evaluations < maxEvaluations) {
-      System.out.println(evaluations);
       // Create the offSpring solutionSet      
       offspringPopulation = new SolutionSet(populationSize);
       Solution[] parents = new Solution[2];

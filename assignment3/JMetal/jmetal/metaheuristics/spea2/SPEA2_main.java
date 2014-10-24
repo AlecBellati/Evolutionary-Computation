@@ -106,7 +106,7 @@ public class SPEA2_main {
     
     // Algorithm parameters
     int populationSize = 10;
-    int fixedGenerations = 10000;
+    int fixedGenerations = 100;
     algorithm.setInputParameter("populationSize", populationSize);
     int generations = populationSize * fixedGenerations; 
     algorithm.setInputParameter("maxEvaluations", generations);
@@ -117,16 +117,16 @@ public class SPEA2_main {
     parameters = new HashMap() ;
     parameters.put("probability", 0.9) ;
     parameters.put("distributionIndex", 20.0) ;
-    crossover = CrossoverFactory.getCrossoverOperator("SBXCrossover", parameters);                   
+    crossover = CrossoverFactory.getCrossoverOperator("ObsessivePackingv2", parameters);                      
 
     parameters = new HashMap() ;
     parameters.put("probability", 1.0/problem.getNumberOfVariables()) ;
     parameters.put("distributionIndex", 20.0) ;
-    mutation = MutationFactory.getMutationOperator("PolynomialMutation", parameters);                    
+    mutation = MutationFactory.getMutationOperator("TTPInversion", parameters);                    
         
     // Selection operator 
     parameters = null ;
-    selection = SelectionFactory.getSelectionOperator("BinaryTournament", parameters) ;                           
+    selection = SelectionFactory.getSelectionOperator("TTPElitism", parameters) ;                           
     
     // Add the operators to the algorithm
     algorithm.addOperator("crossover",crossover);
