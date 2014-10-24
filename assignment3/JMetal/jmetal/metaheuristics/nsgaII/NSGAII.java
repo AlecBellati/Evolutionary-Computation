@@ -77,6 +77,8 @@ public class NSGAII extends Algorithm {
     populationSize = ((Integer) getInputParameter("populationSize")).intValue();
     maxEvaluations = ((Integer) getInputParameter("maxEvaluations")).intValue();
     indicators = (QualityIndicator) getInputParameter("indicators");
+      
+      System.out.println(populationSize);
 
     //Initialize the variables
     population = new SolutionSet(populationSize);
@@ -122,9 +124,14 @@ public class NSGAII extends Algorithm {
           evaluations += 2;
         } // if                            
       } // for
-
+        
       // Create the solutionSet union of solutionSet and offSpring
       union = ((SolutionSet) population).union(offspringPopulation);
+        
+        System.out.println("#*#*#*#*#*#* FINAL FOR EVALUATIONS *#*#*#*#*#*#");
+        offspringPopulation.printObjectivesToFile("intermediate.txt");
+        
+
 
       // Ranking the union
       Ranking ranking = new Ranking(union);

@@ -53,11 +53,19 @@ public class TTPInversion extends Mutation {
      * @param Individual - The solution of cities to be mutated
      */
     private Solution inversionOrScramble(Solution solution) throws JMException{
+        boolean debug = false;
+        
         if(solution.getType().getClass() == IndividualSolutionType.class) {
             //Get an individual from the solution
             Variable[] indivArr = (Variable[]) solution.getDecisionVariables();
             int idx = rnd.nextInt(indivArr.length);
             Individual individual = (Individual) indivArr[idx];
+            
+            if(debug) {
+                System.out.println("########## MUTATION ###########");
+                System.out.println("Before");
+                individual.print();
+            }
             
             // Find the subset of position to mutate
             int posA = 0;
@@ -79,6 +87,11 @@ public class TTPInversion extends Mutation {
             if (posA != posB) {
                 //invert positions in the array
                 inverseSubset(individual, posA, posB);
+            }
+            
+            if(debug) {
+                System.out.println("After");
+                individual.print();
             }
             
             //set the solution

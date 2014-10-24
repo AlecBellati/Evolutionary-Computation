@@ -30,11 +30,19 @@ public class TTPElitism extends Selection {
      * @param: Object: jmetal.core.SolutionSet
      */
     public Object execute(Object object) {
+        boolean debug = true;
+        
         //get the first two solutions
         SolutionSet solutionSet = (SolutionSet)object;
         Solution solution1 = solutionSet.get(0);
         Solution solution2 = solutionSet.get(1);
 
+        if(debug) {
+            System.out.println("########## Selection ###########");
+            System.out.println("Solution 1: " + solution1.toString());
+            System.out.println("Solution 2: " + solution2.toString());
+        }
+        
         int soln = rnd.nextInt(2);
         
         if(soln == 0) {

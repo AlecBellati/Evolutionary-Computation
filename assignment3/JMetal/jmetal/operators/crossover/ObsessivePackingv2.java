@@ -64,62 +64,55 @@ public class ObsessivePackingv2 extends Crossover{
         boolean debug = false;
         //Typecast the object to a solution and perform the inversion
         Solution[] solution = (Solution[]) object;
-
-        //Get two individual from the solution and perform packing on them both
-        Variable[] indivArr = (Variable[]) solution[0].getDecisionVariables();
-        Individual parentA = (Individual) indivArr[0];
-        
-        //setup required variables
-        cities = parentA.getCities();
-        itemsArray = parentA.getItems();
-        
-        //run obsessive packing over parentA
-        Knapsack knapsack = parentA.getKnapsack();
-        double randomProbability = rnd.nextDouble();
-        int items = rnd.nextInt(knapsack.getNumItems());
-        int choice = rnd.nextInt(2)+1;
-        int removal = rnd.nextInt(knapsack.getNumItems());
+        Solution[] newSolution = new Solution[solution.length];
         
         if(debug) {
-            System.out.println("Probability: "+randomProbability);
-            System.out.println("items: "+items);
-            System.out.println("choice: "+choice);
-            System.out.println("removal: "+removal);
-            knapsack.print();
+            System.out.println("########## START CROSSOVER ##########");
         }
-        //run obsessive packing over parentA
-        parentA.setKnapsack(changePacking(knapsack, randomProbability, items, choice, removal));
         
-        indivArr[0] = parentA;
-        solution[0].setDecisionVariables(indivArr);
-        
-        Variable[] indivArrB = (Variable[]) solution[1].getDecisionVariables();
-        Individual parentB = (Individual) indivArrB[1];
+        for(int i = 0; i < solution.length; i++) {
+            if(debug) {
+                System.out.println("********** Individual " + i + " *********");
+            }
 
-        //setup cities and items
-        cities = parentB.getCities();
-        itemsArray = parentB.getItems();
-        knapsack = parentB.getKnapsack();
-        randomProbability = rnd.nextDouble();
-        items = rnd.nextInt(knapsack.getNumItems());
-        choice = rnd.nextInt(2)+1;
-        removal = rnd.nextInt(knapsack.getNumItems());
+            //Get two individual from the solution and perform packing on them both
+            Variable[] indivArr = (Variable[]) solution[i].getDecisionVariables();
+            Individual parentA = (Individual) indivArr[i];
         
+            //setup required variables
+            cities = parentA.getCities();
+            itemsArray = parentA.getItems();
+        
+            //run obsessive packing over parentA
+            Knapsack knapsack = parentA.getKnapsack();
+            double randomProbability = rnd.nextDouble();
+            int items = rnd.nextInt(15);
+            int choice = 0;//rnd.nextInt(2)+1;
+            int removal = rnd.nextInt(3);
+        
+            if(debug) {
+                System.out.println("Probability: "+randomProbability);
+                System.out.println("items: "+items);
+                System.out.println("choice: "+choice);
+                System.out.println("removal: "+removal);
+                System.out.println("before");
+                knapsack.print();
+            }
+            //run obsessive packing over parentA
+            parentA.setKnapsack(changePacking(knapsack, randomProbability, items, choice, removal));
+        
+            if(debug) {
+                System.out.println("after");
+                knapsack.print();
+            }
+            
+            newSolution[i] = new Solution(solution[i]);
+        }
         if(debug) {
-            System.out.println("Probability: "+randomProbability);
-            System.out.println("items: "+items);
-            System.out.println("choice: "+choice);
-            System.out.println("removal: "+removal);
-            knapsack.print();
+            System.out.println("########## END CROSSOVER ##########");
         }
         
-        //runObsessive packing over parentB
-        parentA.setKnapsack(changePacking(knapsack, randomProbability, items, choice, removal));
-
-        indivArr[1] = parentB;
-        solution[1].setDecisionVariables(indivArr);
-        
-        return solution;
+        return newSolution;
     }
 
     /**

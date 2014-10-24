@@ -51,7 +51,7 @@ public class Individual extends Variable {
         capacity = _capacity;
         itemsArray = _itemsArray;
         rentingRatio = _rentingRatio;
-        knapsack = new Knapsack(capacity, itemsArray, 2);
+        knapsack = new Knapsack(capacity, itemsArray, 3);
     }
 
     /**

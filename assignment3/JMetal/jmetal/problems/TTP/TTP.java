@@ -44,7 +44,7 @@ public class TTP extends Problem {
      * @param: File: File object containing link to File to be parsed.
      */
     public TTP(File file) throws ClassNotFoundException {
-        this(file, 2); // 2 variables by default
+        this(file, 30); // 2 variables by default
     }
     
     /**

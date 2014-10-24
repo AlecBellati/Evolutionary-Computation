@@ -119,8 +119,8 @@ public class NSGAII_main {
     //algorithm = new ssNSGAII(problem);
 
     // Algorithm parameters
-    int populationSize = 1000;
-    int fixedGenerations = 10000;
+    int populationSize = 100;
+    int fixedGenerations = 10;
     algorithm.setInputParameter("populationSize", populationSize);
     int generations = populationSize * fixedGenerations; 
     algorithm.setInputParameter("maxEvaluations", generations);
