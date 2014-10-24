@@ -30,7 +30,7 @@ public class TTPElitism extends Selection {
      * @param: Object: jmetal.core.SolutionSet
      */
     public Object execute(Object object) {
-        boolean debug = true;
+        boolean debug = !true;
         
         //get the first two solutions
         SolutionSet solutionSet = (SolutionSet)object;

@@ -128,11 +128,6 @@ public class NSGAII extends Algorithm {
       // Create the solutionSet union of solutionSet and offSpring
       union = ((SolutionSet) population).union(offspringPopulation);
         
-        System.out.println("#*#*#*#*#*#* FINAL FOR EVALUATIONS *#*#*#*#*#*#");
-        offspringPopulation.printObjectivesToFile("intermediate.txt");
-        
-
-
       // Ranking the union
       Ranking ranking = new Ranking(union);
 

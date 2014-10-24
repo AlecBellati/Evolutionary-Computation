@@ -120,7 +120,7 @@ public class NSGAII_main {
 
     // Algorithm parameters
     int populationSize = 100;
-    int fixedGenerations = 10;
+    int fixedGenerations = 10000;
     algorithm.setInputParameter("populationSize", populationSize);
     int generations = populationSize * fixedGenerations; 
     algorithm.setInputParameter("maxEvaluations", generations);
@@ -134,11 +134,11 @@ public class NSGAII_main {
     parameters = new HashMap() ;
     parameters.put("probability", 1) ;
     parameters.put("distributionIndex", 20.0) ;
-    mutation = MutationFactory.getMutationOperator("TTPInversion", parameters);
+    mutation = MutationFactory.getMutationOperator("TTPElitism", parameters);
 
     // Selection Operator 
     parameters = null ;
-    selection = SelectionFactory.getSelectionOperator("TTPElitism", parameters) ;
+    selection = SelectionFactory.getSelectionOperator("BinaryTournament", parameters) ;
 
     // Add the operators to the algorithm
     algorithm.addOperator("crossover",crossover);
