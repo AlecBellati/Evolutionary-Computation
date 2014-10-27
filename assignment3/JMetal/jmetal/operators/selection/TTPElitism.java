@@ -15,6 +15,8 @@ public class TTPElitism extends Selection {
     
     private Random rnd;
     
+    
+    
     /**
      * Create a new TTPElitism selector
      *
@@ -34,18 +36,75 @@ public class TTPElitism extends Selection {
         
         //get the first two solutions
         SolutionSet solutionSet = (SolutionSet)object;
-        Solution solution1 = solutionSet.get(0);
-        Solution solution2 = solutionSet.get(1);
-
-        if(debug) {
-            System.out.println("########## Selection ###########");
-            System.out.println("Solution 1: " + solution1.toString());
-            System.out.println("Solution 2: " + solution2.toString());
+        
+        Solution best = solutionSet.get(0);
+        
+        for(int i = 1; i < solutionSet.size(); i++) {
+            Solution challenger = solutionSet.get(i);
+            
+            if(debug) {
+                System.out.println("########## Selection ###########");
+                System.out.println("Best Solution: " + best.toString());
+                System.out.println("Next Solution: " + challenger.toString());
+            }
+            
+            best = bestOfThree(best, challenger);
+            
+            if(debug) {
+                System.out.println("Winner: " + best.toString());
+            }
         }
         
-        int soln = rnd.nextInt(2);
         
-        if(soln == 0) {
+        return best;
+    }
+    
+    /**
+     * Get the best solution out of two solutions
+     * @param: Solution: current best solution
+     * @param: Solution: new challenges
+     * @return: Solution: best of three for this solution
+     */
+    public Solution bestOfThree(Solution solution1, Solution solution2) {
+        //get TSP distances
+        double distance1 = solution1.getObjective(0);
+        double distance2 = solution2.getObjective(0);
+        
+        //get unused space in knapsack
+        double unused1 = solution1.getObjective(1);
+        double unused2 = solution2.getObjective(1);
+
+        //get total profit
+        double profit1 = solution1.getObjective(2);
+        double profit2 = solution2.getObjective(2);
+        
+        //win tally
+        int win1 = 0;
+        int win2 = 0;
+        
+        //who wins distance?
+        if(distance1 <= distance2) {
+            win1++;
+        } else {
+            win2++;
+        }
+        
+        //who wins unused space?
+        if(unused1 <= unused2) {
+            win1++;
+        } else {
+            win2++;
+        }
+        
+        //who wins profit?
+        if(profit1 <= profit2) {
+            win1++;
+        } else {
+            win2++;
+        }
+        
+        //return the winner
+        if(win1 >= win2) {
             return solution1;
         } else {
             return solution2;
