@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jmetal.problems.TTP.TTPSolution;
-
 /**
  * This class implementing the IBEA algorithm
  */
@@ -271,9 +269,9 @@ public class IBEA extends Algorithm{
     evaluations = 0;
 
     //-> Create the initial solutionSet
-    TTPSolution newSolution;
+    Solution newSolution;
     for (int i = 0; i < populationSize; i++) {
-      newSolution = new TTPSolution(problem_);
+      newSolution = new Solution(problem_);
       problem_.evaluate(newSolution);
       problem_.evaluateConstraints(newSolution);
       evaluations++;
@@ -290,21 +288,21 @@ public class IBEA extends Algorithm{
       }
       // Create a new offspringPopulation
       offSpringSolutionSet= new SolutionSet(populationSize);
-      Solution  [] parents = new TTPSolution[2];
+      Solution  [] parents = new Solution[2];
       while (offSpringSolutionSet.size() < populationSize){
         int j = 0;
         do{
           j++;
-          parents[0] = (TTPSolution)selectionOperator.execute(archive);
+          parents[0] = (Solution)selectionOperator.execute(archive);
         } while (j < IBEA.TOURNAMENTS_ROUNDS); // do-while
         int k = 0;
         do{
           k++;
-          parents[1] = (TTPSolution)selectionOperator.execute(archive);
+          parents[1] = (Solution)selectionOperator.execute(archive);
         } while (k < IBEA.TOURNAMENTS_ROUNDS); // do-while
 
         //make the crossover
-        TTPSolution [] offSpring = (TTPSolution [])crossoverOperator.execute(parents);
+        Solution [] offSpring = (Solution [])crossoverOperator.execute(parents);
         mutationOperator.execute(offSpring[0]);
         problem_.evaluate(offSpring[0]);
         problem_.evaluateConstraints(offSpring[0]);

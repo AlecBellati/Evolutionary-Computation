@@ -15,6 +15,7 @@ import java.util.Random;
 
 import jmetal.core.Variable;
 import jmetal.problems.TTP.City;
+import jmetal.problems.TTP.Item;
 
 public class Individual extends Variable {
 	
@@ -23,6 +24,12 @@ public class Individual extends Variable {
 	private double cost;					// Cost of current individual's current solution
 	private boolean costFound;		// Indicates whether the cost needs to be calculated
     private double profit;
+    
+    /*Knapsack variables*/
+    private Knapsack knapsack;
+    private long capacity;
+    private double rentingRatio;
+    private Item[] itemsArray;
 	
 	
 	/**
@@ -30,41 +37,54 @@ public class Individual extends Variable {
 	 * Takes given TSP Graph and assigns to local variable
 	 * Initialises solution array list and generate a set of random solutions
 	 * @param City[] cities - array of cities, current solution
-	 * @param boolean random - if true, will shuffle the supplied City array
+     * @param long: capacity of the knapsack
+     * @param double: renting ratio of knapsack
+     * @param Item[]: Complete array of Items
 	 */
-	public Individual(City[] cities, boolean random) {
-		this.cities = cities.clone();
-		if (random) {
-			generateRandomSolution();
-		}
+	public Individual(City[] cities, long _capacity, double _rentingRatio, Item[] _itemsArray) {
+		/* Setup Individual Stuff */
+        this.cities = cities.clone();
+        generateRandomSolution();
 		costFound = false;
-	}
-	
-	/**
-	 * Constructor of an Individual. 
-	 * Initialises an empty array
-	 */
-	public Individual(int size) {
-		cities = new City[size];
-		costFound = false;
-	}
-    
+        
+        /* Setup Knapsack Stuff */
+        capacity = _capacity;
+        itemsArray = _itemsArray;
+        rentingRatio = _rentingRatio;
+        knapsack = new Knapsack(capacity, itemsArray, 3);
+    }
+
     /**
      * Create a deep copy of the cities array
      * @return Individual - a deep copy of this object;
      */
     @Override
     public Variable deepCopy() {
-        return new Individual(cities.clone(), false);
+        return new Individual(cities.clone(), capacity, rentingRatio, itemsArray);
     }
     
+    /**
+     * Return the knapsack to the caller
+     * @return Knapsack: this Individals knapsack
+     */
+    public Knapsack getKnapsack() {
+        return knapsack;
+    }
+    
+    /**
+     * Set the knapsack (used when the operator is working on the knapsack)
+     * @param: Knapsack: new knapsack made by operator
+     */
+    public void setKnapsack(Knapsack _knapsack) {
+        knapsack = _knapsack;
+    }
 	
 	/**
 	 * Create a deep copy of the cities array
 	 * @return Individual - a deep copy of this object;
 	 */
 	public Individual clone() {
-		return new Individual(cities.clone(), false);
+        return (Individual)deepCopy();
 	}
 	
 	/*
@@ -129,6 +149,14 @@ public class Individual extends Variable {
 	public City[] getCities() {
 		return cities;
 	}
+    
+    /**
+     * Get the Item Array
+     * @return Item[]
+     */
+    public Item[] getItems() {
+        return itemsArray;
+    }
     
     /**
      * Return a representation of this individual by node number

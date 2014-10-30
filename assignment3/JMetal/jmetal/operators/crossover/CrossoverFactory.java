@@ -51,8 +51,8 @@ public class CrossoverFactory {
       return new DifferentialEvolutionCrossover(parameters);
     else if (name.equalsIgnoreCase("BLXAlphaCrossover"))
       return new BLXAlphaCrossover(parameters);
-      else if (name.equalsIgnoreCase("TTPOrderCrossover"))
-          return new TTPOrderCrossover(parameters);
+      else if (name.equalsIgnoreCase("ObsessivePackingv2"))
+          return new ObsessivePackingv2(parameters);
     else {
       Configuration.logger_.severe("CrossoverFactory.getCrossoverOperator. " +
           "Operator '" + name + "' not found ");

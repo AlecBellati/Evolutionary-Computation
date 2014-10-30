@@ -8,10 +8,9 @@
  * Matthew Hart (a1193380)
  */
 
-package TTP.Thief;
+package jmetal.encodings.variable;
 
-import TTP.Thief.Travel.Item;
-import TTP.Thief.Travel.Individual;
+import jmetal.problems.TTP.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -301,6 +300,7 @@ public class Knapsack {
         System.out.println("*** Knapsack Details ***");
         System.out.println("-> Capacity of Knapsack: " + capacity);
         System.out.println("-> Current Weight of Knapsack: " + currentWeight);
+        System.out.println("-> Number of Items in the Knapsack: " + getNumItems());
         //NB: percent sign is escaped with a percent sign.
         double percent = ((double)currentWeight/capacity) * 100;
         System.out.println(String.format("-> the Knapsack is %2.2f %% full!", percent));

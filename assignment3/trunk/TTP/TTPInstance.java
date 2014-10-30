@@ -32,6 +32,10 @@ import TTP.Thief.TTPSolution;
 //import Required TSP Classes
 import TTP.Thief.Travel.City;
 import TTP.Thief.Travel.Item;
+import TTP.Thief.Knapsack;
+import TTP.Thief.ObsessivePackingv2;
+import TTP.Optimisation.Optimisation;
+import TTP.Thief.Travel.Individual;
 
 public class TTPInstance {
     
@@ -144,10 +148,72 @@ public class TTPInstance {
         //alec = new Alec(cities, itemsArray, capacityOfKnapsack); alec.getSolution(this);
         //matt = new Matt(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); matt.getSolution();
         //sami = new Sami(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); sami.getSolution(this);
-        will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.runWill(choice, this);
-            
-        getBestSolution(false);
-        System.out.println();
+        //will = new Will(cities, itemsArray, minSpeed, maxSpeed, capacityOfKnapsack, rentingRatio); will.runWill(choice, this);
+        ObsessivePacking();
+
+        //getBestSolution(false);
+        //System.out.println();
+    }
+
+    /**
+    * IM NOT COMMENTING THIS
+    * CAUSE ITS GONNA GET REMOVED IN ABOUT 20 MINUTES
+    */
+    public void ObsessivePacking(){
+        ObsessivePackingv2 packing = new ObsessivePackingv2(cities, itemsArray);
+        Knapsack knapsack = new Knapsack(capacityOfKnapsack, itemsArray, 3);
+        Item[] items = knapsack.getItems();
+
+        Knapsack old_solution = knapsack;
+        Individual TSPSolution = useInstance();
+
+        double bestCost = Integer.MIN_VALUE;
+        int generations = 2500;
+        for(int i = 0; i < generations; i++){
+            knapsack = packing.changePacking(knapsack, 0.50, 15, 3, 5);
+
+            int[] optimalItemsOrdered = knapsack.getPackingPlan(TSPSolution, itemsArray.length);
+            TTPSolution tempSolution = new TTPSolution(TSPSolution.getCitiesByID(), optimalItemsOrdered);
+            evaluate(tempSolution);
+            double cost = tempSolution.getObjective();
+
+            if(cost < bestCost){
+                knapsack = old_solution;
+            }else{
+                bestCost = cost;
+            }
+
+            System.out.println("Generation " + (i+1) + " cost: " + bestCost);
+        }
+    }
+
+    /**
+    * Using the given instance, loads the cities into a TSPInstance for use
+    * Uses to Optimisation.linkernTour method to extract the cities from file
+    * Also converts from using an integer array to our CITY objects
+    * Modifies the global TSPSolution variable
+    * @return: Individual - the TSPSolution obtained from the linkern tour
+    */
+    private Individual useInstance(){
+        int[] tour = Optimisation.linkernTour(this);
+        Individual TSPSolution = new Individual(tour.length-1);
+
+        //matches the city number with the CITY object supplied in the cities array
+        for(int i = 0; i < tour.length-1; i++){
+            int currentCity = tour[i];
+            City current;
+            for(int j = 0; j < cities.length; j++){
+                current = cities[j];
+
+                //sets that city in the TSPSolution with our CITY objects
+                if(current.getNodeNum() == currentCity){
+                    TSPSolution.setCity(i, current);
+                    break;
+                }
+            }
+        }
+
+        return TSPSolution;
     }
     
     /**

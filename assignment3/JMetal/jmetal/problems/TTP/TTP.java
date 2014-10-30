@@ -44,7 +44,7 @@ public class TTP extends Problem {
      * @param: File: File object containing link to File to be parsed.
      */
     public TTP(File file) throws ClassNotFoundException {
-        this(file, 30); // 30 variables by default
+        this(file, 30); // 2 variables by default
     }
     
     /**
@@ -106,8 +106,7 @@ public class TTP extends Problem {
      *          "ob" objective value,
      *          "wend" weight of the knapsack at the end of the tour
      */
-    public void evaluate(Solution _solution) {
-        TTPSolution solution = (TTPSolution) _solution;
+    public void evaluate(Solution solution) {
         
         //Get an individual from the solution
         Variable[] indivArr = (Variable[]) solution.getDecisionVariables();
@@ -125,34 +124,33 @@ public class TTP extends Problem {
 
         }
         
-        solution.tspTour = individual.getCitiesByID();
-        solution.packingPlan = new int[280];
+        int[] tspTour = individual.getCitiesByID();
+        int[] packingPlan = individual.getKnapsack().getPackingPlan(individual, numberOfItems);
         
         boolean debugPrint = !true;
-        int[] tour = solution.tspTour;
-        int[] z = solution.packingPlan;
+        int[] tour = tspTour;
+        int[] z = packingPlan;
         long weightofKnapsack = this.capacityOfKnapsack;
         double rentRate = this.rentingRatio;
         double vmin = this.minSpeed;
         double vmax = this.maxSpeed;
-        solution.ftraw = 0;
+        long ftraw = 0;
         
         // correctness check: does the tour start and end in the same city
         if(tour[0]!=tour[tour.length-1]) {
             System.out.println("ERROR: The last city must be the same as the first city");
-            solution.reset();
             return;
         }
         
         double wc=0;
-        solution.ft=0;
-        solution.fp=0;
+        double ft=0;
+        double fp=0;
         
         /* the following is used for a different interpretation of "packingPlan"
          *
          */
-        int itemsPerCity = solution.packingPlan.length / (solution.tspTour.length-2);
-        if (debugPrint) System.out.println("itemsPerCity="+itemsPerCity+" solution.tspTour.length="+solution.tspTour.length);
+        int itemsPerCity = packingPlan.length / (tspTour.length-2);
+        if (debugPrint) System.out.println("itemsPerCity="+itemsPerCity+" tspTour.length="+tspTour.length);
         
         for (int i=0; i<tour.length-1; i++) {
             
@@ -179,7 +177,7 @@ public class TTP extends Problem {
                         wc=wc+currentWC;
                         
                         int currentFP=this.items[itemIndex][1];
-                        solution.fp=solution.fp+currentFP;
+                        fp=fp+currentFP;
                         
                         if (debugPrint) System.out.print("[fp="+currentFP+",wc="+currentWC+"] ");
                     }
@@ -193,28 +191,28 @@ public class TTP extends Problem {
             long distance = (long)Math.ceil(distances(tour[i],tour[h]));
             
             // compute the raw distance
-            solution.ftraw += distance;
+            ftraw += distance;
             
             // compute the adjusted (effective) distance
-            solution.ft=solution.ft+(distance / (1-wc*(vmax-vmin)/weightofKnapsack));
+            ft=ft+(distance / (1-wc*(vmax-vmin)/weightofKnapsack));
             //(distances[tour[i]][tour[h]] / (1-wc*(vmax-vmin)/weightofKnapsack));
             
-            if (debugPrint) System.out.println("i="+i+" tour[i]="+tour[i]+" tour[h]="+tour[h]+" distance="+distance+" fp="+solution.fp + " ft=" + solution.ft);
+            if (debugPrint) System.out.println("i="+i+" tour[i]="+tour[i]+" tour[h]="+tour[h]+" distance="+distance+" fp="+fp + " ft=" + ft);
         }
         
-        solution.wendUsed = wc;
-        solution.wend=weightofKnapsack-wc;
-        solution.ob=solution.fp-solution.ft*rentRate;
+        double wendUsed = wc;
+        double wend=weightofKnapsack-wc;
+        double ob=fp-ft*rentRate;
         
         
         //objective 0 is the distance travelled taking into account weight
-        solution.setObjective(0,solution.ftraw);
+        solution.setObjective(0,ftraw);
         
         //objective 1 is the amount of unused space in the knapsack at the end of the tour
-        solution.setObjective(1,solution.wend);
+        solution.setObjective(1,wend);
         
         //objective 2 is the profit (because JMetal minimises, the profit is negativised to turn it into a minimisation problem
-        solution.setObjective(2,solution.ob*-1);
+        solution.setObjective(2,ob*-1);
         
     }
     

@@ -109,7 +109,7 @@ public class NSGAII_main {
       //problem = new OKA2("Real") ;
 
 
-      problem = new TTP(new File("instances\\a280_n279_bounded-strongly-corr_01.ttp"));
+      problem = new TTP(new File("instances/a280_n279_bounded-strongly-corr_01.ttp"));
       //problem = new TTP(new File("instances\\fnl4461_n4460_bounded-strongly-corr_01.ttp"));
       //problem = new TTP(new File("instances\\pla33810_n33809_bounded-strongly-corr_01.ttp"));
 
@@ -119,8 +119,8 @@ public class NSGAII_main {
     //algorithm = new ssNSGAII(problem);
 
     // Algorithm parameters
-    int populationSize = 1000;
-    int fixedGenerations = 10000;
+    int populationSize = 100;
+    int fixedGenerations = 100;
     algorithm.setInputParameter("populationSize", populationSize);
     int generations = populationSize * fixedGenerations; 
     algorithm.setInputParameter("maxEvaluations", generations);
@@ -128,8 +128,8 @@ public class NSGAII_main {
     // Mutation and Crossover for Real codification 
     parameters = new HashMap() ;
     parameters.put("probability", 0.9) ;
-    parameters.put("distributionIndex", 20.0) ;
-    crossover = CrossoverFactory.getCrossoverOperator("TTPOrderCrossover", parameters);                   
+    parameters.put("distributionIndex", 20.0);
+    crossover = CrossoverFactory.getCrossoverOperator("ObsessivePackingv2", parameters);
 
     parameters = new HashMap() ;
     parameters.put("probability", 1) ;
@@ -138,7 +138,7 @@ public class NSGAII_main {
 
     // Selection Operator 
     parameters = null ;
-    selection = SelectionFactory.getSelectionOperator("BinaryTournament2", parameters) ;                           
+    selection = SelectionFactory.getSelectionOperator("TTPElitism", parameters) ;
 
     // Add the operators to the algorithm
     algorithm.addOperator("crossover",crossover);
