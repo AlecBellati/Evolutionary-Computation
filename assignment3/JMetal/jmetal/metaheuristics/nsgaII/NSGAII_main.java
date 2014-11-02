@@ -109,7 +109,9 @@ public class NSGAII_main {
       //problem = new OKA2("Real") ;
 
 
-      problem = new TTP(new File("instances/a280_n279_bounded-strongly-corr_01.ttp"));
+      //problem = new TTP(new File("instances/a280_n279_bounded-strongly-corr_01.ttp"));
+      //problem = new TTP(new File("instances/a280_n1395_uncorr-similar-weights_05.ttp"));
+      problem = new TTP(new File("instances/a280_n2790_uncorr_10.ttp"));
       //problem = new TTP(new File("instances\\fnl4461_n4460_bounded-strongly-corr_01.ttp"));
       //problem = new TTP(new File("instances\\pla33810_n33809_bounded-strongly-corr_01.ttp"));
 
@@ -120,10 +122,10 @@ public class NSGAII_main {
 
     // Algorithm parameters
     int populationSize = 100;
-    int fixedGenerations = 100;
+    int fixedGenerations = 10;
     algorithm.setInputParameter("populationSize", populationSize);
-    int generations = populationSize * fixedGenerations; 
-    algorithm.setInputParameter("maxEvaluations", generations);
+    int totalEvaluations = populationSize * fixedGenerations; 
+    algorithm.setInputParameter("maxEvaluations", totalEvaluations);
 
     // Mutation and Crossover for Real codification 
     parameters = new HashMap() ;

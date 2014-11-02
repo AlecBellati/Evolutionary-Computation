@@ -86,9 +86,9 @@ public class ObsessivePackingv2 extends Crossover{
             //run obsessive packing over parentA
             Knapsack knapsack = parentA.getKnapsack();
             double randomProbability = rnd.nextDouble();
-            int items = rnd.nextInt(15);
+            int items = 2;//rnd.nextInt(15);
             int choice = 0;//rnd.nextInt(2)+1;
-            int removal = rnd.nextInt(3);
+            int removal = 1;//rnd.nextInt(3);
         
             if(debug) {
                 System.out.println("Probability: "+randomProbability);
