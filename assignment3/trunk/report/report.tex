@@ -66,17 +66,29 @@ For this section of the assignment, we were required to visualise the datasets Z
   \label{fig:zdt31000}
 \end{minipage}
 \end{figure}
+\paragraph{}
 
-\section*{Exercise 2}
-Discuss where to find these things here
-
-\section*{Exercise 3}
-Again discuss where to find these things here
+\newpage
+\section*{Exercise 2 \& 3}
+New Solution Type:
+\begin{itemize}
+\item jmetal/encodings/solutionType/IndividualSolutionType.java
+\item jmetal/encodings/variable/Individual.java
+\item jmetal/encodings/variable/Knapsack.java
+\end{itemize}
+Operators:
+\begin{itemize}
+\item jmetal/operators/crossover/ObsessivePackingv2.java
+\item jmetal/operators/mutation/TTPInversion.java
+\item jmetal/operators/selection/TTPElitism.java
+\end{itemize}
+Problem:
+\begin{itemize}
+\item jmetal/problems/TTP/*.java
+\end{itemize}
+You may find it useful to compile the code using the \textit{compile.sh} script. You can then can run the code via the normal methods.\\
 
 \section*{Exercise 4}
-Maybe some discussion on the results here or something idk
-
-
 
 \begin{figure}[h]
 \centering
@@ -120,19 +132,12 @@ Maybe some discussion on the results here or something idk
 \end{minipage}
 \end{figure}
 
-I don't understand why this last set of figures is randomly in the middle of the page but ok
-
-latex y u do dis
-
-
-
-
 
 \section*{Exercise 5}
 
-Comparison of things and justification of things here
+All data sets were run with population sizes 10 and 100. Anything larger than this would have yielded run-times in-excess of 24 hours, or generations deemed too low. Each data set had 10 and 100 generations performed for each population. The smaller of the two data sets were also run with 1000 generations, with the choice to limit the largest set purely based on run-time.\\
 
-Visualisation of results here yo
+These populations and generations were chosen as they best fit suitable run-times and allow for adequate data retrieval.
 
 
 \end{document}
